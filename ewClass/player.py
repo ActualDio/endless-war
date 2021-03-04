@@ -18,7 +18,8 @@ class EwPlayer(EwDiscordUser,EwCharacter):
 		'slimecoin' : int -- Amount of slimecoin the player owns\n
 		'slime_donations' : int -- Amount of slime donated by this player
 	Methods:
-		'__init__'-- Create a new EwPlayer or optionally retrieve it from the database.\n
+		'__init__'-- Create a new EwPlayer or optionally retrieve it from the database. Has some arguments to limit the data retrieved
+		to improve performance\n
 		'persist'-- Save this player object to the database.\n
 		'limit_fix' -- Fix data in this object if it's out of acceptable ranges.\n 
 		'get_stat' -- Look up a user statistic.\n

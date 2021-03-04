@@ -1626,9 +1626,16 @@ def check_defender_targets(user_data, enemy_data):
 		return True
 
 def get_move_speed(user_data):
-	time_now = int(time.time())
+	"""Determine a players move speed \n
+
+	Arguments:
+		'user_data': EwPlayer -- Players Object \n
+
+	Returns: float -- Movement speed for this player
+	"""	
+	#time_now = int(time.time())
 	mutations = user_data.get_mutations()
-	statuses = user_data.getStatusEffects()
+	#statuses = user_data.getStatusEffects()
 	market_data = EwMarket(id_server = user_data.id_server)
 	#trauma = ewcfg.trauma_map.get(user_data.trauma)
 	# disabled until held items update
@@ -1666,9 +1673,16 @@ def get_move_speed(user_data):
 
 	return move_speed
 
-
-""" Damage all players in a district """
 def explode(damage = 0, district_data = None, market_data = None):
+	"""Damage all players in a district \n
+
+	Keyword Arguments:
+		'damage': int -- Damage amount (default: 0) \n
+		'district_data': EwDistrict -- District where all players will take damage (default: None) \n
+		'market_data': EwMarket -- Market data for that particular server (default: None) \n
+
+	Returns: EwResponseContainer -- Response to be displayed
+	"""	
 	id_server = district_data.id_server
 	poi = district_data.name
 
@@ -1787,12 +1801,26 @@ def explode(damage = 0, district_data = None, market_data = None):
 			enemy_data.persist()
 	return resp_cont
 
-def is_otp(user_data):
-	poi = ewcfg.id_to_poi.get(user_data.poi)
-	return user_data.poi not in [ewcfg.poi_id_thesewers, ewcfg.poi_id_juviesrow, ewcfg.poi_id_copkilltown, ewcfg.poi_id_rowdyroughhouse] and (not poi.is_apartment)
+#def is_otp(user_data):
+	"""Old pvp role manager  \n
+
+	Arguments:
+		'user_data': EwPlayer -- Player Object \n
+
+	Returns: boolean -- If the player is in pvp mode or not
+	"""	
+	#poi = ewcfg.id_to_poi.get(user_data.poi)
+	#return user_data.poi not in [ewcfg.poi_id_thesewers, ewcfg.poi_id_juviesrow, ewcfg.poi_id_copkilltown, ewcfg.poi_id_rowdyroughhouse] and (not poi.is_apartment)
 
 
 async def delete_last_message(client, last_messages, tick_length):
+	"""Delete message thats been posted \n
+
+	Arguments:
+		'client': discord.Client -- The bot-s discord client \n
+		'last_messages': list -- List of the previous messages \n
+		'tick_length': int -- Time before the message is deleted \n
+	"""	
 	if len(last_messages) == 0:
 		return
 	await asyncio.sleep(tick_length)
@@ -1803,24 +1831,56 @@ async def delete_last_message(client, last_messages, tick_length):
 	except:
 		logMsg("failed to delete last message")
 
-def check_accept_or_refuse(string):
-	if string.content.lower() == ewcfg.cmd_accept or string.content.lower() == ewcfg.cmd_refuse:
-		return True
+#def check_accept_or_refuse(string):
+	"""summary \n
 
-def check_confirm_or_cancel(string):
-	if string.content.lower() == ewcfg.cmd_confirm or string.content.lower() == ewcfg.cmd_cancel:
-		return True
+	Arguments:
+		'string': type -- description \n
+
+	Returns: type -- description
+	"""	
+	#if string.content.lower() == ewcfg.cmd_accept or string.content.lower() == ewcfg.cmd_refuse:
+		#return True
+
+#def check_confirm_or_cancel(string):
+	"""summary \n
+
+	Arguments:
+		'string': type -- description \n
+
+	Returns: type -- description
+	"""	
+	#if string.content.lower() == ewcfg.cmd_confirm or string.content.lower() == ewcfg.cmd_cancel:
+		#return True
 	
-def check_trick_or_treat(string):
-	if string.content.lower() == ewcfg.cmd_treat or string.content.lower() == ewcfg.cmd_trick:
-		return True
+#def check_trick_or_treat(string):
+	"""summary \n
+
+	Arguments:
+		'string': type -- description \n
+
+	Returns: type -- description
+	"""	
+	#if string.content.lower() == ewcfg.cmd_treat or string.content.lower() == ewcfg.cmd_trick:
+		#return True
 	
-def check_is_command(string):
-	if string.content.startswith(ewcfg.cmd_prefix):
-		return True
+#def check_is_command(string):
+	"""summary \n
+
+	Arguments:
+		'string': type -- description \n
+
+	Returns: type -- description
+	"""	
+	#if string.content.startswith(ewcfg.cmd_prefix):
+		#return True
 	
 def end_trade(id_user):
-	# Cancel an ongoing trade
+	"""Cancel an ongoing trade \n
+
+	Arguments:
+		'id_user': int -- User ID \n
+	"""	
 	if active_trades.get(id_user) != None and len(active_trades.get(id_user)) > 0:
 		trader = active_trades.get(id_user).get("trader")
 		
@@ -1831,17 +1891,39 @@ def end_trade(id_user):
 		trading_offers[id_user] = []
 
 def text_to_regional_indicator(text):
-	# note that inside the quotes below is a zero-width space, 
-	# used to prevent the regional indicators from turning into flags
-	# also note that this only works for digits and english letters
-  
+	"""	Note that inside the quotes below is a zero-width space, 
+	used to prevent the regional indicators from turning into flags
+	also note that this only works for digits and english letters \n
+
+	Arguments:
+		'text': string -- Text to format \n
+
+	Returns: string -- Regional indicator
+	"""
+
 	###return "‎".join([chr(0x1F1E6 + string.ascii_uppercase.index(c)) for c in text.upper()])
 	return "‎".join([c + '\ufe0f\u20e3' if c.isdigit() else chr(0x1F1E6 + string.ascii_uppercase.index(c)) for c in text.upper()])
 
 def generate_captcha_random(length = 4):
+	"""Generate a random captcha \n
+
+	Keyword Arguments:
+		'length': int -- Captcha Length (default: 4) \n
+
+	Returns: string -- Discord ready captcha
+	"""	
 	return "".join([random.choice(ewcfg.alphabet) for _ in range(length)]).upper()
 
 def generate_captcha(length = 4, id_user = 0, id_server = 0):
+	""" Manager for the generation of captchas taking into account mutations and the dictionary\n
+
+	Keyword Arguments:
+		'length': int -- Captcha length (default: 4) \n
+		'id_user': int -- User ID (default: 0) \n
+		'id_server': int -- Server ID (default: 0) \n
+
+	Returns: string -- Discord ready captch
+	"""	
 	length_final = length
 	if id_user > 0 and id_server > 0:
 		user_data = EwPlayer(id_user=id_user, id_server=id_server)
@@ -1853,197 +1935,226 @@ def generate_captcha(length = 4, id_user = 0, id_server = 0):
 	except:
 		return generate_captcha_random(length=length_final)
 		
-async def spawn_prank_items_tick_loop(id_server):
+#async def spawn_prank_items_tick_loop(id_server):
+	"""Manages the continuos generation of prank items (not sure if still relevant) \n
+
+	Arguments:
+		'id_server': int -- Server ID \n
+	"""	
 	#DEBUG
 	# interval = 10
 	
 	# If there are more active people, items spawn more frequently, and less frequently if there are less active people.
-	interval = 180
-	new_interval = 0
-	while not TERMINATE:
-		if new_interval > 0:
-			interval = new_interval
+	#interval = 180
+	#new_interval = 0
+	#while not TERMINATE:
+		#if new_interval > 0:
+			#interval = new_interval
 			
 		#print("newinterval:{}".format(new_interval))
 		
-		await asyncio.sleep(interval)
-		new_interval = await spawn_prank_items(id_server = id_server)
+		#await asyncio.sleep(interval)
+		#new_interval = await spawn_prank_items(id_server = id_server)
 
-async def spawn_prank_items(id_server):
-	new_interval = 0
-	base_interval = 60
+# async def spawn_prank_items(id_server):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'id_server': type -- description \n
+
+# 	Returns: type -- description
+# 	"""	
+# 	new_interval = 0
+# 	base_interval = 60
 	
-	try:
-		active_users_count = 0
+# 	try:
+# 		active_users_count = 0
 
-		if id_server != None:
-			try:
-				conn_info = databaseConnect()
-				conn = conn_info.get('conn')
-				cursor = conn.cursor();
+# 		if id_server != None:
+# 			try:
+# 				conn_info = databaseConnect()
+# 				conn = conn_info.get('conn')
+# 				cursor = conn.cursor();
 
-				cursor.execute(
-					"SELECT id_user FROM users WHERE id_server = %s AND {poi} in %s AND NOT ({life_state} = {life_state_corpse} OR {life_state} = {life_state_kingpin}) AND {time_last_action} > %s".format(
-						life_state=ewcfg.col_life_state,
-						poi=ewcfg.col_poi,
-						life_state_corpse=ewcfg.life_state_corpse,
-						life_state_kingpin=ewcfg.life_state_kingpin,
-						time_last_action=ewcfg.col_time_last_action,
-					), (
-						id_server,
-						ewcfg.capturable_districts,
-						(int(time.time()) - ewcfg.time_kickout),
-					))
+# 				cursor.execute(
+# 					"SELECT id_user FROM users WHERE id_server = %s AND {poi} in %s AND NOT ({life_state} = {life_state_corpse} OR {life_state} = {life_state_kingpin}) AND {time_last_action} > %s".format(
+# 						life_state=ewcfg.col_life_state,
+# 						poi=ewcfg.col_poi,
+# 						life_state_corpse=ewcfg.life_state_corpse,
+# 						life_state_kingpin=ewcfg.life_state_kingpin,
+# 						time_last_action=ewcfg.col_time_last_action,
+# 					), (
+# 						id_server,
+# 						ewcfg.capturable_districts,
+# 						(int(time.time()) - ewcfg.time_kickout),
+# 					))
 
-				users = cursor.fetchall()
+# 				users = cursor.fetchall()
 
-				active_users_count = len(users)
+# 				active_users_count = len(users)
 
-				conn.commit()
-			finally:
-				# Clean up the database handles.
-				cursor.close()
-				databaseClose(conn_info)
+# 				conn.commit()
+# 			finally:
+# 				# Clean up the database handles.
+# 				cursor.close()
+# 				databaseClose(conn_info)
 		
-		# Avoid division by 0
-		if active_users_count == 0:
-			active_users_count = 1
-		else:
-			#print(active_users_count)
-			pass
+# 		# Avoid division by 0
+# 		if active_users_count == 0:
+# 			active_users_count = 1
+# 		else:
+# 			#print(active_users_count)
+# 			pass
 		
-		new_interval = (math.ceil(base_interval/active_users_count) * 5) # 5 active users = 1 minute timer, 10 = 30 second timer, and so on.
+# 		new_interval = (math.ceil(base_interval/active_users_count) * 5) # 5 active users = 1 minute timer, 10 = 30 second timer, and so on.
 		
-		district_id = random.choice(ewcfg.capturable_districts)
+# 		district_id = random.choice(ewcfg.capturable_districts)
 		
-		#Debug
-		#district_id = 'wreckington'
+# 		#Debug
+# 		#district_id = 'wreckington'
 		
-		district_channel_name = ewcfg.id_to_poi.get(district_id).channel
+# 		district_channel_name = ewcfg.id_to_poi.get(district_id).channel
 		
-		client = get_client()
+# 		client = get_client()
 		
-		server = client.get_guild(id_server)
+# 		server = client.get_guild(id_server)
 	
-		district_channel = get_channel(server=server, channel_name=district_channel_name)
+# 		district_channel = get_channel(server=server, channel_name=district_channel_name)
 		
-		pie_or_prank = random.randrange(3)
+# 		pie_or_prank = random.randrange(3)
 		
-		if pie_or_prank == 0:
-			swilldermuk_food_item = random.choice(ewcfg.swilldermuk_food)
+# 		if pie_or_prank == 0:
+# 			swilldermuk_food_item = random.choice(ewcfg.swilldermuk_food)
 
-			item_props = ewitem.gen_item_props(swilldermuk_food_item)
+# 			item_props = ewitem.gen_item_props(swilldermuk_food_item)
 
-			swilldermuk_food_item_id = ewitem.item_create(
-				item_type=swilldermuk_food_item.item_type,
-				id_user=district_id,
-				id_server=id_server,
-				item_props=item_props
-			)
+# 			swilldermuk_food_item_id = ewitem.item_create(
+# 				item_type=swilldermuk_food_item.item_type,
+# 				id_user=district_id,
+# 				id_server=id_server,
+# 				item_props=item_props
+# 			)
 
-			#print('{} with id {} spawned in {}!'.format(swilldermuk_food_item.str_name, swilldermuk_food_item_id, district_id))
+# 			#print('{} with id {} spawned in {}!'.format(swilldermuk_food_item.str_name, swilldermuk_food_item_id, district_id))
 
-			response = "That smell... it's unmistakeable!! Someone's left a fresh {} on the ground!".format(swilldermuk_food_item.str_name)
-			await send_message(client, district_channel, response)
-		else:
-			rarity_roll = random.randrange(10)
+# 			response = "That smell... it's unmistakeable!! Someone's left a fresh {} on the ground!".format(swilldermuk_food_item.str_name)
+# 			await send_message(client, district_channel, response)
+# 		else:
+# 			rarity_roll = random.randrange(10)
 			
-			if rarity_roll > 3:
-				prank_item = random.choice(ewcfg.prank_items_heinous)
-			elif rarity_roll > 0:
-				prank_item = random.choice(ewcfg.prank_items_scandalous)
-			else:
-				prank_item = random.choice(ewcfg.prank_items_forbidden)
+# 			if rarity_roll > 3:
+# 				prank_item = random.choice(ewcfg.prank_items_heinous)
+# 			elif rarity_roll > 0:
+# 				prank_item = random.choice(ewcfg.prank_items_scandalous)
+# 			else:
+# 				prank_item = random.choice(ewcfg.prank_items_forbidden)
 				
-			#Debug
-			#prank_item = ewcfg.prank_items_heinous[1] # Chinese Finger Trap
+# 			#Debug
+# 			#prank_item = ewcfg.prank_items_heinous[1] # Chinese Finger Trap
 		
-			item_props = ewitem.gen_item_props(prank_item)
+# 			item_props = ewitem.gen_item_props(prank_item)
 		
-			prank_item_id = ewitem.item_create(
-				item_type=prank_item.item_type,
-				id_user=district_id,
-				id_server=id_server,
-				item_props=item_props
-			)
+# 			prank_item_id = ewitem.item_create(
+# 				item_type=prank_item.item_type,
+# 				id_user=district_id,
+# 				id_server=id_server,
+# 				item_props=item_props
+# 			)
 		
-			# print('{} with id {} spawned in {}!'.format(prank_item.str_name, prank_item_id, district_id))
+# 			# print('{} with id {} spawned in {}!'.format(prank_item.str_name, prank_item_id, district_id))
 	
-			response = "An ominous wind blows through the streets. You think you hear someone drop a {} on the ground nearby...".format(prank_item.str_name)
-			await send_message(client, district_channel, response)
+# 			response = "An ominous wind blows through the streets. You think you hear someone drop a {} on the ground nearby...".format(prank_item.str_name)
+# 			await send_message(client, district_channel, response)
 
-	except:
-		logMsg("An error occured in spawn prank items tick for server {}".format(id_server))
+# 	except:
+# 		logMsg("An error occured in spawn prank items tick for server {}".format(id_server))
 		
-	return new_interval
+# 	return new_interval
 		
-async def generate_credence_tick_loop(id_server):
-	# DEBUG
-	# interval = 10
+# async def generate_credence_tick_loop(id_server):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'id_server': type -- description \n
+# 	"""	
+# 	# DEBUG
+# 	# interval = 10
 	
-	while not TERMINATE:
-		interval = (random.randrange(121) + 120)  # anywhere from 2-4 minutes
-		await asyncio.sleep(interval)
-		await generate_credence(id_server)
+# 	while not TERMINATE:
+# 		interval = (random.randrange(121) + 120)  # anywhere from 2-4 minutes
+# 		await asyncio.sleep(interval)
+# 		await generate_credence(id_server)
 		
-async def generate_credence(id_server):
-	#print("CREDENCE GENERATED")
+# async def generate_credence(id_server):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'id_server': type -- description \n
+# 	"""	
+# 	#print("CREDENCE GENERATED")
 	
-	if id_server != None:
-		try:
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor();
+# 	if id_server != None:
+# 		try:
+# 			conn_info = databaseConnect()
+# 			conn = conn_info.get('conn')
+# 			cursor = conn.cursor();
 	
-			cursor.execute("SELECT id_user FROM users WHERE id_server = %s AND {poi} in %s AND NOT ({life_state} = {life_state_corpse} OR {life_state} = {life_state_kingpin}) AND {time_last_action} > %s".format(
-				life_state = ewcfg.col_life_state,
-				poi = ewcfg.col_poi,
-				life_state_corpse = ewcfg.life_state_corpse,
-				life_state_kingpin = ewcfg.life_state_kingpin,
-				time_last_action = ewcfg.col_time_last_action,
-			), (
-				id_server,
-				ewcfg.capturable_districts,
-				(int(time.time()) - ewcfg.time_afk_swilldermuk),
-			))
+# 			cursor.execute("SELECT id_user FROM users WHERE id_server = %s AND {poi} in %s AND NOT ({life_state} = {life_state_corpse} OR {life_state} = {life_state_kingpin}) AND {time_last_action} > %s".format(
+# 				life_state = ewcfg.col_life_state,
+# 				poi = ewcfg.col_poi,
+# 				life_state_corpse = ewcfg.life_state_corpse,
+# 				life_state_kingpin = ewcfg.life_state_kingpin,
+# 				time_last_action = ewcfg.col_time_last_action,
+# 			), (
+# 				id_server,
+# 				ewcfg.capturable_districts,
+# 				(int(time.time()) - ewcfg.time_afk_swilldermuk),
+# 			))
 	
-			users = cursor.fetchall()
+# 			users = cursor.fetchall()
 	
-			for user in users:
-				user_data = EwPlayer(id_user = user[0], id_server = id_server)
-				added_credence = 0
-				lowered_credence_used = 0
+# 			for user in users:
+# 				user_data = EwPlayer(id_user = user[0], id_server = id_server)
+# 				added_credence = 0
+# 				lowered_credence_used = 0
 				
-				if user_data.credence >= 1000:
-					added_credence = 1 + random.randrange(5)
-				elif user_data.credence >= 500:
-					added_credence = 10 + random.randrange(41)
-				elif user_data.credence >= 100:
-					added_credence = 25 + random.randrange(76)
-				else:
-					added_credence = 50 + random.randrange(151)
+# 				if user_data.credence >= 1000:
+# 					added_credence = 1 + random.randrange(5)
+# 				elif user_data.credence >= 500:
+# 					added_credence = 10 + random.randrange(41)
+# 				elif user_data.credence >= 100:
+# 					added_credence = 25 + random.randrange(76)
+# 				else:
+# 					added_credence = 50 + random.randrange(151)
 					
-				if user_data.credence_used > 0:
-					lowered_credence_used = int(user_data.credence_used/10)
+# 				if user_data.credence_used > 0:
+# 					lowered_credence_used = int(user_data.credence_used/10)
 					
-					if lowered_credence_used == 1:
-						lowered_credence_used = 0
+# 					if lowered_credence_used == 1:
+# 						lowered_credence_used = 0
 						
-					user_data.credence_used = lowered_credence_used
+# 					user_data.credence_used = lowered_credence_used
 					
-				added_credence = max(0, added_credence - lowered_credence_used)
-				user_data.credence += added_credence
+# 				added_credence = max(0, added_credence - lowered_credence_used)
+# 				user_data.credence += added_credence
 					
-				user_data.persist()
+# 				user_data.persist()
 				
 	
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
+# 			conn.commit()
+# 		finally:
+# 			# Clean up the database handles.
+# 			cursor.close()
+# 			databaseClose(conn_info)
 			
 async def activate_trap_items(district, id_server, id_user):
+	"""summary \n
+
+	Arguments:
+		'district': type -- description \n
+		'id_server': type -- description \n
+		'id_user': type -- description \n
+	"""	
 	# Return if --> User has 0 credence, there are no traps, or if the trap setter is the one who entered the district.
 	#print("TRAP FUNCTION")
 	trap_was_dud = False
@@ -2056,76 +2167,66 @@ async def activate_trap_items(district, id_server, id_user):
 	if user_data.life_state == ewcfg.life_state_corpse:
 		#print('get out ghosts reeeee!')
 		return
+
+
+	district_channel_name = ewcfg.id_to_poi.get(district).channel
+
+	client = get_client()
+
+	server = client.get_guild(id_server)
 	
-	try:
-		conn_info = databaseConnect()
-		conn = conn_info.get('conn')
-		cursor = conn.cursor();
+	member = server.get_member(id_user)
 
-		district_channel_name = ewcfg.id_to_poi.get(district).channel
+	district_channel = get_channel(server=server, channel_name=district_channel_name)
+	
+	searched_id = district + '_trap'
+	
+	traps = execute_sql_query("SELECT id_item, id_user FROM items WHERE id_user = %s AND id_server = %s".format(
+		id_item = ewcfg.col_id_item,
+		id_user = ewcfg.col_id_user
+	), (
+		searched_id,
+		id_server,
+	))
+	
+	if len(traps) == 0:
+		#print('no traps')
+		return
+	
+	trap_used = traps[0]
+	
+	trap_id_item = trap_used[0]
+	#trap_id_user = trap_used[1]
+	
+	trap_item_data = EwItem(id_item=trap_id_item)
+	
+	trap_chance = int(trap_item_data.item_props.get('trap_chance'))
+	trap_user_id = trap_item_data.item_props.get('trap_user_id')
+	
+	if int(trap_user_id) == user_data.id_user:
+		#print('trap same user id')
+		return
+	
+	if random.randrange(101) < trap_chance:
+		# Trap was triggered!
+		pranker_data = EwPlayer(id_user=int(trap_user_id), id_server=id_server)
+		pranked_data = user_data
 
-		client = get_client()
+		response = trap_item_data.item_props.get('prank_desc')
 
-		server = client.get_guild(id_server)
-		
-		member = server.get_member(id_user)
+		side_effect = trap_item_data.item_props.get('side_effect')
 
-		district_channel = get_channel(server=server, channel_name=district_channel_name)
+		if side_effect != None:
+			response += await ewitem.perform_prank_item_side_effect(side_effect, member=member)
 		
-		searched_id = district + '_trap'
-		
-		cursor.execute("SELECT id_item, id_user FROM items WHERE id_user = %s AND id_server = %s".format(
-			id_item = ewcfg.col_id_item,
-			id_user = ewcfg.col_id_user
-		), (
-			searched_id,
-			id_server,
-		))
+		#calculate_gambit_exchange(pranker_data, pranked_data, trap_item_data, trap_used=True)
+	else:
+		# Trap was a dud.
+		trap_was_dud = True
+		response = "Close call! You were just about to eat shit and fall right into someone's {}, but luckily, it was a dud.".format(trap_item_data.item_props.get('item_name'))
+	
+	ewitem.item_delete(trap_id_item)
 
-		traps = cursor.fetchall()
-		
-		if len(traps) == 0:
-			#print('no traps')
-			return
-		
-		trap_used = traps[0]
-		
-		trap_id_item = trap_used[0]
-		#trap_id_user = trap_used[1]
-		
-		trap_item_data = EwItem(id_item=trap_id_item)
-		
-		trap_chance = int(trap_item_data.item_props.get('trap_chance'))
-		trap_user_id = trap_item_data.item_props.get('trap_user_id')
-		
-		if int(trap_user_id) == user_data.id_user:
-			#print('trap same user id')
-			return
-		
-		if random.randrange(101) < trap_chance:
-			# Trap was triggered!
-			pranker_data = EwPlayer(id_user=int(trap_user_id), id_server=id_server)
-			pranked_data = user_data
-
-			response = trap_item_data.item_props.get('prank_desc')
-
-			side_effect = trap_item_data.item_props.get('side_effect')
-
-			if side_effect != None:
-				response += await ewitem.perform_prank_item_side_effect(side_effect, member=member)
-			
-			#calculate_gambit_exchange(pranker_data, pranked_data, trap_item_data, trap_used=True)
-		else:
-			# Trap was a dud.
-			trap_was_dud = True
-			response = "Close call! You were just about to eat shit and fall right into someone's {}, but luckily, it was a dud.".format(trap_item_data.item_props.get('item_name'))
-		
-		ewitem.item_delete(trap_id_item)
-		
-	finally:
-		# Clean up the database handles.
-		cursor.close()
-		databaseClose(conn_info)
 	await send_message(client, district_channel, formatMessage(member, response))
 	
 	# if not trap_was_dud:
@@ -2139,6 +2240,13 @@ async def activate_trap_items(district, id_server, id_user):
 
 
 def check_fursuit_active(id_server):
+	"""Checks to see if its the full moon yet or not \n
+
+	Arguments:
+		'id_server': int -- Server ID \n
+
+	Returns: boolean -- True if full moon or False for when it isnt
+	"""	
 	market_data = EwMarket(id_server=id_server)
 	if (market_data.day % 31 == 0 and market_data.clock >= 20
 	or market_data.day % 31 == 1 and market_data.clock < 6):
@@ -2147,8 +2255,16 @@ def check_fursuit_active(id_server):
 		return False
 
 def create_death_report(cause = None, user_data = None):
+	"""Create a death report when someone dies \n
+
+	Keyword Arguments:
+		'cause': int -- Cause interger code (default: None) \n
+		'user_data': EwPlayer -- Player object for the one who died (default: None) \n
+
+	Returns: string -- Message string containing the death report		
+	"""	
 	
-	client = ewcfg.get_client()
+	client = get_client()
 	server = client.get_guild(user_data.id_server)
 
 	# User display name is used repeatedly later, grab now
@@ -2237,81 +2353,126 @@ def create_death_report(cause = None, user_data = None):
 	if (cause == ewcfg.cause_praying): # Response for praying
 		deathreport = formatMessage(user_member, "{} owww yer frickin bones man {}".format(ewcfg.emote_slimeskull, ewcfg.emote_slimeskull))
 
-	return(deathreport)
-
-# Get the current kingpin of slimernalia
-def get_slimernalia_kingpin(server):
-	data = execute_sql_query("SELECT {id_user} FROM users WHERE {id_server} = %s AND {slimernalia_kingpin} = true".format(
-		id_user = ewcfg.col_id_user,
-		id_server = ewcfg.col_id_server,
-		slimernalia_kingpin = ewcfg.col_slimernalia_kingpin
-	),(
-		server.id,
-	))
-
-	if len(data) > 0:
-		return data[0][0]
-
-	return None
-
-async def update_slimernalia_kingpin(client, server):
-	# Depose current slimernalia kingpin
-	old_kingpin_id = get_slimernalia_kingpin(server)
-	if old_kingpin_id != None:
-		old_kingpin = EwPlayer(id_user=old_kingpin_id, id_server=server.id)
-		old_kingpin.slimernalia_kingpin = False
-		old_kingpin.persist()
-		try:
-			old_kingpin_member = server.get_member(old_kingpin.id_user)
-			await ewrolemgr.updateRoles(client=client, member=old_kingpin_member)
-		except:
-			logMsg("Error removing kingpin of slimernalia role from {} in server {}.".format(old_kingpin.id_user, server.id))
-
-	# Update the new kingpin of slimernalia
-	new_kingpin = EwPlayer(id_user=get_most_festive(server), id_server=server.id)
-	new_kingpin.slimernalia_kingpin = True
-	new_kingpin.persist()
-	try:
-		new_kingpin_member = server.get_member(new_kingpin.id_user)
-		await ewrolemgr.updateRoles(client=client, member=new_kingpin_member)
-	except:
-		logMsg("Error adding kingpin of slimernalia role to user {} in server {}.".format(new_kingpin.id_user, server.id))	
+	return deathreport
 
 
-# Get the player with the most festivity
-def get_most_festive(server):
-	data = execute_sql_query(
-	"SELECT users.{id_user}, FLOOR({festivity}) + COALESCE(sigillaria, 0) + FLOOR({festivity_from_slimecoin}) as total_festivity FROM users "\
-	"LEFT JOIN (SELECT {id_user}, {id_server}, COUNT(*) * 1000 as sigillaria FROM items INNER JOIN items_prop ON items.{id_item} = items_prop.{id_item} WHERE {name} = %s AND {value} = %s GROUP BY items.{id_user}, items.{id_server}) f on users.{id_user} = f.{id_user} AND users.{id_server} = f.{id_server} "\
-	"WHERE users.{id_server} = %s ORDER BY total_festivity DESC LIMIT 1".format(
-		id_user = ewcfg.col_id_user,
-		id_server = ewcfg.col_id_server,
-		festivity = ewcfg.col_festivity,
-		festivity_from_slimecoin = ewcfg.col_festivity_from_slimecoin,
-		name = ewcfg.col_name,
-		value = ewcfg.col_value,
-		id_item = ewcfg.col_id_item,
-	),(
-		"id_furniture",
-		ewcfg.item_id_sigillaria,
-		server.id,
-	))
+# def get_slimernalia_kingpin(server):
+# 	"""Get the current kingpin of slimernalia \n
 
-	return data[0][0]
+# 	Arguments:
+# 		'server': type -- description \n
+
+# 	Returns: type -- description
+# 	"""	
+# 	data = execute_sql_query("SELECT {id_user} FROM users WHERE {id_server} = %s AND {slimernalia_kingpin} = true".format(
+# 		id_user = ewcfg.col_id_user,
+# 		id_server = ewcfg.col_id_server,
+# 		slimernalia_kingpin = ewcfg.col_slimernalia_kingpin
+# 	),(
+# 		server.id,
+# 	))
+
+# 	if len(data) > 0:
+# 		return data[0][0]
+
+# 	return None
+
+# async def update_slimernalia_kingpin(client, server):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'client': type -- description \n
+# 		'server': type -- description \n
+# 	"""	
+# 	# Depose current slimernalia kingpin
+# 	old_kingpin_id = get_slimernalia_kingpin(server)
+# 	if old_kingpin_id != None:
+# 		old_kingpin = EwPlayer(id_user=old_kingpin_id, id_server=server.id)
+# 		old_kingpin.slimernalia_kingpin = False
+# 		old_kingpin.persist()
+# 		try:
+# 			old_kingpin_member = server.get_member(old_kingpin.id_user)
+# 			await ewrolemgr.updateRoles(client=client, member=old_kingpin_member)
+# 		except:
+# 			logMsg("Error removing kingpin of slimernalia role from {} in server {}.".format(old_kingpin.id_user, server.id))
+
+# 	# Update the new kingpin of slimernalia
+# 	new_kingpin = EwPlayer(id_user=get_most_festive(server), id_server=server.id)
+# 	new_kingpin.slimernalia_kingpin = True
+# 	new_kingpin.persist()
+# 	try:
+# 		new_kingpin_member = server.get_member(new_kingpin.id_user)
+# 		await ewrolemgr.updateRoles(client=client, member=new_kingpin_member)
+# 	except:
+# 		logMsg("Error adding kingpin of slimernalia role to user {} in server {}.".format(new_kingpin.id_user, server.id))	
+
+
+# def get_most_festive(server):
+# 	""" Get the player with the most festivity \n
+
+# 	Arguments:
+# 		'server': type -- description \n
+
+# 	Returns: type -- description
+# 	"""	
+# 	data = execute_sql_query(
+# 	"SELECT users.{id_user}, FLOOR({festivity}) + COALESCE(sigillaria, 0) + FLOOR({festivity_from_slimecoin}) as total_festivity FROM users "\
+# 	"LEFT JOIN (SELECT {id_user}, {id_server}, COUNT(*) * 1000 as sigillaria FROM items INNER JOIN items_prop ON items.{id_item} = items_prop.{id_item} WHERE {name} = %s AND {value} = %s GROUP BY items.{id_user}, items.{id_server}) f on users.{id_user} = f.{id_user} AND users.{id_server} = f.{id_server} "\
+# 	"WHERE users.{id_server} = %s ORDER BY total_festivity DESC LIMIT 1".format(
+# 		id_user = ewcfg.col_id_user,
+# 		id_server = ewcfg.col_id_server,
+# 		festivity = ewcfg.col_festivity,
+# 		festivity_from_slimecoin = ewcfg.col_festivity_from_slimecoin,
+# 		name = ewcfg.col_name,
+# 		value = ewcfg.col_value,
+# 		id_item = ewcfg.col_id_item,
+# 	),(
+# 		"id_furniture",
+# 		ewcfg.item_id_sigillaria,
+# 		server.id,
+# 	))
+
+# 	return data[0][0]
 
 def check_user_has_role(server, member, checked_role_name):
+	"""Check a user for a certain role (Currently only used in Terezi Gang) \n
 
+	Arguments:
+		'server': discord.Guild -- The discord server \n
+		'member': discord.abc.User -- Discord User to check for the role \n
+		'checked_role_name': string -- Name of the role \n
+
+	Returns: bool -- Returns True if the player has the role and False otherwise
+	"""	
 	checked_role = discord.utils.get(server.roles, name=checked_role_name)
 	if checked_role not in member.roles:
 		return False
 	else:
 		return True
 	
-def return_server_role(server, role_name):
-	return discord.utils.get(server.roles, name=role_name)
+# def return_server_role(server, role_name):
+# 	"""summary \n
 
-""" Returns the latest value, so that short PvP timer actions don't shorten remaining PvP time. """
+# 	Arguments:
+# 		'server': type -- description \n
+# 		'role_name': type -- description \n
+
+# 	Returns: type -- description
+# 	"""
+# 	return discord.utils.get(server.roles, name=role_name)
+
 def calculatePvpTimer(current_time_expirpvp, timer, enlisted = False):
+	""" Returns the latest value, so that short PvP timer actions don't shorten remaining PvP time.\n
+
+	Arguments:
+		'current_time_expirpvp': int -- Current pvp timer for the user \n
+		'timer': int -- Districts pvp timer \n
+
+	Keyword Arguments:
+		'enlisted': bool -- If the player has enlisted in a gang (default: False) \n
+
+	Returns: int -- Latest value for the pvp timer
+	"""	
 	if enlisted:
 		timer *= 1
 		#timer *= 4
@@ -2323,8 +2484,12 @@ def calculatePvpTimer(current_time_expirpvp, timer, enlisted = False):
 
 	return current_time_expirpvp
 
-""" add the PvP flag role to a member """
 async def add_pvp_role(cmd = None):
+	"""Add the PvP flag role to a member \n
+
+	Keyword Arguments:
+		'cmd': EwCmd -- Command object used for info (default: None) \n
+	"""	
 	member = cmd.message.author
 	roles_map_user = getRoleMap(member.roles)
 
@@ -2334,17 +2499,29 @@ async def add_pvp_role(cmd = None):
 		await member.add_roles(cmd.roles_map[ewcfg.role_rowdyfuckers_pvp])
 	elif ewcfg.role_juvenile in roles_map_user and ewcfg.role_juvenile_pvp not in roles_map_user:
 		await member.add_roles(cmd.roles_map[ewcfg.role_juvenile_pvp])
-		
-"""
-	Returns true if the specified name is used by any POI.
-"""
+
 def channel_name_is_poi(channel_name):
+	"""Returns true if the specified name is used by any POI. \n
+
+	Arguments:
+		'channel_name': string -- Name to be checked \n
+
+	Returns: bool -- True if the specified name is used by any POI.
+	"""	
 	if channel_name != None:
 		return channel_name in ewcfg.chname_to_poi
 
 	return False
 
 def get_cosmetic_abilities(id_user, id_server):
+	"""Get the active abbilities granted by someone's clothes \n
+
+	Arguments:
+		'id_user': int -- User ID \n
+		'id_server': int -- Server ID \n
+
+	Returns: list -- All the active abilities that cosmetics gave the player
+	"""	
 	active_abilities = []
 
 	cosmetic_items = ewitem.inventory(
@@ -2363,6 +2540,17 @@ def get_cosmetic_abilities(id_user, id_server):
 	return active_abilities
 
 def get_outfit_info(id_user, id_server, wanted_info = None):
+	"""Describe the attributes of every cosmetic item in a players inventory \n
+
+	Arguments:
+		'id_user': int -- User ID \n
+		'id_server': int -- Server ID \n
+
+	Keyword Arguments:
+		'wanted_info': string -- Specific attribute if needed (default: None) \n
+
+	Returns: dict | int -- Map of cosmetic items and their attributes or total values of attributes
+	"""	
 	cosmetic_items = ewitem.inventory(
 		id_user = id_user,
 		id_server = id_server,
@@ -2417,6 +2605,16 @@ def get_outfit_info(id_user, id_server, wanted_info = None):
 		return outfit_map
 
 def get_style_freshness_rating(user_data, dominant_style = None):
+	"""Get your total cosmetic freshness rating \n
+
+	Arguments:
+		'user_data': EwPlayer -- Player object from which to get the cosmetic rating \n
+
+	Keyword Arguments:
+		'dominant_style': string -- The dominant style from the cosmetics (default: None) \n
+
+	Returns: string -- The response containing the rating
+	"""	
 	if dominant_style == None:
 		dominant_style = "fresh"
 
@@ -2462,6 +2660,14 @@ def get_style_freshness_rating(user_data, dominant_style = None):
 
 
 def get_subzone_controlling_faction(subzone_id, id_server):
+	"""Determine the faction control of a subzone to determine prices, buffs, etc. \n
+
+	Arguments:
+		'subzone_id': int -- The subzone's ID \n
+		'id_server': int -- The server ID \n
+
+	Returns: string -- Faction that controls this subzone
+	"""	
 	
 	subzone = ewcfg.id_to_poi.get(subzone_id)
 	
@@ -2495,21 +2701,32 @@ def get_subzone_controlling_faction(subzone_id, id_server):
 		faction = district_data.controlling_faction
 		return faction
 
-def get_street_list(str_poi):
-	poi = ewcfg.id_to_poi.get(str_poi)
-	neighbor_list = poi.neighbors
-	poi_list = []
-	if poi.is_district == False:
-		return poi_list
-	else:
-		for neighbor in neighbor_list.keys():
-			neighbor_poi = ewcfg.id_to_poi.get(neighbor)
-			if neighbor_poi.is_street == True:
-				poi_list.append(neighbor)
-		return poi_list
+# def get_street_list(str_poi):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'str_poi': type -- description \n
+
+# 	Returns: type -- description
+# 	"""	
+# 	poi = ewcfg.id_to_poi.get(str_poi)
+# 	neighbor_list = poi.neighbors
+# 	poi_list = []
+# 	if poi.is_district == False:
+# 		return poi_list
+# 	else:
+# 		for neighbor in neighbor_list.keys():
+# 			neighbor_poi = ewcfg.id_to_poi.get(neighbor)
+# 			if neighbor_poi.is_street == True:
+# 				poi_list.append(neighbor)
+# 		return poi_list
 	
 async def collect_topics(cmd):
-	
+	"""Display the channel topics and names for the whole server (Admin only)\n
+
+	Arguments:
+		'cmd': EwCmd -- Command object that triggered this function call \n
+	"""	
 	if not cmd.message.author.guild_permissions.administrator:
 		return
 	
@@ -2540,6 +2757,12 @@ async def collect_topics(cmd):
 	
 	
 async def sync_topics(cmd):
+	"""Rewrite all channel topics according to the district map central list of poi 
+	(Admin only)\n
+
+	Arguments:
+		'cmd': EwCmd -- The Command object that called this function \n
+	"""	
 	
 	if not cmd.message.author.guild_permissions.administrator:
 		return
@@ -2580,6 +2803,13 @@ async def sync_topics(cmd):
 	logMsg('Finished syncing topics.')
 	
 async def shut_down_bot(cmd):
+	"""Kill the bot or kill someone who tries to do it without Admin priveleges \n
+
+	Arguments:
+		'cmd': EwCmd -- The command object that called this function \n
+
+	Returns: EwMessageContainer -- Message for the suicide option
+	"""	
 	
 	if not cmd.message.author.guild_permissions.administrator:
 		return await ewwep.suicide(cmd=cmd)
@@ -2591,390 +2821,462 @@ async def shut_down_bot(cmd):
 		sys.exit()
 		
 async def check_bot(cmd):
+	"""Check if the bot is still on (Admin Only)\n
+
+	Arguments:
+		'cmd': EwCmd -- Command object that called this function \n
+	"""	
 	if not cmd.message.author.guild_permissions.administrator:
 		return
 	
 	logMsg('TERMINATE is currently: {}'.format(TERMINATE))
 	
 	return
-	sys.exit()
+	#sys.exit()
 
-def gvs_create_gaia_grid_mapping(user_data):
-	grid_map = {}
+# def gvs_create_gaia_grid_mapping(user_data):
+# 	"""summary \n
 
-	# Grid print mapping and shambler targeting use different priority lists. Don't get these mixed up
-	printgrid_low_priority = [ewcfg.enemy_type_gaia_rustealeaves]
-	printgrid_mid_priority = [ewcfg.enemy_type_gaia_steelbeans]
-	printgrid_high_priority = []
-	for enemy_id in ewcfg.gvs_enemies_gaiaslimeoids:
-		if enemy_id not in printgrid_low_priority and enemy_id not in printgrid_mid_priority:
-			printgrid_high_priority.append(enemy_id)
+# 	Arguments:
+# 		'user_data': type -- description \n
 
-	gaias = execute_sql_query(
-		"SELECT {id_enemy}, {enemytype}, {gvs_coord} FROM enemies WHERE id_server = %s AND {poi} = %s AND {life_state} = 1 AND {enemyclass} = %s".format(
-			id_enemy=ewcfg.col_id_enemy,
-			enemytype=ewcfg.col_enemy_type,
-			poi=ewcfg.col_enemy_poi,
-			life_state=ewcfg.col_enemy_life_state,
-			gvs_coord=ewcfg.col_enemy_gvs_coord,
-			enemyclass=ewcfg.col_enemy_class,
-		), (
-			user_data.id_server,
-			user_data.poi,
-			ewcfg.enemy_class_gaiaslimeoid
-		))
+# 	Returns: type -- description
+# 	"""	
+# 	grid_map = {}
+
+# 	# Grid print mapping and shambler targeting use different priority lists. Don't get these mixed up
+# 	printgrid_low_priority = [ewcfg.enemy_type_gaia_rustealeaves]
+# 	printgrid_mid_priority = [ewcfg.enemy_type_gaia_steelbeans]
+# 	printgrid_high_priority = []
+# 	for enemy_id in ewcfg.gvs_enemies_gaiaslimeoids:
+# 		if enemy_id not in printgrid_low_priority and enemy_id not in printgrid_mid_priority:
+# 			printgrid_high_priority.append(enemy_id)
+
+# 	gaias = execute_sql_query(
+# 		"SELECT {id_enemy}, {enemytype}, {gvs_coord} FROM enemies WHERE id_server = %s AND {poi} = %s AND {life_state} = 1 AND {enemyclass} = %s".format(
+# 			id_enemy=ewcfg.col_id_enemy,
+# 			enemytype=ewcfg.col_enemy_type,
+# 			poi=ewcfg.col_enemy_poi,
+# 			life_state=ewcfg.col_enemy_life_state,
+# 			gvs_coord=ewcfg.col_enemy_gvs_coord,
+# 			enemyclass=ewcfg.col_enemy_class,
+# 		), (
+# 			user_data.id_server,
+# 			user_data.poi,
+# 			ewcfg.enemy_class_gaiaslimeoid
+# 		))
 	
-	grid_conditions = execute_sql_query(
-		"SELECT coord, grid_condition FROM gvs_grid_conditions WHERE district = %s".format(
-		), (
-			user_data.poi,
-		))
+# 	grid_conditions = execute_sql_query(
+# 		"SELECT coord, grid_condition FROM gvs_grid_conditions WHERE district = %s".format(
+# 		), (
+# 			user_data.poi,
+# 		))
 	
-	for condition in grid_conditions:
-		grid_map[condition[0]] = condition[1]
+# 	for condition in grid_conditions:
+# 		grid_map[condition[0]] = condition[1]
 	
-	for gaia in gaias:
-		try:
-			gaia_in_coord = grid_map[gaia[2]]
-			# No key error: Gaia is in coord already, check for priority
-			is_filled = True
-		except KeyError:
-			gaia_in_coord = ''
-			# Key error: Gaia was not in coord
-			is_filled = False
+# 	for gaia in gaias:
+# 		try:
+# 			gaia_in_coord = grid_map[gaia[2]]
+# 			# No key error: Gaia is in coord already, check for priority
+# 			is_filled = True
+# 		except KeyError:
+# 			gaia_in_coord = ''
+# 			# Key error: Gaia was not in coord
+# 			is_filled = False
 			
-		if is_filled:
-			if gaia_in_coord in printgrid_low_priority and (gaia[1] in printgrid_mid_priority or gaia[1] in printgrid_high_priority):
-				grid_map[gaia[2]] = gaia[1]
-			if gaia_in_coord in printgrid_mid_priority and gaia[1] in printgrid_high_priority:
-				grid_map[gaia[2]] = gaia[1]
-		else:
-			grid_map[gaia[2]] = gaia[1]
+# 		if is_filled:
+# 			if gaia_in_coord in printgrid_low_priority and (gaia[1] in printgrid_mid_priority or gaia[1] in printgrid_high_priority):
+# 				grid_map[gaia[2]] = gaia[1]
+# 			if gaia_in_coord in printgrid_mid_priority and gaia[1] in printgrid_high_priority:
+# 				grid_map[gaia[2]] = gaia[1]
+# 		else:
+# 			grid_map[gaia[2]] = gaia[1]
 		
-	return grid_map
+# 	return grid_map
 
 
-def gvs_create_gaia_lane_mapping(user_data, row_used):
+# def gvs_create_gaia_lane_mapping(user_data, row_used):
+# 	"""summary \n
 
-	# Grid print mapping and shambler targeting use different priority lists. Don't get these mixed up
-	printlane_low_priority = [ewcfg.enemy_type_gaia_rustealeaves]
-	printlane_mid_priority = []
-	printlane_high_priority = [ewcfg.enemy_type_gaia_steelbeans]
-	for enemy_id in ewcfg.gvs_enemies_gaiaslimeoids:
-		if enemy_id not in printlane_low_priority and enemy_id not in printlane_high_priority:
-			printlane_mid_priority.append(enemy_id)
+# 	Arguments:
+# 		'user_data': type -- description \n
+# 		'row_used': type -- description \n
 
-	gaias = execute_sql_query(
-		"SELECT {id_enemy}, {enemytype}, {gvs_coord} FROM enemies WHERE id_server = %s AND {poi} = %s AND {life_state} = 1 AND {enemyclass} = %s AND {gvs_coord} IN %s".format(
-			id_enemy=ewcfg.col_id_enemy,
-			enemytype=ewcfg.col_enemy_type,
-			poi=ewcfg.col_enemy_poi,
-			life_state=ewcfg.col_enemy_life_state,
-			gvs_coord=ewcfg.col_enemy_gvs_coord,
-			enemyclass=ewcfg.col_enemy_class,
-		), (
-			user_data.id_server,
-			user_data.poi,
-			ewcfg.enemy_class_gaiaslimeoid,
-			tuple(row_used)
-		))
+# 	Returns: type -- description
+# 	"""	
 
-	grid_conditions = execute_sql_query(
-		"SELECT coord, grid_condition FROM gvs_grid_conditions WHERE district = %s AND coord IN %s".format(
-		), (
-			user_data.poi,
-			tuple(row_used)
-		))
+# 	# Grid print mapping and shambler targeting use different priority lists. Don't get these mixed up
+# 	printlane_low_priority = [ewcfg.enemy_type_gaia_rustealeaves]
+# 	printlane_mid_priority = []
+# 	printlane_high_priority = [ewcfg.enemy_type_gaia_steelbeans]
+# 	for enemy_id in ewcfg.gvs_enemies_gaiaslimeoids:
+# 		if enemy_id not in printlane_low_priority and enemy_id not in printlane_high_priority:
+# 			printlane_mid_priority.append(enemy_id)
+
+# 	gaias = execute_sql_query(
+# 		"SELECT {id_enemy}, {enemytype}, {gvs_coord} FROM enemies WHERE id_server = %s AND {poi} = %s AND {life_state} = 1 AND {enemyclass} = %s AND {gvs_coord} IN %s".format(
+# 			id_enemy=ewcfg.col_id_enemy,
+# 			enemytype=ewcfg.col_enemy_type,
+# 			poi=ewcfg.col_enemy_poi,
+# 			life_state=ewcfg.col_enemy_life_state,
+# 			gvs_coord=ewcfg.col_enemy_gvs_coord,
+# 			enemyclass=ewcfg.col_enemy_class,
+# 		), (
+# 			user_data.id_server,
+# 			user_data.poi,
+# 			ewcfg.enemy_class_gaiaslimeoid,
+# 			tuple(row_used)
+# 		))
+
+# 	grid_conditions = execute_sql_query(
+# 		"SELECT coord, grid_condition FROM gvs_grid_conditions WHERE district = %s AND coord IN %s".format(
+# 		), (
+# 			user_data.poi,
+# 			tuple(row_used)
+# 		))
 	
-	coord_sets = []
+# 	coord_sets = []
 
-	for coord in row_used:
-		current_coord_set = [] 
-		for enemy in printlane_low_priority:
-			for gaia in gaias:
-				if gaia[1] == enemy and gaia[2] == coord:
-					current_coord_set.append(gaia[0])
+# 	for coord in row_used:
+# 		current_coord_set = [] 
+# 		for enemy in printlane_low_priority:
+# 			for gaia in gaias:
+# 				if gaia[1] == enemy and gaia[2] == coord:
+# 					current_coord_set.append(gaia[0])
 					
-		for enemy in printlane_mid_priority:
-			for gaia in gaias:
-				if gaia[1] == enemy and gaia[2] == coord:
-					current_coord_set.append(gaia[0])
+# 		for enemy in printlane_mid_priority:
+# 			for gaia in gaias:
+# 				if gaia[1] == enemy and gaia[2] == coord:
+# 					current_coord_set.append(gaia[0])
 					
-		for enemy in printlane_high_priority:
-			for gaia in gaias:
-				if gaia[1] == enemy and gaia[2] == coord:
-					current_coord_set.append(gaia[0])
+# 		for enemy in printlane_high_priority:
+# 			for gaia in gaias:
+# 				if gaia[1] == enemy and gaia[2] == coord:
+# 					current_coord_set.append(gaia[0])
 					
-		for condition in grid_conditions:
-			if condition[0] == coord:
-				if condition[1] == 'frozen':
-					current_coord_set.append('frozen')
+# 		for condition in grid_conditions:
+# 			if condition[0] == coord:
+# 				if condition[1] == 'frozen':
+# 					current_coord_set.append('frozen')
 					
-		coord_sets.append(current_coord_set)
+# 		coord_sets.append(current_coord_set)
 	
 
-	return coord_sets
+# 	return coord_sets
 
 
-def gvs_check_gaia_protected(enemy_data):
-	is_protected = False
+# def gvs_check_gaia_protected(enemy_data):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'enemy_data': type -- description \n
+
+# 	Returns: type -- description
+# 	"""	
+# 	is_protected = False
 	
-	low_attack_priority = [ewcfg.enemy_type_gaia_rustealeaves]
-	high_attack_priority = [ewcfg.enemy_type_gaia_steelbeans]
-	mid_attack_priority = []
-	for enemy_id in ewcfg.gvs_enemies_gaiaslimeoids:
-		if enemy_id not in low_attack_priority and enemy_id not in high_attack_priority:
-			mid_attack_priority.append(enemy_id)
+# 	low_attack_priority = [ewcfg.enemy_type_gaia_rustealeaves]
+# 	high_attack_priority = [ewcfg.enemy_type_gaia_steelbeans]
+# 	mid_attack_priority = []
+# 	for enemy_id in ewcfg.gvs_enemies_gaiaslimeoids:
+# 		if enemy_id not in low_attack_priority and enemy_id not in high_attack_priority:
+# 			mid_attack_priority.append(enemy_id)
 	
-	checked_coords = []
-	enemy_coord = enemy_data.gvs_coord
-	for row in ewcfg.gvs_valid_coords_gaia:
-		if enemy_coord in row:
-			index = row.index(enemy_coord)
-			row_length = len(ewcfg.gvs_valid_coords_gaia)
-			for i in range(index+1, row_length):
-				checked_coords.append(ewcfg.gvs_valid_coords_gaia[i])
+# 	checked_coords = []
+# 	enemy_coord = enemy_data.gvs_coord
+# 	for row in ewcfg.gvs_valid_coords_gaia:
+# 		if enemy_coord in row:
+# 			index = row.index(enemy_coord)
+# 			row_length = len(ewcfg.gvs_valid_coords_gaia)
+# 			for i in range(index+1, row_length):
+# 				checked_coords.append(ewcfg.gvs_valid_coords_gaia[i])
 				
-	gaias_in_front_coords = execute_sql_query(
-		"SELECT {id_enemy}, {enemytype}, {gvs_coord} FROM enemies WHERE {life_state} = 1 AND {enemyclass} = %s AND {gvs_coord} IN %s".format(
-			id_enemy=ewcfg.col_id_enemy,
-			enemytype=ewcfg.col_enemy_type,
-			life_state=ewcfg.col_enemy_life_state,
-			gvs_coord=ewcfg.col_enemy_gvs_coord,
-			enemyclass=ewcfg.col_enemy_class,
-		), (
-			ewcfg.enemy_class_gaiaslimeoid,
-			tuple(checked_coords)
-		))
+# 	gaias_in_front_coords = execute_sql_query(
+# 		"SELECT {id_enemy}, {enemytype}, {gvs_coord} FROM enemies WHERE {life_state} = 1 AND {enemyclass} = %s AND {gvs_coord} IN %s".format(
+# 			id_enemy=ewcfg.col_id_enemy,
+# 			enemytype=ewcfg.col_enemy_type,
+# 			life_state=ewcfg.col_enemy_life_state,
+# 			gvs_coord=ewcfg.col_enemy_gvs_coord,
+# 			enemyclass=ewcfg.col_enemy_class,
+# 		), (
+# 			ewcfg.enemy_class_gaiaslimeoid,
+# 			tuple(checked_coords)
+# 		))
 	
-	if len(gaias_in_front_coords) > 0:
-		is_protected = True
-	else:
-		gaias_in_same_coord = execute_sql_query(
-			"SELECT {id_enemy}, {enemytype}, {gvs_coord} FROM enemies WHERE {life_state} = 1 AND {enemyclass} = %s AND {gvs_coord} = %s".format(
-				id_enemy=ewcfg.col_id_enemy,
-				enemytype=ewcfg.col_enemy_type,
-				life_state=ewcfg.col_enemy_life_state,
-				gvs_coord=ewcfg.col_enemy_gvs_coord,
-				enemyclass=ewcfg.col_enemy_class,
-			), (
-				ewcfg.enemy_class_gaiaslimeoid,
-				enemy_coord
-			))
-		if len(gaias_in_same_coord) > 1:
-			same_coord_gaias_types = []
-			for gaia in gaias_in_same_coord:
-				same_coord_gaias_types.append(gaia[1])
+# 	if len(gaias_in_front_coords) > 0:
+# 		is_protected = True
+# 	else:
+# 		gaias_in_same_coord = execute_sql_query(
+# 			"SELECT {id_enemy}, {enemytype}, {gvs_coord} FROM enemies WHERE {life_state} = 1 AND {enemyclass} = %s AND {gvs_coord} = %s".format(
+# 				id_enemy=ewcfg.col_id_enemy,
+# 				enemytype=ewcfg.col_enemy_type,
+# 				life_state=ewcfg.col_enemy_life_state,
+# 				gvs_coord=ewcfg.col_enemy_gvs_coord,
+# 				enemyclass=ewcfg.col_enemy_class,
+# 			), (
+# 				ewcfg.enemy_class_gaiaslimeoid,
+# 				enemy_coord
+# 			))
+# 		if len(gaias_in_same_coord) > 1:
+# 			same_coord_gaias_types = []
+# 			for gaia in gaias_in_same_coord:
+# 				same_coord_gaias_types.append(gaia[1])
 				
-			for type in same_coord_gaias_types:
-				if enemy_data.enemy_type in high_attack_priority:
-					is_protected = False
-					break
-				elif enemy_data.enemy_type in mid_attack_priority and type in high_attack_priority:
-					is_protected = True
-					break
-				elif enemy_data.enemy_type in low_attack_priority and (type in mid_attack_priority or type in high_attack_priority):
-					is_protected = True
-					break
+# 			for type in same_coord_gaias_types:
+# 				if enemy_data.enemy_type in high_attack_priority:
+# 					is_protected = False
+# 					break
+# 				elif enemy_data.enemy_type in mid_attack_priority and type in high_attack_priority:
+# 					is_protected = True
+# 					break
+# 				elif enemy_data.enemy_type in low_attack_priority and (type in mid_attack_priority or type in high_attack_priority):
+# 					is_protected = True
+# 					break
 	
-		else:
-			is_protected = False
+# 		else:
+# 			is_protected = False
 	
-	return is_protected
+# 	return is_protected
 
-def gvs_check_operation_duplicate(id_user, district, enemytype, faction):
-	entry = None
-	
-	if faction == ewcfg.psuedo_faction_gankers:
-		entry = execute_sql_query(
-			"SELECT * FROM gvs_ops_choices WHERE id_user = %s AND district = %s AND enemytype = %s AND faction = %s".format(
-			), (
-				id_user, 
-				district, 
-				enemytype, 
-				faction
-			))
-	elif faction == ewcfg.psuedo_faction_shamblers:
-		entry = execute_sql_query(
-			"SELECT * FROM gvs_ops_choices WHERE district = %s AND enemytype = %s AND faction = %s".format(
-			), (
-				district,
-				enemytype,
-				faction
-			))
+# def gvs_check_operation_duplicate(id_user, district, enemytype, faction):
+# 	"""summary \n
 
-	if len(entry) > 0:
-		return True
-	else:
-		return False
+# 	Arguments:
+# 		'id_user': type -- description \n
+# 		'district': type -- description \n
+# 		'enemytype': type -- description \n
+# 		'faction': type -- description \n
+
+# 	Returns: type -- description
+# 	"""	
+# 	entry = None
 	
-def gvs_check_operation_limit(id_user, district, enemytype, faction):
+# 	if faction == ewcfg.psuedo_faction_gankers:
+# 		entry = execute_sql_query(
+# 			"SELECT * FROM gvs_ops_choices WHERE id_user = %s AND district = %s AND enemytype = %s AND faction = %s".format(
+# 			), (
+# 				id_user, 
+# 				district, 
+# 				enemytype, 
+# 				faction
+# 			))
+# 	elif faction == ewcfg.psuedo_faction_shamblers:
+# 		entry = execute_sql_query(
+# 			"SELECT * FROM gvs_ops_choices WHERE district = %s AND enemytype = %s AND faction = %s".format(
+# 			), (
+# 				district,
+# 				enemytype,
+# 				faction
+# 			))
+
+# 	if len(entry) > 0:
+# 		return True
+# 	else:
+# 		return False
 	
-	limit_hit = False
-	tombstone_limit = 0
+# def gvs_check_operation_limit(id_user, district, enemytype, faction):
 	
-	if faction == ewcfg.psuedo_faction_gankers:
-		data = execute_sql_query(
-			"SELECT id_user FROM gvs_ops_choices WHERE id_user = %s AND district = %s AND faction = %s".format(
-			), (
-				id_user, 
-				district,
-				faction
-			))
+# 	limit_hit = False
+# 	tombstone_limit = 0
+	
+# 	if faction == ewcfg.psuedo_faction_gankers:
+# 		data = execute_sql_query(
+# 			"SELECT id_user FROM gvs_ops_choices WHERE id_user = %s AND district = %s AND faction = %s".format(
+# 			), (
+# 				id_user, 
+# 				district,
+# 				faction
+# 			))
 		
-		if len(data) >= 6:
-			limit_hit = True
-		else:
-			limit_hit = False
+# 		if len(data) >= 6:
+# 			limit_hit = True
+# 		else:
+# 			limit_hit = False
 		
-	elif faction == ewcfg.psuedo_faction_shamblers:
-		sh_data = execute_sql_query(
-			"SELECT enemytype FROM gvs_ops_choices WHERE district = %s AND faction = %s".format(
-			), (
-				district,
-				faction
-			))
+# 	elif faction == ewcfg.psuedo_faction_shamblers:
+# 		sh_data = execute_sql_query(
+# 			"SELECT enemytype FROM gvs_ops_choices WHERE district = %s AND faction = %s".format(
+# 			), (
+# 				district,
+# 				faction
+# 			))
 		
-		gg_data = execute_sql_query(
-			"SELECT id_user FROM gvs_ops_choices WHERE district = %s AND faction = %s".format(
-			), (
-				district,
-				enemytype,
-			))
+# 		gg_data = execute_sql_query(
+# 			"SELECT id_user FROM gvs_ops_choices WHERE district = %s AND faction = %s".format(
+# 			), (
+# 				district,
+# 				enemytype,
+# 			))
 		
-		gg_id_list = []
-		for gg in gg_data:
-			gg_id_list.append(gg[0])
+# 		gg_id_list = []
+# 		for gg in gg_data:
+# 			gg_id_list.append(gg[0])
 			
-		gg_id_set = set(gg_id_list) # Remove duplicate user IDs
+# 		gg_id_set = set(gg_id_list) # Remove duplicate user IDs
 		
-		if len(gg_id_set) == 0:
-			tombstone_limit = 3
-		elif len(gg_id_set) <= 3:
-			tombstone_limit = 6
-		elif len(gg_id_set) <= 6:
-			tombstone_limit = 10
-		else:
-			tombstone_limit = 12
+# 		if len(gg_id_set) == 0:
+# 			tombstone_limit = 3
+# 		elif len(gg_id_set) <= 3:
+# 			tombstone_limit = 6
+# 		elif len(gg_id_set) <= 6:
+# 			tombstone_limit = 10
+# 		else:
+# 			tombstone_limit = 12
 		
-		if len(sh_data) >= tombstone_limit:
-			limit_hit = True
-		else:
-			limit_hit = False
+# 		if len(sh_data) >= tombstone_limit:
+# 			limit_hit = True
+# 		else:
+# 			limit_hit = False
 			
-	return limit_hit, tombstone_limit
+# 	return limit_hit, tombstone_limit
 
-def gvs_check_if_in_operation(user_data):
-	
-	op_data = execute_sql_query(
-		"SELECT id_user, district FROM gvs_ops_choices WHERE id_user = %s".format(
-		), (
-			user_data.id_user,
-		))
+# def gvs_check_if_in_operation(user_data):
+# 	"""summary \n
 
-	if len(op_data) > 0:
-		return True, op_data[0][1]
-	else:
-		return False, None
+# 	Arguments:
+# 		'user_data': type -- description \n
 
-def gvs_get_gaias_from_coord(poi, checked_coord):
-	gaias = execute_sql_query(
-		"SELECT id_enemy, enemytype FROM enemies WHERE poi = %s AND gvs_coord = %s".format(
-		), (
-			poi,
-			checked_coord
-		))
+# 	Returns: type -- description
+# 	"""	
 	
-	gaias_id_to_type_map = {}
+# 	op_data = execute_sql_query(
+# 		"SELECT id_user, district FROM gvs_ops_choices WHERE id_user = %s".format(
+# 		), (
+# 			user_data.id_user,
+# 		))
+
+# 	if len(op_data) > 0:
+# 		return True, op_data[0][1]
+# 	else:
+# 		return False, None
+
+# def gvs_get_gaias_from_coord(poi, checked_coord):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'poi': type -- description \n
+# 		'checked_coord': type -- description \n
+
+# 	Returns: type -- description
+# 	"""	
+# 	gaias = execute_sql_query(
+# 		"SELECT id_enemy, enemytype FROM enemies WHERE poi = %s AND gvs_coord = %s".format(
+# 		), (
+# 			poi,
+# 			checked_coord
+# 		))
 	
-	for gaia in gaias:
-		if gaia[1] in ewcfg.gvs_enemies_gaiaslimeoids:
-			gaias_id_to_type_map[gaia[0]] = gaia[1]
+# 	gaias_id_to_type_map = {}
 	
-	return gaias_id_to_type_map
+# 	for gaia in gaias:
+# 		if gaia[1] in ewcfg.gvs_enemies_gaiaslimeoids:
+# 			gaias_id_to_type_map[gaia[0]] = gaia[1]
+	
+# 	return gaias_id_to_type_map
 
 # If there are no player operations, spawn in ones that the bot uses
-def gvs_insert_bot_ops(id_server, district, enemyfaction):
-	bot_id = 56709
+# def gvs_insert_bot_ops(id_server, district, enemyfaction):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'id_server': type -- description \n
+# 		'district': type -- description \n
+# 		'enemyfaction': type -- description \n
+# 	"""	
+# 	bot_id = 56709
 	
-	if enemyfaction == ewcfg.psuedo_faction_gankers:
-		possible_bot_types = [
-			ewcfg.enemy_type_gaia_pinkrowddishes,
-			ewcfg.enemy_type_gaia_purplekilliflower,
-			ewcfg.enemy_type_gaia_poketubers,
-			ewcfg.enemy_type_gaia_razornuts
-		]
-		for type in possible_bot_types:
-			execute_sql_query("REPLACE INTO gvs_ops_choices({}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s)".format(
-				ewcfg.col_id_user,
-				ewcfg.col_district,
-				ewcfg.col_enemy_type,
-				ewcfg.col_faction,
-				ewcfg.col_id_item,
-				ewcfg.col_shambler_stock,
-			), (
-				bot_id,
-				district,
-				type,
-				enemyfaction,
-				-1,
-				0,
-			))
+# 	if enemyfaction == ewcfg.psuedo_faction_gankers:
+# 		possible_bot_types = [
+# 			ewcfg.enemy_type_gaia_pinkrowddishes,
+# 			ewcfg.enemy_type_gaia_purplekilliflower,
+# 			ewcfg.enemy_type_gaia_poketubers,
+# 			ewcfg.enemy_type_gaia_razornuts
+# 		]
+# 		for type in possible_bot_types:
+# 			execute_sql_query("REPLACE INTO gvs_ops_choices({}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s)".format(
+# 				ewcfg.col_id_user,
+# 				ewcfg.col_district,
+# 				ewcfg.col_enemy_type,
+# 				ewcfg.col_faction,
+# 				ewcfg.col_id_item,
+# 				ewcfg.col_shambler_stock,
+# 			), (
+# 				bot_id,
+# 				district,
+# 				type,
+# 				enemyfaction,
+# 				-1,
+# 				0,
+# 			))
 			
-			# To increase the challenge, a column of suganmanuts is placed down.
-			for coord in ['A6', 'B6', 'C6', 'D6', 'E6']:
-				ewhunting.spawn_enemy(
-					id_server=id_server,
-					pre_chosen_type=ewcfg.enemy_type_gaia_suganmanuts,
-					pre_chosen_level=50,
-					pre_chosen_poi=district,
-					pre_chosen_identifier='',
-					pre_chosen_faction=ewcfg.psuedo_faction_gankers,
-					pre_chosen_owner=bot_id,
-					pre_chosen_coord=coord,
-					manual_spawn=True,
-				)
+# 			# To increase the challenge, a column of suganmanuts is placed down.
+# 			for coord in ['A6', 'B6', 'C6', 'D6', 'E6']:
+# 				ewhunting.spawn_enemy(
+# 					id_server=id_server,
+# 					pre_chosen_type=ewcfg.enemy_type_gaia_suganmanuts,
+# 					pre_chosen_level=50,
+# 					pre_chosen_poi=district,
+# 					pre_chosen_identifier='',
+# 					pre_chosen_faction=ewcfg.psuedo_faction_gankers,
+# 					pre_chosen_owner=bot_id,
+# 					pre_chosen_coord=coord,
+# 					manual_spawn=True,
+# 				)
 		
-	elif enemyfaction == ewcfg.psuedo_faction_shamblers:
-		possible_bot_types = [
-			ewcfg.enemy_type_defaultshambler,
-			ewcfg.enemy_type_bucketshambler,
-		]
-		for type in possible_bot_types:
-			execute_sql_query("REPLACE INTO gvs_ops_choices({}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s)".format(
-				ewcfg.col_id_user,
-				ewcfg.col_district,
-				ewcfg.col_enemy_type,
-				ewcfg.col_faction,
-				ewcfg.col_id_item,
-				ewcfg.col_shambler_stock,
-			), (
-				bot_id,
-				district,
-				type,
-				enemyfaction,
-				-1,
-				20,
-			))
+# 	elif enemyfaction == ewcfg.psuedo_faction_shamblers:
+# 		possible_bot_types = [
+# 			ewcfg.enemy_type_defaultshambler,
+# 			ewcfg.enemy_type_bucketshambler,
+# 		]
+# 		for type in possible_bot_types:
+# 			execute_sql_query("REPLACE INTO gvs_ops_choices({}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s)".format(
+# 				ewcfg.col_id_user,
+# 				ewcfg.col_district,
+# 				ewcfg.col_enemy_type,
+# 				ewcfg.col_faction,
+# 				ewcfg.col_id_item,
+# 				ewcfg.col_shambler_stock,
+# 			), (
+# 				bot_id,
+# 				district,
+# 				type,
+# 				enemyfaction,
+# 				-1,
+# 				20,
+# 			))
 			
-async def degrade_districts(cmd):
+# async def degrade_districts(cmd):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'cmd': type -- description \n
+# 	"""	
 	
-	if not cmd.message.author.guild_permissions.administrator:
-		return
+# 	if not cmd.message.author.guild_permissions.administrator:
+# 		return
 
-	gvs_districts = []
+# 	gvs_districts = []
 
-	for poi in ewcfg.poi_list:
-		if poi.is_district and not poi.id_poi in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow, ewcfg.poi_id_oozegardens, ewcfg.poi_id_thevoid]:
-			gvs_districts.append(poi.id_poi)
+# 	for poi in ewcfg.poi_list:
+# 		if poi.is_district and not poi.id_poi in [ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown, ewcfg.poi_id_juviesrow, ewcfg.poi_id_oozegardens, ewcfg.poi_id_thevoid]:
+# 			gvs_districts.append(poi.id_poi)
 
-	execute_sql_query("UPDATE districts SET degradation = 0")
-	execute_sql_query("UPDATE districts SET time_unlock = 0")
-	execute_sql_query("UPDATE districts SET degradation = 10000 WHERE district IN {}".format(tuple(gvs_districts)))
-	logMsg('Set proper degradation values.')
+# 	execute_sql_query("UPDATE districts SET degradation = 0")
+# 	execute_sql_query("UPDATE districts SET time_unlock = 0")
+# 	execute_sql_query("UPDATE districts SET degradation = 10000 WHERE district IN {}".format(tuple(gvs_districts)))
+# 	logMsg('Set proper degradation values.')
 
 
 def mention_type(cmd, ew_id):
+	""" Used in determining the targets for a command action\n
+
+	Arguments:
+		'cmd': EwCmd -- Command object that called this function \n
+		'ew_id': int -- ID corresponding to the '@' mention \n
+
+	Returns: string -- The target type for this mention
+	"""	
 	if cmd.client_id.user == ew_id.user:
 		return "ew"
 	elif cmd.author_id.user == ew_id.user:
@@ -2984,6 +3286,13 @@ def mention_type(cmd, ew_id):
 
 
 def get_mutation_alias(name):
+	"""Get the aliases for a certain mutation \n
+
+	Arguments:
+		'name': string -- Mutation name \n
+
+	Returns: list -- The mutation's aliases
+	"""	
 	if ewcfg.mutations_map.get(name) != None:
 		return name
 	else:
@@ -2995,6 +3304,13 @@ def get_mutation_alias(name):
 		return 0
 
 def get_fingernail_item(cmd):
+	"""Generate the fingernail weapon item \n
+
+	Arguments:
+		'cmd': EwCmd -- Command that called this function \n
+
+	Returns: EwItem -- The item object corresponding to the fingernails weapon
+	"""	
 	item = ewcfg.weapon_map.get(ewcfg.weapon_id_fingernails)
 	item_props = ewitem.gen_item_props(item)
 	id_item = ewitem.item_create(
@@ -3010,6 +3326,14 @@ def get_fingernail_item(cmd):
 
 
 def inaccessible(user_data=None, poi=None):
+	"""Determine if an area is inaccessible to a player \n
+
+	Keyword Arguments:
+		'user_data': EwPlayer -- Player object representing the player in question (default: None) \n
+		'poi': EwDistrict -- District object for the district we want to query  (default: None) \n
+
+	Returns: bool -- True if district is inaccessible and False otherwise
+	"""	
 	if poi == None or user_data == None:
 		return True
 
@@ -3047,41 +3371,43 @@ def inaccessible(user_data=None, poi=None):
 		return False
 
 
-
-# Pay out salaries. SlimeCoin can be taken away or given depending on if the user has positive or negative credits.
 async def pay_salary(id_server=None):
+	""" Pay out salaries. SlimeCoin can be taken away or given depending on if the user has positive or negative credits. \n
+
+	Keyword Arguments:
+		'id_server': int -- Server ID (default: None) \n
+	"""	
 	print('paying salary...')
 
-	try:
-		conn_info = databaseConnect()
-		conn = conn_info.get('conn')
-		cursor = conn.cursor()
-		client = get_client()
-		if id_server != None:
-			# get all players with apartments. If a player is evicted, thir rent is 0, so this will not affect any bystanders.
-			cursor.execute("SELECT id_user FROM users WHERE salary_credits != 0 AND id_server = {}".format(id_server))
+	#client = get_client()
 
-			security_officers = cursor.fetchall()
+	if id_server != None:
+		# get all players with apartments. If a player is evicted, thir rent is 0, so this will not affect any bystanders.
+		security_officers = execute_sql_query("SELECT id_user FROM users WHERE salary_credits != 0 AND id_server = {}".format(id_server))
 
-			for officer in security_officers:
-				officer_id_user = int(officer[0])
+		for officer in security_officers:
+			officer_id_user = int(officer[0])
 
-				user_data = EwPlayer(id_user=officer_id_user, id_server=id_server)
-				credits = user_data.salary_credits
+			user_data = EwPlayer(id_user=officer_id_user, id_server=id_server)
+			credits = user_data.salary_credits
 
-				# Prevent the user from obtaining negative slimecoin
-				if credits < 0 and user_data.slimecoin < (-1 * credits):
-					user_data.change_slimecoin(n=-user_data.slimecoin, coinsource=ewcfg.coinsource_salary)
-				else:
-					user_data.change_slimecoin(n=user_data.salary_credits, coinsource=ewcfg.coinsource_salary)
+			# Prevent the user from obtaining negative slimecoin
+			if credits < 0 and user_data.slimecoin < (-1 * credits):
+				user_data.change_slimecoin(n=-user_data.slimecoin, coinsource=ewcfg.coinsource_salary)
+			else:
+				user_data.change_slimecoin(n=user_data.salary_credits, coinsource=ewcfg.coinsource_salary)
 
-				user_data.persist()
-	finally:
-		cursor.close()
-		databaseClose(conn_info)
+			user_data.persist()
 
-# Give Brimstone Programmer role to a member
+
 async def make_bp(cmd):
+	"""Give Brimstone Programmer role to a member \n
+
+	Arguments:
+		'cmd': EwCmd -- Command object that called this function \n
+
+	Returns: string -- Message to be displayed in the discord
+	"""	
 	return
 	if EwPlayer(member = cmd.message.author).life_state != ewcfg.life_state_kingpin and not cmd.author_id.admin:
 		return

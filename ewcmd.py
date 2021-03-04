@@ -2787,67 +2787,67 @@ async def gvs_print_grid(cmd):
 	
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, full_grid_response))
 
-async def gvs_print_lane(cmd):
-	author = cmd.message.author
-	user_data = EwPlayer(member=author)
+# async def gvs_print_lane(cmd):
+# 	author = cmd.message.author
+# 	user_data = EwPlayer(member=author)
 
-	debug = False
+# 	debug = False
 	
-	response = ""
-	if cmd.tokens_count != 2:
-		response = "Which lane do you want to check? Options are A, B, C, D, or E"
-	else:
-		chosen_lane = cmd.tokens[1].lower()
-		lanes = ['a', 'b', 'c', 'd', 'e']
+# 	response = ""
+# 	if cmd.tokens_count != 2:
+# 		response = "Which lane do you want to check? Options are A, B, C, D, or E"
+# 	else:
+# 		chosen_lane = cmd.tokens[1].lower()
+# 		lanes = ['a', 'b', 'c', 'd', 'e']
 		
-		if chosen_lane not in lanes:
-			response = "That's not a valid lane, bitch."
-		else:
+# 		if chosen_lane not in lanes:
+# 			response = "That's not a valid lane, bitch."
+# 		else:
 			
-			lane_index = lanes.index(chosen_lane)
-			row_used = ewcfg.gvs_valid_coords_gaia[lane_index]
+# 			lane_index = lanes.index(chosen_lane)
+# 			row_used = ewcfg.gvs_valid_coords_gaia[lane_index]
 			
-			coord_sets = ewutils.gvs_create_gaia_lane_mapping(user_data, row_used)
+# 			coord_sets = ewutils.gvs_create_gaia_lane_mapping(user_data, row_used)
 			
-			counter = 0
-			for coord_set in coord_sets:
-				current_coord = row_used[counter]
-				counter += 1
+# 			counter = 0
+# 			for coord_set in coord_sets:
+# 				current_coord = row_used[counter]
+# 				counter += 1
 				
-				response += "\n**{}**: (".format(current_coord)
-				if len(coord_set) == 0:
-					response += "Empty"
-				else:
-					for enemy_id in coord_set:
-						if enemy_id == 'frozen':
-							response += "FROZEN"
-						else:
-							enemy_data = EwEnemy(id_server=user_data.id_server, id_enemy=enemy_id)
-							props = enemy_data.enemy_props
+# 				response += "\n**{}**: (".format(current_coord)
+# 				if len(coord_set) == 0:
+# 					response += "Empty"
+# 				else:
+# 					for enemy_id in coord_set:
+# 						if enemy_id == 'frozen':
+# 							response += "FROZEN"
+# 						else:
+# 							enemy_data = EwEnemy(id_server=user_data.id_server, id_enemy=enemy_id)
+# 							props = enemy_data.enemy_props
 							
-							if debug:
-								response += ewcfg.gvs_enemy_emote_map_debug[enemy_data.enemytype]
-								if props.get('joybean') == 'true':
-									response += "-{}".format(ewcfg.gvs_enemy_emote_map_debug[ewcfg.enemy_type_gaia_joybeans])
-								if props.get('metallicap') == 'true':
-									response += "-{}".format(ewcfg.gvs_enemy_emote_map_debug[ewcfg.enemy_type_gaia_metallicaps])
-								elif props.get('aushuck') == 'true':
-									response += "-{}".format(ewcfg.gvs_enemy_emote_map_debug[ewcfg.enemy_type_gaia_aushucks])
-							else:
-								response += ewcfg.gvs_enemy_emote_map[enemy_data.enemytype]
-								if props.get('joybean') == 'true':
-									response += "-{}".format(ewcfg.gvs_enemy_emote_map[ewcfg.enemy_type_gaia_joybeans])
-								if props.get('metallicap') == 'true':
-									response += "-{}".format(ewcfg.gvs_enemy_emote_map[ewcfg.enemy_type_gaia_metallicaps])
-								elif props.get('aushuck') == 'true':
-									response += "-{}".format(ewcfg.gvs_enemy_emote_map[ewcfg.enemy_type_gaia_aushucks])
+# 							if debug:
+# 								response += ewcfg.gvs_enemy_emote_map_debug[enemy_data.enemytype]
+# 								if props.get('joybean') == 'true':
+# 									response += "-{}".format(ewcfg.gvs_enemy_emote_map_debug[ewcfg.enemy_type_gaia_joybeans])
+# 								if props.get('metallicap') == 'true':
+# 									response += "-{}".format(ewcfg.gvs_enemy_emote_map_debug[ewcfg.enemy_type_gaia_metallicaps])
+# 								elif props.get('aushuck') == 'true':
+# 									response += "-{}".format(ewcfg.gvs_enemy_emote_map_debug[ewcfg.enemy_type_gaia_aushucks])
+# 							else:
+# 								response += ewcfg.gvs_enemy_emote_map[enemy_data.enemytype]
+# 								if props.get('joybean') == 'true':
+# 									response += "-{}".format(ewcfg.gvs_enemy_emote_map[ewcfg.enemy_type_gaia_joybeans])
+# 								if props.get('metallicap') == 'true':
+# 									response += "-{}".format(ewcfg.gvs_enemy_emote_map[ewcfg.enemy_type_gaia_metallicaps])
+# 								elif props.get('aushuck') == 'true':
+# 									response += "-{}".format(ewcfg.gvs_enemy_emote_map[ewcfg.enemy_type_gaia_aushucks])
 									
-							response += " "
+# 							response += " "
 					
-				response += ") "
+# 				response += ") "
 				
 
-	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def gvs_incubate_gaiaslimeoid(cmd):
 	user_data = EwPlayer(member=cmd.message.author)
@@ -3003,282 +3003,282 @@ async def almanac(cmd):
 
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-async def gvs_join_operation(cmd):
-	seedpackets = ewcfg.seedpacket_ids
-	tombstones = ewcfg.tombstone_ids
-	time_now = int(time.time())
+# async def gvs_join_operation(cmd):
+# 	seedpackets = ewcfg.seedpacket_ids
+# 	tombstones = ewcfg.tombstone_ids
+# 	time_now = int(time.time())
 
-	user_data = EwPlayer(member = cmd.message.author)
-	poi = ewcfg.id_to_poi.get(user_data.poi)
-	district_data = EwDistrict(district=user_data.poi, id_server=user_data.id_server)
+# 	user_data = EwPlayer(member = cmd.message.author)
+# 	poi = ewcfg.id_to_poi.get(user_data.poi)
+# 	district_data = EwDistrict(district=user_data.poi, id_server=user_data.id_server)
 	
-	response = ""
+# 	response = ""
 	
-	if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+# 	if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 	
-	if district_data.time_unlock > time_now:
+# 	if district_data.time_unlock > time_now:
 		
-		if int((district_data.time_unlock - time_now)/60) <= 1:
-			time_remaining = district_data.time_unlock - time_now
-			time_used = 'seconds'
-		else:
-			time_remaining = int((district_data.time_unlock - time_now)/60)
-			time_used = 'minutes'
+# 		if int((district_data.time_unlock - time_now)/60) <= 1:
+# 			time_remaining = district_data.time_unlock - time_now
+# 			time_used = 'seconds'
+# 		else:
+# 			time_remaining = int((district_data.time_unlock - time_now)/60)
+# 			time_used = 'minutes'
 		
-		response = "The area is too scarred from recent battles between the Garden Gankers and the Shamblers. It needs {} more {} to heal before you can start an operation here.".format(time_remaining, time_used)
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 		response = "The area is too scarred from recent battles between the Garden Gankers and the Shamblers. It needs {} more {} to heal before you can start an operation here.".format(time_remaining, time_used)
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 	
-	if not poi.is_district:
-		response = "Oi, dumbass! You can't join an operation if you aren't in a district zone, first!"
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	if not poi.is_district:
+# 		response = "Oi, dumbass! You can't join an operation if you aren't in a district zone, first!"
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	if user_data.life_state == ewcfg.life_state_juvenile:
-		faction = ewcfg.psuedo_faction_gankers
-	elif user_data.life_state == ewcfg.life_state_shambler:
-		faction = ewcfg.psuedo_faction_shamblers
-	else:
-		response = "Hey idiot, it's called *Gankers Vs. Shamblers!* No gangsters, ghosts, or SlimeCorp shills allowed!"
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	if user_data.life_state == ewcfg.life_state_juvenile:
+# 		faction = ewcfg.psuedo_faction_gankers
+# 	elif user_data.life_state == ewcfg.life_state_shambler:
+# 		faction = ewcfg.psuedo_faction_shamblers
+# 	else:
+# 		response = "Hey idiot, it's called *Gankers Vs. Shamblers!* No gangsters, ghosts, or SlimeCorp shills allowed!"
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 	
-	# if faction == ewcfg.psuedo_faction_gankers and district_data.degradation == 0:
-	# 	response = "This place is already fully rejuvenated! You'll have to try somewhere else."
-	# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-	# elif faction == ewcfg.psuedo_faction_shamblers and district_data.degradation == ewcfg.district_max_degradation:
-	# 	response = "This place is already fully shambled! You'll have to try somewhere else."
-	# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-	if poi.id_poi in [ewcfg.poi_id_juviesrow, ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown]:
-		response = "This place is too heavily guarded. Trying to pull of an operation here strikes you as downright stupid."
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-	elif poi.id_poi == ewcfg.poi_id_thevoid:
-		response = "Wow, great idea shithead, this sure is prime real estate you're trying to take over here in the middle of fucking nowhere. Try somewhere else."
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-	elif poi.id_poi in [ewcfg.poi_id_assaultflatsbeach, ewcfg.poi_id_oozegardens]:
-		response = "It would be reckless to try and start an operation so close to the base of the {}. You'll have to try somewhere else.".format('Garden Gankers' if poi.id_poi == ewcfg.poi_id_oozegardens else 'Shamblers')
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	# if faction == ewcfg.psuedo_faction_gankers and district_data.degradation == 0:
+# 	# 	response = "This place is already fully rejuvenated! You'll have to try somewhere else."
+# 	# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	# elif faction == ewcfg.psuedo_faction_shamblers and district_data.degradation == ewcfg.district_max_degradation:
+# 	# 	response = "This place is already fully shambled! You'll have to try somewhere else."
+# 	# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	if poi.id_poi in [ewcfg.poi_id_juviesrow, ewcfg.poi_id_rowdyroughhouse, ewcfg.poi_id_copkilltown]:
+# 		response = "This place is too heavily guarded. Trying to pull of an operation here strikes you as downright stupid."
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	elif poi.id_poi == ewcfg.poi_id_thevoid:
+# 		response = "Wow, great idea shithead, this sure is prime real estate you're trying to take over here in the middle of fucking nowhere. Try somewhere else."
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	elif poi.id_poi in [ewcfg.poi_id_assaultflatsbeach, ewcfg.poi_id_oozegardens]:
+# 		response = "It would be reckless to try and start an operation so close to the base of the {}. You'll have to try somewhere else.".format('Garden Gankers' if poi.id_poi == ewcfg.poi_id_oozegardens else 'Shamblers')
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	in_operation, op_poi = ewutils.gvs_check_if_in_operation(user_data)
-	if in_operation:
-		if op_poi != user_data.poi:
-			response = "You're already in an operation! If you wanna add another {}, you'll have to head to {}, first!".format('seed packet' if faction == ewcfg.psuedo_faction_gankers else 'tombstone', op_poi)
-			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	in_operation, op_poi = ewutils.gvs_check_if_in_operation(user_data)
+# 	if in_operation:
+# 		if op_poi != user_data.poi:
+# 			response = "You're already in an operation! If you wanna add another {}, you'll have to head to {}, first!".format('seed packet' if faction == ewcfg.psuedo_faction_gankers else 'tombstone', op_poi)
+# 			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	if cmd.tokens_count < 2:
-		response = "You need to select a {} first, dummy!".format('seed packet' if faction == ewcfg.psuedo_faction_gankers else 'tombstone')
-	else:
-		selected_item = ewutils.flattenTokenListToString(cmd.tokens[1:])
+# 	if cmd.tokens_count < 2:
+# 		response = "You need to select a {} first, dummy!".format('seed packet' if faction == ewcfg.psuedo_faction_gankers else 'tombstone')
+# 	else:
+# 		selected_item = ewutils.flattenTokenListToString(cmd.tokens[1:])
 		
-		# if faction == ewcfg.psuedo_faction_gankers:
-		# 	choices = seedpackets
-		# else:
-		# 	choices = tombstones
-		# 
-		# found_choice = False
-		# for choice in choices:
-		# 	if selected_item in choice:
-		# 		selected_item = choice
-		# 		found_choice = True
-		# 		break
-		# 	else:
-		# 		response = "That's not a valid {} you can select, bitch.".format('seed packet' if faction == ewcfg.psuedo_faction_gankers else 'tombstone')
-		# 		
-		# if not found_choice:
-		# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 		# if faction == ewcfg.psuedo_faction_gankers:
+# 		# 	choices = seedpackets
+# 		# else:
+# 		# 	choices = tombstones
+# 		# 
+# 		# found_choice = False
+# 		# for choice in choices:
+# 		# 	if selected_item in choice:
+# 		# 		selected_item = choice
+# 		# 		found_choice = True
+# 		# 		break
+# 		# 	else:
+# 		# 		response = "That's not a valid {} you can select, bitch.".format('seed packet' if faction == ewcfg.psuedo_faction_gankers else 'tombstone')
+# 		# 		
+# 		# if not found_choice:
+# 		# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 		
-		item_sought = ewitem.find_item(item_search=selected_item, id_user=user_data.id_user, id_server=user_data.id_server, item_type_filter=ewcfg.it_item)
+# 		item_sought = ewitem.find_item(item_search=selected_item, id_user=user_data.id_user, id_server=user_data.id_server, item_type_filter=ewcfg.it_item)
 		
-		if item_sought != None:
-			item = EwItem(id_item=item_sought.get('id_item'))
-			item_props = item.item_props
+# 		if item_sought != None:
+# 			item = EwItem(id_item=item_sought.get('id_item'))
+# 			item_props = item.item_props
 			
-			id_item = item_props.get('id_item')
-			if id_item != None:
-				if faction == ewcfg.psuedo_faction_gankers and id_item not in seedpackets:
-					response = "That's not a valid seed packet you can select, bitch."
-					return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-				elif faction == ewcfg.psuedo_faction_shamblers and id_item not in tombstones:
-					response = "That's not a valid tombstone you can select, bitch."
-					return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-			else:
-				response = "That's not a valid {} you can select, bitch.".format('seed packet' if faction == ewcfg.psuedo_faction_gankers else 'tombstone')
-				return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 			id_item = item_props.get('id_item')
+# 			if id_item != None:
+# 				if faction == ewcfg.psuedo_faction_gankers and id_item not in seedpackets:
+# 					response = "That's not a valid seed packet you can select, bitch."
+# 					return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 				elif faction == ewcfg.psuedo_faction_shamblers and id_item not in tombstones:
+# 					response = "That's not a valid tombstone you can select, bitch."
+# 					return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 			else:
+# 				response = "That's not a valid {} you can select, bitch.".format('seed packet' if faction == ewcfg.psuedo_faction_gankers else 'tombstone')
+# 				return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 				
-			if item_props.get('brainpower') != None:
-				brainpower = int(item_props.get('brainpower')) # Only for tombstones
-			else:
-				brainpower = 0
+# 			if item_props.get('brainpower') != None:
+# 				brainpower = int(item_props.get('brainpower')) # Only for tombstones
+# 			else:
+# 				brainpower = 0
 			
-			enemytype = item_props.get('enemytype')
+# 			enemytype = item_props.get('enemytype')
 			
-			is_duplicate = ewutils.gvs_check_operation_duplicate(user_data.id_user, user_data.poi, enemytype, faction)
+# 			is_duplicate = ewutils.gvs_check_operation_duplicate(user_data.id_user, user_data.poi, enemytype, faction)
 			
-			if is_duplicate:
-				if faction == ewcfg.psuedo_faction_gankers:
-					response = "What the hell are you doing? You've already selected that seed packet!"
-				else:
-					response = "Someone else already put down that tombstone."
-				return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 			if is_duplicate:
+# 				if faction == ewcfg.psuedo_faction_gankers:
+# 					response = "What the hell are you doing? You've already selected that seed packet!"
+# 				else:
+# 					response = "Someone else already put down that tombstone."
+# 				return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-			if faction == ewcfg.psuedo_faction_shamblers:
-				if district_data.horde_cooldown > time_now:
-					response = "You gotta wait another {} seconds before you can add another tombstone. Your zombie bones ain't what they used to be...".format(district_data.horde_cooldown - time_now)
-					return await ewutils.send_message(cmd.client, cmd.message.channel,  ewutils.formatMessage(cmd.message.author, response))
-				else:
-					district_data.horde_cooldown = time_now + brainpower
-					district_data.persist()
+# 			if faction == ewcfg.psuedo_faction_shamblers:
+# 				if district_data.horde_cooldown > time_now:
+# 					response = "You gotta wait another {} seconds before you can add another tombstone. Your zombie bones ain't what they used to be...".format(district_data.horde_cooldown - time_now)
+# 					return await ewutils.send_message(cmd.client, cmd.message.channel,  ewutils.formatMessage(cmd.message.author, response))
+# 				else:
+# 					district_data.horde_cooldown = time_now + brainpower
+# 					district_data.persist()
 					
-			limit_reached, current_limit = ewutils.gvs_check_operation_limit(user_data.id_user, user_data.poi, enemytype, faction)
+# 			limit_reached, current_limit = ewutils.gvs_check_operation_limit(user_data.id_user, user_data.poi, enemytype, faction)
 			
-			if limit_reached:
-				if faction == ewcfg.psuedo_faction_gankers:
-					response = "You can't select more than 6 seed packets at a time!"
-				else:
-					response = "There's not enough room for your tombstone! **(Current Tombstone Limit: {})**".format(current_limit)
-				return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 			if limit_reached:
+# 				if faction == ewcfg.psuedo_faction_gankers:
+# 					response = "You can't select more than 6 seed packets at a time!"
+# 				else:
+# 					response = "There's not enough room for your tombstone! **(Current Tombstone Limit: {})**".format(current_limit)
+# 				return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-			# await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "Are you sure? **!accept** or **!refuse**."))
+# 			# await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "Are you sure? **!accept** or **!refuse**."))
 
-			# # Wait for an answer
-			# accepted = False
-			# try:
-			# 	message = await cmd.client.wait_for_message(timeout=10, author=cmd.message.author, check=ewutils.check_accept_or_refuse)
-			# 
-			# 	if message != None:
-			# 		if message.content.lower() == "!accept":
-			# 			accepted = True
-			# 		if message.content.lower() == "!refuse":
-			# 			accepted = False
-			# except:
-			# 	accepted = False
-			accepted = True
+# 			# # Wait for an answer
+# 			# accepted = False
+# 			# try:
+# 			# 	message = await cmd.client.wait_for_message(timeout=10, author=cmd.message.author, check=ewutils.check_accept_or_refuse)
+# 			# 
+# 			# 	if message != None:
+# 			# 		if message.content.lower() == "!accept":
+# 			# 			accepted = True
+# 			# 		if message.content.lower() == "!refuse":
+# 			# 			accepted = False
+# 			# except:
+# 			# 	accepted = False
+# 			accepted = True
 				
-			if accepted:
+# 			if accepted:
 				
-				# Lock juveniles into the district for garden ops
-				if faction == ewcfg.psuedo_faction_gankers:
-					ewutils.moves_active[user_data.id_user] = 0
-					ewutils.active_restrictions[user_data.id_user] = 4
+# 				# Lock juveniles into the district for garden ops
+# 				if faction == ewcfg.psuedo_faction_gankers:
+# 					ewutils.moves_active[user_data.id_user] = 0
+# 					ewutils.active_restrictions[user_data.id_user] = 4
 				
-				# If there are no player-generated operations, then the bot will simply spawn in ones automatically.
-				enemyfaction = ewcfg.psuedo_faction_gankers if faction == ewcfg.psuedo_faction_shamblers else ewcfg.psuedo_faction_shamblers
-				opposing_ops = ewutils.execute_sql_query("SELECT enemytype FROM gvs_ops_choices WHERE district = '{}' AND faction = '{}'".format(user_data.poi, enemyfaction))
-				if len(opposing_ops) == 0:
-					ewutils.gvs_insert_bot_ops(user_data.id_server, user_data.poi, enemyfaction)
-					# print('spawning in bot ops...')
+# 				# If there are no player-generated operations, then the bot will simply spawn in ones automatically.
+# 				enemyfaction = ewcfg.psuedo_faction_gankers if faction == ewcfg.psuedo_faction_shamblers else ewcfg.psuedo_faction_shamblers
+# 				opposing_ops = ewutils.execute_sql_query("SELECT enemytype FROM gvs_ops_choices WHERE district = '{}' AND faction = '{}'".format(user_data.poi, enemyfaction))
+# 				if len(opposing_ops) == 0:
+# 					ewutils.gvs_insert_bot_ops(user_data.id_server, user_data.poi, enemyfaction)
+# 					# print('spawning in bot ops...')
 				
-				if in_operation:
-					if faction == ewcfg.psuedo_faction_gankers:
-						response = "You add your {} to the Garden Op".format(item_props.get('item_name'))
-					else:
-						response = "You add your {} to the Graveyard Op".format(item_props.get('item_name'))
-						response += "\n(You and your allies can add another one in {} seconds.)".format(brainpower)
-				else:
-					if faction == ewcfg.psuedo_faction_gankers:
-						response = "You ready up for a Garden Op in {} with your {}. *Ready, set, PLANT!*".format(poi.str_name, item_props.get('item_name'))
-						district_data.gaiaslime += 50
-						district_data.persist()
-					else:
-						response = "You place down your {} in {} and get ready for a Graveyard Op. *Ready, set, BRRRRAAAAAIIINNNNZZZZ!*".format(item_props.get('item_name'), poi.str_name)
-						response += "\n(You and your allies can add another one in {} seconds.)".format(brainpower)
+# 				if in_operation:
+# 					if faction == ewcfg.psuedo_faction_gankers:
+# 						response = "You add your {} to the Garden Op".format(item_props.get('item_name'))
+# 					else:
+# 						response = "You add your {} to the Graveyard Op".format(item_props.get('item_name'))
+# 						response += "\n(You and your allies can add another one in {} seconds.)".format(brainpower)
+# 				else:
+# 					if faction == ewcfg.psuedo_faction_gankers:
+# 						response = "You ready up for a Garden Op in {} with your {}. *Ready, set, PLANT!*".format(poi.str_name, item_props.get('item_name'))
+# 						district_data.gaiaslime += 50
+# 						district_data.persist()
+# 					else:
+# 						response = "You place down your {} in {} and get ready for a Graveyard Op. *Ready, set, BRRRRAAAAAIIINNNNZZZZ!*".format(item_props.get('item_name'), poi.str_name)
+# 						response += "\n(You and your allies can add another one in {} seconds.)".format(brainpower)
 						
 				
-				# durability = int(item_props.get('durability'))
+# 				# durability = int(item_props.get('durability'))
 				
-				if faction == ewcfg.psuedo_faction_shamblers:
-					shambler_stock = int(item_props.get('stock'))
-				else:
-					shambler_stock = 0
+# 				if faction == ewcfg.psuedo_faction_shamblers:
+# 					shambler_stock = int(item_props.get('stock'))
+# 				else:
+# 					shambler_stock = 0
 				
-				# if durability > 1:
-				# 	item.item_props['durability'] = durability - 1
-				# 	item.persist()
-				# 	response += "\n(Your {}'s durability has been lowered)".format(item_props.get('item_name'))
-				# else:
-				# 	ewitem.item_delete(item.id_item)
-				# 	response += "\n(Your {} has been used up completely)".format(item_props.get('item_name'))	
+# 				# if durability > 1:
+# 				# 	item.item_props['durability'] = durability - 1
+# 				# 	item.persist()
+# 				# 	response += "\n(Your {}'s durability has been lowered)".format(item_props.get('item_name'))
+# 				# else:
+# 				# 	ewitem.item_delete(item.id_item)
+# 				# 	response += "\n(Your {} has been used up completely)".format(item_props.get('item_name'))	
 
-				op_data = EwOperationData(
-					id_user=user_data.id_user,
-					district=user_data.poi, 
-					enemytype=enemytype, 
-					faction=faction, 
-					id_item=item_sought.get('id_item'), 
-					shambler_stock=shambler_stock
-				)
-				op_data.persist()
+# 				op_data = EwOperationData(
+# 					id_user=user_data.id_user,
+# 					district=user_data.poi, 
+# 					enemytype=enemytype, 
+# 					faction=faction, 
+# 					id_item=item_sought.get('id_item'), 
+# 					shambler_stock=shambler_stock
+# 				)
+# 				op_data.persist()
 				
-			else:
-				response = "Well, perhaps some other time, then."
+# 			else:
+# 				response = "Well, perhaps some other time, then."
 			
-		else:
-			response = "Are you sure you have that {}? Try using **!inv**".format('seed packet' if faction == ewcfg.psuedo_faction_gankers else 'tombstone')
+# 		else:
+# 			response = "Are you sure you have that {}? Try using **!inv**".format('seed packet' if faction == ewcfg.psuedo_faction_gankers else 'tombstone')
 
-	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-async def gvs_leave_operation(cmd):
-	user_data = EwPlayer(member = cmd.message.author)
+# async def gvs_leave_operation(cmd):
+# 	user_data = EwPlayer(member = cmd.message.author)
 	
-	if user_data.life_state == ewcfg.life_state_juvenile:
-		faction = ewcfg.psuedo_faction_gankers
-	elif user_data.life_state == ewcfg.life_state_shambler:
-		faction = ewcfg.psuedo_faction_shamblers
-	else:
-		return
+# 	if user_data.life_state == ewcfg.life_state_juvenile:
+# 		faction = ewcfg.psuedo_faction_gankers
+# 	elif user_data.life_state == ewcfg.life_state_shambler:
+# 		faction = ewcfg.psuedo_faction_shamblers
+# 	else:
+# 		return
 
-	in_operation, op_poi = ewutils.gvs_check_if_in_operation(user_data)
-	if not in_operation:
-		response = "You aren't even *in* an operation."
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	in_operation, op_poi = ewutils.gvs_check_if_in_operation(user_data)
+# 	if not in_operation:
+# 		response = "You aren't even *in* an operation."
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "Are you sure? **!accept** or **!refuse**."))
+# 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "Are you sure? **!accept** or **!refuse**."))
 
-	# Wait for an answer
-	accepted = False
-	try:
+# 	# Wait for an answer
+# 	accepted = False
+# 	try:
 
-		message = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == cmd.message.author and message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
+# 		message = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == cmd.message.author and message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
 
-		if message != None:
-			if message.content.lower() == "!accept":
-				accepted = True
-			if message.content.lower() == "!refuse":
-				accepted = False
-	except:
-		accepted = False
+# 		if message != None:
+# 			if message.content.lower() == "!accept":
+# 				accepted = True
+# 			if message.content.lower() == "!refuse":
+# 				accepted = False
+# 	except:
+# 		accepted = False
 
-	if accepted:
-		ewutils.active_restrictions[user_data.id_user] = 0
+# 	if accepted:
+# 		ewutils.active_restrictions[user_data.id_user] = 0
 		
-		items = ewutils.execute_sql_query("SELECT id_item FROM gvs_ops_choices WHERE id_user = '{}'".format(user_data.id_user))
-		ewutils.execute_sql_query("DELETE FROM gvs_ops_choices WHERE id_user = '{}'".format(user_data.id_user))
-		await delete_all_enemies(cmd=None, query_suffix="AND owner = '{}' AND poi = '{}'".format(user_data.id_user, user_data.poi), id_server_sent=user_data.id_server)
+# 		items = ewutils.execute_sql_query("SELECT id_item FROM gvs_ops_choices WHERE id_user = '{}'".format(user_data.id_user))
+# 		ewutils.execute_sql_query("DELETE FROM gvs_ops_choices WHERE id_user = '{}'".format(user_data.id_user))
+# 		await delete_all_enemies(cmd=None, query_suffix="AND owner = '{}' AND poi = '{}'".format(user_data.id_user, user_data.poi), id_server_sent=user_data.id_server)
 		
-		response = "You drop out of your {} Op in {}.".format('Garden' if faction == ewcfg.psuedo_faction_gankers else 'Graveyard', op_poi)
+# 		response = "You drop out of your {} Op in {}.".format('Garden' if faction == ewcfg.psuedo_faction_gankers else 'Graveyard', op_poi)
 		
-		for item in items:
-			item_data = EwItem(id_item=item)
-			durability = int(item_data.item_props.get('durability'))
+# 		for item in items:
+# 			item_data = EwItem(id_item=item)
+# 			durability = int(item_data.item_props.get('durability'))
 			
-			if faction == ewcfg.psuedo_faction_gankers:
-				if durability > 1:
-					item_data.item_props['durability'] = durability - 1
-					item_data.persist()
-					response += "\n(Your {}'s durability has been lowered)".format(item_data.item_props.get('item_name'))
-				else:
-					ewitem.item_delete(item)
-					response += "\n(Your {} has been used up completely)".format(item_data.item_props.get('item_name'))
+# 			if faction == ewcfg.psuedo_faction_gankers:
+# 				if durability > 1:
+# 					item_data.item_props['durability'] = durability - 1
+# 					item_data.persist()
+# 					response += "\n(Your {}'s durability has been lowered)".format(item_data.item_props.get('item_name'))
+# 				else:
+# 					ewitem.item_delete(item)
+# 					response += "\n(Your {} has been used up completely)".format(item_data.item_props.get('item_name'))
 				
-			else:
-				# To prevent shamblers from re-stocking operations with tombstones, they are destroyed upon leaving a graveyard op.
-				ewitem.item_delete(item)
-				response += "\n(Your {} has been used up completely)".format(item_data.item_props.get('item_name'))
+# 			else:
+# 				# To prevent shamblers from re-stocking operations with tombstones, they are destroyed upon leaving a graveyard op.
+# 				ewitem.item_delete(item)
+# 				response += "\n(Your {} has been used up completely)".format(item_data.item_props.get('item_name'))
 		
-		response += "\nAll your Gaiaslimeoids in {} wilt and die.".format(op_poi) if faction == ewcfg.psuedo_faction_gankers else "All the shamblers belonging to your tombstone in {} fall apart and collapse onto the ground.".format(op_poi)
+# 		response += "\nAll your Gaiaslimeoids in {} wilt and die.".format(op_poi) if faction == ewcfg.psuedo_faction_gankers else "All the shamblers belonging to your tombstone in {} fall apart and collapse onto the ground.".format(op_poi)
 		
-	else:
-		response = "Well, perhaps some other time, then."
+# 	else:
+# 		response = "Well, perhaps some other time, then."
 		
-	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def gvs_check_operations(cmd):
 	
@@ -3318,166 +3318,166 @@ async def gvs_check_operations(cmd):
 
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-async def gvs_plant_gaiaslimeoid(cmd):
-	seedpackets = ewcfg.seedpacket_ids
-	time_now = int(time.time())
+# async def gvs_plant_gaiaslimeoid(cmd):
+# 	seedpackets = ewcfg.seedpacket_ids
+# 	time_now = int(time.time())
 
-	user_data = EwPlayer(member=cmd.message.author)
-	poi = ewcfg.id_to_poi.get(user_data.poi)
-	district_data = EwDistrict(district=user_data.poi, id_server=user_data.id_server)
+# 	user_data = EwPlayer(member=cmd.message.author)
+# 	poi = ewcfg.id_to_poi.get(user_data.poi)
+# 	district_data = EwDistrict(district=user_data.poi, id_server=user_data.id_server)
 	
-	if not user_data.life_state == ewcfg.life_state_juvenile:
-		response = "Only Juveniles of pure heart can lay down Gaiaslimeoids on the field."
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	if not user_data.life_state == ewcfg.life_state_juvenile:
+# 		response = "Only Juveniles of pure heart can lay down Gaiaslimeoids on the field."
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
-	if not poi.is_district:
-		response = "You can't plant a Gaiaslimeoid here, dummy!"
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
+# 	if not poi.is_district:
+# 		response = "You can't plant a Gaiaslimeoid here, dummy!"
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	in_operation, op_poi = ewutils.gvs_check_if_in_operation(user_data)
-	if not in_operation:
-		response = "You aren't even *in* an operation."
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-	elif user_data.poi != op_poi:
-		response = "You can't plant a Gaiaslimeoid here, dummy! Try heading to {}.".format(ewcfg.id_to_poi.get(op_poi).str_name)
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	in_operation, op_poi = ewutils.gvs_check_if_in_operation(user_data)
+# 	if not in_operation:
+# 		response = "You aren't even *in* an operation."
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	elif user_data.poi != op_poi:
+# 		response = "You can't plant a Gaiaslimeoid here, dummy! Try heading to {}.".format(ewcfg.id_to_poi.get(op_poi).str_name)
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 
-	if cmd.tokens_count < 3:
-		response = "You need to select a coordinate and seed packet, dummy!"
-	else:
-		coord = cmd.tokens[1].upper()
-		selected_item = ewutils.flattenTokenListToString(cmd.tokens[2:])
-		valid_coord = False
+# 	if cmd.tokens_count < 3:
+# 		response = "You need to select a coordinate and seed packet, dummy!"
+# 	else:
+# 		coord = cmd.tokens[1].upper()
+# 		selected_item = ewutils.flattenTokenListToString(cmd.tokens[2:])
+# 		valid_coord = False
 		
-		for row in ewcfg.gvs_valid_coords_gaia:
-			if coord in row:
-				valid_coord = True
-				break
+# 		for row in ewcfg.gvs_valid_coords_gaia:
+# 			if coord in row:
+# 				valid_coord = True
+# 				break
 				
-		if not valid_coord:
-			response = "That's not a valid coordinate, bitch."
-			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 		if not valid_coord:
+# 			response = "That's not a valid coordinate, bitch."
+# 			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-		# choices = seedpackets
-		# 
-		# found_choice = False
-		# for choice in choices:
-		# 	if selected_item in choice:
-		# 		selected_item = choice
-		# 		found_choice = True
-		# 		break
-		# 	else:
-		# 		response = "That's not a valid seed packet you can select, bitch. (Hint: !plant [coord] [seed packet])"
-		# 
-		# if not found_choice or invalid_coord:
-		# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 		# choices = seedpackets
+# 		# 
+# 		# found_choice = False
+# 		# for choice in choices:
+# 		# 	if selected_item in choice:
+# 		# 		selected_item = choice
+# 		# 		found_choice = True
+# 		# 		break
+# 		# 	else:
+# 		# 		response = "That's not a valid seed packet you can select, bitch. (Hint: !plant [coord] [seed packet])"
+# 		# 
+# 		# if not found_choice or invalid_coord:
+# 		# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-		item_sought = ewitem.find_item(item_search=selected_item, id_user=cmd.message.author.id, id_server=user_data.id_server, item_type_filter=ewcfg.it_item)
-		if item_sought != None:
-			item = EwItem(id_item=item_sought.get('id_item'))
-			item_props = item.item_props
+# 		item_sought = ewitem.find_item(item_search=selected_item, id_user=cmd.message.author.id, id_server=user_data.id_server, item_type_filter=ewcfg.it_item)
+# 		if item_sought != None:
+# 			item = EwItem(id_item=item_sought.get('id_item'))
+# 			item_props = item.item_props
 
-			id_item = item_props.get('id_item')
-			if id_item != None:
-				if id_item not in seedpackets:
-					response = "That's not a valid seed packet you can select, bitch."
-					return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-			else:
-				response = "That's not a valid seed packet you can select, bitch."
-				return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 			id_item = item_props.get('id_item')
+# 			if id_item != None:
+# 				if id_item not in seedpackets:
+# 					response = "That's not a valid seed packet you can select, bitch."
+# 					return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 			else:
+# 				response = "That's not a valid seed packet you can select, bitch."
+# 				return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-			enemytype = item_props.get('enemytype')
-			cooldown = int(item_props.get('cooldown'))
-			cost = int(item_props.get('cost'))
-			time_nextuse = int(item_props.get('time_nextuse'))
+# 			enemytype = item_props.get('enemytype')
+# 			cooldown = int(item_props.get('cooldown'))
+# 			cost = int(item_props.get('cost'))
+# 			time_nextuse = int(item_props.get('time_nextuse'))
 			
-			if cost > district_data.gaiaslime:
-				response = "There's not enough Gaiaslime to go around! ({}/{})".format(district_data.gaiaslime, cost)
-			elif time_nextuse > time_now:
-				response = "You need to wait {} seconds before you can plant that Gaiaslimeoid down.".format(time_nextuse - time_now)
-			else:
-				item.item_props['time_nextuse'] = time_now + cooldown
-				item.persist()
+# 			if cost > district_data.gaiaslime:
+# 				response = "There's not enough Gaiaslime to go around! ({}/{})".format(district_data.gaiaslime, cost)
+# 			elif time_nextuse > time_now:
+# 				response = "You need to wait {} seconds before you can plant that Gaiaslimeoid down.".format(time_nextuse - time_now)
+# 			else:
+# 				item.item_props['time_nextuse'] = time_now + cooldown
+# 				item.persist()
 				
-				gaias_in_coord = ewutils.gvs_get_gaias_from_coord(user_data.poi, coord)
+# 				gaias_in_coord = ewutils.gvs_get_gaias_from_coord(user_data.poi, coord)
 				
-				if len(gaias_in_coord) > 0:
-					for gaia in gaias_in_coord.keys():
-						enemy_data = EwEnemy(id_enemy=gaias_in_coord[gaia])
+# 				if len(gaias_in_coord) > 0:
+# 					for gaia in gaias_in_coord.keys():
+# 						enemy_data = EwEnemy(id_enemy=gaias_in_coord[gaia])
 						
-						if enemytype == gaia:
-							if gaia in ewcfg.repairable_gaias:
-								enemy_data.slime = enemy_data.initialslimes
-								district_data.gaiaslime -= cost
-								enemy_data.persist()
-								district_data.persist()
+# 						if enemytype == gaia:
+# 							if gaia in ewcfg.repairable_gaias:
+# 								enemy_data.slime = enemy_data.initialslimes
+# 								district_data.gaiaslime -= cost
+# 								enemy_data.persist()
+# 								district_data.persist()
 	
-								response = "The {} in {} was fully repaired!".format(enemy_data.name, enemy_data.gvs_coord)
-								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-							else:
-								response = "There's already a {} in that coordinate!".format(enemy_data.name)
-								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-						else:
-							if enemy_data.enemy_props.get('joybean') == 'true' and enemytype == ewcfg.enemy_type_gaia_joybeans:
-								response = "A Joybean has already been planted there."
-								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-							elif enemy_data.enemy_props.get('metallicaps') == 'true' and enemytype == ewcfg.enemy_type_gaia_metallicaps:
-								response = "A Metallicap has already been planted there."
-								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-							elif enemy_data.enemy_props.get('aushucks') == 'true' and enemytype == ewcfg.enemy_type_gaia_aushucks:
-								response = "An Aushuck has already been planted there."
-								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-							else:
-								response = "There's already a {} in that coordinate!".format(enemy_data.name)
-								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 								response = "The {} in {} was fully repaired!".format(enemy_data.name, enemy_data.gvs_coord)
+# 								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 							else:
+# 								response = "There's already a {} in that coordinate!".format(enemy_data.name)
+# 								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 						else:
+# 							if enemy_data.enemy_props.get('joybean') == 'true' and enemytype == ewcfg.enemy_type_gaia_joybeans:
+# 								response = "A Joybean has already been planted there."
+# 								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 							elif enemy_data.enemy_props.get('metallicaps') == 'true' and enemytype == ewcfg.enemy_type_gaia_metallicaps:
+# 								response = "A Metallicap has already been planted there."
+# 								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 							elif enemy_data.enemy_props.get('aushucks') == 'true' and enemytype == ewcfg.enemy_type_gaia_aushucks:
+# 								response = "An Aushuck has already been planted there."
+# 								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 							else:
+# 								response = "There's already a {} in that coordinate!".format(enemy_data.name)
+# 								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-					district_data.gaiaslime -= cost
-					district_data.persist()
+# 					district_data.gaiaslime -= cost
+# 					district_data.persist()
 
-					resp_cont = spawn_enemy(
-						id_server=user_data.id_server,
-						pre_chosen_type=enemytype,
-						pre_chosen_level=50,
-						pre_chosen_poi=user_data.poi,
-						pre_chosen_identifier='',
-						pre_chosen_faction=ewcfg.psuedo_faction_gankers,
-						pre_chosen_owner=user_data.id_user,
-						pre_chosen_coord=coord,
-						manual_spawn=True,
-					)
+# 					resp_cont = spawn_enemy(
+# 						id_server=user_data.id_server,
+# 						pre_chosen_type=enemytype,
+# 						pre_chosen_level=50,
+# 						pre_chosen_poi=user_data.poi,
+# 						pre_chosen_identifier='',
+# 						pre_chosen_faction=ewcfg.psuedo_faction_gankers,
+# 						pre_chosen_owner=user_data.id_user,
+# 						pre_chosen_coord=coord,
+# 						manual_spawn=True,
+# 					)
 
-					return await resp_cont.post()
+# 					return await resp_cont.post()
 					
-				else:
-					if enemytype == ewcfg.enemy_type_gaia_metallicaps:
-						response = "Metallicaps must be planted on top of attacking Gaiaslimeoids."
-					elif enemytype == ewcfg.enemy_type_gaia_aushucks:
-						response = "Aushucks must first be planted on top of existing Gaiaslimeoids."
-					else:
-						district_data.gaiaslime -= cost
-						district_data.persist()
+# 				else:
+# 					if enemytype == ewcfg.enemy_type_gaia_metallicaps:
+# 						response = "Metallicaps must be planted on top of attacking Gaiaslimeoids."
+# 					elif enemytype == ewcfg.enemy_type_gaia_aushucks:
+# 						response = "Aushucks must first be planted on top of existing Gaiaslimeoids."
+# 					else:
+# 						district_data.gaiaslime -= cost
+# 						district_data.persist()
 						
-						resp_cont = spawn_enemy(
-							id_server = user_data.id_server,
-							pre_chosen_type=enemytype,
-							pre_chosen_level=50,
-							pre_chosen_poi=user_data.poi,
-							pre_chosen_identifier='',
-							pre_chosen_faction=ewcfg.psuedo_faction_gankers,
-							pre_chosen_owner=user_data.id_user,
-							pre_chosen_coord=coord,
-							manual_spawn=True,
-						)
+# 						resp_cont = spawn_enemy(
+# 							id_server = user_data.id_server,
+# 							pre_chosen_type=enemytype,
+# 							pre_chosen_level=50,
+# 							pre_chosen_poi=user_data.poi,
+# 							pre_chosen_identifier='',
+# 							pre_chosen_faction=ewcfg.psuedo_faction_gankers,
+# 							pre_chosen_owner=user_data.id_user,
+# 							pre_chosen_coord=coord,
+# 							manual_spawn=True,
+# 						)
 						
-						return await resp_cont.post()
+# 						return await resp_cont.post()
 
-		else:
-			response = "Are you sure you have that seed packet? Try using **!inv**"
+# 		else:
+# 			response = "Are you sure you have that seed packet? Try using **!inv**"
 
-	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def gvs_progress(cmd):
 	
@@ -3538,157 +3538,157 @@ async def gvs_progress(cmd):
 """ Dig up a gaiaslimeoid """
 
 
-async def dig(cmd): # TODO  zen garden functionality
+# async def dig(cmd): # TODO  zen garden functionality
 
-	if cmd.tokens_count < 2:
-		response = 'Specify which coordinate you want to dig up.'
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	if cmd.tokens_count < 2:
+# 		response = 'Specify which coordinate you want to dig up.'
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	user_data = EwPlayer(member=cmd.message.author)
+# 	user_data = EwPlayer(member=cmd.message.author)
 
-	if user_data.life_state == ewcfg.life_state_shambler:
-		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	if user_data.life_state == ewcfg.life_state_shambler:
+# 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	weapon_item = EwItem(id_item=user_data.weapon)
+# 	weapon_item = EwItem(id_item=user_data.weapon)
 
-	if weapon_item.item_props.get("weapon_type") != ewcfg.weapon_id_shovel:
-		response = "You can't dig Gaiaslimeoids without a shovel, dumbass. Buy one from Hortisolis at the Atomic Forest in Ooze Gardens Farms!"
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	if weapon_item.item_props.get("weapon_type") != ewcfg.weapon_id_shovel:
+# 		response = "You can't dig Gaiaslimeoids without a shovel, dumbass. Buy one from Hortisolis at the Atomic Forest in Ooze Gardens Farms!"
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	coord = cmd.tokens[1].upper()
-	is_garden = False
+# 	coord = cmd.tokens[1].upper()
+# 	is_garden = False
 
-	# Look for gaiaslimeoid
-	gaias = ewutils.gvs_get_gaias_from_coord(user_data.poi, coord)
+# 	# Look for gaiaslimeoid
+# 	gaias = ewutils.gvs_get_gaias_from_coord(user_data.poi, coord)
 
-	dig_low_priority = [ewcfg.enemy_type_gaia_rustealeaves]
-	dig_mid_priority = []
-	dig_high_priority = [ewcfg.enemy_type_gaia_steelbeans]
+# 	dig_low_priority = [ewcfg.enemy_type_gaia_rustealeaves]
+# 	dig_mid_priority = []
+# 	dig_high_priority = [ewcfg.enemy_type_gaia_steelbeans]
 	
-	# ID of gaiaslimeoid found
-	dig_target = None
+# 	# ID of gaiaslimeoid found
+# 	dig_target = None
 
-	for enemy_id in ewcfg.gvs_enemies_gaiaslimeoids:
-		if enemy_id not in dig_low_priority and enemy_id not in dig_high_priority:
-			dig_mid_priority.append(enemy_id)
+# 	for enemy_id in ewcfg.gvs_enemies_gaiaslimeoids:
+# 		if enemy_id not in dig_low_priority and enemy_id not in dig_high_priority:
+# 			dig_mid_priority.append(enemy_id)
 			
-	type_to_id_map = {}
-	for id in gaias.keys():
-		type = gaias[id]
-		type_to_id_map[type] = id
+# 	type_to_id_map = {}
+# 	for id in gaias.keys():
+# 		type = gaias[id]
+# 		type_to_id_map[type] = id
 
-	for target in dig_high_priority:
-		if target in type_to_id_map.keys():
-			dig_target = type_to_id_map[target]
+# 	for target in dig_high_priority:
+# 		if target in type_to_id_map.keys():
+# 			dig_target = type_to_id_map[target]
 
-	for target in dig_mid_priority:
-		if target in type_to_id_map.keys():
-			dig_target = type_to_id_map[target]
+# 	for target in dig_mid_priority:
+# 		if target in type_to_id_map.keys():
+# 			dig_target = type_to_id_map[target]
 
-	for target in dig_low_priority:
-		if target in type_to_id_map.keys():
-			dig_target = type_to_id_map[target]
+# 	for target in dig_low_priority:
+# 		if target in type_to_id_map.keys():
+# 			dig_target = type_to_id_map[target]
 
-	# is_garden = if it was a garden
+# 	# is_garden = if it was a garden
 
-	if dig_target is None:
-		response = "There are no Gaiaslimeoids here."
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	if dig_target is None:
+# 		response = "There are no Gaiaslimeoids here."
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	if not is_garden:
+# 	if not is_garden:
 
-		enemy = EwEnemy(id_server=user_data.id_server, id_enemy=dig_target)
-		delete_enemy(enemy)
+# 		enemy = EwEnemy(id_server=user_data.id_server, id_enemy=dig_target)
+# 		delete_enemy(enemy)
 
-		if random.random() < 0.8:  # 90% chance to fail
-			response = "You dig up a {} Gaiaslimeoid."
-			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 		if random.random() < 0.8:  # 90% chance to fail
+# 			response = "You dig up a {} Gaiaslimeoid."
+# 			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-		ewitem.item_create(
-			item_type=ewcfg.it_item,
-			id_user=cmd.message.author.id,
-			id_server=cmd.guild.id,
-			item_props={
-				'id_item': ewcfg.item_id_gaiaslimeoid_pot,
-				'item_name': "Pot containing a {} Gaiaslimeoid".format(enemy.name),
-				'item_desc': "It's a pot with a {} foot-tall {} Gaiaslimeoid. You can place it in a zen garden or sell it to Hortisolis.".format("{size}", enemy.name),
-				'time_lastslimed': int(time.time()),
-				'size': 1,
-				'gaiaslimeoid': enemy.enemytype
-			}
-		)
+# 		ewitem.item_create(
+# 			item_type=ewcfg.it_item,
+# 			id_user=cmd.message.author.id,
+# 			id_server=cmd.guild.id,
+# 			item_props={
+# 				'id_item': ewcfg.item_id_gaiaslimeoid_pot,
+# 				'item_name': "Pot containing a {} Gaiaslimeoid".format(enemy.name),
+# 				'item_desc': "It's a pot with a {} foot-tall {} Gaiaslimeoid. You can place it in a zen garden or sell it to Hortisolis.".format("{size}", enemy.name),
+# 				'time_lastslimed': int(time.time()),
+# 				'size': 1,
+# 				'gaiaslimeoid': enemy.enemytype
+# 			}
+# 		)
 
-		response = "You dig up a {} Gaiaslimeoid and place it in a pot!".format(enemy.name)
+# 		response = "You dig up a {} Gaiaslimeoid and place it in a pot!".format(enemy.name)
 
-	else:
-		response = "Placeholder zen garden dig"
-	# change owner
+# 	else:
+# 		response = "Placeholder zen garden dig"
+# 	# change owner
 
-	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 
 """ Sell a potted gaiaslimeoid to Hortisolis """
-async def gvs_sell_gaiaslimeoid(cmd):
-	user_data = EwPlayer(member=cmd.message.author)
+# async def gvs_sell_gaiaslimeoid(cmd):
+# 	user_data = EwPlayer(member=cmd.message.author)
 
-	if user_data.life_state == ewcfg.life_state_shambler:
-		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	if user_data.life_state == ewcfg.life_state_shambler:
+# 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	# Only at the Atomic Forest
-	if user_data.poi != ewcfg.poi_id_og_farms:
-		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "You have to be in the Atomic Forest to sell your Gaiaslimeoids."))
+# 	# Only at the Atomic Forest
+# 	if user_data.poi != ewcfg.poi_id_og_farms:
+# 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "You have to be in the Atomic Forest to sell your Gaiaslimeoids."))
 
-	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
-	item_sought = ewitem.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=cmd.guild.id, item_type_filter=ewcfg.it_item)
+# 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
+# 	item_sought = ewitem.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=cmd.guild.id, item_type_filter=ewcfg.it_item)
 
-	if item_sought:
-		gaiaslimeoid = EwItem(id_item=item_sought.get('id_item'))
+# 	if item_sought:
+# 		gaiaslimeoid = EwItem(id_item=item_sought.get('id_item'))
 
-		if gaiaslimeoid.item_props.get('id_item') != ewcfg.item_id_gaiaslimeoid_pot:
-			response = "Hortisolis politely refuses that item. He informs you that it is not a potted Gaiaslimeoid."
-			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 		if gaiaslimeoid.item_props.get('id_item') != ewcfg.item_id_gaiaslimeoid_pot:
+# 			response = "Hortisolis politely refuses that item. He informs you that it is not a potted Gaiaslimeoid."
+# 			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-		slime_gain = 20000 * int(gaiaslimeoid.item_props.get('size'))
+# 		slime_gain = 20000 * int(gaiaslimeoid.item_props.get('size'))
 
-		gaia_type = gaiaslimeoid.item_props.get('gaiaslimeoid')
+# 		gaia_type = gaiaslimeoid.item_props.get('gaiaslimeoid')
 
-		response = 'Hortisolis speaks in a boisterous manner:\n"FOR THOUST {} GAIASLIMEOID, I SUBMIT {} SLIME. DO YOU {}, OR WOULD YOU RATHER {}?"'.format(gaia_type, slime_gain, ewcfg.cmd_accept, ewcfg.cmd_refuse)
-		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 		response = 'Hortisolis speaks in a boisterous manner:\n"FOR THOUST {} GAIASLIMEOID, I SUBMIT {} SLIME. DO YOU {}, OR WOULD YOU RATHER {}?"'.format(gaia_type, slime_gain, ewcfg.cmd_accept, ewcfg.cmd_refuse)
+# 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-		# Wait for an answer
-		accepted = False
-		try:
-			msg = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == cmd.message.author and message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
+# 		# Wait for an answer
+# 		accepted = False
+# 		try:
+# 			msg = await cmd.client.wait_for('message', timeout=30, check=lambda message: message.author == cmd.message.author and message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
 
-			if msg != None:
-				if msg.content == ewcfg.cmd_accept:
-					accepted = True
-		except:
-			accepted = False
+# 			if msg != None:
+# 				if msg.content == ewcfg.cmd_accept:
+# 					accepted = True
+# 		except:
+# 			accepted = False
 
-		gaiaslimeoid = EwItem(id_item=item_sought.get('id_item'))
-		# cancel deal if the gaiaslimeoid is no longer in user's inventory
-		if gaiaslimeoid.id_owner != str(user_data.id_user):
-			accepted = False
+# 		gaiaslimeoid = EwItem(id_item=item_sought.get('id_item'))
+# 		# cancel deal if the gaiaslimeoid is no longer in user's inventory
+# 		if gaiaslimeoid.id_owner != str(user_data.id_user):
+# 			accepted = False
 
-		if accepted:
-			user_data = EwPlayer(member=cmd.message.author)
-			user_data.change_slime(slime_gain)
-			user_data.persist()
+# 		if accepted:
+# 			user_data = EwPlayer(member=cmd.message.author)
+# 			user_data.change_slime(slime_gain)
+# 			user_data.persist()
 
-			ewitem.item_delete(gaiaslimeoid.id_item)
+# 			ewitem.item_delete(gaiaslimeoid.id_item)
 
-			response = "Hortisolis gives you {} slime for your {} Gaiaslimeoid.".format(slime_gain, gaiaslimeoid.item_props.get('gaiaslimeoid'))
+# 			response = "Hortisolis gives you {} slime for your {} Gaiaslimeoid.".format(slime_gain, gaiaslimeoid.item_props.get('gaiaslimeoid'))
 
-		else:
-			response = '"A PITY, PERHAPS YOU WILL FIND SOME USE FOR IT ELSEWHERE. PRITHEE BE CAREFUL!"'
+# 		else:
+# 			response = '"A PITY, PERHAPS YOU WILL FIND SOME USE FOR IT ELSEWHERE. PRITHEE BE CAREFUL!"'
 
-	else:
-		response = "Are you sure you have that Gaiaslimeoid?"
+# 	else:
+# 		response = "Are you sure you have that Gaiaslimeoid?"
 
-	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
+# 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 
 """ Lets shamblers enter the slime sea"""
