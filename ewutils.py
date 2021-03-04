@@ -1593,18 +1593,6 @@ async def enemy_action_tick_loop(id_server):
 		else:
 			await ewhunting.enemy_perform_action(id_server)
 
-#async def gvs_gamestate_tick_loop(id_server):
-	"""Event tick loop to spawn special events (Not used since its for GvsS) \n
-
-	Arguments:
-		'id_server': int -- Server ID \n
-	"""	
-	#interval = ewcfg.gvs_gamestate_tick_length
-	# Causes various events to occur during a Garden or Graveyard ops in Gankers Vs. Shamblers
-	#while not TERMINATE:
-		#await asyncio.sleep(interval)
-		#await ewhunting.gvs_update_gamestate(id_server)
-
 def check_defender_targets(user_data, enemy_data):
 	""" Clears out id_target in enemies with defender ai.
 	 Primarily used for when players die or leave districts the defender is in. \n
@@ -1935,217 +1923,7 @@ def generate_captcha(length = 4, id_user = 0, id_server = 0):
 	except:
 		return generate_captcha_random(length=length_final)
 		
-#async def spawn_prank_items_tick_loop(id_server):
-	"""Manages the continuos generation of prank items (not sure if still relevant) \n
 
-	Arguments:
-		'id_server': int -- Server ID \n
-	"""	
-	#DEBUG
-	# interval = 10
-	
-	# If there are more active people, items spawn more frequently, and less frequently if there are less active people.
-	#interval = 180
-	#new_interval = 0
-	#while not TERMINATE:
-		#if new_interval > 0:
-			#interval = new_interval
-			
-		#print("newinterval:{}".format(new_interval))
-		
-		#await asyncio.sleep(interval)
-		#new_interval = await spawn_prank_items(id_server = id_server)
-
-# async def spawn_prank_items(id_server):
-# 	"""summary \n
-
-# 	Arguments:
-# 		'id_server': type -- description \n
-
-# 	Returns: type -- description
-# 	"""	
-# 	new_interval = 0
-# 	base_interval = 60
-	
-# 	try:
-# 		active_users_count = 0
-
-# 		if id_server != None:
-# 			try:
-# 				conn_info = databaseConnect()
-# 				conn = conn_info.get('conn')
-# 				cursor = conn.cursor();
-
-# 				cursor.execute(
-# 					"SELECT id_user FROM users WHERE id_server = %s AND {poi} in %s AND NOT ({life_state} = {life_state_corpse} OR {life_state} = {life_state_kingpin}) AND {time_last_action} > %s".format(
-# 						life_state=ewcfg.col_life_state,
-# 						poi=ewcfg.col_poi,
-# 						life_state_corpse=ewcfg.life_state_corpse,
-# 						life_state_kingpin=ewcfg.life_state_kingpin,
-# 						time_last_action=ewcfg.col_time_last_action,
-# 					), (
-# 						id_server,
-# 						ewcfg.capturable_districts,
-# 						(int(time.time()) - ewcfg.time_kickout),
-# 					))
-
-# 				users = cursor.fetchall()
-
-# 				active_users_count = len(users)
-
-# 				conn.commit()
-# 			finally:
-# 				# Clean up the database handles.
-# 				cursor.close()
-# 				databaseClose(conn_info)
-		
-# 		# Avoid division by 0
-# 		if active_users_count == 0:
-# 			active_users_count = 1
-# 		else:
-# 			#print(active_users_count)
-# 			pass
-		
-# 		new_interval = (math.ceil(base_interval/active_users_count) * 5) # 5 active users = 1 minute timer, 10 = 30 second timer, and so on.
-		
-# 		district_id = random.choice(ewcfg.capturable_districts)
-		
-# 		#Debug
-# 		#district_id = 'wreckington'
-		
-# 		district_channel_name = ewcfg.id_to_poi.get(district_id).channel
-		
-# 		client = get_client()
-		
-# 		server = client.get_guild(id_server)
-	
-# 		district_channel = get_channel(server=server, channel_name=district_channel_name)
-		
-# 		pie_or_prank = random.randrange(3)
-		
-# 		if pie_or_prank == 0:
-# 			swilldermuk_food_item = random.choice(ewcfg.swilldermuk_food)
-
-# 			item_props = ewitem.gen_item_props(swilldermuk_food_item)
-
-# 			swilldermuk_food_item_id = ewitem.item_create(
-# 				item_type=swilldermuk_food_item.item_type,
-# 				id_user=district_id,
-# 				id_server=id_server,
-# 				item_props=item_props
-# 			)
-
-# 			#print('{} with id {} spawned in {}!'.format(swilldermuk_food_item.str_name, swilldermuk_food_item_id, district_id))
-
-# 			response = "That smell... it's unmistakeable!! Someone's left a fresh {} on the ground!".format(swilldermuk_food_item.str_name)
-# 			await send_message(client, district_channel, response)
-# 		else:
-# 			rarity_roll = random.randrange(10)
-			
-# 			if rarity_roll > 3:
-# 				prank_item = random.choice(ewcfg.prank_items_heinous)
-# 			elif rarity_roll > 0:
-# 				prank_item = random.choice(ewcfg.prank_items_scandalous)
-# 			else:
-# 				prank_item = random.choice(ewcfg.prank_items_forbidden)
-				
-# 			#Debug
-# 			#prank_item = ewcfg.prank_items_heinous[1] # Chinese Finger Trap
-		
-# 			item_props = ewitem.gen_item_props(prank_item)
-		
-# 			prank_item_id = ewitem.item_create(
-# 				item_type=prank_item.item_type,
-# 				id_user=district_id,
-# 				id_server=id_server,
-# 				item_props=item_props
-# 			)
-		
-# 			# print('{} with id {} spawned in {}!'.format(prank_item.str_name, prank_item_id, district_id))
-	
-# 			response = "An ominous wind blows through the streets. You think you hear someone drop a {} on the ground nearby...".format(prank_item.str_name)
-# 			await send_message(client, district_channel, response)
-
-# 	except:
-# 		logMsg("An error occured in spawn prank items tick for server {}".format(id_server))
-		
-# 	return new_interval
-		
-# async def generate_credence_tick_loop(id_server):
-# 	"""summary \n
-
-# 	Arguments:
-# 		'id_server': type -- description \n
-# 	"""	
-# 	# DEBUG
-# 	# interval = 10
-	
-# 	while not TERMINATE:
-# 		interval = (random.randrange(121) + 120)  # anywhere from 2-4 minutes
-# 		await asyncio.sleep(interval)
-# 		await generate_credence(id_server)
-		
-# async def generate_credence(id_server):
-# 	"""summary \n
-
-# 	Arguments:
-# 		'id_server': type -- description \n
-# 	"""	
-# 	#print("CREDENCE GENERATED")
-	
-# 	if id_server != None:
-# 		try:
-# 			conn_info = databaseConnect()
-# 			conn = conn_info.get('conn')
-# 			cursor = conn.cursor();
-	
-# 			cursor.execute("SELECT id_user FROM users WHERE id_server = %s AND {poi} in %s AND NOT ({life_state} = {life_state_corpse} OR {life_state} = {life_state_kingpin}) AND {time_last_action} > %s".format(
-# 				life_state = ewcfg.col_life_state,
-# 				poi = ewcfg.col_poi,
-# 				life_state_corpse = ewcfg.life_state_corpse,
-# 				life_state_kingpin = ewcfg.life_state_kingpin,
-# 				time_last_action = ewcfg.col_time_last_action,
-# 			), (
-# 				id_server,
-# 				ewcfg.capturable_districts,
-# 				(int(time.time()) - ewcfg.time_afk_swilldermuk),
-# 			))
-	
-# 			users = cursor.fetchall()
-	
-# 			for user in users:
-# 				user_data = EwPlayer(id_user = user[0], id_server = id_server)
-# 				added_credence = 0
-# 				lowered_credence_used = 0
-				
-# 				if user_data.credence >= 1000:
-# 					added_credence = 1 + random.randrange(5)
-# 				elif user_data.credence >= 500:
-# 					added_credence = 10 + random.randrange(41)
-# 				elif user_data.credence >= 100:
-# 					added_credence = 25 + random.randrange(76)
-# 				else:
-# 					added_credence = 50 + random.randrange(151)
-					
-# 				if user_data.credence_used > 0:
-# 					lowered_credence_used = int(user_data.credence_used/10)
-					
-# 					if lowered_credence_used == 1:
-# 						lowered_credence_used = 0
-						
-# 					user_data.credence_used = lowered_credence_used
-					
-# 				added_credence = max(0, added_credence - lowered_credence_used)
-# 				user_data.credence += added_credence
-					
-# 				user_data.persist()
-				
-	
-# 			conn.commit()
-# 		finally:
-# 			# Clean up the database handles.
-# 			cursor.close()
-# 			databaseClose(conn_info)
 			
 async def activate_trap_items(district, id_server, id_user):
 	"""summary \n
@@ -2356,84 +2134,6 @@ def create_death_report(cause = None, user_data = None):
 	return deathreport
 
 
-# def get_slimernalia_kingpin(server):
-# 	"""Get the current kingpin of slimernalia \n
-
-# 	Arguments:
-# 		'server': type -- description \n
-
-# 	Returns: type -- description
-# 	"""	
-# 	data = execute_sql_query("SELECT {id_user} FROM users WHERE {id_server} = %s AND {slimernalia_kingpin} = true".format(
-# 		id_user = ewcfg.col_id_user,
-# 		id_server = ewcfg.col_id_server,
-# 		slimernalia_kingpin = ewcfg.col_slimernalia_kingpin
-# 	),(
-# 		server.id,
-# 	))
-
-# 	if len(data) > 0:
-# 		return data[0][0]
-
-# 	return None
-
-# async def update_slimernalia_kingpin(client, server):
-# 	"""summary \n
-
-# 	Arguments:
-# 		'client': type -- description \n
-# 		'server': type -- description \n
-# 	"""	
-# 	# Depose current slimernalia kingpin
-# 	old_kingpin_id = get_slimernalia_kingpin(server)
-# 	if old_kingpin_id != None:
-# 		old_kingpin = EwPlayer(id_user=old_kingpin_id, id_server=server.id)
-# 		old_kingpin.slimernalia_kingpin = False
-# 		old_kingpin.persist()
-# 		try:
-# 			old_kingpin_member = server.get_member(old_kingpin.id_user)
-# 			await ewrolemgr.updateRoles(client=client, member=old_kingpin_member)
-# 		except:
-# 			logMsg("Error removing kingpin of slimernalia role from {} in server {}.".format(old_kingpin.id_user, server.id))
-
-# 	# Update the new kingpin of slimernalia
-# 	new_kingpin = EwPlayer(id_user=get_most_festive(server), id_server=server.id)
-# 	new_kingpin.slimernalia_kingpin = True
-# 	new_kingpin.persist()
-# 	try:
-# 		new_kingpin_member = server.get_member(new_kingpin.id_user)
-# 		await ewrolemgr.updateRoles(client=client, member=new_kingpin_member)
-# 	except:
-# 		logMsg("Error adding kingpin of slimernalia role to user {} in server {}.".format(new_kingpin.id_user, server.id))	
-
-
-# def get_most_festive(server):
-# 	""" Get the player with the most festivity \n
-
-# 	Arguments:
-# 		'server': type -- description \n
-
-# 	Returns: type -- description
-# 	"""	
-# 	data = execute_sql_query(
-# 	"SELECT users.{id_user}, FLOOR({festivity}) + COALESCE(sigillaria, 0) + FLOOR({festivity_from_slimecoin}) as total_festivity FROM users "\
-# 	"LEFT JOIN (SELECT {id_user}, {id_server}, COUNT(*) * 1000 as sigillaria FROM items INNER JOIN items_prop ON items.{id_item} = items_prop.{id_item} WHERE {name} = %s AND {value} = %s GROUP BY items.{id_user}, items.{id_server}) f on users.{id_user} = f.{id_user} AND users.{id_server} = f.{id_server} "\
-# 	"WHERE users.{id_server} = %s ORDER BY total_festivity DESC LIMIT 1".format(
-# 		id_user = ewcfg.col_id_user,
-# 		id_server = ewcfg.col_id_server,
-# 		festivity = ewcfg.col_festivity,
-# 		festivity_from_slimecoin = ewcfg.col_festivity_from_slimecoin,
-# 		name = ewcfg.col_name,
-# 		value = ewcfg.col_value,
-# 		id_item = ewcfg.col_id_item,
-# 	),(
-# 		"id_furniture",
-# 		ewcfg.item_id_sigillaria,
-# 		server.id,
-# 	))
-
-# 	return data[0][0]
-
 def check_user_has_role(server, member, checked_role_name):
 	"""Check a user for a certain role (Currently only used in Terezi Gang) \n
 
@@ -2449,17 +2149,7 @@ def check_user_has_role(server, member, checked_role_name):
 		return False
 	else:
 		return True
-	
-# def return_server_role(server, role_name):
-# 	"""summary \n
 
-# 	Arguments:
-# 		'server': type -- description \n
-# 		'role_name': type -- description \n
-
-# 	Returns: type -- description
-# 	"""
-# 	return discord.utils.get(server.roles, name=role_name)
 
 def calculatePvpTimer(current_time_expirpvp, timer, enlisted = False):
 	""" Returns the latest value, so that short PvP timer actions don't shorten remaining PvP time.\n
@@ -2701,25 +2391,6 @@ def get_subzone_controlling_faction(subzone_id, id_server):
 		faction = district_data.controlling_faction
 		return faction
 
-# def get_street_list(str_poi):
-# 	"""summary \n
-
-# 	Arguments:
-# 		'str_poi': type -- description \n
-
-# 	Returns: type -- description
-# 	"""	
-# 	poi = ewcfg.id_to_poi.get(str_poi)
-# 	neighbor_list = poi.neighbors
-# 	poi_list = []
-# 	if poi.is_district == False:
-# 		return poi_list
-# 	else:
-# 		for neighbor in neighbor_list.keys():
-# 			neighbor_poi = ewcfg.id_to_poi.get(neighbor)
-# 			if neighbor_poi.is_street == True:
-# 				poi_list.append(neighbor)
-# 		return poi_list
 	
 async def collect_topics(cmd):
 	"""Display the channel topics and names for the whole server (Admin only)\n
@@ -2834,6 +2505,170 @@ async def check_bot(cmd):
 	return
 	#sys.exit()
 
+
+def mention_type(cmd, ew_id):
+	""" Used in determining the targets for a command action\n
+
+	Arguments:
+		'cmd': EwCmd -- Command object that called this function \n
+		'ew_id': int -- ID corresponding to the '@' mention \n
+
+	Returns: string -- The target type for this mention
+	"""	
+	if cmd.client_id.user == ew_id.user:
+		return "ew"
+	elif cmd.author_id.user == ew_id.user:
+		return "self"
+	else:
+		return "other"
+
+
+def get_mutation_alias(name):
+	"""Get the aliases for a certain mutation \n
+
+	Arguments:
+		'name': string -- Mutation name \n
+
+	Returns: list -- The mutation's aliases
+	"""	
+	if ewcfg.mutations_map.get(name) != None:
+		return name
+	else:
+
+		for mutation in ewcfg.mutations_map:
+			for alias in ewcfg.mutations_map.get(mutation).alias:
+				if name == alias:
+					return mutation
+		return 0
+
+def get_fingernail_item(cmd):
+	"""Generate the fingernail weapon item \n
+
+	Arguments:
+		'cmd': EwCmd -- Command that called this function \n
+
+	Returns: EwItem -- The item object corresponding to the fingernails weapon
+	"""	
+	item = ewcfg.weapon_map.get(ewcfg.weapon_id_fingernails)
+	item_props = ewitem.gen_item_props(item)
+	id_item = ewitem.item_create(
+		item_type=ewcfg.it_weapon,
+		id_user=cmd.message.author.id,
+		id_server=cmd.guild.id,
+		stack_max=-1,
+		stack_size=0,
+		item_props=item_props
+	)
+
+	return id_item
+
+
+def inaccessible(user_data=None, poi=None):
+	"""Determine if an area is inaccessible to a player \n
+
+	Keyword Arguments:
+		'user_data': EwPlayer -- Player object representing the player in question (default: None) \n
+		'poi': EwDistrict -- District object for the district we want to query  (default: None) \n
+
+	Returns: bool -- True if district is inaccessible and False otherwise
+	"""	
+	if poi == None or user_data == None:
+		return True
+
+	if user_data.life_state == ewcfg.life_state_observer:
+		return False
+
+	if user_data.life_state == ewcfg.life_state_shambler and poi.id_poi in [ewcfg.poi_id_rowdyroughhouse,
+																			ewcfg.poi_id_copkilltown,
+																			ewcfg.poi_id_juviesrow]:
+		return True
+
+	bans = user_data.get_bans()
+	vouchers = user_data.get_vouchers()
+
+	locked_districts_list = ewmap.retrieve_locked_districts(user_data.id_server)
+
+	if (
+			len(poi.factions) > 0 and
+			(set(vouchers).isdisjoint(set(poi.factions)) or user_data.faction != "") and
+			user_data.faction not in poi.factions
+	) or (
+			len(poi.life_states) > 0 and
+			user_data.life_state not in poi.life_states
+	):
+		return True
+	elif (
+			len(poi.factions) > 0 and
+			len(bans) > 0 and
+			set(poi.factions).issubset(set(bans))
+	):
+		return True
+	elif poi.id_poi in locked_districts_list and user_data.life_state not in [ewcfg.life_state_executive, ewcfg.life_state_lucky]:
+		return True
+	else:
+		return False
+
+
+async def pay_salary(id_server=None):
+	""" Pay out salaries. SlimeCoin can be taken away or given depending on if the user has positive or negative credits. \n
+
+	Keyword Arguments:
+		'id_server': int -- Server ID (default: None) \n
+	"""	
+	print('paying salary...')
+
+	#client = get_client()
+
+	if id_server != None:
+		# get all players with apartments. If a player is evicted, thir rent is 0, so this will not affect any bystanders.
+		security_officers = execute_sql_query("SELECT id_user FROM users WHERE salary_credits != 0 AND id_server = {}".format(id_server))
+
+		for officer in security_officers:
+			officer_id_user = int(officer[0])
+
+			user_data = EwPlayer(id_user=officer_id_user, id_server=id_server)
+			credits = user_data.salary_credits
+
+			# Prevent the user from obtaining negative slimecoin
+			if credits < 0 and user_data.slimecoin < (-1 * credits):
+				user_data.change_slimecoin(n=-user_data.slimecoin, coinsource=ewcfg.coinsource_salary)
+			else:
+				user_data.change_slimecoin(n=user_data.salary_credits, coinsource=ewcfg.coinsource_salary)
+
+			user_data.persist()
+
+
+async def make_bp(cmd):
+	"""Give Brimstone Programmer role to a member \n
+
+	Arguments:
+		'cmd': EwCmd -- Command object that called this function \n
+
+	Returns: string -- Message to be displayed in the discord
+	"""	
+	return
+	if EwPlayer(member = cmd.message.author).life_state != ewcfg.life_state_kingpin and not cmd.author_id.admin:
+		return
+
+	if cmd.mentions_count > 0:
+		recipient = cmd.mentions[0]
+	else:
+		response = 'who?'
+		return await send_message(cmd.client, cmd.message.channel, formatMessage(cmd.message.author, response))
+
+	bp_role = None
+	for role in cmd.guild.roles:
+		if role.name == "Brimstone Programmer":
+			bp_role = role
+			break
+	
+	if bp_role:
+		await recipient.add_roles(bp_role)
+	else:
+		logMsg("Could not find Brimstone Programmer role.")
+"""
+=======================================/OLD OR UNUSED FUNCTIONS/=======================================
+"""
 # def gvs_create_gaia_grid_mapping(user_data):
 # 	"""summary \n
 
@@ -3267,164 +3102,335 @@ async def check_bot(cmd):
 # 	execute_sql_query("UPDATE districts SET degradation = 10000 WHERE district IN {}".format(tuple(gvs_districts)))
 # 	logMsg('Set proper degradation values.')
 
+# def get_street_list(str_poi):
+# 	"""summary \n
 
-def mention_type(cmd, ew_id):
-	""" Used in determining the targets for a command action\n
+# 	Arguments:
+# 		'str_poi': type -- description \n
 
-	Arguments:
-		'cmd': EwCmd -- Command object that called this function \n
-		'ew_id': int -- ID corresponding to the '@' mention \n
+# 	Returns: type -- description
+# 	"""	
+# 	poi = ewcfg.id_to_poi.get(str_poi)
+# 	neighbor_list = poi.neighbors
+# 	poi_list = []
+# 	if poi.is_district == False:
+# 		return poi_list
+# 	else:
+# 		for neighbor in neighbor_list.keys():
+# 			neighbor_poi = ewcfg.id_to_poi.get(neighbor)
+# 			if neighbor_poi.is_street == True:
+# 				poi_list.append(neighbor)
+# 		return poi_list
 
-	Returns: string -- The target type for this mention
-	"""	
-	if cmd.client_id.user == ew_id.user:
-		return "ew"
-	elif cmd.author_id.user == ew_id.user:
-		return "self"
-	else:
-		return "other"
+# def return_server_role(server, role_name):
+# 	"""summary \n
 
+# 	Arguments:
+# 		'server': type -- description \n
+# 		'role_name': type -- description \n
 
-def get_mutation_alias(name):
-	"""Get the aliases for a certain mutation \n
+# 	Returns: type -- description
+# 	"""
+# 	return discord.utils.get(server.roles, name=role_name)
 
-	Arguments:
-		'name': string -- Mutation name \n
+# def get_slimernalia_kingpin(server):
+# 	"""Get the current kingpin of slimernalia \n
 
-	Returns: list -- The mutation's aliases
-	"""	
-	if ewcfg.mutations_map.get(name) != None:
-		return name
-	else:
+# 	Arguments:
+# 		'server': type -- description \n
 
-		for mutation in ewcfg.mutations_map:
-			for alias in ewcfg.mutations_map.get(mutation).alias:
-				if name == alias:
-					return mutation
-		return 0
+# 	Returns: type -- description
+# 	"""	
+# 	data = execute_sql_query("SELECT {id_user} FROM users WHERE {id_server} = %s AND {slimernalia_kingpin} = true".format(
+# 		id_user = ewcfg.col_id_user,
+# 		id_server = ewcfg.col_id_server,
+# 		slimernalia_kingpin = ewcfg.col_slimernalia_kingpin
+# 	),(
+# 		server.id,
+# 	))
 
-def get_fingernail_item(cmd):
-	"""Generate the fingernail weapon item \n
+# 	if len(data) > 0:
+# 		return data[0][0]
 
-	Arguments:
-		'cmd': EwCmd -- Command that called this function \n
+# 	return None
 
-	Returns: EwItem -- The item object corresponding to the fingernails weapon
-	"""	
-	item = ewcfg.weapon_map.get(ewcfg.weapon_id_fingernails)
-	item_props = ewitem.gen_item_props(item)
-	id_item = ewitem.item_create(
-		item_type=ewcfg.it_weapon,
-		id_user=cmd.message.author.id,
-		id_server=cmd.guild.id,
-		stack_max=-1,
-		stack_size=0,
-		item_props=item_props
-	)
+# async def update_slimernalia_kingpin(client, server):
+# 	"""summary \n
 
-	return id_item
+# 	Arguments:
+# 		'client': type -- description \n
+# 		'server': type -- description \n
+# 	"""	
+# 	# Depose current slimernalia kingpin
+# 	old_kingpin_id = get_slimernalia_kingpin(server)
+# 	if old_kingpin_id != None:
+# 		old_kingpin = EwPlayer(id_user=old_kingpin_id, id_server=server.id)
+# 		old_kingpin.slimernalia_kingpin = False
+# 		old_kingpin.persist()
+# 		try:
+# 			old_kingpin_member = server.get_member(old_kingpin.id_user)
+# 			await ewrolemgr.updateRoles(client=client, member=old_kingpin_member)
+# 		except:
+# 			logMsg("Error removing kingpin of slimernalia role from {} in server {}.".format(old_kingpin.id_user, server.id))
 
-
-def inaccessible(user_data=None, poi=None):
-	"""Determine if an area is inaccessible to a player \n
-
-	Keyword Arguments:
-		'user_data': EwPlayer -- Player object representing the player in question (default: None) \n
-		'poi': EwDistrict -- District object for the district we want to query  (default: None) \n
-
-	Returns: bool -- True if district is inaccessible and False otherwise
-	"""	
-	if poi == None or user_data == None:
-		return True
-
-	if user_data.life_state == ewcfg.life_state_observer:
-		return False
-
-	if user_data.life_state == ewcfg.life_state_shambler and poi.id_poi in [ewcfg.poi_id_rowdyroughhouse,
-																			ewcfg.poi_id_copkilltown,
-																			ewcfg.poi_id_juviesrow]:
-		return True
-
-	bans = user_data.get_bans()
-	vouchers = user_data.get_vouchers()
-
-	locked_districts_list = ewmap.retrieve_locked_districts(user_data.id_server)
-
-	if (
-			len(poi.factions) > 0 and
-			(set(vouchers).isdisjoint(set(poi.factions)) or user_data.faction != "") and
-			user_data.faction not in poi.factions
-	) or (
-			len(poi.life_states) > 0 and
-			user_data.life_state not in poi.life_states
-	):
-		return True
-	elif (
-			len(poi.factions) > 0 and
-			len(bans) > 0 and
-			set(poi.factions).issubset(set(bans))
-	):
-		return True
-	elif poi.id_poi in locked_districts_list and user_data.life_state not in [ewcfg.life_state_executive, ewcfg.life_state_lucky]:
-		return True
-	else:
-		return False
+# 	# Update the new kingpin of slimernalia
+# 	new_kingpin = EwPlayer(id_user=get_most_festive(server), id_server=server.id)
+# 	new_kingpin.slimernalia_kingpin = True
+# 	new_kingpin.persist()
+# 	try:
+# 		new_kingpin_member = server.get_member(new_kingpin.id_user)
+# 		await ewrolemgr.updateRoles(client=client, member=new_kingpin_member)
+# 	except:
+# 		logMsg("Error adding kingpin of slimernalia role to user {} in server {}.".format(new_kingpin.id_user, server.id))	
 
 
-async def pay_salary(id_server=None):
-	""" Pay out salaries. SlimeCoin can be taken away or given depending on if the user has positive or negative credits. \n
+# def get_most_festive(server):
+# 	""" Get the player with the most festivity \n
 
-	Keyword Arguments:
-		'id_server': int -- Server ID (default: None) \n
-	"""	
-	print('paying salary...')
+# 	Arguments:
+# 		'server': type -- description \n
 
-	#client = get_client()
+# 	Returns: type -- description
+# 	"""	
+# 	data = execute_sql_query(
+# 	"SELECT users.{id_user}, FLOOR({festivity}) + COALESCE(sigillaria, 0) + FLOOR({festivity_from_slimecoin}) as total_festivity FROM users "\
+# 	"LEFT JOIN (SELECT {id_user}, {id_server}, COUNT(*) * 1000 as sigillaria FROM items INNER JOIN items_prop ON items.{id_item} = items_prop.{id_item} WHERE {name} = %s AND {value} = %s GROUP BY items.{id_user}, items.{id_server}) f on users.{id_user} = f.{id_user} AND users.{id_server} = f.{id_server} "\
+# 	"WHERE users.{id_server} = %s ORDER BY total_festivity DESC LIMIT 1".format(
+# 		id_user = ewcfg.col_id_user,
+# 		id_server = ewcfg.col_id_server,
+# 		festivity = ewcfg.col_festivity,
+# 		festivity_from_slimecoin = ewcfg.col_festivity_from_slimecoin,
+# 		name = ewcfg.col_name,
+# 		value = ewcfg.col_value,
+# 		id_item = ewcfg.col_id_item,
+# 	),(
+# 		"id_furniture",
+# 		ewcfg.item_id_sigillaria,
+# 		server.id,
+# 	))
 
-	if id_server != None:
-		# get all players with apartments. If a player is evicted, thir rent is 0, so this will not affect any bystanders.
-		security_officers = execute_sql_query("SELECT id_user FROM users WHERE salary_credits != 0 AND id_server = {}".format(id_server))
+# 	return data[0][0]
 
-		for officer in security_officers:
-			officer_id_user = int(officer[0])
+#async def spawn_prank_items_tick_loop(id_server):
+#	"""Manages the continuos generation of prank items (not sure if still relevant) \n
 
-			user_data = EwPlayer(id_user=officer_id_user, id_server=id_server)
-			credits = user_data.salary_credits
-
-			# Prevent the user from obtaining negative slimecoin
-			if credits < 0 and user_data.slimecoin < (-1 * credits):
-				user_data.change_slimecoin(n=-user_data.slimecoin, coinsource=ewcfg.coinsource_salary)
-			else:
-				user_data.change_slimecoin(n=user_data.salary_credits, coinsource=ewcfg.coinsource_salary)
-
-			user_data.persist()
-
-
-async def make_bp(cmd):
-	"""Give Brimstone Programmer role to a member \n
-
-	Arguments:
-		'cmd': EwCmd -- Command object that called this function \n
-
-	Returns: string -- Message to be displayed in the discord
-	"""	
-	return
-	if EwPlayer(member = cmd.message.author).life_state != ewcfg.life_state_kingpin and not cmd.author_id.admin:
-		return
-
-	if cmd.mentions_count > 0:
-		recipient = cmd.mentions[0]
-	else:
-		response = 'who?'
-		return await send_message(cmd.client, cmd.message.channel, formatMessage(cmd.message.author, response))
-
-	bp_role = None
-	for role in cmd.guild.roles:
-		if role.name == "Brimstone Programmer":
-			bp_role = role
-			break
+#	Arguments:
+#		'id_server': int -- Server ID \n
+#	"""	
+	#DEBUG
+	# interval = 10
 	
-	if bp_role:
-		await recipient.add_roles(bp_role)
-	else:
-		logMsg("Could not find Brimstone Programmer role.")
+	# If there are more active people, items spawn more frequently, and less frequently if there are less active people.
+	#interval = 180
+	#new_interval = 0
+	#while not TERMINATE:
+		#if new_interval > 0:
+			#interval = new_interval
+			
+		#print("newinterval:{}".format(new_interval))
+		
+		#await asyncio.sleep(interval)
+		#new_interval = await spawn_prank_items(id_server = id_server)
+
+# async def spawn_prank_items(id_server):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'id_server': type -- description \n
+
+# 	Returns: type -- description
+# 	"""	
+# 	new_interval = 0
+# 	base_interval = 60
+	
+# 	try:
+# 		active_users_count = 0
+
+# 		if id_server != None:
+# 			try:
+# 				conn_info = databaseConnect()
+# 				conn = conn_info.get('conn')
+# 				cursor = conn.cursor();
+
+# 				cursor.execute(
+# 					"SELECT id_user FROM users WHERE id_server = %s AND {poi} in %s AND NOT ({life_state} = {life_state_corpse} OR {life_state} = {life_state_kingpin}) AND {time_last_action} > %s".format(
+# 						life_state=ewcfg.col_life_state,
+# 						poi=ewcfg.col_poi,
+# 						life_state_corpse=ewcfg.life_state_corpse,
+# 						life_state_kingpin=ewcfg.life_state_kingpin,
+# 						time_last_action=ewcfg.col_time_last_action,
+# 					), (
+# 						id_server,
+# 						ewcfg.capturable_districts,
+# 						(int(time.time()) - ewcfg.time_kickout),
+# 					))
+
+# 				users = cursor.fetchall()
+
+# 				active_users_count = len(users)
+
+# 				conn.commit()
+# 			finally:
+# 				# Clean up the database handles.
+# 				cursor.close()
+# 				databaseClose(conn_info)
+		
+# 		# Avoid division by 0
+# 		if active_users_count == 0:
+# 			active_users_count = 1
+# 		else:
+# 			#print(active_users_count)
+# 			pass
+		
+# 		new_interval = (math.ceil(base_interval/active_users_count) * 5) # 5 active users = 1 minute timer, 10 = 30 second timer, and so on.
+		
+# 		district_id = random.choice(ewcfg.capturable_districts)
+		
+# 		#Debug
+# 		#district_id = 'wreckington'
+		
+# 		district_channel_name = ewcfg.id_to_poi.get(district_id).channel
+		
+# 		client = get_client()
+		
+# 		server = client.get_guild(id_server)
+	
+# 		district_channel = get_channel(server=server, channel_name=district_channel_name)
+		
+# 		pie_or_prank = random.randrange(3)
+		
+# 		if pie_or_prank == 0:
+# 			swilldermuk_food_item = random.choice(ewcfg.swilldermuk_food)
+
+# 			item_props = ewitem.gen_item_props(swilldermuk_food_item)
+
+# 			swilldermuk_food_item_id = ewitem.item_create(
+# 				item_type=swilldermuk_food_item.item_type,
+# 				id_user=district_id,
+# 				id_server=id_server,
+# 				item_props=item_props
+# 			)
+
+# 			#print('{} with id {} spawned in {}!'.format(swilldermuk_food_item.str_name, swilldermuk_food_item_id, district_id))
+
+# 			response = "That smell... it's unmistakeable!! Someone's left a fresh {} on the ground!".format(swilldermuk_food_item.str_name)
+# 			await send_message(client, district_channel, response)
+# 		else:
+# 			rarity_roll = random.randrange(10)
+			
+# 			if rarity_roll > 3:
+# 				prank_item = random.choice(ewcfg.prank_items_heinous)
+# 			elif rarity_roll > 0:
+# 				prank_item = random.choice(ewcfg.prank_items_scandalous)
+# 			else:
+# 				prank_item = random.choice(ewcfg.prank_items_forbidden)
+				
+# 			#Debug
+# 			#prank_item = ewcfg.prank_items_heinous[1] # Chinese Finger Trap
+		
+# 			item_props = ewitem.gen_item_props(prank_item)
+		
+# 			prank_item_id = ewitem.item_create(
+# 				item_type=prank_item.item_type,
+# 				id_user=district_id,
+# 				id_server=id_server,
+# 				item_props=item_props
+# 			)
+		
+# 			# print('{} with id {} spawned in {}!'.format(prank_item.str_name, prank_item_id, district_id))
+	
+# 			response = "An ominous wind blows through the streets. You think you hear someone drop a {} on the ground nearby...".format(prank_item.str_name)
+# 			await send_message(client, district_channel, response)
+
+# 	except:
+# 		logMsg("An error occured in spawn prank items tick for server {}".format(id_server))
+		
+# 	return new_interval
+		
+# async def generate_credence_tick_loop(id_server):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'id_server': type -- description \n
+# 	"""	
+# 	# DEBUG
+# 	# interval = 10
+	
+# 	while not TERMINATE:
+# 		interval = (random.randrange(121) + 120)  # anywhere from 2-4 minutes
+# 		await asyncio.sleep(interval)
+# 		await generate_credence(id_server)
+		
+# async def generate_credence(id_server):
+# 	"""summary \n
+
+# 	Arguments:
+# 		'id_server': type -- description \n
+# 	"""	
+# 	#print("CREDENCE GENERATED")
+	
+# 	if id_server != None:
+# 		try:
+# 			conn_info = databaseConnect()
+# 			conn = conn_info.get('conn')
+# 			cursor = conn.cursor();
+	
+# 			cursor.execute("SELECT id_user FROM users WHERE id_server = %s AND {poi} in %s AND NOT ({life_state} = {life_state_corpse} OR {life_state} = {life_state_kingpin}) AND {time_last_action} > %s".format(
+# 				life_state = ewcfg.col_life_state,
+# 				poi = ewcfg.col_poi,
+# 				life_state_corpse = ewcfg.life_state_corpse,
+# 				life_state_kingpin = ewcfg.life_state_kingpin,
+# 				time_last_action = ewcfg.col_time_last_action,
+# 			), (
+# 				id_server,
+# 				ewcfg.capturable_districts,
+# 				(int(time.time()) - ewcfg.time_afk_swilldermuk),
+# 			))
+	
+# 			users = cursor.fetchall()
+	
+# 			for user in users:
+# 				user_data = EwPlayer(id_user = user[0], id_server = id_server)
+# 				added_credence = 0
+# 				lowered_credence_used = 0
+				
+# 				if user_data.credence >= 1000:
+# 					added_credence = 1 + random.randrange(5)
+# 				elif user_data.credence >= 500:
+# 					added_credence = 10 + random.randrange(41)
+# 				elif user_data.credence >= 100:
+# 					added_credence = 25 + random.randrange(76)
+# 				else:
+# 					added_credence = 50 + random.randrange(151)
+					
+# 				if user_data.credence_used > 0:
+# 					lowered_credence_used = int(user_data.credence_used/10)
+					
+# 					if lowered_credence_used == 1:
+# 						lowered_credence_used = 0
+						
+# 					user_data.credence_used = lowered_credence_used
+					
+# 				added_credence = max(0, added_credence - lowered_credence_used)
+# 				user_data.credence += added_credence
+					
+# 				user_data.persist()
+				
+	
+# 			conn.commit()
+# 		finally:
+# 			# Clean up the database handles.
+# 			cursor.close()
+# 			databaseClose(conn_info)
+
+#async def gvs_gamestate_tick_loop(id_server):
+#	"""Event tick loop to spawn special events (Not used since its for GvsS) \n
+
+#	Arguments:
+#		'id_server': int -- Server ID \n
+#	"""	
+	#interval = ewcfg.gvs_gamestate_tick_length
+	# Causes various events to occur during a Garden or Graveyard ops in Gankers Vs. Shamblers
+	#while not TERMINATE:
+		#await asyncio.sleep(interval)
+		#await ewhunting.gvs_update_gamestate(id_server)
