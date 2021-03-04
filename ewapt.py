@@ -5,7 +5,7 @@ import time
 
 import ewcmd
 import ewutils
-from ewplayer import EwPlayer
+from ewplayer import EwDiscordUser
 import ewcfg
 import ewmap
 import ewrolemgr
@@ -14,7 +14,7 @@ import ewitem
 import ewfarm
 import ewsmelting
 import ewcosmeticitem
-from ew import EwUser
+from ew import EwPlayer
 import ewslimeoid
 import ewhunting
 import ewwep
@@ -25,169 +25,6 @@ import ewmutation
 from ewitem import EwItem
 from ewdistrict import EwDistrict
 
-class EwApartment:
-	id_user = -1
-	id_server = -1
-
-	name = "a city apartment."
-	description = "It's drafty in here! You briefly consider moving out, but your SlimeCoin is desperate to leave your pocket."
-	poi = "downtown"
-	rent = 200000
-	apt_class = "c"
-	num_keys = 0
-	key_1 = 0
-	key_2 = 0
-
-	def __init__(
-			self,
-			id_user=None,
-			id_server=None
-	):
-		if (id_user != None and id_server != None):
-			self.id_user = id_user
-			self.id_server = id_server
-
-			try:
-				conn_info = ewutils.databaseConnect()
-				conn = conn_info.get('conn')
-				cursor = conn.cursor()
-
-				# Retrieve object
-				cursor.execute("SELECT {}, {}, {}, {}, {}, {}, {}, {} FROM apartment WHERE id_user = %s and id_server = %s".format(
-					ewcfg.col_apt_name,
-					ewcfg.col_apt_description,
-					ewcfg.col_poi,
-					ewcfg.col_rent,
-					ewcfg.col_apt_class,
-					ewcfg.col_num_keys,
-					ewcfg.col_key_1,
-					ewcfg.col_key_2
-
-				), (self.id_user,
-					self.id_server))
-				result = cursor.fetchone();
-
-				if result != None:
-					# Record found: apply the data to this object.
-					self.name = result[0]
-					self.description = result[1]
-					self.poi = result[2]
-					self.rent = result[3]
-					self.apt_class = result[4]
-					self.num_keys = result[5]
-					self.key_1 = result[6]
-					self.key_2 = result[7]
-				elif id_server != None:
-					# Create a new database entry if the object is missing.
-					cursor.execute("REPLACE INTO apartment({}, {}) VALUES(%s, %s)".format(
-						ewcfg.col_id_user,
-						ewcfg.col_id_server
-					), (
-						self.id_user,
-						self.id_server
-					))
-
-					conn.commit()
-			finally:
-				# Clean up the database handles.
-				cursor.close()
-				ewutils.databaseClose(conn_info)
-
-	def persist(self):
-		ewutils.execute_sql_query(
-			"REPLACE INTO apartment ({col_id_server}, {col_id_user}, {col_apt_name}, {col_apt_description}, {col_poi}, {col_rent}, {col_apt_class}, {col_num_keys}, {col_key_1}, {col_key_2}) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
-				col_id_server=ewcfg.col_id_server,
-				col_id_user=ewcfg.col_id_user,
-				col_apt_name=ewcfg.col_apt_name,
-				col_apt_description=ewcfg.col_apt_description,
-				col_poi=ewcfg.col_poi,
-				col_rent=ewcfg.col_rent,
-				col_apt_class=ewcfg.col_apt_class,
-				col_num_keys = ewcfg.col_num_keys,
-				col_key_1 = ewcfg.col_key_1,
-				col_key_2 = ewcfg.col_key_2,
-
-			), (
-				self.id_server,
-				self.id_user,
-				self.name,
-				self.description,
-				self.poi,
-				self.rent,
-				self.apt_class,
-				self.num_keys,
-				self.key_1,
-				self.key_2
-
-			))
-class EwFurniture:
-	item_type = "furniture"
-
-	# The proper name of the furniture item
-	id_furniture = ""
-
-	# The string name of the furniture item
-	str_name = ""
-
-	# The text displayed when you look at it
-	str_desc = ""
-
-	# How rare the item is, can be "Plebeian", "Patrician", or "Princeps"
-	rarity = ""
-
-	# Cost in SlimeCoin to buy this item. (slime now, but hopefully we make an exception for furniture)
-	price = 0
-
-	# Names of the vendors selling this item. (yo munchy/ben, i kind of want to add a furniture mart)
-	vendors = []
-
-	#Text when placing the item
-	furniture_place_desc = ""
-
-	#Text when the generic "look" is used
-	furniture_look_desc = ""
-
-	#How you received this item
-	acquisition = ""
-
-	#the set that the furniture belongs to
-	furn_set = ""
-
-	#furniture color
-	hue = ""
-
-
-
-	def __init__(
-		self,
-		id_furniture = "",
-		str_name = "",
-		str_desc = "",
-		rarity = "",
-		acquisition = "",
-		price = 0,
-		vendors = [],
-		furniture_place_desc = "",
-		furniture_look_desc = "",
-		furn_set = "",
-		hue="",
-		num_keys = 0
-
-	):
-		self.item_type = ewcfg.it_furniture
-		self.id_furniture = id_furniture
-		self.str_name = str_name
-		self.str_desc = str_desc
-		self.rarity = rarity
-		self.acquisition = acquisition
-		self.price = price
-		self.vendors = vendors
-		self.furniture_place_desc = furniture_place_desc
-		self.furniture_look_desc = furniture_look_desc
-		self.furn_set = furn_set
-		self.hue = hue
-		self.num_keys = num_keys
-
 async def consult(cmd):
 	target_name = ewutils.flattenTokenListToString(cmd.tokens[1:])
 	#to check the descriptions, look for consult_responses in ewcfg
@@ -195,7 +32,7 @@ async def consult(cmd):
 	if target_name == None or len(target_name) == 0:
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "What region would you like to look at?"))
 
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	response = ""
 
 	if user_data.life_state == ewcfg.life_state_shambler:
@@ -256,7 +93,7 @@ async def signlease(cmd):
 	if target_name == None or len(target_name) == 0:
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "What region would you like to rent?"))
 
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
@@ -309,7 +146,7 @@ async def signlease(cmd):
 	if(user_data.slimecoin < base_cost*4):
 		return await ewutils.send_message(cmd.client, cmd.message.channel,ewutils.formatMessage(cmd.message.author, "You can't afford it."))
 
-	response = "The receptionist slides you a contract. It reads:\n\n THE TENANT, {},  WILL HERETO SUBMIT {:,} SLIMECOIN EACH MONTH UNTIL THEY INEVITABLY HIT ROCK BOTTOM. THEY MUST ALSO PROVIDE A DOWN PAYMENT OF {:,} TO INSURE THE PROPERTY FROM THEIR GREASY JUVENILE HANDS. SLIMECORP IS NOT RESPONSIBLE FOR ANY INJURY OR PROPERTY DAMAGE THAT MAY OCCUR ON THE PREMISES. THEY'RE ALSO NOT RESPONSIBLE IN GENERAL. YOU ARE. BITCH. \n\nDo you !sign the document, or do you !rip it into a million pieces?".format(cmd.message.author.display_name, base_cost, base_cost*4)
+	response = "The receptionist slides you a contract. It reads:\n\n THE TENANT, {},  WILL HERETO SUBMIT {:,} SLIMECOIN EACH MONTH UNTIL THEY INEVITABLY HIT ROCK BOTTOM. THEY MUST ALSO PROVIDE A DOWN PAYMENT OF {:,} TO INSURE THE PROPERTY FROM THEIR GREASY JUVENILE HANDS. SLIMECORP IS NOT RESPONSIBLE FOR ANY INJURY OR PROPERTY DAMAGE THAT MAY OCCUR ON THE PREMISES. THEY'RE ALSO NOT RESPONSIBLE IN GENERAL. YOU ARE. BITCH. \n\nDo you !sign the document, or do you !rip it into a million pieces?".format(cmd.message.author.name, base_cost, base_cost*4)
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 	try:
@@ -332,7 +169,7 @@ async def signlease(cmd):
 
 	else:
 
-		user_data = EwUser(member=cmd.message.author)
+		user_data = EwPlayer(member=cmd.message.author)
 		user_apt = EwApartment(id_user=user_data.id_user, id_server=user_data.id_server)
 
 		if (user_data.apt_zone != ewcfg.location_id_empty):
@@ -345,19 +182,19 @@ async def signlease(cmd):
 		user_data.persist()
 
 
-		#if user_apt.key_1 != 0:
-			#ewitem.item_delete(user_apt.key_1)
-			#user_apt.key_1 = 0
-			#user_apt.rent = user_apt.rent/1.5
-		#if user_apt.key_2 != 0:
-			#ewitem.item_delete(user_apt.key_2)
-			#user_apt.key_2 = 0
-			#user_apt.rent = user_apt.rent / 1.5
+		"""if user_apt.key_1 != 0:
+			ewitem.item_delete(user_apt.key_1)
+			user_apt.key_1 = 0
+			user_apt.rent = user_apt.rent/1.5
+		if user_apt.key_2 != 0:
+			ewitem.item_delete(user_apt.key_2)
+			user_apt.key_2 = 0
+			user_apt.rent = user_apt.rent / 1.5"""
 		user_apt.num_keys = 0
 
 		user_apt.name = "Slimecorp Apartment"
 		user_apt.apt_class = poi.property_class
-		user_apt.description = "You're on {}'s property.".format(cmd.message.author.display_name)
+		user_apt.description = "You're on {}'s property.".format(cmd.message.author.name)
 		user_apt.poi = poi.id_poi
 		user_apt.rent = base_cost
 		user_apt.persist()
@@ -372,7 +209,7 @@ async def signlease(cmd):
 
 
 async def retire(cmd):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	poi = ewcfg.id_to_poi.get(user_data.poi)
 	poi_dest = ewcfg.id_to_poi.get(ewcfg.poi_id_apt + user_data.apt_zone) #there isn't an easy way to change this, apologies for being a little hacky
 
@@ -381,9 +218,9 @@ async def retire(cmd):
 	if cmd.mentions_count == 0 and cmd.tokens_count > 1:
 		server = cmd.guild
 		member_object = server.get_member(ewutils.getIntToken(cmd.tokens))
-		owner_user = EwUser(member = member_object)
+		owner_user = EwPlayer(member = member_object)
 	elif cmd.mentions_count == 1:
-		owner_user = EwUser(member = cmd.mentions[0])
+		owner_user = EwPlayer(member = cmd.mentions[0])
 
 	if owner_user:
 		return await usekey(cmd, owner_user)
@@ -402,7 +239,7 @@ async def retire(cmd):
 		await asyncio.sleep(20)
 
 		if move_current == ewutils.moves_active[cmd.message.author.id]:
-			user_data = EwUser(member=cmd.message.author)
+			user_data = EwPlayer(member=cmd.message.author)
 			user_data.poi = poi_dest.id_poi
 			user_data.persist()
 			await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
@@ -416,8 +253,8 @@ async def retire(cmd):
 
 
 async def depart(cmd=None, isGoto = False, movecurrent=None):
-	player = EwPlayer(id_user = cmd.message.author.id)
-	user_data = EwUser(id_user = player.id_user, id_server = player.id_server)
+	player = EwDiscordUser(id_user = cmd.message.author.id)
+	user_data = EwPlayer(id_user = player.id_user, id_server = player.id_server)
 	poi_source = ewcfg.id_to_poi.get(user_data.poi)
 	poi_dest = ewcfg.id_to_poi.get(poi_source.mother_districts[0])
 
@@ -440,7 +277,7 @@ async def depart(cmd=None, isGoto = False, movecurrent=None):
 			move_current = ewutils.moves_active[cmd.message.author.id] = ewmap.move_counter
 		await asyncio.sleep(20)
 		if move_current == ewutils.moves_active[cmd.message.author.id]:
-			user_data = EwUser(id_user=player.id_user, id_server=player.id_server)
+			user_data = EwPlayer(id_user=player.id_user, id_server=player.id_server)
 			user_data.poi = poi_dest.id_poi
 			user_data.visiting = ewcfg.location_id_empty
 			user_data.time_lastenter = int(time.time())
@@ -468,7 +305,7 @@ async def depart(cmd=None, isGoto = False, movecurrent=None):
 
 def getPriceBase(cmd):
 	#based on stock success
-	user_data = EwUser(member=cmd.message.author) #market rates average to 1000. This fomula calculates prices to specification based on that amount.
+	user_data = EwPlayer(member=cmd.message.author) #market rates average to 1000. This fomula calculates prices to specification based on that amount.
 	kfc = ewmarket.EwStock(stock='kfc', id_server = user_data.id_server)
 	tcb = ewmarket.EwStock(stock='tacobell', id_server=user_data.id_server)
 	hut = ewmarket.EwStock(stock='pizzahut', id_server=user_data.id_server)
@@ -502,7 +339,7 @@ async def rent_time(id_server = None):
 				owner_id_user = int(landowner[1])
 				owner_rent_price = landowner[0]
 
-				user_data = EwUser(id_user=owner_id_user, id_server=id_server)
+				user_data = EwPlayer(id_user=owner_id_user, id_server=id_server)
 				user_poi = ewcfg.id_to_poi.get(user_data.poi)
 				poi = ewcfg.id_to_poi.get(user_data.apt_zone)
 
@@ -515,12 +352,12 @@ async def rent_time(id_server = None):
 						member_object = server.get_member(owner_id_user)
 
 						await ewrolemgr.updateRoles(client = client, member=member_object)
-						player = EwPlayer(id_user = owner_id_user)
-						response = "{} just got evicted. Point and laugh, everyone.".format(player.display_name)
+						player = EwDiscordUser(id_user = owner_id_user)
+						response = "{} just got evicted. Point and laugh, everyone.".format(player.name)
 						await ewutils.send_message(client, ewutils.get_channel(server, poi.channel), response)
 
 
-					user_data = EwUser(id_user=owner_id_user, id_server=id_server)
+					user_data = EwPlayer(id_user=owner_id_user, id_server=id_server)
 					user_apt = EwApartment(id_user=owner_id_user, id_server=id_server)
 					poi = ewcfg.id_to_poi.get(user_data.apt_zone)
 
@@ -545,13 +382,13 @@ async def rent_time(id_server = None):
 
 
 #async def rent_cycle(cmd):
- #   user_data = EwUser(member = cmd.message.author)
+ #   user_data = EwPlayer(member = cmd.message.author)
  #   await rent_time(id_server = user_data.id_server)
 
 
 async def apt_look(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_server=playermodel.id_server, id_user=cmd.message.author.id)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_server=playermodel.id_server, id_user=cmd.message.author.id)
 	apt_model = EwApartment(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	poi = ewcfg.id_to_poi.get(apt_model.poi)
 	lookObject = str(cmd.message.author.id)
@@ -688,8 +525,8 @@ async def apt_look(cmd):
 
 async def store_item(cmd, dest):
 	destination = dest #used to separate the compartment keyword from the string displayed to the user.
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	user_mutations = usermodel.get_mutations()
 	apt_model = EwApartment(id_server=playermodel.id_server, id_user=cmd.message.author.id)
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
@@ -805,8 +642,8 @@ async def store_item(cmd, dest):
 async def remove_item(cmd, dest):
 	destination = dest #used to separate the compartment keyword from the string displayed to the user.
 
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	if usermodel.visiting != ewcfg.location_id_empty:
 		recipient = str(usermodel.visiting)
 
@@ -910,8 +747,8 @@ async def remove_item(cmd, dest):
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def upgrade(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	apt_model = EwApartment(id_server=playermodel.id_server, id_user=cmd.message.author.id)
 
 	if usermodel.life_state == ewcfg.life_state_shambler:
@@ -963,7 +800,7 @@ async def upgrade(cmd):
 			return await ewutils.send_message(cmd.client, cmd.message.channel,ewutils.formatMessage(cmd.message.author, response))
 
 		else:
-			usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+			usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 			apt_model = EwApartment(id_server=playermodel.id_server, id_user=cmd.message.author.id)
 
 			usermodel.change_slimecoin(n=apt_model.rent * -8, coinsource= ewcfg.coinsource_spending)
@@ -977,8 +814,8 @@ async def upgrade(cmd):
 			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def watch(cmd):
-	player_model = EwPlayer(id_user=cmd.message.author.id)
-	user_model = EwUser(id_user=cmd.message.author.id, id_server=player_model.id_server)
+	player_model = EwDiscordUser(id_user=cmd.message.author.id)
+	user_model = EwPlayer(id_user=cmd.message.author.id, id_server=player_model.id_server)
 	poi = user_model.poi
 
 	if user_model.visiting != ewcfg.location_id_empty:
@@ -1007,7 +844,7 @@ async def watch(cmd):
 		for x in range (0, 62):
 			await asyncio.sleep(300)
 			#await asyncio.sleep(1)
-			user_model = EwUser(id_user=cmd.message.author.id, id_server=player_model.id_server)
+			user_model = EwPlayer(id_user=cmd.message.author.id, id_server=player_model.id_server)
 			item_sought = ewitem.find_item(id_user=str(user_id) + ewcfg.compartment_id_decorate, id_server=player_model.id_server, item_search="television")
 			if user_model.poi == poi and user_model.time_last_action > (int(time.time()) - ewcfg.time_kickout) and item_sought:
 				await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, random.choice(ewcfg.tv_lines)))
@@ -1028,14 +865,14 @@ async def watch(cmd):
 		await ewhunting.spawn_enemy(id_server=cmd.message.guild.id, pre_chosen_type=ewcfg.enemy_type_megaslime, pre_chosen_poi=poi.mother_districts[0], pre_chosen_slimes=ewcfg.tv_set_slime, pre_chosen_level=ewcfg.tv_set_level, pre_chosen_displayname="The Slime")
 		response = ""
 
-	user_model = EwUser(id_user=cmd.message.author.id, id_server=player_model.id_server)
+	user_model = EwPlayer(id_user=cmd.message.author.id, id_server=player_model.id_server)
 	ewutils.active_target_map[user_model.id_user] = ""
 	user_model.persist()
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def add_key(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	user_data = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	user_data = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -1080,7 +917,7 @@ async def add_key(cmd):
 			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 		else:
-			user_data = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+			user_data = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 			user_data.change_slimecoin(n= -apartment_data.rent, coinsource=ewcfg.coinsource_spending)
 			user_data.persist()
 
@@ -1090,9 +927,9 @@ async def add_key(cmd):
 				id_server=cmd.guild.id,
 				item_type=ewcfg.it_item,
 				item_props={
-					'item_name': "key to {}'s house".format(playermodel.display_name),
+					'item_name': "key to {}'s house".format(playermodel.name),
 					'id_item': "housekey",
-					'item_desc': "A key to {}'s house. They must trust you a lot.".format(playermodel.display_name),
+					'item_desc': "A key to {}'s house. They must trust you a lot.".format(playermodel.name),
 					'rarity': ewcfg.rarity_plebeian,
 					'houseID': "{}".format(cmd.message.author.id),
 					'context': "housekey"
@@ -1113,12 +950,11 @@ async def add_key(cmd):
 
 
 async def usekey(cmd, owner_user):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	poi = ewcfg.id_to_poi.get(user_data.poi)
 	poi_dest = ewcfg.id_to_poi.get(ewcfg.poi_id_apt + owner_user.apt_zone)  # there isn't an easy way to change this, apologies for being a little hacky
 	inv = ewitem.inventory(id_user=cmd.message.author.id, id_server=cmd.guild.id)
 	apartment = EwApartment(id_server=cmd.guild.id, id_user=owner_user.id_user)
-
 	key = None
 	for item_inv in inv:
 		if "key to" in item_inv.get('name'):
@@ -1145,7 +981,7 @@ async def usekey(cmd, owner_user):
 
 
 		if move_current == ewutils.moves_active[cmd.message.author.id]:
-			user_data = EwUser(member=cmd.message.author)
+			user_data = EwPlayer(member=cmd.message.author)
 			user_data.poi = poi_dest.id_poi
 			user_data.visiting = owner_user.id_user
 			user_data.persist()
@@ -1158,8 +994,8 @@ async def usekey(cmd, owner_user):
 				await ewutils.send_message(cmd.client, ewutils.get_channel(cmd.guild, poi_dest.channel), ewutils.formatMessage(cmd.message.author, response))
 
 async def manual_changelocks(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	user_data = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	user_data = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -1200,7 +1036,7 @@ async def manual_changelocks(cmd):
 			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 		else:
-			user_data = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+			user_data = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 			user_data.change_slimecoin(n=-(apartment_data.rent/2), coinsource=ewcfg.coinsource_spending)
 			user_data.persist()
 
@@ -1225,7 +1061,7 @@ def check(str):
 
 
 	#async def bazaar_update(cmd): ##DEBUG COMMAND. DO NOT RELEASE WITH THIS.
-	#   playermodel = EwPlayer(id_user=cmd.message.author.id)
+	#   playermodel = EwDiscordUser(id_user=cmd.message.author.id)
 	#  market_data = EwMarket(playermodel.id_server)
 	#   market_data.bazaar_wares.clear()
 
@@ -1272,8 +1108,8 @@ def check(str):
 
 
 async def freeze(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_server= playermodel.id_server, id_user=cmd.message.author.id)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_server= playermodel.id_server, id_user=cmd.message.author.id)
 	ew_slime_model = ewslimeoid.EwSlimeoid(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
 	if usermodel.visiting != ewcfg.location_id_empty and ew_slime_model.name != "":
@@ -1299,8 +1135,8 @@ async def freeze(cmd):
 	#slimeoid storage works just like regular item storage. Just add "freeze" to the owner's name to store it.
 
 async def unfreeze(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_server=playermodel.id_server, id_user=cmd.message.author.id)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_server=playermodel.id_server, id_user=cmd.message.author.id)
 	firstCheck = True
 	slimeoid_search = ""
 
@@ -1342,7 +1178,7 @@ async def unfreeze(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def apartment (cmd):
-	usermodel = EwUser(member=cmd.message.author)
+	usermodel = EwPlayer(member=cmd.message.author)
 	apartmentmodel = EwApartment(id_user=usermodel.id_user, id_server=usermodel.id_server)
 	if usermodel.apt_zone == ewcfg.location_id_empty:
 		response = "You don't have an apartment."
@@ -1360,8 +1196,8 @@ async def apt_help(cmd):
 
 
 async def customize(cmd = None, isDesc = False):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	apt_model = EwApartment(id_server=playermodel.id_server, id_user=cmd.message.author.id)
 
 	#dual function for changing apt info
@@ -1394,17 +1230,17 @@ async def customize(cmd = None, isDesc = False):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def knock(cmd = None):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	poi = ewcfg.id_to_poi.get(user_data.poi)
 
 	target_data = None
 	if cmd.mentions_count == 0 and cmd.tokens_count > 1:
 		server = ewcfg.server_list[user_data.id_server]
 		target = server.get_member(cmd.tokens[1])
-		target_data = EwUser(member = target)
+		target_data = EwPlayer(member = target)
 	elif cmd.mentions_count == 1:
 		target = cmd.mentions[0]
-		target_data = EwUser(member = cmd.mentions[0])
+		target_data = EwPlayer(member = cmd.mentions[0])
 
 	if target_data:
 		target_poi = ewcfg.id_to_poi.get(target_data.poi)
@@ -1420,7 +1256,7 @@ async def knock(cmd = None):
 			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 		else:
-			response = "{} is knocking at your door. Do you !accept their arrival, or !refuse entry?".format(cmd.message.author.display_name)
+			response = "{} is knocking at your door. Do you !accept their arrival, or !refuse entry?".format(cmd.message.author.name)
 			try:
 				await ewutils.send_message(cmd.client, target, ewutils.formatMessage(target, response))
 			except:
@@ -1432,7 +1268,7 @@ async def knock(cmd = None):
 				if ewutils.active_target_map.get(user_data.id_user) == target_data.apt_zone:
 					return #returns if the user is spam knocking. However, the person in the apt still gets each of the DMs above.
 				else:
-					user_data = EwUser(member=cmd.message.author)
+					user_data = EwPlayer(member=cmd.message.author)
 					ewutils.active_target_map[user_data.id_user] = target_data.apt_zone
 					message = await cmd.client.wait_for('message', timeout=20, check=lambda message: message.author == target and 
 														message.content.lower() in [ewcfg.cmd_accept, ewcfg.cmd_refuse])
@@ -1446,21 +1282,21 @@ async def knock(cmd = None):
 							await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "They don't want your company, and have tipped off the authorities."))
 					else:
 						pass
-						#user_data = EwUser(member=cmd.message.author)
+						#user_data = EwPlayer(member=cmd.message.author)
 						#if ewutils.active_target_map.get(user_data.id_user) != "": #checks if a user is knocking, records the recipient and removes it when done
 						#	user_data.persist()
 			except:
 				accepted = False
-			user_data = EwUser(member=cmd.message.author)
+			user_data = EwPlayer(member=cmd.message.author)
 			if accepted:
 				user_data.poi = target_poi.id_poi
 				user_data.visiting = target_data.id_user
 				ewutils.active_target_map[user_data.id_user] = ""
 				user_data.persist()
 				await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
-				response = "You arrive in the abode of {}.".format(target.display_name)
+				response = "You arrive in the abode of {}.".format(target.name)
 				await ewutils.send_message(cmd.client, cmd.message.author, ewutils.formatMessage(cmd.message.author, response))
-				response = "{} enters your home.".format(cmd.message.author.display_name)
+				response = "{} enters your home.".format(cmd.message.author.name)
 				return await ewutils.send_message(cmd.client, target, ewutils.formatMessage(target, response))
 			else:
 				if ewutils.active_target_map.get(user_data.id_user) != "":
@@ -1473,8 +1309,8 @@ async def knock(cmd = None):
 		return await ewutils.send_message(cmd.client, cmd.message.author, ewutils.formatMessage(cmd.message.author, response))
 
 async def bootall(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
 	await toss_squatters(user_id=usermodel.id_user, server_id=usermodel.id_server, keepKeys=True)
 
@@ -1482,7 +1318,7 @@ async def bootall(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def trickortreat(cmd = None):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 
 	if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
 		response = "There will be neither trick nor treat found in these parts."
@@ -1519,7 +1355,7 @@ async def trickortreat(cmd = None):
 
 	if cmd.mentions_count == 1:
 		target = cmd.mentions[0]
-		target_data = EwUser(member=target)
+		target_data = EwPlayer(member=target)
 		target_poi = ewcfg.id_to_poi.get(target_data.poi)
 		if poi.is_apartment:
 			response = "You're already in an apartment."
@@ -1533,7 +1369,7 @@ async def trickortreat(cmd = None):
 			return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 		else:
-			response = "{} is all dressed up for Double Halloween, waiting at your doorstep. Do you pull a !trick on them, or !treat them to a piece of candy?".format(cmd.message.author.display_name)
+			response = "{} is all dressed up for Double Halloween, waiting at your doorstep. Do you pull a !trick on them, or !treat them to a piece of candy?".format(cmd.message.author.name)
 
 			try:
 				await ewutils.send_message(cmd.client, target, ewutils.formatMessage(target, response))
@@ -1549,7 +1385,7 @@ async def trickortreat(cmd = None):
 					ewutils.active_target_map[user_data.id_user] = ""
 					return #returns if the user is spam knocking. However, the person in the apt still gets each of the DMs above.
 				else:
-					user_data = EwUser(member=cmd.message.author)
+					user_data = EwPlayer(member=cmd.message.author)
 					ewutils.active_target_map[user_data.id_user] = target_data.apt_zone
 					message = await cmd.client.wait_for('message', timeout=20, check=lambda message: message.author == target and 
 														message.content.lower() in [ewcfg.cmd_trick, ewcfg.cmd_treat])
@@ -1561,12 +1397,12 @@ async def trickortreat(cmd = None):
 							treat = False
 					else:
 						reject = True
-						#user_data = EwUser(member=cmd.message.author)
+						#user_data = EwPlayer(member=cmd.message.author)
 						#if ewutils.active_target_map.get(user_data.id_user) != "": #checks if a user is knocking, records the recipient and removes it when done
 						#	user_data.persist()
 			except:
 				reject = True
-			user_data = EwUser(member=cmd.message.author)
+			user_data = EwPlayer(member=cmd.message.author)
 
 			if reject:
 				response = "No response. Maybe they're busy?"
@@ -1592,9 +1428,9 @@ async def trickortreat(cmd = None):
 					)
 				item_name = item_props.get('food_name')
 
-				response = "{} gives you a {}. You thank them, and go about your business.".format(target.display_name, item_name)
+				response = "{} gives you a {}. You thank them, and go about your business.".format(target.name, item_name)
 				await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-				response = "You give {} a {}. Happy Double Halloween, you knucklehead!".format(cmd.message.author.display_name, item_name)
+				response = "You give {} a {}. Happy Double Halloween, you knucklehead!".format(cmd.message.author.name, item_name)
 				return await ewutils.send_message(cmd.client, target, ewutils.formatMessage(target, response))
 			else:
 				slime_loss = random.randrange(10000) + 1
@@ -1610,18 +1446,18 @@ async def trickortreat(cmd = None):
 					
 				if ewutils.active_target_map.get(user_data.id_user) != None and ewutils.active_target_map.get(user_data.id_user) != "":
 					ewutils.active_target_map[user_data.id_user] = ""
-				user_data.change_slimes(n = -slime_loss, source=ewcfg.source_damage)
-				if user_data.slimes <= 0:
+				user_data.change_slime(n = -slime_loss, source=ewcfg.source_damage)
+				if user_data.slime <= 0:
 					client = ewutils.get_client()
 					server = client.get_guild(user_data.id_server)
 					user_poi = ewcfg.id_to_poi.get(user_data.poi)
 
 					resp_cont = ewutils.EwResponseContainer(id_server=user_data.id_server)
-					player_data = EwPlayer(id_user=user_data.id_user, id_server=user_data.id_server)
+					player_data = EwDiscordUser(id_user=user_data.id_user, id_server=user_data.id_server)
 
 					user_data.trauma = ewcfg.trauma_id_environment
 					user_data.die(cause=ewcfg.cause_killing)
-					deathreport = "{skull} *{uname}*: You were tricked to death. {skull}".format(skull=ewcfg.emote_slimeskull, uname=player_data.display_name)
+					deathreport = "{skull} *{uname}*: You were tricked to death. {skull}".format(skull=ewcfg.emote_slimeskull, uname=player_data.name)
 
 					resp_cont.add_channel_response(ewcfg.channel_sewers, deathreport)
 					resp_cont.add_channel_response(user_poi.channel, deathreport)
@@ -1630,9 +1466,9 @@ async def trickortreat(cmd = None):
 					await ewrolemgr.updateRoles(client=client, member=server.get_member(user_data.id_user))
 
 				user_data.persist()
-				response = ewcfg.halloween_tricks_trickee[trick_index].format(target.display_name, slime_loss)
+				response = ewcfg.halloween_tricks_trickee[trick_index].format(target.name, slime_loss)
 				await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-				response = ewcfg.halloween_tricks_tricker[trick_index].format(cmd.message.author.display_name, slime_loss)
+				response = ewcfg.halloween_tricks_tricker[trick_index].format(cmd.message.author.name, slime_loss)
 				return await ewutils.send_message(cmd.client, target, ewutils.formatMessage(target, response))
 
 
@@ -1706,18 +1542,18 @@ async def trickortreat(cmd = None):
 				else:
 					trick_index = 3
 
-				user_data.change_slimes(n=-slime_loss, source=ewcfg.source_damage)
-				if user_data.slimes <= 0:
+				user_data.change_slime(n=-slime_loss, source=ewcfg.source_damage)
+				if user_data.slime <= 0:
 					client = ewutils.get_client()
 					server = client.get_guild(user_data.id_server)
 					user_poi = ewcfg.id_to_poi.get(user_data.poi)
 
 					resp_cont = ewutils.EwResponseContainer(id_server=user_data.id_server)
-					player_data = EwPlayer(id_user=user_data.id_user, id_server=user_data.id_server)
+					player_data = EwDiscordUser(id_user=user_data.id_user, id_server=user_data.id_server)
 
 					user_data.trauma = ewcfg.trauma_id_environment
 					user_data.die(cause=ewcfg.cause_killing)
-					deathreport = "{skull} *{uname}*: You were tricked to death. {skull}".format(skull=ewcfg.emote_slimeskull, uname=player_data.display_name)
+					deathreport = "{skull} *{uname}*: You were tricked to death. {skull}".format(skull=ewcfg.emote_slimeskull, uname=player_data.name)
 
 					resp_cont.add_channel_response(ewcfg.channel_sewers, deathreport)
 					resp_cont.add_channel_response(user_poi.channel, deathreport)
@@ -1739,8 +1575,8 @@ async def trickortreat(cmd = None):
 
 
 async def cancel(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_server=playermodel.id_server, id_user=cmd.message.author.id)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_server=playermodel.id_server, id_user=cmd.message.author.id)
 	aptmodel = EwApartment(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
 	if usermodel.life_state == ewcfg.life_state_shambler:
@@ -1781,7 +1617,7 @@ async def cancel(cmd):
 			return await ewutils.send_message(cmd.client, cmd.message.channel,ewutils.formatMessage(cmd.message.author, response))
 
 		else:
-			usermodel = EwUser(id_server=playermodel.id_server, id_user=cmd.message.author.id)
+			usermodel = EwPlayer(id_server=playermodel.id_server, id_user=cmd.message.author.id)
 			aptmodel = EwApartment(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
 			response = "You cancel your {} apartment for {:,} SlimeCoin.".format(poi.str_name , aptmodel.rent * 4)
@@ -1804,7 +1640,7 @@ async def cancel(cmd):
 
 
 async def toss_squatters(user_id = None, server_id = None, keepKeys = False):
-	player_info = EwPlayer(id_user=user_id)
+	player_info = EwDiscordUser(id_user=user_id)
 	apt_info = EwApartment(id_user=user_id, id_server= server_id)
 
 	client = ewutils.get_client()
@@ -1834,7 +1670,7 @@ async def toss_squatters(user_id = None, server_id = None, keepKeys = False):
 			key_1 = EwItem(id_item=apt_info.key_1).id_owner
 			key_2 = EwItem(id_item=apt_info.key_2).id_owner
 			for squatter in squatters:
-				sqt_data = EwUser(id_user=squatter[0], id_server=player_info.id_server)
+				sqt_data = EwPlayer(id_user=squatter[0], id_server=player_info.id_server)
 				if keepKeys and (sqt_data.id_user == key_1 or sqt_data.id_user == key_2):
 					pass
 				else:
@@ -1850,7 +1686,7 @@ async def toss_squatters(user_id = None, server_id = None, keepKeys = False):
 			ewutils.databaseClose(conn_info)
 
 async def lobbywarning(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	poi = ewcfg.id_to_poi.get(user_data.poi)
 	if poi.is_apartment:
 		response = "Try that in a DM to ENDLESS WAR."
@@ -1859,7 +1695,7 @@ async def lobbywarning(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def aquarium(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 	item_sought = ewitem.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
@@ -1909,8 +1745,8 @@ async def aquarium(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def propstand(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_server=playermodel.id_server, id_user=cmd.message.author.id)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_server=playermodel.id_server, id_user=cmd.message.author.id)
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 	item_sought = ewitem.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
@@ -1978,7 +1814,7 @@ async def propstand(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def flowerpot(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 	item_sought = ewitem.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
@@ -2043,8 +1879,8 @@ async def flowerpot(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def releasefish(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
 	if usermodel.poi != ewcfg.poi_id_bazaar:
 		response = "You need to see a specialist at The Bazaar to do that."
@@ -2077,8 +1913,8 @@ async def releasefish(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def releaseprop(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	user_data = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	user_data = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
 	if user_data.poi != ewcfg.poi_id_bazaar:
 		response = "You need to see a specialist at The Bazaar to do that."
@@ -2111,8 +1947,8 @@ async def releaseprop(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def unpot(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 	item_sought = ewitem.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	if item_sought:
@@ -2132,14 +1968,14 @@ async def unpot(cmd):
 
 
 async def wash(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 	item_sought = ewitem.find_item(item_search=item_search, id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	slimeoid_search = ewslimeoid.find_slimeoid(slimeoid_search=item_search, id_server=playermodel.id_server, id_user=playermodel.id_user)
 	slimeoid = ewslimeoid.EwSlimeoid(id_slimeoid=slimeoid_search, id_server=playermodel.id_server, id_user=playermodel.id_user)
 	if usermodel.visiting != ewcfg.location_id_empty:
-		usermodel = EwUser(id_user=usermodel.visiting, id_server=playermodel.id_server)
+		usermodel = EwPlayer(id_user=usermodel.visiting, id_server=playermodel.id_server)
 
 	if ewitem.find_item(item_search="washingmachine", id_user=str(usermodel.id_user) + ewcfg.compartment_id_decorate, id_server=playermodel.id_server, item_type_filter = ewcfg.it_furniture):
 		if item_sought:
@@ -2175,8 +2011,8 @@ async def wash(cmd):
 
 
 async def browse(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 	if ewitem.find_item(item_search="laptopcomputer", id_user=str(usermodel.id_user) + ewcfg.compartment_id_decorate, id_server=playermodel.id_server):
 		response = random.choice(ewcfg.browse_list)
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -2184,8 +2020,8 @@ async def browse(cmd):
 		await apt_look(cmd=cmd)
 
 async def frame(cmd):
-	playermodel = EwPlayer(id_user=cmd.message.author.id)
-	usermodel = EwUser(id_user=cmd.message.author.id, id_server=playermodel.id_server)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id)
+	usermodel = EwPlayer(id_user=cmd.message.author.id, id_server=playermodel.id_server)
 
 	namechange = cmd.message.content[(len(ewcfg.cmd_frame)):].strip()
 
@@ -2236,7 +2072,7 @@ async def dyefurniture(cmd):
 
 		if furniture != None:
 			if dye != None:
-				user_data = EwUser(member=cmd.message.author)
+				user_data = EwPlayer(member=cmd.message.author)
 
 				furniture_item = ewitem.EwItem(id_item=furniture.get("id_item"))
 				dye_item = ewitem.EwItem(id_item=dye.get("id_item"))
@@ -2258,8 +2094,8 @@ async def dyefurniture(cmd):
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, 'You need to specify which furniture you want to paint and which dye you want to use! Check your **!inventory**.'))
 
 async def set_alarm(cmd):
-	player_data = EwPlayer(id_user = cmd.message.author.id)
-	user_data = EwUser(id_user=cmd.message.author.id, id_server=player_data.id_server)
+	player_data = EwDiscordUser(id_user = cmd.message.author.id)
+	user_data = EwPlayer(id_user=cmd.message.author.id, id_server=player_data.id_server)
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[2:])
 	time_set = ewutils.flattenTokenListToString(cmd.tokens[1:2])
 
@@ -2313,7 +2149,7 @@ async def setOffAlarms(id_server = None):
 				clock_user = clock_obj.id_owner.replace("decorate", "")
 				clock_member = server.get_member(user_id=clock_user)
 				if clock_member != None:
-					clock_player = EwUser(member=clock_member)
+					clock_player = EwPlayer(member=clock_member)
 					if (isFurnished == False or ("apt" in clock_player.poi and clock_player.visiting == "empty")) and clock_member:
 						try:
 							await ewutils.send_message(client, clock_member, ewutils.formatMessage(clock_member, "BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP"))
@@ -2374,8 +2210,8 @@ def letter_up(letter = None):
 async def aptCommands(cmd):
 	tokens_count = len(cmd.tokens)
 	cmd_text = cmd.tokens[0].lower() if tokens_count >= 1 else ""
-	player = EwPlayer(id_user=cmd.message.author.id)
-	user_data = EwUser(id_user=cmd.message.author.id, id_server=player.id_server)
+	player = EwDiscordUser(id_user=cmd.message.author.id)
+	user_data = EwPlayer(id_user=cmd.message.author.id, id_server=player.id_server)
 
 	if cmd_text == ewcfg.cmd_depart or cmd_text == ewcfg.cmd_retire:
 		return await depart(cmd)
@@ -2545,7 +2381,7 @@ async def aptCommands(cmd):
 		return await bootall(cmd=cmd)
 	#elif cmd_text == "~bazaarupdate":
 	 #   return await bazaar_update(cmd)
-	elif cmd_text == ewcfg.cmd_help or  cmd_text == ewcfg.cmd_help_alt3:
+	elif cmd_text == ewcfg.cmd_help or cmd_text == ewcfg.cmd_help_alt1 or cmd_text == ewcfg.cmd_help_alt2 or cmd_text == ewcfg.cmd_help_alt3:
 		return await apt_help(cmd)
 	elif cmd_text == ewcfg.cmd_commands or  cmd_text == ewcfg.cmd_commands_alt1:
 		return await ewcmd.commands(cmd)

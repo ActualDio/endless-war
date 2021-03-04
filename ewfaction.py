@@ -5,11 +5,11 @@ import ewutils
 import ewitem
 
 from ewitem import EwItem
-from ew import EwUser
+from ew import EwPlayer
 
 """allow a juvie to join your gang"""
 async def vouch(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -25,27 +25,27 @@ async def vouch(cmd):
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 	member = cmd.mentions[0]
-	vouchee_data = EwUser(member = member)
+	vouchee_data = EwPlayer(member = member)
 
 	if vouchee_data.faction == user_data.faction:
-		response = "{} has already joined your faction.".format(member.display_name)
+		response = "{} has already joined your faction.".format(member.name)
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 	vouchers = vouchee_data.get_vouchers()
 
 	if user_data.faction in vouchers:
-		response = "A member of your faction has already vouched for {}.".format(member.display_name)
+		response = "A member of your faction has already vouched for {}.".format(member.name)
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 		
 	vouchee_data.vouch(faction = user_data.faction)
 
-	response = "You place your undying trust in {}.".format(member.display_name)
+	response = "You place your undying trust in {}.".format(member.name)
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 """store items in a communal chest in your gang base"""
 async def store(cmd):
 	
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	response = ""
 
 	poi = ewcfg.id_to_poi.get(user_data.poi)
@@ -102,7 +102,7 @@ async def store(cmd):
 """retrieve items from a communal chest in your gang base"""
 async def take(cmd):
 	
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	response = ""
 
 	poi = ewcfg.id_to_poi.get(user_data.poi)

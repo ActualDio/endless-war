@@ -3,37 +3,6 @@ import ewcfg
 import ewstats
 import ewitem
 
-"""
-	Database persistence object describing some discrete event. Player
-	death/resurrection, item discovery, etc.
-"""
-class EwEvent:
-	id_server = -1
-
-	event_type = None
-
-	id_user = None
-	id_target = None
-
-	def __init__(
-		self,
-		id_server = -1,
-		event_type = None,
-		id_user = None,
-		id_target = None
-	):
-		self.id_server = id_server
-		self.event_type = event_type
-		self.id_user = id_user
-		self.id_target = id_target
-
-	"""
-		Write event to the database.
-	"""
-	def persist(self):
-		# TODO
-		pass
-
 stat_fn_map = {}
 fns_initialized = False
 
@@ -64,44 +33,51 @@ def process_stat_change(id_server = None, id_user = None, metric = None, value =
 	if fn != None:
 		fn(id_server = id_server, id_user = id_user, value = value)
 
-def process_slimesmined(id_server = None, id_user = None, value = None):
-	ewstats.track_maximum(id_server = id_server, id_user = id_user, metric = ewcfg.stat_max_slimesmined, value = value)
+def process_slimesmined(player = None, value = None):
+	if player != None:
+		player.track_maximum(metric = ewcfg.stat_max_slimesmined, value = value)
 
-def process_max_slimesmined(id_server = None, id_user = None, value = None):
+def process_max_slimesmined(player = None, value = None):
 	# TODO give apropriate medal
 	pass
 
-def process_slimesfromkills(id_server = None, id_user = None, value = None):
-	ewstats.track_maximum(id_server = id_server, id_user = id_user, metric = ewcfg.stat_max_slimesfromkills, value = value)
+def process_slimesfromkills(player = None, value = None):
+	if player != None:
+		player.track_maximum(metric = ewcfg.stat_max_slimesfromkills, value = value)
 
-def process_max_slimesfromkills(id_server = None, id_user = None, value = None):
+def process_max_slimesfromkills(player = None, value = None):
 	# TODO give apropriate medal
 	pass
 
-def process_slimesfarmed(id_server = None, id_user = None, value = None):
-	ewstats.track_maximum(id_server = id_server, id_user = id_user, metric = ewcfg.stat_max_slimesfarmed, value = value)
+def process_slimesfarmed(player = None, value = None):
+	if player != None:
+		player.track_maximum(metric = ewcfg.stat_max_slimesfarmed, value = value)
 
-def process_slimesscavenged(id_server = None, id_user = None, value = None):
-	ewstats.track_maximum(id_server = id_server, id_user = id_user, metric = ewcfg.stat_max_slimesscavenged, value = value)
+def process_slimesscavenged(player = None, value = None):
+	if player != None:
+		player.track_maximum(metric = ewcfg.stat_max_slimesscavenged, value = value)
 
-def process_kills(id_server = None, id_user = None, value = None):
-	ewstats.track_maximum(id_server = id_server, id_user = id_user, metric = ewcfg.stat_max_kills, value = value)
-	ewstats.increment_stat(id_server = id_server, id_user = id_user, metric = ewcfg.stat_lifetime_kills)
+def process_kills(player = None, value = None):
+	if player != None:
+		player.track_maximum(metric = ewcfg.stat_max_kills, value = value)
+		player.increment_stat(metric = ewcfg.stat_lifetime_kills)
 
-def process_max_kills(id_server = None, id_user = None, value = None):
+def process_max_kills(player = None, value = None):
 	# TODO give apropriate medal
 	pass
 
-def process_ghostbusts(id_server = None, id_user = None, value = None):
-	ewstats.track_maximum(id_server = id_server, id_user = id_user, metric = ewcfg.stat_max_ghostbusts, value = value)
-	ewstats.increment_stat(id_server = id_server, id_user = id_user, metric = ewcfg.stat_lifetime_ghostbusts)
+def process_ghostbusts(player = None, value = None):
+	if player != None:
+		player.track_maximum(metric = ewcfg.stat_max_ghostbusts, value = value)
+		player.increment_stat(metric = ewcfg.stat_lifetime_ghostbusts)
 
 def process_max_ghostbusts(id_server = None, id_user = None, value = None):
 	# TODO give apropriate medal
 	pass
 
-def process_poudrins_looted(id_server = None, id_user = None, value = None):
-	poudrin_amount = ewitem.find_poudrin(id_user = id_user, id_server = id_user)
+def process_poudrins_looted(player = None, value = None):
+	if player != None:
+		poudrin_amount = ewitem.find_poudrin(id_user = player.id_user, id_server = player.id_server)
 
-	ewstats.track_maximum(id_user = id_user, id_server = id_server, metric = ewcfg.stat_max_poudrins, value = poudrin_amount)
-	ewstats.change_stat(id_user = id_user, id_server = id_server, metric = ewcfg.stat_lifetime_poudrins, n = value)
+		player.track_maximum(metric = ewcfg.stat_max_poudrins, value = poudrin_amount)
+		player.change_stat(metric = ewcfg.stat_lifetime_poudrins, n = value)

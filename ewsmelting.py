@@ -5,45 +5,12 @@ import ewcfg
 import ewitem
 import ewutils
 
-from ew import EwUser
+from ew import EwPlayer
 
-"""
-	Smelting Recipe Model Object
-"""
-
-class EwSmeltingRecipe:
-	# The proper name of the recipe.
-	id_recipe = ""
-
-	# The string name of the recipe.
-	str_name = ""
-
-	# A list of alternative names.
-	alias = []
-
-	# The ingredients for the recipe, by str_name of the object.
-	ingredients = []
-
-	# The product(s) created by the recipe, A tuple of the item type (it_food, it_cosmetic, etc) and item_props.
-	products = []
-
-	def __init__(
-		self,
-		id_recipe="",
-		str_name="",
-		alias = [],
-		ingredients = [],
-		products = [],
-	):
-		self.id_recipe = id_recipe
-		self.str_name = str_name
-		self.alias = alias
-		self.ingredients = ingredients
-		self.products = products
 
 # Smelting command. It's like other games call "crafting"... but BETTER and for FREE!!
 async def smelt(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -242,7 +209,7 @@ async def smeltsoul(cmd):
 # "wcim", "whatcanimake", "whatmake", "usedfor" command - finds the item the player is asking for and tells them all smelting recipes that use that item 
 # added by huck on 9/3/2020
 async def find_recipes_by_item(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))

@@ -8,141 +8,12 @@ import ewstats
 import ewutils
 import ew
 
-class EwQuadrantFlavor:
-	id_quadrant = ""
-	
-	aliases = []
-
-	resp_add_onesided = ""
-
-	resp_add_relationship = ""
-
-	resp_view_onesided = ""
-
-	resp_view_onesided_self = ""
-
-	resp_view_relationship = ""
-
-	resp_view_relationship_self = ""
-
-	def __init__(self,
-		id_quadrant = "",
-		aliases = [],
-		resp_add_onesided = "",
-		resp_add_relationship = "",
-		resp_view_onesided = "",
-		resp_view_onesided_self = "",
-		resp_view_relationship = "",
-		resp_view_relationship_self = ""
-	    ):
-		self.id_quadrant = id_quadrant
-		self.aliases = aliases
-		self.resp_add_onesided = resp_add_onesided
-		self.resp_add_relationship = resp_add_relationship
-		self.resp_view_onesided = resp_view_onesided
-		self.resp_view_onesided_self = resp_view_onesided_self
-		self.resp_view_relationship = resp_view_relationship
-		self.resp_view_relationship_self = resp_view_relationship_self 
-
-class EwQuadrant:
-
-	id_server = -1
-
-	id_user = -1
-
-	quadrant = ""
-
-	id_target = -1
-
-	id_target2 = -1
-
-
-	def __init__(self, id_server = None, id_user = None, quadrant = None, id_target = None, id_target2 = None):
-		if id_server is not None and id_user is not None and quadrant is not None:
-			self.id_server = id_server
-			self.id_user = id_user
-			self.quadrant = quadrant
-
-			if id_target is not None:
-				
-				self.id_target = id_target
-				if quadrant == ewcfg.quadrant_policitous and id_target2 is not None:
-					self.id_target2 = id_target2
-
-				ewutils.execute_sql_query("REPLACE INTO quadrants ({col_id_server}, {col_id_user}, {col_quadrant}, {col_target}, {col_target2}) VALUES (%s, %s, %s, %s, %s)".format(
-					col_id_server = ewcfg.col_id_server,
-					col_id_user = ewcfg.col_id_user,
-					col_quadrant = ewcfg.col_quadrant,
-					col_target = ewcfg.col_quadrants_target,
-					col_target2 = ewcfg.col_quadrants_target2
-					), (    
-					self.id_server,
-					self.id_user,
-					self.quadrant,
-					self.id_target,
-					self.id_target2
-				))
-
-			else:
-				data = ewutils.execute_sql_query("SELECT {col_target}, {col_target2} FROM quadrants WHERE {col_id_server} = %s AND {col_id_user} = %s AND {col_quadrant} = %s".format(
-					col_target = ewcfg.col_quadrants_target,
-					col_target2 = ewcfg.col_quadrants_target2,
-					col_id_server = ewcfg.col_id_server,
-					col_id_user = ewcfg.col_id_user,
-					col_quadrant = ewcfg.col_quadrant
-					), (
-					self.id_server,
-					self.id_user,
-					self.quadrant
-				))
-				
-				if len(data) > 0:
-					self.id_target = data[0][0]
-					self.id_target2 = data[0][1]
-
-
-
-	def persist(self):
-		ewutils.execute_sql_query("REPLACE INTO quadrants ({col_id_server}, {col_id_user}, {col_quadrant}, {col_target}, {col_target2}) VALUES (%s, %s, %s, %s, %s)".format(
-			col_id_server = ewcfg.col_id_server,
-			col_id_user = ewcfg.col_id_user,
-			col_quadrant = ewcfg.col_quadrant,
-			col_target = ewcfg.col_quadrants_target,
-			col_target2 = ewcfg.col_quadrants_target2
-			), (    
-			self.id_server,
-			self.id_user,
-			self.quadrant,
-			self.id_target,
-			self.id_target2
-		))
-	
-	def check_if_onesided(self):
-		target_quadrant = EwQuadrant(id_server = self.id_server, id_user = self.id_target, quadrant = self.quadrant)
-
-		if self.quadrant == ewcfg.quadrant_policitous:
-			if self.id_target2 is not None:
-				target2_quadrant = EwQuadrant(id_server = self.id_server, id_user = self.id_target2, quadrant = self.quadrant)
-				target_targets = [target_quadrant.id_target, target_quadrant.id_target2]
-				target2_targets = [target2_quadrant.id_target, target2_quadrant.id_target2]
-
-				if self.id_user in target_targets and \
-				    self.id_user in target2_targets and \
-				    self.id_target in target2_targets and \
-				    self.id_target2 in target_targets:
-					return False
-			return True
-
-		elif target_quadrant.id_target == self.id_user:
-			return False
-		else:
-			return True
 
 async def add_quadrant(cmd):
 	response = ""
 	author = cmd.message.author
 	quadrant = None
-	user_data = ew.EwUser(id_user=author.id, id_server=author.guild.id)
+	user_data = ew.EwPlayer(id_user=author.id, id_server=author.guild.id)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -184,9 +55,9 @@ async def add_quadrant(cmd):
 		resp_add = quadrant.resp_add_relationship
 
 	if target2 is None:
-		resp_add = resp_add.format(cmd.mentions[0].display_name)
+		resp_add = resp_add.format(cmd.mentions[0].name)
 	else:
-		resp_add = resp_add.format("{} and {}".format(cmd.mentions[0].display_name, cmd.mentions[1].display_name))
+		resp_add = resp_add.format("{} and {}".format(cmd.mentions[0].name, cmd.mentions[1].name))
 	response = "{} {}".format(resp_add, comment)
 
 		
@@ -196,7 +67,7 @@ async def clear_quadrant(cmd):
 	response = ""
 	author = cmd.message.author
 	quadrant = None
-	user_data = ew.EwUser(id_user=author.id, id_server=author.guild.id)
+	user_data = ew.EwPlayer(id_user=author.id, id_server=author.guild.id)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -223,9 +94,9 @@ async def clear_quadrant(cmd):
 		quadrant_data = EwQuadrant(id_server=author.guild.id, id_user=author.id, quadrant=quadrant.id_quadrant, id_target=-1, id_target2=-1)
 		quadrant_data.persist()
 
-		response = "You break up with {}. Maybe it's for the best...".format(target_member_data.display_name)
+		response = "You break up with {}. Maybe it's for the best...".format(target_member_data.name)
 		if target_member_data_2 != None:
-			response = "You break up with {} and {}. Maybe it's for the best...".format(target_member_data.display_name, target_member_data_2.display_name)
+			response = "You break up with {} and {}. Maybe it's for the best...".format(target_member_data.name, target_member_data_2.name)
 		
 	else:
 		response = "You haven't filled out that quadrant, bitch."
@@ -253,7 +124,7 @@ async def get_quadrants(cmd):
 		else:
 			response = response.format("Your")
 
-	user_data = ew.EwUser(id_user=member.id, id_server=member.guild.id)
+	user_data = ew.EwPlayer(id_user=member.id, id_server=member.guild.id)
 	if user_data.has_soul == 0:
 		response = "{} can't truly form any bonds without {} soul."
 		if cmd.mentions_count > 0:
@@ -302,9 +173,9 @@ def get_quadrant(cmd, id_quadrant):
 			onesided = quadrant_data.check_if_onesided()
 
 			if quadrant.id_quadrant == ewcfg.quadrant_policitous and quadrant_data.id_target2 != -1:
-				target_name = "{} and {}".format(author.guild.get_member(quadrant_data.id_target).display_name, author.guild.get_member(quadrant_data.id_target2).display_name)
+				target_name = "{} and {}".format(author.guild.get_member(quadrant_data.id_target).name, author.guild.get_member(quadrant_data.id_target2).name)
 			else:
-				target_name = author.guild.get_member(quadrant_data.id_target).display_name
+				target_name = author.guild.get_member(quadrant_data.id_target).name
 
 			if not onesided:
 				response = quadrant.resp_view_relationship_self.format(target_name)
@@ -329,14 +200,14 @@ def get_quadrant(cmd, id_quadrant):
 			onesided = quadrant_data.check_if_onesided()
 
 			if quadrant.id_quadrant == ewcfg.quadrant_policitous and quadrant_data.id_target2 != -1:
-				target_name = "{} and {}".format(author.guild.get_member(quadrant_data.id_target).display_name, author.guild.get_member(quadrant_data.id_target2).display_name)
+				target_name = "{} and {}".format(author.guild.get_member(quadrant_data.id_target).name, author.guild.get_member(quadrant_data.id_target2).name)
 			else:
-				target_name = author.guild.get_member(quadrant_data.id_target).display_name
+				target_name = author.guild.get_member(quadrant_data.id_target).name
 
 			if not onesided:
-				response = quadrant.resp_view_relationship.format(member.display_name, target_name)
+				response = quadrant.resp_view_relationship.format(member.name, target_name)
 			else:
-				response = quadrant.resp_view_onesided.format(member.display_name, target_name)
+				response = quadrant.resp_view_onesided.format(member.name, target_name)
 		
 		
 	return response

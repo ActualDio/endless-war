@@ -1,105 +1,20 @@
-import math
 import time
 import asyncio
 
 import ewcfg
 import ewitem
 import ewutils
-import ewmap
 import random
-import ewrolemgr
-import ewstatuseffects
-from ew import EwUser
-from ewplayer import EwPlayer
+from ew import EwPlayer
+from ewplayer import EwDiscordUser
 from ewmarket import EwMarket, EwCompany, EwStock
 from ewitem import EwItem
 from ewdistrict import EwDistrict
 
-""" Food model object """
-class EwFood:
-	item_type = "food"
-
-	# The main name of this food.
-	id_food = ""
-
-	# A list of alternative names.
-	alias = []
-
-	# Hunger reduced by eating this food.
-	recover_hunger = 0
-
-	# Cost in SlimeCoin to eat this food.
-	price = 0
-
-	# A nice string name describing this food.
-	str_name = ""
-
-	# Names of the vendors selling this food in the food court.
-	vendors = []
-
-	# Flavor text displayed when you eat this food.
-	str_eat = ""
-
-	# Alcoholic effect
-	inebriation = 0
-
-	# Flavor text displayed when you inspect this food.
-	str_desc = ""
-
-	# Expiration time (can be left blank for standard expiration time)
-	time_expir = 0
-
-	# The ingredients necessary to make this item via it's acquisition method
-	ingredients = ""
-
-	# The way that you can acquire this item. If blank, it's not relevant.
-	acquisition = ""
-
-	# Whether or not the item expires
-	perishable = True
-
-	#Timestamp when an item was fridged.
-
-	time_fridged = 0
-
-	def __init__(
-		self,
-		id_food = "",
-		alias = [],
-		recover_hunger = 0,
-		price = 0,
-		str_name = "",
-		vendors = [],
-		str_eat = "",
-		inebriation = 0,
-		str_desc = "",
-		time_expir = 0,
-		time_fridged =0,
-		ingredients = "",
-		acquisition = "",
-		perishable = True
-	):
-		self.item_type = ewcfg.it_food
-
-		self.id_food = id_food
-		self.alias = alias
-		self.recover_hunger = recover_hunger
-		self.price = price
-		self.str_name = str_name
-		self.vendors = vendors
-		self.str_eat = str_eat
-		self.inebriation = inebriation
-		self.str_desc = str_desc
-		self.time_expir = time_expir if time_expir > 0 else ewcfg.std_food_expir
-		self.time_fridged = time_fridged
-		self.ingredients = ingredients
-		self.acquisition = acquisition
-		self.perishable = perishable
-
 
 """ show all available food items """
 async def menu(cmd):
-	user_data = EwUser(member = cmd.message.author, data_level = 2)
+	user_data = EwPlayer(member = cmd.message.author, data_level = 2)
 	if user_data.life_state == ewcfg.life_state_shambler and user_data.poi != ewcfg.poi_id_nuclear_beach_edge:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -213,7 +128,7 @@ async def menu(cmd):
 				value = int(value)
 
 				if value != 0:
-					items.append('{} ({:,})'.format(item_name, value))
+					items.append('{name} ({price})'.format(name = item_name, price = value))
 				else:
 					items.append(item_name)
 
@@ -254,7 +169,7 @@ async def menu(cmd):
 
 # Buy items.
 async def order(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	mutations = user_data.get_mutations()
 	if user_data.life_state == ewcfg.life_state_shambler and user_data.poi != ewcfg.poi_id_nuclear_beach_edge:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
@@ -262,7 +177,7 @@ async def order(cmd):
 
 	market_data = EwMarket(id_server = cmd.guild.id)
 	currency_used = 'slime'
-	current_currency_amount = user_data.slimes
+	current_currency_amount = user_data.slime
 	#poi = ewmap.fetch_poi_if_coordless(cmd.message.channel.name)
 	poi = ewcfg.id_to_poi.get(user_data.poi)
 	if poi is None or len(poi.vendors) == 0 or ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
@@ -454,7 +369,7 @@ async def order(cmd):
 									target = None
 
 						if target != None:
-							target_data = EwUser(member=target)
+							target_data = EwPlayer(member=target)
 							if target_data.life_state == ewcfg.life_state_corpse and target_data.get_possession():
 								response = "How are you planning to feed them while they're possessing you?"
 								return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -508,7 +423,7 @@ async def order(cmd):
 						value = int(value/1.5)
 
 					if currency_used == 'slime':
-						user_data.change_slimes(n=-value, source=ewcfg.source_spending)
+						user_data.change_slime(n=-value, source=ewcfg.source_spending)
 					elif currency_used == 'brainz':
 						user_data.gvs_currency -= value
 
@@ -547,14 +462,14 @@ async def order(cmd):
 						# Eat food on the spot!
 						if target_data != None:
 
-							target_player_data = EwPlayer(id_user=target_data.id_user)
+							target_player_data = EwDiscordUser(id_user=target_data.id_user)
 							
 							if value == 0:
-								response = "You swipe a {} from the counter at {} and give it to {}.".format(item.str_name, current_vendor, target_player_data.display_name)
+								response = "You swipe a {} from the counter at {} and give it to {}.".format(item.str_name, current_vendor, target_player_data.name)
 							else:
-								response = "You slam {:,} slime down on the counter at {} for {} and give it to {}.".format(value, current_vendor, item.str_name, target_player_data.display_name)
+								response = "You slam {:,} slime down on the counter at {} for {} and give it to {}.".format(value, current_vendor, item.str_name, target_player_data.name)
 
-							response += "\n\n*{}*: ".format(target_player_data.display_name) + target_data.eat(item_data)
+							response += "\n\n*{}*: ".format(target_player_data.name) + target_data.eat(item_data)
 							target_data.persist()
 							asyncio.ensure_future(ewutils.decrease_food_multiplier(user_data.id_user))
 						else:
@@ -564,9 +479,9 @@ async def order(cmd):
 							else:
 								response = "You slam {:,} slime down on the counter at {} for {} and eat it right on the spot.".format(value, current_vendor, item.str_name)
 
-							user_player_data = EwPlayer(id_user=user_data.id_user)
+							user_player_data = EwDiscordUser(id_user=user_data.id_user)
 
-							response += "\n\n*{}*: ".format(user_player_data.display_name) + user_data.eat(item_data)
+							response += "\n\n*{}*: ".format(user_player_data.name) + user_data.eat(item_data)
 							user_data.persist()
 							asyncio.ensure_future(ewutils.decrease_food_multiplier(user_data.id_user))
 							
@@ -583,7 +498,7 @@ async def order(cmd):
 
 
 async def devour(cmd):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 	item_sought = ewitem.find_item(id_server=cmd.message.guild.id, id_user=cmd.message.author.id, item_search=item_search)
 	mutations = user_data.get_mutations()
@@ -663,7 +578,7 @@ async def devour(cmd):
 
 async def eat_item(cmd):
 	
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	mutations = user_data.get_mutations()
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 

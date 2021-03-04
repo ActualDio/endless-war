@@ -7,180 +7,12 @@ import ewitem
 import ewrolemgr
 
 from ewmarket import EwMarket
-from ew import EwUser
+from ew import EwPlayer
 from ewitem import EwItem
 from ewdistrict import EwDistrict
 
-class EwFisher:
-	fishing = False
-	bite = False
-	current_fish = ""
-	current_size = ""
-	pier = ""
-	bait = False
-	high = False
-	fishing_id = 0
-	inhabitant_id = None
-	fleshling_reeled = False
-	ghost_reeled = False
-
-	def stop(self): 
-		self.fishing = False
-		self.bite = False
-		self.current_fish = ""
-		self.current_size = ""
-		self.pier = ""
-		self.bait = False
-		self.high = False
-		self.fishing_id = 0
-		self.inhabitant_id = None
-		self.fleshling_reeled = False
-		self.ghost_reeled = False
-
 fishers = {}
 fishing_counter = 0
-
-class EwOffer:
-	id_server = -1
-	id_user = -1
-	offer_give = 0
-	offer_receive = ""
-	time_sinceoffer = 0
-
-	def __init__(
-		self,
-		id_server = None,
-		id_user = None,
-		offer_give = None,
-
-	):
-		if id_server is not None and id_user is not None and offer_give is not None:
-			self.id_server = id_server
-			self.id_user = id_user
-			self.offer_give = offer_give
-
-			data = ewutils.execute_sql_query(
-				"SELECT {time_sinceoffer} FROM offers WHERE id_server = %s AND id_user = %s AND {col_offer_give} = %s".format(
-					time_sinceoffer = ewcfg.col_time_sinceoffer,
-					col_offer_give = ewcfg.col_offer_give,
-				), (
-					id_server,
-					id_user,
-					offer_give,
-				)
-			)
-
-			if len(data) > 0:  # if data is not empty, i.e. it found an entry
-				# data is always a two-dimensional array and if we only fetch one row, we have to type data[0][x]
-				self.time_sinceoffer = data[0][0]
-
-			data = ewutils.execute_sql_query(
-				"SELECT {col_offer_receive} FROM offers WHERE id_server = %s AND id_user = %s AND {col_offer_give} = %s".format(
-					col_offer_receive = ewcfg.col_offer_receive,
-					col_offer_give = ewcfg.col_offer_give,
-				), (
-					id_server,
-					id_user,
-					offer_give,
-				)
-			)
-
-			if len(data) > 0:  # if data is not empty, i.e. it found an entry
-				# data is always a two-dimensional array and if we only fetch one row, we have to type data[0][x]
-				self.offer_receive = data[0][0]
-
-			else:  # create new entry
-				ewutils.execute_sql_query(
-					"REPLACE INTO offers(id_server, id_user, {col_offer_give}) VALUES (%s, %s, %s)".format(
-						col_offer_give = ewcfg.col_offer_give,
-					), (
-						id_server,
-						id_user,
-						offer_give,
-					)
-				)
-
-	def persist(self):
-		ewutils.execute_sql_query(
-			"REPLACE INTO offers(id_server, id_user, {col_offer_give}, {col_offer_receive}, {col_time_sinceoffer}) VALUES (%s, %s, %s, %s, %s)".format(
-				col_offer_give = ewcfg.col_offer_give,
-				col_offer_receive = ewcfg.col_offer_receive,
-				col_time_sinceoffer = ewcfg.col_time_sinceoffer
-			), (
-				self.id_server,
-				self.id_user,
-				self.offer_give,
-				self.offer_receive,
-				self.time_sinceoffer
-			)
-		)
-
-	def deal(self):
-		ewutils.execute_sql_query("DELETE FROM offers WHERE {id_user} = %s AND {id_server} = %s AND {col_offer_give} = %s".format(
-			id_user = ewcfg.col_id_user,
-			id_server = ewcfg.col_id_server,
-			col_offer_give = ewcfg.col_offer_give,
-		),(
-			self.id_user,
-			self.id_server,
-			self.offer_give
-		))
-
-
-
-class EwFish:
-	# A unique name for the fish. This is used in the database and typed by users, so it should be one word, all lowercase letters.
-	id_fish = ""
-
-	# A list of alternative names.
-	alias = []
-
-	# Name of the fish.
-	str_name = ""
-
-	# Size of fish. Only assigned upon generation.
-	size = ""
-
-	# How rare a fish species is.
-	rarity = ""
-
-	# When it can be caught.
-	catch_time = None
-
-	# What weather the fish can be exclusively caught in.
-	catch_weather = None
-
-	# Description of the fish.
-	str_desc = ""
-
-	# What type of slime it exclusively resides in. None means both.
-	slime = None
-
-	# List of the vendors selling this item. (This will basically exclusively be none.)
-	vendors = []
-
-	def __init__(
-			self,
-			id_fish = "",
-			str_name = "",
-			size = "",
-			rarity = "",
-			catch_time = None,
-			catch_weather = None,
-			str_desc = "",
-			slime = None,
-			vendors = []
-	):
-		self.id_fish = id_fish
-		self.str_name = str_name
-		self.size = size
-		self.rarity = rarity
-		self.catch_time = catch_time
-		self.catch_weather = catch_weather
-		self.str_desc = str_desc
-		self.slime = slime
-		self.vendors = vendors
-
 
 # Randomly generates a fish.
 def gen_fish(x, fisher, has_fishingrod):
@@ -329,7 +161,7 @@ def gen_bite_text(size):
 async def cast(cmd):
 	time_now = round(time.time())
 	has_reeled = False
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	mutations = user_data.get_mutations()
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
@@ -514,7 +346,7 @@ async def cast(cmd):
 				if fisher.fishing == False:
 					return
 
-				user_data = EwUser(member=cmd.message.author)
+				user_data = EwPlayer(member=cmd.message.author)
 
 				if fisher.pier == "" or user_data.poi != fisher.pier.id_poi:
 					fisher.stop()
@@ -559,7 +391,7 @@ async def cast(cmd):
 
 """ Reels in the fishing line.. """
 async def reel(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -639,7 +471,7 @@ async def award_fish(fisher, cmd, user_data):
 	actual_fisherman_data = user_data
 	if fisher.inhabitant_id:
 		actual_fisherman = user_data.get_possession()[1]
-		actual_fisherman_data = EwUser(id_user=actual_fisherman, id_server=cmd.guild.id)
+		actual_fisherman_data = EwPlayer(id_user=actual_fisherman, id_server=cmd.guild.id)
 
 	if fisher.current_fish in ["item", "seaitem"]:
 		slimesea_inventory = ewitem.inventory(id_server = cmd.guild.id, id_user = ewcfg.poi_id_slimesea)			
@@ -791,9 +623,9 @@ async def award_fish(fisher, cmd, user_data):
 		if fisher.inhabitant_id:
 			server = cmd.guild
 			inhabitant_member = server.get_member(fisher.inhabitant_id)
-			inhabitant_name = inhabitant_member.display_name
-			inhabitant_data = EwUser(id_user = fisher.inhabitant_id, id_server = user_data.id_server)
-			inhabitee_name = server.get_member(actual_fisherman).display_name
+			inhabitant_name = inhabitant_member.name
+			inhabitant_data = EwPlayer(id_user = fisher.inhabitant_id, id_server = user_data.id_server)
+			inhabitee_name = server.get_member(actual_fisherman).name
 
 			slime_gain = int(0.25 * slime_gain)
 
@@ -806,7 +638,7 @@ async def award_fish(fisher, cmd, user_data):
 					slime = slime_gain,
 				)
 
-			inhabitant_data.change_slimes(n = -slime_gain)
+			inhabitant_data.change_slime(n = -slime_gain)
 			inhabitant_data.persist()
 			fisher.stop()
 		else:
@@ -818,7 +650,7 @@ async def award_fish(fisher, cmd, user_data):
 				elif user_data.faction == ewcfg.faction_killers:
 					response += "The Killer-pride this fish is showing gave you more slime than usual. "
 
-			levelup_response = user_data.change_slimes(n = slime_gain, source = ewcfg.source_fishing)
+			levelup_response = user_data.change_slime(n = slime_gain, source = ewcfg.source_fishing)
 			was_levelup = True if user_initial_level < user_data.slimelevel else False
 			# Tell the player their slime level increased.
 			if was_levelup:
@@ -830,7 +662,7 @@ async def award_fish(fisher, cmd, user_data):
 	return response
 
 async def appraise(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -949,7 +781,7 @@ async def appraise(cmd):
 
 
 async def barter(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	mutations = user_data.get_mutations()
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
@@ -1119,7 +951,7 @@ async def barter(cmd):
 					offer_give = id_fish
 				)
 
-				user_data = EwUser(member = cmd.message.author)
+				user_data = EwPlayer(member = cmd.message.author)
 				fish = EwItem(id_item = id_fish)
 
 				# cancel deal if fish is no longer in user's inventory
@@ -1145,7 +977,7 @@ async def barter(cmd):
 
 						user_initial_level = user_data.slimelevel
 
-						levelup_response = user_data.change_slimes(n = slime_gain, source = ewcfg.source_fishing)
+						levelup_response = user_data.change_slime(n = slime_gain, source = ewcfg.source_fishing)
 
 						was_levelup = True if user_initial_level < user_data.slimelevel else False
 
@@ -1185,7 +1017,7 @@ async def barter(cmd):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def barter_all(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	mutations = user_data.get_mutations()
 	#if shambler, break
 	if user_data.life_state == ewcfg.life_state_shambler:
@@ -1284,7 +1116,7 @@ async def barter_all(cmd):
 
 			user_initial_level = user_data.slimelevel
 
-			levelup_response = user_data.change_slimes(n = slime_gain, source = ewcfg.source_fishing)
+			levelup_response = user_data.change_slime(n = slime_gain, source = ewcfg.source_fishing)
 
 			was_levelup = True if user_initial_level < user_data.slimelevel else False
 
@@ -1408,7 +1240,7 @@ def kill_dead_offers(id_server):
 	))
 
 async def embiggen(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))

@@ -1,3 +1,4 @@
+from ewClass.message import EwResponseContainer
 import sys
 import traceback
 import collections
@@ -21,9 +22,9 @@ import discord
 
 import ewcfg
 import ewwep
-from ew import EwUser
+from ew import EwPlayer
 from ewdistrict import EwDistrict
-from ewplayer import EwPlayer
+from ewplayer import EwDiscordUser
 from ewhunting import EwEnemy, EwOperationData
 from ewmarket import EwMarket
 from ewstatuseffects import EwStatusEffect
@@ -58,258 +59,142 @@ clenched = {}
 #When using SSOD, adjusted paths are listed here.
 path_ssod = {}
 
-class Message:
-	# Send the message to this exact channel by name.
-	channel = None
+# lists of all the discord server objects served by bot, identified by the server id
+server_list = {}
 
-	# Send the message to the channel associated with this point of interest.
-	id_poi = None
+client_ref = None
 
-	# Should this message echo to adjacent points of interest?
-	reverb = None
-	message = ""
+def databaseConnect():
+	""" Opens a connection to the central database. Returns the "conn_info" dictionary with 
+	the general information of the connection
+	"""
+	conn_info = None
 
-	def __init__(
-		self,
-		channel = None,
-		reverb = False,
-		message = "",
-		id_poi = None
-	):
-		self.channel = channel
-		self.reverb = reverb
-		self.message = message
-		self.id_poi = id_poi
+	conn_id_todelete = []
 
-"""
-	Class for storing, passing, editing and posting channel responses and topics
-"""
-class EwResponseContainer:
-	client = None
-	id_server = -1
-	channel_responses = {}
-	channel_topics = {}
-	members_to_update = []
+	global db_pool 
+	global db_pool_id
 
-	def __init__(self, client = None, id_server = None):
-		self.client = client
-		self.id_server = id_server
-		self.channel_responses = {}
-		self.channel_topics = {}
-		self.members_to_update = []
+	# Iterate through open connections and find the currently active one.
+	for pool_id in db_pool:
+		conn_info_iter = db_pool.get(pool_id)
 
-	def add_channel_response(self, channel, response):
-		if channel in self.channel_responses:
-			self.channel_responses[channel].append(response)
+		if conn_info_iter['closed'] == True:
+			if conn_info_iter['count'] <= 0:
+				conn_id_todelete.append(pool_id)
 		else:
-			self.channel_responses[channel] = [response]
+			conn_info = conn_info_iter
 
-	def add_channel_topic(self, channel, topic):
-		self.channel_topics[channel] = topic
+	# Close and remove dead connections.
+	if len(conn_id_todelete) > 0:
+		for pool_id in conn_id_todelete:
+			conn_info_iter = db_pool[pool_id]
+			conn_info_iter['conn'].close()
 
-	def add_member_to_update(self, member):
-		for update_member in self.members_to_update:
-			if update_member.id == member.id:
-				return
+			del db_pool[pool_id]
 
-		self.members_to_update.append(member)
+	# Create a new connection.
+	if conn_info == None:
+		db_pool_id += 1
+		conn_info = {
+			'conn': MySQLdb.connect(host = "localhost", user = "rfck-bot", passwd = "rfck" , db = ewcfg.database, charset = "utf8"),
+			'created': int(time.time()),
+			'count': 1,
+			'closed': False
+		}
+		db_pool[db_pool_id] = conn_info
+	else:
+		conn_info['count'] += 1
 
-	def add_response_container(self, resp_cont):
-		for ch in resp_cont.channel_responses:
-			responses = resp_cont.channel_responses[ch]
-			for r in responses:
-				self.add_channel_response(ch, r)
+	return conn_info
 
-		for ch in resp_cont.channel_topics:
-			self.add_channel_topic(ch, resp_cont.channel_topics[ch])
 
-		for member in resp_cont.members_to_update:
-			self.add_member_to_update(member)
+def databaseClose(conn_info):
+	""" Closes (maybe) the active database connection. Takes a dictionary 
+	containing the connection info as its only argument
+	"""
+	conn_info['count'] -= 1
 
-	def format_channel_response(self, channel, member):
-		if channel in self.channel_responses:
-			for i in range(len(self.channel_responses[channel])):
-				self.channel_responses[channel][i] = formatMessage(member, self.channel_responses[channel][i])
+	# Expire old database connections.
+	if (conn_info['created'] + 60) < int(time.time()):
+		conn_info['closed'] = True
 
-	async def post(self, channel=None):
-		self.client = get_client()
-		messages = []
-
-		if self.client == None:
-			logMsg("Couldn't find client")
-			return messages
-
-		server = self.client.get_guild(int(self.id_server))
-		if server == None:
-			logMsg("Couldn't find server with id {}".format(self.id_server))
-			return messages
-
-		for member in self.members_to_update:
-			await ewrolemgr.updateRoles(client = self.client, member = member)
-
-		for ch in self.channel_responses:
-			if channel == None:
-				current_channel = get_channel(server = server, channel_name = ch)
-				if current_channel == None:
-					current_channel = ch
-			else:
-				current_channel = channel
-			try:
-				response = ""
-				while len(self.channel_responses[ch]) > 0:
-					if len(self.channel_responses[ch][0]) > ewcfg.discord_message_length_limit:
-						response += "\n" + self.channel_responses[ch].pop(0)
-						length = len(response)
-
-						split_list = [(response[i:i+2000]) for i in range(0, length, 2000)]
-						for blurb in split_list:
-							message = await send_message(self.client, current_channel, blurb)
-							messages.append(message)
-						response = ""
-					elif len(response) == 0 or len("{}\n{}".format(response, self.channel_responses[ch][0])) < ewcfg.discord_message_length_limit:
-						response += "\n" + self.channel_responses[ch].pop(0)
-					else:
-						message = await send_message(self.client, current_channel, response)
-						messages.append(message)
-						response = ""
-				message = await send_message(self.client, current_channel, response)
-				messages.append(message)
-			except:
-				logMsg('Failed to send message to channel {}: {}'.format(ch, self.channel_responses[ch]))
-				
-
-		# for ch in self.channel_topics:
-		# 	channel = get_channel(server = server, channel_name = ch)
-		# 	try:
-		# 		await channel.edit(topic = self.channel_topics[ch])
-		# 	except:
-		# 		logMsg('Failed to set channel topic for {} to {}'.format(ch, self.channel_topics[ch]))
-
-		return messages
-
-class EwVector2D:
-	vector = [0, 0]
-
-	def __init__(self, vector):
-		self.vector = vector
-
-	def scalar_product(self, other_vector):
-		result = 0
-
-		for i in range(2):
-			result += self.vector[i] * other_vector.vector[i]
-
-		return result
-
-	def add(self, other_vector):
-		result = []
-
-		for i in range(2):
-			result.append( self.vector[i] + other_vector.vector[i] )
-
-		return EwVector2D(result)
-
-	def subtract(self, other_vector):
-		result = []
-
-		for i in range(2):
-			result.append( self.vector[i] - other_vector.vector[i] )
-
-		return EwVector2D(result)
-
-	def norm (self):
-		result = self.scalar_product(self)
-		result = result ** 0.5
-		return result
-
-	def normalize(self):
-		result = []
-
-		norm = self.norm()
-
-		if norm == 0:
-			return EwVector2D([0, 0])
-
-		for i in range(2):
-			result.append(round(self.vector[i] / norm, 3))
-
-		return EwVector2D(result)
-
-def readMessage(fname):
-	msg = Message()
+def execute_sql_query(sql_query, sql_replacements = None):
+	""" Execute a given sql_query. (the purpose of this function is to minimize repeated code and keep functions readable)
+	
+	"""
+	data = None
 
 	try:
-		f = open(fname, "r")
-		f_lines = f.readlines()
-
-		count = 0
-		for line in f_lines:
-			line = line.rstrip()
-			count += 1
-			if len(line) == 0:
-				break
-
-			args = line.split('=')
-			if len(args) == 2:
-				field = args[0].strip().lower()
-				value = args[1].strip()
-
-				if field == "channel":
-					msg.channel = value.lower()
-				elif field == "poi":
-					msg.poi = value.lower()
-				elif field == "reverb":
-					msg.reverb = True if (value.lower() == "true") else False
-			else:
-				count -= 1
-				break
-
-		for line in f_lines[count:]:
-			msg.message += (line.rstrip() + "\n")
-	except:
-		logMsg('failed to parse message.')
-		traceback.print_exc(file = sys.stdout)
+		conn_info = databaseConnect()
+		conn = conn_info.get('conn')
+		cursor = conn.cursor()
+		cursor.execute(sql_query, sql_replacements)
+		if sql_query.lower().startswith("select"):
+			data = cursor.fetchall()
+		conn.commit()
 	finally:
-		f.close()
+		# Clean up the database handles.
+		cursor.close()
+		databaseClose(conn_info)
 
-	return msg
-
-""" Write the string to stdout with a timestamp. """
-def logMsg(string):
-	print("[{}] {}".format(datetime.datetime.now(), string))
-
-	return string
-
-""" read a file named fname and return its contents as a string """
-def getValueFromFileContents(fname):
-	token = ""
-
-	try:
-		f_token = open(fname, "r")
-		f_token_lines = f_token.readlines()
-
-		for line in f_token_lines:
-			line = line.rstrip()
-			if len(line) > 0:
-				token = line
-	except IOError:
-		token = ""
-		print("Could not read {} file.".format(fname))
-	finally:
-		f_token.close()
-
-	return token
-
-""" get the Discord API token from the config file on disk """
+	return data
 def getToken():
+	""" Get the Discord API token from the config file on disk\n 
+		Arguments: None\n
+		Return: string -- Discord API token
+	"""
 	return getValueFromFileContents("token")
 
-""" get the Twitch client ID from the config file on disk """
+def update_server_list(server):
+	""" Store a server in a dictionary of all discord servers\n
+		Arguments:
+			'server': Guild -- The discord server to add to the list\n
+		Return: None
+	"""
+	global server_list
+	server_list[server.id] = server
+
+def get_client():
+	""" Get the client class for the bot\n
+		Arguments: None
+		Return: None
+	"""
+	global client_ref
+	return client_ref
+
+def set_client(cl):
+	""" Save the discord client of this bot globally.\n
+		Arguments:
+			'cl': Client -- Discord client class for the bot.\n
+		Return: None
+	"""
+	global client_ref
+	client_ref = cl
+
+def logMsg(string):
+	""" Write the string to stdout with a timestamp.\n 
+		Arguments:
+			'string': string -- Text to write to the console\n
+		Return: None
+	"""
+	print("[{}] {}".format(datetime.datetime.now(), string))
+
+
 def getTwitchClientId():
+	""" Get the Twitch client ID from the config file on disk.\n
+		Arguments: None
+		Return: string -- Twitch ID token
+	"""
 	return getValueFromFileContents("twitch_client_id")
 
-""" print a list of strings with nice comma-and grammar """
 def formatNiceList(names = [], conjunction = "and"):
+	""" Print a list of strings with nice comma-and grammar.\n
+		Argument:
+			'names': list -- The list of strings to format\n
+			'conjunction': string -- Optional conjunction specification (defaults to 'and')\n
+		Return: string -- Formated list
+	"""
 	l = len(names)
 
 	if l == 0:
@@ -321,20 +206,20 @@ def formatNiceList(names = [], conjunction = "and"):
 	return ', '.join(names[0:-1]) + '{comma} {conj} '.format(comma = (',' if l > 2 else ''), conj = conjunction) + names[-1]
 
 def formatNiceTime(seconds = 0, round_to_minutes = False, round_to_hours = False):
+	""" Format computer time into a readable string.\n
+		Arguments:
+			'seconds': int -- Computer time in seconds\n
+			'round_to_minutes', 'round_to_hours': boolean -- Determine rounding operation\n
+		Return: string -- Formated computer time
+	"""
 	try:
 		seconds = int(seconds)
 	except:
 		seconds = 0
 
-	if round_to_minutes:
-		minutes = round(seconds / 60)
-	else:
-		minutes = int(seconds / 60)
+	minutes = int(seconds / 60)
 
-	if round_to_hours:
-		hours = round(minutes / 60)
-	else:
-		hours = int(minutes / 60)
+	hours = int(minutes / 60)
 
 	minutes = minutes % 60
 	seconds = seconds % 60
@@ -374,8 +259,12 @@ def formatNiceTime(seconds = 0, round_to_minutes = False, round_to_hours = False
 		time_tokens.append("0 seconds")
 	return formatNiceList(names = time_tokens, conjunction = "and")
 
-""" weighted choice. takes a dict of element -> weight and returns a random element """
 def weightedChoice(weight_map):
+	""" Weighted choice from a weight map dictionary.\n
+		Arguments:
+			'weight_map': dict -- "Element -> Weight" dictionary\n
+		Return: undefined -- The element chosen
+	"""
 	weight_sum = 0
 	elem_list = []
 	weight_sums = []
@@ -390,18 +279,51 @@ def weightedChoice(weight_map):
 		weight = weight_sums[i]
 		if rand < weight:
 			return elem_list[i]
-	
-""" turn a list of Users into a list of their respective names """
+
+def getValueFromFileContents(fname):
+	""" Read a token file and return its contents as a string\n
+		Arguments:
+			'fname': string -- File name\n
+		Return: string -- Token string
+	"""
+	token = ""
+
+	try:
+		f_token = open(fname, "r")
+		f_token_lines = f_token.readlines()
+
+		for line in f_token_lines:
+			line = line.rstrip()
+			if len(line) > 0:
+				token = line
+	except IOError:
+		token = ""
+		print("Could not read {} file.".format(fname))
+	finally:
+		f_token.close()
+
+	return token
+
+
 def userListToNameString(list_user):
+	""" Turn a list of Users into a list of their respective names\n
+		Arguments:
+			'list_user': list -- User list to convert\n
+		Return: string -- Formated list
+	"""
 	names = []
 
 	for user in list_user:
-		names.append(user.display_name)
+		names.append(user.name)
 
 	return formatNiceList(names)
 
-""" turn a list of Roles into a map of name = >Role """
 def getRoleMap(roles):
+	""" Turn a list of Roles into a map of Name -> Role \n
+		Arguments: 
+			'roles': list -- List of roles to format\n
+		Return: dict -- Dictionary with names mapped to roles
+	"""
 	roles_map = {}
 
 	for role in roles:
@@ -409,8 +331,12 @@ def getRoleMap(roles):
 
 	return roles_map
 
-""" turn a list of Roles into a map of id = >Role """
 def getRoleIdMap(roles):
+	""" Turn a list of Roles into a map of ID -> Role \n
+		Arguments: 
+			'roles': list -- List of roles to format\n
+		Return: dict -- Dictionary with names mapped to roles
+	"""
 	roles_map = {}
 
 	for role in roles:
@@ -418,284 +344,211 @@ def getRoleIdMap(roles):
 
 	return roles_map
 
-""" canonical lowercase no space name for a role """
 def mapRoleName(roleName):
+	""" Canonical, lowercase, no-space name for a role.\n
+	Arguments:
+		'roleName': Any -- Role name\n
+	Return: Any -- Formated role anme
+	"""
 	if type(roleName) == int:
 		return roleName
 	return roleName.replace(" ", "").lower()
 
-""" connect to the database """
-def databaseConnect():
-	conn_info = None
-
-	conn_id_todelete = []
-
-	global db_pool
-	global db_pool_id
-
-	# Iterate through open connections and find the currently active one.
-	for pool_id in db_pool:
-		conn_info_iter = db_pool.get(pool_id)
-
-		if conn_info_iter['closed'] == True:
-			if conn_info_iter['count'] <= 0:
-				conn_id_todelete.append(pool_id)
-		else:
-			conn_info = conn_info_iter
-
-	# Close and remove dead connections.
-	if len(conn_id_todelete) > 0:
-		for pool_id in conn_id_todelete:
-			conn_info_iter = db_pool[pool_id]
-			conn_info_iter['conn'].close()
-
-			del db_pool[pool_id]
-
-	# Create a new connection.
-	if conn_info == None:
-		db_pool_id += 1
-		conn_info = {
-		'conn': MySQLdb.connect(host = "localhost", user = "rfck-bot", passwd = "rfck" , db = ewcfg.database, charset = "utf8"),
-			'created': int(time.time()),
-			'count': 1,
-			'closed': False
-		}
-		db_pool[db_pool_id] = conn_info
-	else:
-		conn_info['count'] += 1
-
-	return conn_info
-
-""" close (maybe) the active database connection """
-def databaseClose(conn_info):
-	conn_info['count'] -= 1
-
-	# Expire old database connections.
-	if (conn_info['created'] + 60) < int(time.time()):
-		conn_info['closed'] = True
-
-""" format responses with the username: """
 def formatMessage(user_target, message):
+	""" Format bot responses with the character's name.\n
+		Arguments:
+			'user_target': EwCharacter -- The character the bot is responding to\n
+			'message': string -- Bot response\n
+		Return: string -- Formated response
+	"""
 	# If the display name belongs to an unactivated raid boss, hide its name while it's counting down.
-
 	try:
 		if user_target.life_state == ewcfg.enemy_lifestate_alive:
 			
 			if user_target.enemyclass == ewcfg.enemy_class_gaiaslimeoid:
-				return "**{} ({}):** {}".format(user_target.display_name, user_target.gvs_coord, message)
+				return "**{} ({}):** {}".format(user_target.name, user_target.gvs_coord, message)
 			else:
 				# Send messages for normal enemies, and allow mentioning with @
 				if user_target.identifier != '' and user_target.enemyclass == ewcfg.enemy_class_shambler:
-					return "**{} [{}] ({}):** {}".format(user_target.display_name, user_target.identifier, user_target.gvs_coord, message)
+					return "**{} [{}] ({}):** {}".format(user_target.name, user_target.identifier, user_target.gvs_coord, message)
 				elif user_target.identifier != '':
-					return "*{} [{}]* {}".format(user_target.display_name, user_target.identifier, message)
+					return "*{} [{}]* {}".format(user_target.name, user_target.identifier, message)
 				else:
-					return "*{}:* {}".format(user_target.display_name, message)
+					return "*{}:* {}".format(user_target.name, message)
 
 
-		elif user_target.display_name in ewcfg.raid_boss_names and user_target.life_state == ewcfg.enemy_lifestate_unactivated:
+		elif user_target.name in ewcfg.raid_boss_names and user_target.life_state == ewcfg.enemy_lifestate_unactivated:
 			return "{}".format(message)
 
 	# If user_target isn't an enemy, catch the exception.
 	except:
 		if hasattr(user_target, "id_user") and hasattr(user_target, "id_server"):
-			user_obj = EwUser(id_server=user_target.id_server, id_user=user_target.id_user)
+			user_obj = EwPlayer(id_server=user_target.id_server, id_user=user_target.id_user)
 		else:
-			user_obj = EwUser(member=user_target)
+			user_obj = EwPlayer(member=user_target)
 		mutations = user_obj.get_mutations()
 		if ewcfg.mutation_id_amnesia in mutations:
-			display_name = '?????'
+			name = '?????'
 		else:
-			display_name = user_target.display_name
+			name = user_target.name
 
-		return "*{}:* {}".format(display_name, message).replace("{", "\{").replace("@", "{at}")
+		return "*{}:* {}".format(name, message).replace("{", "\{").replace("@", "{at}")
 
-""" Decay slime totals for all users, with the exception of Kingpins"""
 def decaySlimes(id_server = None):
+	""" Decay slime totals for all users, with the exception of Kingpins
+		Arguments:
+			'id_server': int -- Server ID
+		Return: None
+	"""
 	if id_server != None:
-		try:
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor();
 
-			cursor.execute("SELECT id_user, life_state FROM users WHERE id_server = %s AND {slimes} > 1 AND NOT {life_state} = {life_state_kingpin}".format(
-				slimes = ewcfg.col_slimes,
-				life_state = ewcfg.col_life_state,
-				life_state_kingpin = ewcfg.life_state_kingpin
-			), (
-				id_server,
-			))
+		users = execute_sql_query("SELECT id_user, life_state FROM users WHERE id_server = %s AND {slimes} > 1 AND NOT {life_state} = {life_state_kingpin}".format(
+			slimes = ewcfg.col_slimes,
+			life_state = ewcfg.col_life_state,
+			life_state_kingpin = ewcfg.life_state_kingpin
+		), (
+			id_server,
+		))
 
-			users = cursor.fetchall()
-			total_decayed = 0
+		total_decayed = 0
 
-			for user in users:
-				user_data = EwUser(id_user = user[0], id_server = id_server)
-				slimes_to_decay = user_data.slimes - (user_data.slimes * (.5 ** (ewcfg.update_market / ewcfg.slime_half_life)))
+		for user in users:
+			user_data = EwPlayer(id_user = user[0], id_server = id_server)
+			slimes_to_decay = user_data.slime - (user_data.slime * (.5 ** (ewcfg.update_market / ewcfg.slime_half_life)))
 
-				#round up or down, randomly weighted
-				remainder = slimes_to_decay - int(slimes_to_decay)
-				if random.random() < remainder: 
-					slimes_to_decay += 1 
-				slimes_to_decay = int(slimes_to_decay)
+			#round up or down, randomly weighted
+			remainder = slimes_to_decay - int(slimes_to_decay)
+			if random.random() < remainder: 
+				slimes_to_decay += 1 
+			slimes_to_decay = int(slimes_to_decay)
 
-				if slimes_to_decay >= 1:
-					user_data.change_slimes(n = -slimes_to_decay, source = ewcfg.source_decay)
-					user_data.persist()
-					total_decayed += slimes_to_decay
+			if slimes_to_decay >= 1:
+				user_data.change_slime(n = -slimes_to_decay, source = ewcfg.source_decay)
+				user_data.persist()
+				total_decayed += slimes_to_decay
 
-			cursor.execute("SELECT district FROM districts WHERE id_server = %s AND {slimes} > 1".format(
+			districts = execute_sql_query("SELECT district FROM districts WHERE id_server = %s AND {slimes} > 1".format(
 				slimes = ewcfg.col_district_slimes
 			), (
 				id_server,
 			))
 
-			districts = cursor.fetchall()
+			
 
-			for district in districts:
-				district_data = EwDistrict(district = district[0], id_server = id_server)
-				slimes_to_decay = district_data.slimes - (district_data.slimes * (.5 ** (ewcfg.update_market / ewcfg.slime_half_life)))
+		for district in districts:
+			district_data = EwDistrict(district = district[0], id_server = id_server)
+			slimes_to_decay = district_data.slime - (district_data.slime * (.5 ** (ewcfg.update_market / ewcfg.slime_half_life)))
 
-				#round up or down, randomly weighted
-				remainder = slimes_to_decay - int(slimes_to_decay)
-				if random.random() < remainder: 
-					slimes_to_decay += 1 
-				slimes_to_decay = int(slimes_to_decay)
+			#round up or down, randomly weighted
+			remainder = slimes_to_decay - int(slimes_to_decay)
+			if random.random() < remainder: 
+				slimes_to_decay += 1 
+			slimes_to_decay = int(slimes_to_decay)
 
-				if slimes_to_decay >= 1:
-					district_data.change_slimes(n = -slimes_to_decay, source = ewcfg.source_decay)
-					district_data.persist()
-					total_decayed += slimes_to_decay
+			if slimes_to_decay >= 1:
+				district_data.change_slime(n = -slimes_to_decay, source = ewcfg.source_decay)
+				district_data.persist()
+				total_decayed += slimes_to_decay
 
-			cursor.execute("UPDATE markets SET {decayed} = ({decayed} + %s) WHERE {server} = %s".format(
-				decayed = ewcfg.col_decayed_slimes,
-				server = ewcfg.col_id_server
-			), (
-				total_decayed,
-				id_server
-			))
+		execute_sql_query("UPDATE markets SET {decayed} = ({decayed} + %s) WHERE {server} = %s".format(
+			decayed = ewcfg.col_decayed_slimes,
+			server = ewcfg.col_id_server
+		), (
+			total_decayed,
+			id_server
+		))
 
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
-
-"""
-	Kills users who have left the server while the bot was offline
-"""
 def kill_quitters(id_server = None):
+	""" Kills users who have left the server while the bot was offline\n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None
+	"""
 	if id_server != None:
-		try:
-			client = get_client()
-			server = client.get_guild(id_server)
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor()
 
-			cursor.execute("SELECT id_user FROM users WHERE id_server = %s AND ( life_state > 0 OR slimes < 0 )".format(
-			), (
-				id_server,
-			))
+		client = get_client()
+		server = client.get_guild(id_server)
 
-			users = cursor.fetchall()
+		users = execute_sql_query("SELECT id_user FROM users WHERE id_server = %s AND ( life_state > 0 OR slimes < 0 )".format(
+		), (
+			id_server,
+		))
 
-			for user in users:
-				member = server.get_member(user[0])
+		for user in users:
+			member = server.get_member(user[0])
 
-				# Make sure to kill players who may have left while the bot was offline.
-				if member is None:
-					try:
-						user_data = EwUser(id_user = user[0], id_server = id_server)
+			# Make sure to kill players who may have left while the bot was offline.
+			if member is None:
+				try:
+					user_data = EwPlayer(id_user = user[0], id_server = id_server)
 
-						user_data.trauma = ewcfg.trauma_id_suicide
-						user_data.die(cause=ewcfg.cause_leftserver)
-						user_data.persist()
+					user_data.trauma = ewcfg.trauma_id_suicide
+					user_data.die(cause=ewcfg.cause_leftserver)
+					user_data.persist()
 
-						logMsg('Player with id {} killed for leaving the server.'.format(user[0]))
-					except:
-						logMsg('Failed to kill member who left the server.')
+					logMsg('Player with id {} killed for leaving the server.'.format(user[0]))
+				except:
+					logMsg('Failed to kill member who left the server.')
 
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
-
-""" Flag all users in the Outskirts for PvP """
 async def flag_outskirts(id_server = None):
+	""" Flag all users in the Outskirts for PvP\n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None
+	"""
 	if id_server != None:
-		try:
-			client = get_client()
-			server = client.get_guild(id_server)
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor();
+		client = get_client()
+		server = client.get_guild(id_server)
 
-			cursor.execute("SELECT id_user FROM users WHERE id_server = %s AND poi IN %s".format(
-			), (
-				id_server,
-				tuple(ewcfg.outskirts)
+		users = execute_sql_query("SELECT id_user FROM users WHERE id_server = %s AND poi IN %s".format(
+		), (
+			id_server,
+			tuple(ewcfg.outskirts)
 
-			))
+		))
 
-			users = cursor.fetchall()
+		for user in users:
+			user_data = EwPlayer(id_user = user[0], id_server = id_server)
+			# Flag the user for PvP
+			enlisted = True if user_data.life_state == ewcfg.life_state_enlisted else False
+			user_data.time_expirpvp = calculatePvpTimer(user_data.time_expirpvp, ewcfg.time_pvp_vulnerable_districts, enlisted)
+			user_data.persist()
+			await ewrolemgr.updateRoles(client = client, member = server.get_member(user_data.id_user))
 
-			for user in users:
-				user_data = EwUser(id_user = user[0], id_server = id_server)
-				# Flag the user for PvP
-				enlisted = True if user_data.life_state == ewcfg.life_state_enlisted else False
-				user_data.time_expirpvp = calculatePvpTimer(user_data.time_expirpvp, ewcfg.time_pvp_vulnerable_districts, enlisted)
-				user_data.persist()
-				await ewrolemgr.updateRoles(client = client, member = server.get_member(user_data.id_user))
-
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
-
-"""
-	Flag all users in vulnerable territory, defined as capturable territory (streets) and outskirts.
-"""
 async def flag_vulnerable_districts(id_server = None):
+	""" Flag all users in vulnerable territory, defined as capturable territory (streets) and outskirts.\n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None
+	"""
 	if id_server != None:
-		try:
-			client = get_client()
-			server = client.get_guild(id_server)
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor()
+		client = get_client()
+		server = client.get_guild(id_server)
 
-			cursor.execute("SELECT id_user FROM users WHERE id_server = %s AND poi IN %s".format(
-			), (
-				id_server,
-				tuple(ewcfg.vulnerable_districts)
+		users = execute_sql_query("SELECT id_user FROM users WHERE id_server = %s AND poi IN %s".format(
+		), (
+			id_server,
+			tuple(ewcfg.vulnerable_districts)
 
-			))
+		))
 
-			users = cursor.fetchall()
+		for user in users:
+			user_data = EwPlayer(id_user = user[0], id_server = id_server)
+			member = server.get_member(user_data.id_user)
 
-			for user in users:
-				user_data = EwUser(id_user = user[0], id_server = id_server)
-				member = server.get_member(user_data.id_user)
+			# Flag the user for PvP
+			enlisted = True if user_data.life_state == ewcfg.life_state_enlisted else False
+			user_data.time_expirpvp = calculatePvpTimer(user_data.time_expirpvp, ewcfg.time_pvp_vulnerable_districts, enlisted)
+			user_data.persist()
+			
+			await ewrolemgr.updateRoles(client = client, member = member, remove_or_apply_flag = 'apply')
 
-				# Flag the user for PvP
-				enlisted = True if user_data.life_state == ewcfg.life_state_enlisted else False
-				user_data.time_expirpvp = calculatePvpTimer(user_data.time_expirpvp, ewcfg.time_pvp_vulnerable_districts, enlisted)
-				user_data.persist()
-				
-				await ewrolemgr.updateRoles(client = client, member = member, remove_or_apply_flag = 'apply')
-
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
-
-"""
-	Coroutine that continually calls bleedSlimes; is called once per server, and not just once globally
-"""
 async def bleed_tick_loop(id_server):
+	""" Coroutine that continually calls bleedSlimes; is called once per server, and not just once globally\n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None
+	"""
 	interval = ewcfg.bleed_tick_length
 	# causes a capture tick to happen exactly every 10 seconds (the "elapsed" thing might be unnecessary, depending on how long capture_tick ends up taking on average)
 	while not TERMINATE:
@@ -705,141 +558,127 @@ async def bleed_tick_loop(id_server):
 
 		await asyncio.sleep(interval)
 
-""" Bleed slime for all users """
 async def bleedSlimes(id_server = None):
+	""" Bleed slime for all users\n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None
+	"""
 	if id_server != None:
-		try:
-			client = get_client()
-			server = client.get_guild(id_server)
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor();
+		client = get_client()
+		server = client.get_guild(id_server)
 
-			cursor.execute("SELECT id_user FROM users WHERE id_server = %s AND {bleed_storage} > 1".format(
-				bleed_storage = ewcfg.col_bleed_storage
-			), (
-				id_server,
-			))
+		users = execute_sql_query("SELECT id_user FROM users WHERE id_server = %s AND {bleed_storage} > 1".format(
+			bleed_storage = ewcfg.col_bleed_storage
+		), (
+			id_server,
+		))
 
-			users = cursor.fetchall()
-			total_bled = 0
-			deathreport = ""
-			resp_cont = EwResponseContainer(id_server = id_server)
-			for user in users:
-				user_data = EwUser(id_user = user[0], id_server = id_server)
+		total_bled = 0
+		resp_cont = EwResponseContainer(id_server = id_server)
+		for user in users:
+			user_data = EwPlayer(id_user = user[0], id_server = id_server)
 
-				mutations = user_data.get_mutations()
-				member = server.get_member(user_data.id_user)
-				if ewcfg.mutation_id_bleedingheart not in mutations or user_data.time_lasthit < int(time.time()) - ewcfg.time_bhbleed:
-					slimes_to_bleed = user_data.bleed_storage * (
-								1 - .5 ** (ewcfg.bleed_tick_length / ewcfg.bleed_half_life))
-					slimes_to_bleed = max(slimes_to_bleed, ewcfg.bleed_tick_length * 1000)
-					slimes_dropped = user_data.totaldamage + user_data.slimes
-
-					#trauma = ewcfg.trauma_map.get(user_data.trauma)
-					#bleed_mod = 1
-					#if trauma != None and trauma.trauma_class == ewcfg.trauma_class_bleeding:
-					#	bleed_mod += 0.5 * user_data.degradation / 100
-
-					# round up or down, randomly weighted
-					remainder = slimes_to_bleed - int(slimes_to_bleed)
-					if random.random() < remainder:
-						slimes_to_bleed += 1
-					slimes_to_bleed = int(slimes_to_bleed)
-
-					slimes_to_bleed = min(slimes_to_bleed, user_data.bleed_storage)
-
-					if slimes_to_bleed >= 1:
-
-						real_bleed = round(slimes_to_bleed) # * bleed_mod)
-
-						user_data.bleed_storage -= slimes_to_bleed
-						user_data.change_slimes(n=- real_bleed, source=ewcfg.source_bleeding)
-
-						district_data = EwDistrict(id_server=id_server, district=user_data.poi)
-						district_data.change_slimes(n=real_bleed, source=ewcfg.source_bleeding)
-						district_data.persist()
-
-						if user_data.slimes < 0:
-							user_data.trauma = ewcfg.trauma_id_environment
-							die_resp = user_data.die(cause=ewcfg.cause_bleeding)
-							# user_data.change_slimes(n = -slimes_dropped / 10, source = ewcfg.source_ghostification)
-							player_data = EwPlayer(id_server=user_data.id_server, id_user=user_data.id_user)
-							resp_cont.add_response_container(die_resp)
-						user_data.persist()
-
-						total_bled += real_bleed
-
-					await ewrolemgr.updateRoles(client=client, member=member)
-
-
-			await resp_cont.post()
-
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)		
-
-""" Bleed slime for all enemies """
-async def enemyBleedSlimes(id_server = None):
-	if id_server != None:
-		try:
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor();
-
-			cursor.execute("SELECT id_enemy FROM enemies WHERE id_server = %s AND {bleed_storage} > 1".format(
-				bleed_storage = ewcfg.col_enemy_bleed_storage
-			), (
-				id_server,
-			))
-
-			enemies = cursor.fetchall()
-			total_bled = 0
-			resp_cont = EwResponseContainer(id_server = id_server)
-			for enemy in enemies:
-				enemy_data = EwEnemy(id_enemy = enemy[0], id_server = id_server)
-				slimes_to_bleed = enemy_data.bleed_storage * (1 - .5 ** (ewcfg.bleed_tick_length / ewcfg.bleed_half_life))
+			mutations = user_data.get_mutations()
+			member = server.get_member(user_data.id_user)
+			if ewcfg.mutation_id_bleedingheart not in mutations or user_data.time_lasthit < int(time.time()) - ewcfg.time_bhbleed:
+				slimes_to_bleed = user_data.bleed_storage * (
+							1 - .5 ** (ewcfg.bleed_tick_length / ewcfg.bleed_half_life))
 				slimes_to_bleed = max(slimes_to_bleed, ewcfg.bleed_tick_length * 1000)
-				slimes_to_bleed = min(slimes_to_bleed, enemy_data.bleed_storage)
+				#slimes_dropped = user_data.totaldamage + user_data.slime
 
-				district_data = EwDistrict(id_server = id_server, district = enemy_data.poi)
+				#trauma = ewcfg.trauma_map.get(user_data.trauma)
+				#bleed_mod = 1
+				#if trauma != None and trauma.trauma_class == ewcfg.trauma_class_bleeding:
+				#	bleed_mod += 0.5 * user_data.degradation / 100
 
-				#round up or down, randomly weighted
+				# round up or down, randomly weighted
 				remainder = slimes_to_bleed - int(slimes_to_bleed)
 				if random.random() < remainder:
 					slimes_to_bleed += 1
 				slimes_to_bleed = int(slimes_to_bleed)
 
+				slimes_to_bleed = min(slimes_to_bleed, user_data.bleed_storage)
+
 				if slimes_to_bleed >= 1:
-					enemy_data.bleed_storage -= slimes_to_bleed
-					enemy_data.change_slimes(n = - slimes_to_bleed, source = ewcfg.source_bleeding)
-					enemy_data.persist()
-					district_data.change_slimes(n = slimes_to_bleed, source = ewcfg.source_bleeding)
+
+					real_bleed = round(slimes_to_bleed) # * bleed_mod)
+
+					user_data.bleed_storage -= slimes_to_bleed
+					user_data.change_slime(n=- real_bleed, source=ewcfg.source_bleeding)
+
+					district_data = EwDistrict(id_server=id_server, district=user_data.poi)
+					district_data.change_slime(n=real_bleed, source=ewcfg.source_bleeding)
 					district_data.persist()
-					total_bled += slimes_to_bleed
 
-					if enemy_data.slimes <= 0:
-						ewhunting.delete_enemy(enemy_data)
+					if user_data.slime < 0:
+						user_data.trauma = ewcfg.trauma_id_environment
+						die_resp = user_data.die(cause=ewcfg.cause_bleeding)
+						# user_data.change_slime(n = -slimes_dropped / 10, source = ewcfg.source_ghostification)
+						#player_data = EwDiscordUser(id_server=user_data.id_server, id_user=user_data.id_user)
+						resp_cont.add_response_container(die_resp)
+					user_data.persist()
 
-			await resp_cont.post()
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
+					total_bled += real_bleed
 
-""" Increase hunger for every player in the server. """
-def pushupServerHunger(id_server = None):
+				await ewrolemgr.updateRoles(client=client, member=member)
+
+		await resp_cont.post()	
+
+
+async def enemyBleedSlimes(id_server = None):
+	""" Bleed slime for all enemies \n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None
+	"""
 	if id_server != None:
-		try:
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor();
+
+		enemies = execute_sql_query("SELECT id_enemy FROM enemies WHERE id_server = %s AND {bleed_storage} > 1".format(
+			bleed_storage = ewcfg.col_enemy_bleed_storage
+		), (
+			id_server,
+		))
+
+		total_bled = 0
+		resp_cont = EwResponseContainer(id_server = id_server)
+		for enemy in enemies:
+			enemy_data = EwEnemy(id_enemy = enemy[0], id_server = id_server)
+			slimes_to_bleed = enemy_data.bleed_storage * (1 - .5 ** (ewcfg.bleed_tick_length / ewcfg.bleed_half_life))
+			slimes_to_bleed = max(slimes_to_bleed, ewcfg.bleed_tick_length * 1000)
+			slimes_to_bleed = min(slimes_to_bleed, enemy_data.bleed_storage)
+
+			district_data = EwDistrict(id_server = id_server, district = enemy_data.poi)
+
+			#round up or down, randomly weighted
+			remainder = slimes_to_bleed - int(slimes_to_bleed)
+			if random.random() < remainder:
+				slimes_to_bleed += 1
+			slimes_to_bleed = int(slimes_to_bleed)
+
+			if slimes_to_bleed >= 1:
+				enemy_data.bleed_storage -= slimes_to_bleed
+				enemy_data.change_slime(n = - slimes_to_bleed, source = ewcfg.source_bleeding)
+				enemy_data.persist()
+				district_data.change_slime(n = slimes_to_bleed, source = ewcfg.source_bleeding)
+				district_data.persist()
+				total_bled += slimes_to_bleed
+
+				if enemy_data.slime <= 0:
+					ewhunting.delete_enemy(enemy_data)
+
+		await resp_cont.post()
+
+def pushupServerHunger(id_server = None):
+	""" Increase hunger for every player in the server.\n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None
+	"""
+	if id_server != None:
 
 			# Save data
-			cursor.execute("UPDATE users SET {hunger} = {hunger} + {tick} WHERE life_state > 0 AND id_server = %s AND hunger < {limit}".format(
+			execute_sql_query("UPDATE users SET {hunger} = {hunger} + {tick} WHERE life_state > 0 AND id_server = %s AND hunger < {limit}".format(
 				hunger = ewcfg.col_hunger,
 				tick = ewcfg.hunger_pertick,
 				# this function returns the bigger of two values; there is no simple way to do this in sql and we can't calculate it within this python script
@@ -851,54 +690,46 @@ def pushupServerHunger(id_server = None):
 				id_server,
 			))
 
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
-
-""" Reduce inebriation for every player in the server. """
 def pushdownServerInebriation(id_server = None):
+	""" Reduce inebriation for every player in the server.\n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None	
+	"""
 	if id_server != None:
-		try:
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor();
 
-			# Save data
-			cursor.execute("UPDATE users SET {inebriation} = {inebriation} - {tick} WHERE id_server = %s AND {inebriation} > {limit}".format(
-				inebriation = ewcfg.col_inebriation,
-				tick = ewcfg.inebriation_pertick,
-				limit = 0
-			), (
-				id_server,
-			))
+		# Save data
+		execute_sql_query("UPDATE users SET {inebriation} = {inebriation} - {tick} WHERE id_server = %s AND {inebriation} > {limit}".format(
+			inebriation = ewcfg.col_inebriation,
+			tick = ewcfg.inebriation_pertick,
+			limit = 0
+		), (
+			id_server,
+		))
 
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
-
-"""
-	Coroutine that continually calls burnSlimes; is called once per server, and not just once globally
-"""
 async def burn_tick_loop(id_server):
+	""" Coroutine that continually calls burnSlimes; is called once per server, and not just once globally\n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None	
+	"""
 	interval = ewcfg.burn_tick_length
 	while not TERMINATE:
 		await burnSlimes(id_server = id_server)
 		await enemyBurnSlimes(id_server = id_server)
 		await asyncio.sleep(interval)
 
-""" Burn slime for all users """
 async def burnSlimes(id_server = None):
+	""" Burn slime for all users\n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None
+	"""
 	if id_server != None:
-		time_now = int(time.time())
+		#time_now = int(time.time())
 		client = get_client()
 		server = client.get_guild(id_server)
 		status_origin = 'user'
-
-		results = {}
 
 		# Get users with harmful status effects
 		data = execute_sql_query("SELECT {id_user}, {value}, {source}, {id_status} from status_effects WHERE {id_status} IN %s and {id_server} = %s".format(
@@ -914,17 +745,17 @@ async def burnSlimes(id_server = None):
 
 		resp_cont = EwResponseContainer(id_server = id_server)
 		for result in data:
-			user_data = EwUser(id_user = result[0], id_server = id_server)
+			user_data = EwPlayer(id_user = result[0], id_server = id_server)
 			member = server.get_member(user_data.id_user)
 
-			slimes_dropped = user_data.totaldamage + user_data.slimes
+			slimes_dropped = user_data.totaldamage + user_data.slime
 			used_status_id = result[3]
 
 			# Deal 10% of total slime to burn every second
 			slimes_to_burn = math.ceil(int(float(result[1])) * ewcfg.burn_tick_length / ewcfg.time_expire_burn)
 
 			# Check if a status effect originated from an enemy or a user.
-			killer_data = EwUser(id_server=id_server, id_user=result[2])
+			killer_data = EwPlayer(id_server=id_server, id_user=result[2])
 			if killer_data == None:
 				killer_data = EwEnemy(id_server=id_server, id_enemy=result[2])
 				if killer_data != None:
@@ -935,31 +766,29 @@ async def burnSlimes(id_server = None):
 					
 			if status_origin == 'user':
 				# Damage stats
-				ewstats.change_stat(user=killer_data, metric=ewcfg.stat_lifetime_damagedealt, n=slimes_to_burn)
+				killer_data.change_stat(metric=ewcfg.stat_lifetime_damagedealt, n=slimes_to_burn)
 
 			# Player died
-			if user_data.slimes - slimes_to_burn < 0:
+			if user_data.slime - slimes_to_burn < 0:
 				weapon = ewcfg.weapon_map.get(ewcfg.weapon_id_molotov)
 
-				player_data = EwPlayer(id_server=user_data.id_server, id_user=user_data.id_user)
-				killer = EwPlayer(id_server=id_server, id_user=killer_data.id_user)
+				player_data = EwDiscordUser(id_server=user_data.id_server, id_user=user_data.id_user)
+				killer = EwDiscordUser(id_server=id_server, id_user=killer_data.id_user)
 				poi = ewcfg.id_to_poi.get(user_data.poi)
 
 				# Kill stats
 				if status_origin == 'user':
-					ewstats.increment_stat(user = killer_data, metric = ewcfg.stat_kills)
-					ewstats.track_maximum(user = killer_data, metric = ewcfg.stat_biggest_kill, value = int(slimes_dropped))
+					killer_data.increment_stat(metric = ewcfg.stat_kills)
+					killer_data.track_maximum(metric = ewcfg.stat_biggest_kill, value = int(slimes_dropped))
 	
 					if killer_data.slimelevel > user_data.slimelevel:
-						ewstats.increment_stat(user = killer_data, metric = ewcfg.stat_lifetime_ganks)
+						killer_data.increment_stat(metric = ewcfg.stat_lifetime_ganks)
 					elif killer_data.slimelevel < user_data.slimelevel:
-						ewstats.increment_stat(user = killer_data, metric = ewcfg.stat_lifetime_takedowns)
+						killer_data.increment_stat(metric = ewcfg.stat_lifetime_takedowns)
 
 					# Collect bounty
 					coinbounty = int(user_data.bounty / ewcfg.slimecoin_exchangerate)  # 100 slime per coin
-					
-					if user_data.slimes >= 0:
-						killer_data.change_slimecoin(n = coinbounty, coinsource = ewcfg.coinsource_bounty)
+					killer_data.change_slimecoin(n = coinbounty, coinsource = ewcfg.coinsource_bounty)
 
 				# Kill player
 				if status_origin == 'user':
@@ -969,16 +798,16 @@ async def burnSlimes(id_server = None):
 					
 				user_data.trauma = ewcfg.trauma_id_environment
 				die_resp = user_data.die(cause=ewcfg.cause_burning)
-				# user_data.change_slimes(n = -slimes_dropped / 10, source = ewcfg.source_ghostification)
+				# user_data.change_slime(n = -slimes_dropped / 10, source = ewcfg.source_ghostification)
 
 				resp_cont.add_response_container(die_resp)
 
 				if used_status_id == ewcfg.status_burning_id:
-					deathreport = "{} has burned to death.".format(player_data.display_name)
+					deathreport = "{} has burned to death.".format(player_data.name)
 				elif used_status_id == ewcfg.status_acid_id:
-					deathreport = "{} has been melted to death by acid.".format(player_data.display_name)
+					deathreport = "{} has been melted to death by acid.".format(player_data.name)
 				elif used_status_id == ewcfg.status_spored_id:
-					deathreport = "{} has been overrun by spores.".format(player_data.display_name)
+					deathreport = "{} has been overrun by spores.".format(player_data.name)
 				else:
 					deathreport = ""
 				resp_cont.add_channel_response(poi.channel, deathreport)
@@ -988,20 +817,23 @@ async def burnSlimes(id_server = None):
 				user_data.persist()
 				await ewrolemgr.updateRoles(client=client, member=member)
 			else:
-				user_data.change_slimes(n=-slimes_to_burn, source=ewcfg.source_damage)
+				user_data.change_slime(n=-slimes_to_burn, source=ewcfg.source_damage)
 				user_data.persist()
 				
 
 		await resp_cont.post()	
 
 async def enemyBurnSlimes(id_server):
+	""" Burn slime for all enemys\n
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None
+	"""	
 	if id_server != None:
-		time_now = int(time.time())
-		client = get_client()
-		server = client.get_guild(id_server)
+		#time_now = int(time.time())
 		status_origin = 'user'
 
-		results = {}
+		#results = {}
 
 		# Get enemies with harmful status effects
 		data = execute_sql_query("SELECT {id_enemy}, {value}, {source}, {id_status} from enemy_status_effects WHERE {id_status} IN %s and {id_server} = %s".format(
@@ -1019,14 +851,14 @@ async def enemyBurnSlimes(id_server):
 		for result in data:
 			enemy_data = EwEnemy(id_enemy = result[0], id_server = id_server)
 			
-			slimes_dropped = enemy_data.totaldamage + enemy_data.slimes
+			#slimes_dropped = enemy_data.totaldamage + enemy_data.slime
 			used_status_id = result[3]
 
 			# Deal 10% of total slime to burn every second
 			slimes_to_burn = math.ceil(int(float(result[1])) * ewcfg.burn_tick_length / ewcfg.time_expire_burn)
 
 			# Check if a status effect originated from an enemy or a user.
-			killer_data = EwUser(id_server=id_server, id_user=result[2])
+			killer_data = EwPlayer(id_server=id_server, id_user=result[2])
 			if killer_data == None:
 				killer_data = EwEnemy(id_server=id_server, id_enemy=result[2])
 				if killer_data != None:
@@ -1036,17 +868,17 @@ async def enemyBurnSlimes(id_server):
 					continue
 			
 			if status_origin == 'user':
-				ewstats.change_stat(user = killer_data, metric = ewcfg.stat_lifetime_damagedealt, n = slimes_to_burn)
+				killer_data.change_stat(metric = ewcfg.stat_lifetime_damagedealt, n = slimes_to_burn)
 
-			if enemy_data.slimes - slimes_to_burn <= 0:
+			if enemy_data.slime - slimes_to_burn <= 0:
 				ewhunting.delete_enemy(enemy_data)
 
 				if used_status_id == ewcfg.status_burning_id:
-					response = "{} has burned to death.".format(enemy_data.display_name)
+					response = "{} has burned to death.".format(enemy_data.name)
 				elif used_status_id == ewcfg.status_acid_id:
-					response = "{} has been melted to death by acid.".format(enemy_data.display_name)
+					response = "{} has been melted to death by acid.".format(enemy_data.name)
 				elif used_status_id == ewcfg.status_spored_id:
-					response = "{} has been overrun by spores.".format(enemy_data.display_name)
+					response = "{} has been overrun by spores.".format(enemy_data.name)
 				else:
 					response = ""
 				resp_cont.add_channel_response(ewcfg.id_to_poi.get(enemy_data.poi).channel, response)
@@ -1054,20 +886,29 @@ async def enemyBurnSlimes(id_server):
 				district_data = EwDistrict(id_server = id_server, district = enemy_data.poi)
 				resp_cont.add_response_container(ewhunting.drop_enemy_loot(enemy_data, district_data))
 			else:
-				enemy_data.change_slimes(n = -slimes_to_burn, source=ewcfg.source_damage)
+				enemy_data.change_slime(n = -slimes_to_burn, source=ewcfg.source_damage)
 				enemy_data.persist()
 			
 		await resp_cont.post()
 
 async def remove_status_loop(id_server):
+	""" Coroutine to continuisly remove expired status effects for all characters\n 
+	Arguments:
+		'id_server': int -- Server ID\n
+	Return: None
+	"""
 	interval = ewcfg.removestatus_tick_length
 	while not TERMINATE:
 		removeExpiredStatuses(id_server = id_server)
 		enemyRemoveExpiredStatuses(id_server = id_server)
 		await asyncio.sleep(interval)
 
-""" Remove expired status effects for all users """
 def removeExpiredStatuses(id_server = None):
+	""" Remove expired status effects for all users\n 
+		Arguments:
+			'id_server': int -- Server ID\n
+		Return: None
+	"""
 	if id_server != None:
 		time_now = int(time.time())
 
@@ -1086,7 +927,7 @@ def removeExpiredStatuses(id_server = None):
 		for row in statuses:
 			status = row[0]
 			id_user = row[1]
-			user_data = EwUser(id_user = id_user, id_server = id_server)
+			user_data = EwPlayer(id_user = id_user, id_server = id_server)
 			status_def = ewcfg.status_effects_def_map.get(status)
 			status_effect = EwStatusEffect(id_status=status, user_data = user_data)
 	
@@ -1101,6 +942,11 @@ def removeExpiredStatuses(id_server = None):
 						user_data.clear_status(id_status=status)
 					
 def enemyRemoveExpiredStatuses(id_server = None):
+	""" Remove expired status effects for all enemys\n 
+	Arguments:
+		'id_server': int -- Server ID\n
+	Return: None
+	"""
 	if id_server != None:
 		time_now = int(time.time())
 
@@ -1130,8 +976,15 @@ def enemyRemoveExpiredStatuses(id_server = None):
 					if int(status_effect.value) < time_now:
 						enemy_data.clear_status(id_status=status)
 
-""" Parse a list of tokens and return an integer value. If allow_all, return -1 if the word 'all' is present. """
+#Im not entierly sure how this one works so i cant comments on it
 def getIntToken(tokens = [], allow_all = False, negate = False):
+	""" Parse a list of tokens and return an integer value. If allow_all, return -1 if the word 'all' is present.\n
+		Arguments:
+			'tokens': list -- List of tokens\n
+			'allow_all': boolean -- ??\n
+			'negate': boolean --??\n
+		Return: int -- The desired interger value?
+	"""
 	value = None
 
 	for token in tokens[1:]:
@@ -1152,8 +1005,16 @@ def getIntToken(tokens = [], allow_all = False, negate = False):
 
 	return value
 
-""" Get the map of weapon skills for the specified player. """
 def weaponskills_get(id_server = None, id_user = None, member = None):
+	""" Get the map of weapon skills for the specified player.\n
+
+	Keyword Arguments:
+		'id_server': int -- Server ID (default: None) \n
+		'id_user': int -- User ID (default: None) \n
+		'member': discord.Client -- The discord user class for this player (default: None) \n
+
+	Returns: dict -- Dictionary of the players weapon masteries
+	"""
 	weaponskills = {}
 
 	if member != None:
@@ -1161,100 +1022,92 @@ def weaponskills_get(id_server = None, id_user = None, member = None):
 		id_user = member.id
 
 	if id_server != None and id_user != None:
-		try:
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor();
 
-			cursor.execute("SELECT {weapon}, {weaponskill} FROM weaponskills WHERE {id_server} = %s AND {id_user} = %s".format(
-				weapon = ewcfg.col_weapon,
-				weaponskill = ewcfg.col_weaponskill,
-				id_server = ewcfg.col_id_server,
-				id_user = ewcfg.col_id_user
-			), (
-				id_server,
-				id_user
-			))
+		data = execute_sql_query("SELECT {weapon}, {weaponskill} FROM weaponskills WHERE {id_server} = %s AND {id_user} = %s".format(
+			weapon = ewcfg.col_weapon,
+			weaponskill = ewcfg.col_weaponskill,
+			id_server = ewcfg.col_id_server,
+			id_user = ewcfg.col_id_user
+		), (
+			id_server,
+			id_user
+		))
 
-			data = cursor.fetchall()
-			if data != None:
-				for row in data:
-					weaponskills[row[0]] = {
-						'skill': row[1]
-					}
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
+		if data != None:
+			for row in data:
+				weaponskills[row[0]] = {
+					'skill': row[1]
+				}
 
 	return weaponskills
 
-""" Set an individual weapon skill value for a player. """
 def weaponskills_set(id_server = None, id_user = None, member = None, weapon = None, weaponskill = 0):
+	""" Set an individual weapon skill value for a player. \n
+
+	Keyword Arguments:
+		'id_server': int -- Server ID (default: None) \n
+		'id_user': int -- User ID (default: None) \n
+		'member': discord.Client -- The discord client class for this player (default: None) \n
+		'weapon': string -- Weapon type to set (default: None) \n
+		'weaponskill': int -- Value to set (default: 0) \n
+	"""
 	if member != None:
 		id_server = member.guild.id
 		id_user = member.id
 
 	if id_server != None and id_user != None and weapon != None:
-		try:
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor();
 
-			cursor.execute("REPLACE INTO weaponskills({id_server}, {id_user}, {weapon}, {weaponskill}) VALUES(%s, %s, %s, %s)".format(
-				id_server = ewcfg.col_id_server,
-				id_user = ewcfg.col_id_user,
-				weapon = ewcfg.col_weapon,
-				weaponskill = ewcfg.col_weaponskill
-			), (
-				id_server,
-				id_user,
-				weapon,
-				weaponskill
-			))
+		execute_sql_query("REPLACE INTO weaponskills({id_server}, {id_user}, {weapon}, {weaponskill}) VALUES(%s, %s, %s, %s)".format(
+			id_server = ewcfg.col_id_server,
+			id_user = ewcfg.col_id_user,
+			weapon = ewcfg.col_weapon,
+			weaponskill = ewcfg.col_weaponskill
+		), (
+			id_server,
+			id_user,
+			weapon,
+			weaponskill
+		))
 
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
 
-""" Clear all weapon skills for a player (probably called on death). """
 def weaponskills_clear(id_server = None, id_user = None, member = None, weaponskill = None):
+	""" Reset all weapon skills for a player if they are above a certain value (probably called on death). \n
+
+	Keyword Arguments:
+		'id_server': int -- Server ID (default: None) \n
+		'id_user': int -- Database User ID (default: None) \n
+		'member': discord.Client -- Client object corresponding to this player (default: None) \n
+		'weaponskill': int -- Value above which stats get reset to itself (default: None) \n
+	"""	
 	if member != None:
 		id_server = member.guild.id
 		id_user = member.id
 
 	if id_server != None and id_user != None:
-		try:
-			conn_info = databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor();
 
-			# Clear any records that might exist.
-			cursor.execute("UPDATE weaponskills SET {weaponskill} = %s WHERE {weaponskill} > %s AND {id_server} = %s AND {id_user} = %s".format(
-				weaponskill = ewcfg.col_weaponskill,
-				id_server = ewcfg.col_id_server,
-				id_user = ewcfg.col_id_user
-			), (
-				weaponskill,
-				weaponskill,
-				id_server,
-				id_user
-			))
+		# Clear any records that might exist.
+		execute_sql_query("UPDATE weaponskills SET {weaponskill} = %s WHERE {weaponskill} > %s AND {id_server} = %s AND {id_user} = %s".format(
+			weaponskill = ewcfg.col_weaponskill,
+			id_server = ewcfg.col_id_server,
+			id_user = ewcfg.col_id_user
+		), (
+			weaponskill,
+			weaponskill,
+			id_server,
+			id_user
+		))
 
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			databaseClose(conn_info)
 
 re_flattener = re.compile("[ '\"!@#$%^&*().,/?{}\[\];:]")
 
-"""
-	Turn an array of tokens into a single word (no spaces or punctuation) with all lowercase letters.
-"""
 def flattenTokenListToString(tokens):
+	"""Turn an array of tokens into a single word (no spaces or punctuation) with all lowercase letters. \n
+
+	Arguments:
+		'tokens': list/string -- Array of tokens/single token \n
+
+	Returns: string -- Flattened token string
+	"""	
 	global re_flattener
 	target_name = ""
 
@@ -1267,33 +1120,17 @@ def flattenTokenListToString(tokens):
 
 	return target_name
 
-
-"""
-	Execute a given sql_query. (the purpose of this function is to minimize repeated code and keep functions readable)
-"""
-def execute_sql_query(sql_query = None, sql_replacements = None):
-	data = None
-
-	try:
-		conn_info = databaseConnect()
-		conn = conn_info.get('conn')
-		cursor = conn.cursor()
-		cursor.execute(sql_query, sql_replacements)
-		if sql_query.lower().startswith("select"):
-			data = cursor.fetchall()
-		conn.commit()
-	finally:
-		# Clean up the database handles.
-		cursor.close()
-		databaseClose(conn_info)
-
-	return data
-
-
-"""
-	Send a message to multiple chat channels at once. "channels" can be either a list of discord channel objects or strings
-"""
 async def post_in_channels(id_server, message, channels = None):
+	"""Send a message to multiple chat channels at once. "channels" can be either
+	 a list of discord channel objects or strings \n
+
+	Arguments:
+		'id_server': int -- Server ID \n
+		'message': string -- Message to send \n
+
+	Keyword Arguments:
+		'channels': list -- Discord channels to send the message to (default: None) \n
+	"""	
 	client = get_client()
 	server = client.get_guild(id = id_server)
 
@@ -1307,10 +1144,15 @@ async def post_in_channels(id_server, message, channels = None):
 			await channel.send(content=message)
 	return
 
-"""
-	Find a chat channel by name in a server.
-"""
 def get_channel(server = None, channel_name = ""):
+	"""	Find a chat channel by name in a server. \n
+
+	Keyword Arguments:
+		'server': discord.Guild -- Discord server to fetch the channel from (default: None) \n
+		'channel_name': str -- Channel name in string form (default: "") \n
+
+	Returns: discord.abc.GuildChannel -- Discord channel object
+	"""	
 	channel = None
 
 	for chan in server.channels:
@@ -1322,10 +1164,16 @@ def get_channel(server = None, channel_name = ""):
 
 	return channel
 
-"""
-	Return the role name of a user's faction. Takes user data object or life_state and faction tag
-"""
 def get_faction(user_data = None, life_state = 0, faction = ""):
+	""" Return the role name of a user's faction. Takes user data object or life_state and faction tag \n
+
+	Keyword Arguments:
+		'user_data': EwPlayer -- The player object (default: None) \n
+		'life_state': int -- Life state variable (default: 0) \n
+		'faction': str -- Faction string variable (default: "") \n
+
+	Returns: string -- The faction name
+	"""	
 	life_state = life_state
 	faction = faction
 	if user_data != None:
@@ -1368,6 +1216,14 @@ def get_faction(user_data = None, life_state = 0, faction = ""):
 	return faction_role
 
 def get_faction_symbol(faction = "", faction_raw = ""):
+	"""Get a certain faction's symbol for discord memes \n
+
+	Keyword Arguments:
+		'faction': str -- The faction to query (default: "") \n
+		'faction_raw': str -- Only applied if its a kingpin's faction to be queryed (default: "") \n
+
+	Returns: type -- description
+	"""	
 	result = None
 
 	if faction == ewcfg.role_kingpin:
@@ -1394,58 +1250,74 @@ def get_faction_symbol(faction = "", faction_raw = ""):
 
 	return result
 
+#def sap_max_bylevel(slimelevel):
+	"""Calculate the maximum sap amount a player can have at their given slime level \n
 
-"""
-	Calculate the slime amount needed to reach a certain level
-"""
-def slime_bylevel(slimelevel):
-	return int(slimelevel ** 4)
+	Arguments:
+		'slimelevel': int -- Slime level \n
 
+	Returns: int -- Max sap value
+	"""
+	#return int(1.6 * slimelevel ** 0.75)
 
-"""
-	Calculate what level the player should be at, given their slime amount
-"""
-def level_byslime(slime):
-	return int(abs(slime) ** 0.25)
-
-
-"""
-	Calculate the maximum sap amount a player can have at their given slime level
-"""
-def sap_max_bylevel(slimelevel):
-	return int(1.6 * slimelevel ** 0.75)
-
-"""
-	Calculate the maximum hunger level at the player's slimelevel
-"""
 def hunger_max_bylevel(slimelevel, has_bottomless_appetite = 0):
+	"""Calculate the maximum hunger level at the player's slimelevel \n
+
+	Arguments:
+		'slimelevel': int -- Character's slime level \n
+
+	Keyword Arguments:
+		'has_bottomless_appetite': int -- Determine if hunger needs to be doubled (default: 0) \n
+
+	Returns: int -- Max hunger value
+	"""	
 	# note that when you change this formula, you'll also have to adjust its sql equivalent in pushupServerHunger
 	mult = 1
 	if has_bottomless_appetite == 1:
 		mult = 2
 	return max(ewcfg.min_stamina, slimelevel ** 2) * mult
 
-
-"""
-	Calculate how much more stamina activities should cost
-"""
 def hunger_cost_mod(slimelevel):
+	"""Calculate how much more stamina activities should cost \n
+
+	Arguments:
+		'slimelevel': int -- Slime level \n
+
+	Returns: int -- Stamina cost
+	"""	
 	return hunger_max_bylevel(slimelevel) / 200
 
-
-"""
-	Calculate how much food the player can carry
-"""
 def food_carry_capacity_bylevel(slimelevel):
+	"""	Calculate how much food the player can carry \n
+
+	Arguments:
+		'slimelevel': int -- Slime level \n
+
+	Returns: int -- How much food the player can carry
+	"""	
 	return math.ceil(slimelevel / ewcfg.max_food_in_inv_mod)
 		
 """
-	Calculate how many weapons the player can carry
+
 """
 def weapon_carry_capacity_bylevel(slimelevel):
+	"""	Calculate how many weapons the player can carry \n
+
+	Arguments:
+		'slimelevel': int -- Slime level \n
+
+	Returns: int -- Weapon carry capacity
+	"""	
 	return math.floor(slimelevel / ewcfg.max_weapon_mod) + 1
 
 def max_adornspace_bylevel(slimelevel):
+	"""Calculate how many cosmetics slots a player has \n
+
+	Arguments:
+		'slimelevel': int -- Slime level \n
+
+	Returns: int -- Cosmetic slots
+	"""	
 	if slimelevel < 4:
 		adorn_space = 0
 	else:
@@ -1453,10 +1325,15 @@ def max_adornspace_bylevel(slimelevel):
 
 	return adorn_space
 
-"""
-	Returns an EwUser object of the selected kingpin
-"""
 def find_kingpin(id_server, kingpin_role):
+	"""	Returns an EwPlayer object of the selected kingpin \n
+
+	Arguments:
+		'id_server': int -- Server ID \n
+		'kingpin_role': string -- Kingpin's role \n
+
+	Returns: EwPlayer -- The player object for the kingpin
+	"""	
 	data = execute_sql_query("SELECT id_user FROM users WHERE id_server = %s AND {life_state} = %s AND {faction} = %s".format(
 		life_state = ewcfg.col_life_state,
 		faction = ewcfg.col_faction
@@ -1470,32 +1347,49 @@ def find_kingpin(id_server, kingpin_role):
 
 	if len(data) > 0:
 		id_kingpin = data[0][0]
-		kingpin = EwUser(id_server = id_server, id_user = id_kingpin)
+		kingpin = EwPlayer(id_server = id_server, id_user = id_kingpin)
 
 	return kingpin
 
 
 """
-	Posts a message both in CK and RR.
+
 """
 async def post_in_hideouts(id_server, message):
+	"""Post a message in all main faction hideouts \n
+
+	Arguments:
+		'id_server': int -- Server ID \n
+		'message': string -- Message to send \n
+	"""	
 	await post_in_channels(
 		id_server = id_server,
 		message = message,
 		channels = [ewcfg.channel_copkilltown, ewcfg.channel_rowdyroughhouse]
 	)
 
-"""
-	gets the discord client the bot is running on
-"""
 def get_client():
+	"""	Gets the discord client the bot is running on \n
+
+	Returns: discord.Client -- The bot discord client
+	"""	
 	return ewcfg.get_client()
 
-
-"""
-	Proxy to discord.py channel.send with exception handling.
-"""
 async def send_message(client, channel, text = None, embed = None, delete_after = None, filter_everyone = True):
+	"""	Proxy to discord.py channel.send with exception handling. \n
+
+	Arguments:
+		'client': discord.Client -- The bot client \n
+		'channel': discord.TextChannel -- The channel to send teh message to \n
+
+	Keyword Arguments:
+		'text': string -- Message text (default: None) \n
+		'embed': discord.Embed -- Embed of the message (if necessary) (default: None) \n
+		'delete_after': float -- If needed, the number of seconds until the message is deleted (default: None) \n
+		'filter_everyone': bool -- Determines if @everyone gets deleted or not (default: True) \n
+
+	Returns: discord.Message -- The message that was sent
+	"""	
 	#catch any future @everyone exploits
 	if filter_everyone and text is not None: 
 		text = text.replace("@everyone","{at}everyone")
@@ -1510,11 +1404,28 @@ async def send_message(client, channel, text = None, embed = None, delete_after 
 		raise
 	except:
 		logMsg('Failed to send message to channel: {}\n{}'.format(channel, text))
-
-""" Simpler to use version of send_message that formats message by default """ 
+ 
 async def send_response(response_text, cmd = None, delete_after = None, name = None, channel = None, format_name = True, format_ats = True, allow_everyone = False):
+	"""Simpler to use version of send_message that formats message by default \n
 
-	user_data = EwUser(member = cmd.message.author)
+	Arguments:
+		'response_text': string -- The message to send \n
+
+	Keyword Arguments:
+		'cmd': EwCmd -- Command object (default: None) \n
+		'delete_after': float -- If needed, the number of seconds until the message is deleted (default: None) \n
+		'name': string -- Player's name (default: None) \n
+		'channel': discord.TextChannel -- Channel to send the message in (default: None) \n
+		'format_name': bool -- Format the display name or not (default: True) \n
+		'format_ats': bool -- Format mentions or not (default: True) \n
+		'allow_everyone': bool -- Mentions allowed in the discord server (default: False) \n
+
+	Raises:
+		Exception: ???????\n
+
+	Returns: discord.Message -- Message sent
+	"""
+	user_data = EwPlayer(member = cmd.message.author)
 	user_mutations = user_data.get_mutations()
 
 	if cmd == None and channel == None:
@@ -1524,7 +1435,7 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
 		channel = cmd.message.channel
 
 	if name == None and cmd != None:
-		name = cmd.author_id.display_name
+		name = cmd.author_id.name
 		if ewcfg.mutation_id_amnesia in user_mutations:
 			name = '?????'
 
@@ -1549,20 +1460,31 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
 	except:
 		logMsg('Failed to send message to channel: {}\n{}'.format(channel, text))
 
-
-"""
-	Proxy to discord.py message.edit() with exception handling.
-"""
 async def edit_message(client, message, text):
+	"""	Proxy to discord.py message.edit() with exception handling. \n
+
+	Arguments:
+		'client': discord.Client -- Bot's discord client \n
+		'message': discord.Message -- Message to edit \n
+		'text': string -- Text to replace the original message text \n
+
+	Returns: discord.Message -- Edited message
+	"""	
 	try:
 		return await message.edit(content=str(text))
 	except:
 		logMsg('Failed to edit message. Updated text would have been:\n{}'.format(text))
 
-"""
-	Returns a list of slimeoid ids in the district
-"""
 def get_slimeoids_in_poi(id_server = None, poi = None, sltype = None):
+	"""	Returns a list of slimeoid ids in the district \n
+
+	Keyword Arguments:
+		'id_server': int -- Server ID (default: None) \n
+		'poi': string -- District name (default: None) \n
+		'sltype': string -- Specify a certain slimeoid type (default: None) \n
+
+	Returns: list -- All the slimeoids id's in that district
+	"""	
 	slimeoids = []
 	if id_server is None:
 		return slimeoids
@@ -1588,11 +1510,21 @@ def get_slimeoids_in_poi(id_server = None, poi = None, sltype = None):
 	return slimeoids
 
 async def decrease_food_multiplier(id_user):
+	"""Decrease someone's hunger restoration multiplier by 1 \n
+
+	Arguments:
+		'id_user': int -- Player's ID \n
+	"""	
 	await asyncio.sleep(5)
 	if id_user in food_multiplier:
 		food_multiplier[id_user] = max(0, food_multiplier.get(id_user) - 1)
 
 async def spawn_enemies(id_server = None):
+	"""Random process to determine if an enemy spawns \n
+
+	Keyword Arguments:
+		'id_server': int -- Server ID (default: None) \n
+	"""	
 	if random.randrange(3) == 0:
 		weathertype = ewcfg.enemy_weathertype_normal
 		market_data = EwMarket(id_server=id_server)
@@ -1617,6 +1549,13 @@ async def spawn_enemies(id_server = None):
 	#	await dh_resp_cont.post()
 
 def number_civilians(id_server):
+	"""Count how many civilains are in a certain server \n
+
+	Arguments:
+		'id_server': int -- Server ID \n
+
+	Returns: int -- Number of civilains
+	"""	
 	query = execute_sql_query("SELECT COUNT(*) from enemies where enemytype in ('civilian', 'innocent') and id_server = id_server")
 	for counts in query:
 		if counts[0] < 20:
@@ -1625,6 +1564,11 @@ def number_civilians(id_server):
 			return 0
 
 async def spawn_enemies_tick_loop(id_server):
+	"""Generates a loop for the chance of spawning an enemy every 10 seconds \n
+
+	Arguments:
+		'id_server': int -- Server ID \n
+	"""	
 	interval = ewcfg.enemy_spawn_tick_length
 	# Causes the possibility of an enemy spawning every 10 seconds
 	while not TERMINATE:
@@ -1633,6 +1577,11 @@ async def spawn_enemies_tick_loop(id_server):
 
 
 async def enemy_action_tick_loop(id_server):
+	""" Makes enemies attack every turn \n
+
+	Arguments:
+		'id_server': int -- Server ID \n
+	"""	
 	interval = ewcfg.enemy_attack_tick_length
 	# Causes hostile enemies to attack every tick.
 	while not TERMINATE:
@@ -1644,18 +1593,30 @@ async def enemy_action_tick_loop(id_server):
 		else:
 			await ewhunting.enemy_perform_action(id_server)
 
-async def gvs_gamestate_tick_loop(id_server):
-	interval = ewcfg.gvs_gamestate_tick_length
+#async def gvs_gamestate_tick_loop(id_server):
+	"""Event tick loop to spawn special events (Not used since its for GvsS) \n
+
+	Arguments:
+		'id_server': int -- Server ID \n
+	"""	
+	#interval = ewcfg.gvs_gamestate_tick_length
 	# Causes various events to occur during a Garden or Graveyard ops in Gankers Vs. Shamblers
-	while not TERMINATE:
-		await asyncio.sleep(interval)
-		await ewhunting.gvs_update_gamestate(id_server)
+	#while not TERMINATE:
+		#await asyncio.sleep(interval)
+		#await ewhunting.gvs_update_gamestate(id_server)
 
-
-# Clears out id_target in enemies with defender ai. Primarily used for when players die or leave districts the defender is in.
 def check_defender_targets(user_data, enemy_data):
+	""" Clears out id_target in enemies with defender ai.
+	 Primarily used for when players die or leave districts the defender is in. \n
+
+	Arguments:
+		'user_data': EwPlayer -- Player object that dies or leaves\n
+		'enemy_data': EwEnemy -- Defender enemy object \n
+
+	Returns: boolean -- True if the player is still in the district and False if otherwise
+	"""	
 	defending_enemy = EwEnemy(id_enemy=enemy_data.id_enemy)
-	searched_user = EwUser(id_user=user_data.id_user, id_server=user_data.id_server)
+	searched_user = EwPlayer(id_user=user_data.id_user, id_server=user_data.id_server)
 
 	if (defending_enemy.poi != searched_user.poi) or (searched_user.life_state == ewcfg.life_state_corpse):
 		defending_enemy.id_target = 0
@@ -1728,7 +1689,7 @@ def explode(damage = 0, district_data = None, market_data = None):
 
 	# damage players
 	for user in users:
-		user_data = EwUser(id_user = user, id_server = id_server, data_level = 1)
+		user_data = EwPlayer(id_user = user, id_server = id_server, data_level = 1)
 		mutations = user_data.get_mutations()
 
 		user_weapon = None
@@ -1757,40 +1718,40 @@ def explode(damage = 0, district_data = None, market_data = None):
 		# slimes_damage_target *= fashion_armor
 		slimes_damage_target = int(max(0, slimes_damage_target))
 
-		player_data = EwPlayer(id_user = user_data.id_user)
-		response = "{} is blown back by the explosion’s sheer force! They lose {:,} slime!!".format(player_data.display_name, slimes_damage_target)
+		player_data = EwDiscordUser(id_user = user_data.id_user)
+		response = "{} is blown back by the explosion’s sheer force! They lose {:,} slime!!".format(player_data.name, slimes_damage_target)
 		resp_cont.add_channel_response(channel, response)
 		slimes_damage = slimes_damage_target
-		if user_data.slimes < slimes_damage + user_data.bleed_storage:
+		if user_data.slime < slimes_damage + user_data.bleed_storage:
 			# die in the explosion
-			district_data.change_slimes(n = user_data.slimes, source = ewcfg.source_killing)
+			district_data.change_slime(n = user_data.slime, source = ewcfg.source_killing)
 			district_data.persist()
-			slimes_dropped = user_data.totaldamage + user_data.slimes
+			slimes_dropped = user_data.totaldamage + user_data.slime
 
 			user_data.trauma = ewcfg.trauma_id_environment
 			user_data.die(cause = ewcfg.cause_killing)
-			#user_data.change_slimes(n = -slimes_dropped / 10, source = ewcfg.source_ghostification)
+			#user_data.change_slime(n = -slimes_dropped / 10, source = ewcfg.source_ghostification)
 			user_data.persist()
 
-			response = "Alas, {} was caught too close to the blast. They are consumed by the flames, and die in the explosion.".format(player_data.display_name)
+			response = "Alas, {} was caught too close to the blast. They are consumed by the flames, and die in the explosion.".format(player_data.name)
 			resp_cont.add_channel_response(channel, response)
 
 			resp_cont.add_member_to_update(server.get_member(user_data.id_user))
 		else:
 			# survive
 			slime_splatter = 0.5 * slimes_damage
-			district_data.change_slimes(n = slime_splatter, source = ewcfg.source_killing)
+			district_data.change_slime(n = slime_splatter, source = ewcfg.source_killing)
 			district_data.persist()
 			slimes_damage -= slime_splatter
 			user_data.bleed_storage += slimes_damage
-			user_data.change_slimes(n = -slime_splatter, source = ewcfg.source_killing)
+			user_data.change_slime(n = -slime_splatter, source = ewcfg.source_killing)
 			user_data.persist()
 
 	# damage enemies
 	for enemy in enemies:
 		enemy_data = EwEnemy(id_enemy = enemy, id_server = id_server)
 
-		response = "{} is blown back by the explosion’s sheer force! They lose {:,} slime!!".format(enemy_data.display_name, damage)
+		response = "{} is blown back by the explosion’s sheer force! They lose {:,} slime!!".format(enemy_data.name, damage)
 		resp_cont.add_channel_response(channel, response)
 
 		slimes_damage_target = damage
@@ -1801,14 +1762,14 @@ def explode(damage = 0, district_data = None, market_data = None):
 		#slimes_damage_target = int(max(0, slimes_damage_target))
 
 		slimes_damage = slimes_damage_target
-		if enemy_data.slimes < slimes_damage + enemy_data.bleed_storage:
+		if enemy_data.slime < slimes_damage + enemy_data.bleed_storage:
 			# die in the explosion
-			district_data.change_slimes(n = enemy_data.slimes, source = ewcfg.source_killing)
+			district_data.change_slime(n = enemy_data.slime, source = ewcfg.source_killing)
 			district_data.persist()
-			# slimes_dropped = enemy_data.totaldamage + enemy_data.slimes
+			# slimes_dropped = enemy_data.totaldamage + enemy_data.slime
 			# explode_damage = ewutils.slime_bylevel(enemy_data.level)
 
-			response = "Alas, {} was caught too close to the blast. They are consumed by the flames, and die in the explosion.".format(enemy_data.display_name)
+			response = "Alas, {} was caught too close to the blast. They are consumed by the flames, and die in the explosion.".format(enemy_data.name)
 			resp_cont.add_response_container(ewhunting.drop_enemy_loot(enemy_data, district_data))
 			resp_cont.add_channel_response(channel, response)
 
@@ -1818,11 +1779,11 @@ def explode(damage = 0, district_data = None, market_data = None):
 		else:
 			# survive
 			slime_splatter = 0.5 * slimes_damage
-			district_data.change_slimes(n = slime_splatter, source = ewcfg.source_killing)
+			district_data.change_slime(n = slime_splatter, source = ewcfg.source_killing)
 			district_data.persist()
 			slimes_damage -= slime_splatter
 			enemy_data.bleed_storage += slimes_damage
-			enemy_data.change_slimes(n = -slime_splatter, source = ewcfg.source_killing)
+			enemy_data.change_slime(n = -slime_splatter, source = ewcfg.source_killing)
 			enemy_data.persist()
 	return resp_cont
 
@@ -1883,7 +1844,7 @@ def generate_captcha_random(length = 4):
 def generate_captcha(length = 4, id_user = 0, id_server = 0):
 	length_final = length
 	if id_user > 0 and id_server > 0:
-		user_data = EwUser(id_user=id_user, id_server=id_server)
+		user_data = EwPlayer(id_user=id_user, id_server=id_server)
 		mutations = user_data.get_mutations()
 		if ewcfg.mutation_id_dyslexia in mutations:
 			length_final = max(1, length_final - 1)
@@ -2049,7 +2010,7 @@ async def generate_credence(id_server):
 			users = cursor.fetchall()
 	
 			for user in users:
-				user_data = EwUser(id_user = user[0], id_server = id_server)
+				user_data = EwPlayer(id_user = user[0], id_server = id_server)
 				added_credence = 0
 				lowered_credence_used = 0
 				
@@ -2087,7 +2048,7 @@ async def activate_trap_items(district, id_server, id_user):
 	#print("TRAP FUNCTION")
 	trap_was_dud = False
 	
-	user_data = EwUser(id_user=id_user, id_server=id_server)
+	user_data = EwPlayer(id_user=id_user, id_server=id_server)
 	# if user_data.credence == 0:
 	# 	#print('no credence')
 	# 	return
@@ -2143,7 +2104,7 @@ async def activate_trap_items(district, id_server, id_user):
 		
 		if random.randrange(101) < trap_chance:
 			# Trap was triggered!
-			pranker_data = EwUser(id_user=int(trap_user_id), id_server=id_server)
+			pranker_data = EwPlayer(id_user=int(trap_user_id), id_server=id_server)
 			pranked_data = user_data
 
 			response = trap_item_data.item_props.get('prank_desc')
@@ -2192,8 +2153,8 @@ def create_death_report(cause = None, user_data = None):
 
 	# User display name is used repeatedly later, grab now
 	user_member = server.get_member(user_data.id_user)
-	user_player = EwPlayer(id_user = user_data.id_user)
-	user_nick = user_player.display_name
+	user_player = EwDiscordUser(id_user = user_data.id_user)
+	user_nick = user_player.name
 
 	deathreport = "You arrive among the dead. {}".format(ewcfg.emote_slimeskull)
 	deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
@@ -2204,14 +2165,14 @@ def create_death_report(cause = None, user_data = None):
 		killer_isEnemy = cause in [ewcfg.cause_killing_enemy]
 		if(killer_isUser): # Generate responses for dying to another player
 			# Grab user data
-			killer_data = EwUser(id_user = user_data.id_killer, id_server = user_data.id_server)
-			player_data = EwPlayer(id_user = user_data.id_killer)		
+			killer_data = EwPlayer(id_user = user_data.id_killer, id_server = user_data.id_server)
+			player_data = EwDiscordUser(id_user = user_data.id_killer)		
 
 			# Get killer weapon
 			weapon_item = EwItem(id_item = killer_data.weapon)
 			weapon = ewcfg.weapon_map.get(weapon_item.item_props.get("weapon_type"))
 
-			killer_nick = player_data.display_name
+			killer_nick = player_data.name
 
 			if (cause == ewcfg.cause_killing) and (weapon != None): # Response for dying to another player
 				deathreport = "You were {} by {}. {}".format(weapon.str_killdescriptor, killer_nick, ewcfg.emote_slimeskull)
@@ -2240,7 +2201,7 @@ def create_death_report(cause = None, user_data = None):
 					kill_descriptor = used_attacktype.str_killdescriptor
 
 				# Format report
-				deathreport = "You were {} by {}. {}".format(kill_descriptor, killer_data.display_name, ewcfg.emote_slimeskull)
+				deathreport = "You were {} by {}. {}".format(kill_descriptor, killer_data.name, ewcfg.emote_slimeskull)
 				deathreport = "{} ".format(ewcfg.emote_slimeskull) + formatMessage(user_player, deathreport)
 
 	if (cause == ewcfg.cause_donation): # Response for overdonation
@@ -2297,7 +2258,7 @@ async def update_slimernalia_kingpin(client, server):
 	# Depose current slimernalia kingpin
 	old_kingpin_id = get_slimernalia_kingpin(server)
 	if old_kingpin_id != None:
-		old_kingpin = EwUser(id_user=old_kingpin_id, id_server=server.id)
+		old_kingpin = EwPlayer(id_user=old_kingpin_id, id_server=server.id)
 		old_kingpin.slimernalia_kingpin = False
 		old_kingpin.persist()
 		try:
@@ -2307,7 +2268,7 @@ async def update_slimernalia_kingpin(client, server):
 			logMsg("Error removing kingpin of slimernalia role from {} in server {}.".format(old_kingpin.id_user, server.id))
 
 	# Update the new kingpin of slimernalia
-	new_kingpin = EwUser(id_user=get_most_festive(server), id_server=server.id)
+	new_kingpin = EwPlayer(id_user=get_most_festive(server), id_server=server.id)
 	new_kingpin.slimernalia_kingpin = True
 	new_kingpin.persist()
 	try:
@@ -3105,7 +3066,7 @@ async def pay_salary(id_server=None):
 			for officer in security_officers:
 				officer_id_user = int(officer[0])
 
-				user_data = EwUser(id_user=officer_id_user, id_server=id_server)
+				user_data = EwPlayer(id_user=officer_id_user, id_server=id_server)
 				credits = user_data.salary_credits
 
 				# Prevent the user from obtaining negative slimecoin
@@ -3122,7 +3083,7 @@ async def pay_salary(id_server=None):
 # Give Brimstone Programmer role to a member
 async def make_bp(cmd):
 	return
-	if EwUser(member = cmd.message.author).life_state != ewcfg.life_state_kingpin and not cmd.author_id.admin:
+	if EwPlayer(member = cmd.message.author).life_state != ewcfg.life_state_kingpin and not cmd.author_id.admin:
 		return
 
 	if cmd.mentions_count > 0:
@@ -3141,47 +3102,3 @@ async def make_bp(cmd):
 		await recipient.add_roles(bp_role)
 	else:
 		logMsg("Could not find Brimstone Programmer role.")
-
-
-async def fake_failed_command(cmd):
-	client = get_client()
-	randint = random.randint(1, 3)
-	msg_mistake = "ENDLESS WAR is growing frustrated."
-	if randint == 2:
-		msg_mistake = "ENDLESS WAR denies you his favor."
-	elif randint == 3:
-		msg_mistake = "ENDLESS WAR pays you no mind."
-
-	msg = await send_message(client, cmd.message.channel, msg_mistake)
-	await asyncio.sleep(2)
-	try:
-		await msg.delete()
-		pass
-	except:
-		pass
-
-
-async def assign_status_effect(cmd = None, status_name = None, user_id = None, server_id = None):
-	if status_name is not None:
-		user_data = EwUser(id_server=server_id, id_user = user_id)
-		response = user_data.applyStatus(id_status=status_name, source = user_id, id_target = user_id)
-	else:
-		if not cmd.message.author.guild_permissions.administrator or cmd.mentions_count == 0:
-			return await fake_failed_command(cmd)
-		target = cmd.mentions[0]
-		status_name = flattenTokenListToString(cmd.tokens[2:])
-		user_data = EwUser(member=target)
-		response = user_data.applyStatus(id_status=status_name, source=user_data.id_user, id_target=user_data.id_user)
-	return await send_message(cmd.client, cmd.message.channel, formatMessage(cmd.message.author, response))
-
-
-def messagesplit(stringIn, whitespace = '\n'):
-	currentMessage = stringIn
-	messagearray = []
-	while len(currentMessage) > 1500:
-		index = currentMessage.rfind(whitespace, 0, 1500)
-		messagearray.append(currentMessage[:index])
-		currentMessage = currentMessage[index:]
-
-	messagearray.append(currentMessage)
-	return messagearray

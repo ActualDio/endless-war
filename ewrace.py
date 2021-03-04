@@ -8,13 +8,13 @@ import ewutils
 import ewitem
 import ewcmd
 
-from ew import EwUser
+from ew import EwPlayer
 from ewmarket import EwMarket
 from ewdistrict import EwDistrict
 
 async def set_race(cmd):
 	response = ""
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	time_now = int(time.time())
 
 	forbidden_races = [
@@ -77,7 +77,7 @@ async def set_race(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def exist(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["humanoid"]:
 		responses = [
@@ -96,10 +96,10 @@ async def exist(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def ree(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["amphibian"]:
-		response = "*{}* lets out a sonorous warcry.\n".format(cmd.message.author.display_name)
+		response = "*{}* lets out a sonorous warcry.\n".format(cmd.message.author.name)
 		roll = random.randrange(50)
 		if roll == 0:
 			response += "https://youtu.be/cBkWhkAZ9ds"
@@ -111,7 +111,7 @@ async def ree(cmd):
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def autocannibalize(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["food"]:
 		time_now = int(time.time())
@@ -119,7 +119,7 @@ async def autocannibalize(cmd):
 			response = "You give in to the the existential desire all foods have, and take a small bite out of yourself. It hurts like a bitch, but God **DAMN** you're tasty."
 			user_data.time_racialability = time_now + ewcfg.cd_autocannibalize
 			user_data.hunger = max(user_data.hunger - (user_data.get_hunger_max() * 0.01), 0)
-			user_data.change_slimes(n = -user_data.slimes * 0.001)
+			user_data.change_slime(n = -user_data.slime * 0.001)
 			user_data.persist()
 		else:
 			response = "You're too full of yourself right now, try again later."
@@ -128,7 +128,7 @@ async def autocannibalize(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def rattle(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.race == ewcfg.races["skeleton"]:
 		time_now = int(time.time())
 		if (time_now > user_data.time_racialability) and random.randrange(10) == 0:
@@ -159,7 +159,7 @@ async def rattle(cmd):
 				" so viciously they actually get offended.",
 				" in an attempt to socialize, but they don't think you should.",
 			]
-			response = "You rattle your bones at {}{}".format(cmd.mentions[0].display_name, random.choice(responses))
+			response = "You rattle your bones at {}{}".format(cmd.mentions[0].name, random.choice(responses))
 		else:
 			response = "You rattle your bones."
 	else:
@@ -167,7 +167,7 @@ async def rattle(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def beep(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["robot"]:
 		roll = random.randrange(100)
@@ -209,11 +209,11 @@ async def beep(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def yiff(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["furry"]:
 		if cmd.mentions_count == 1:
-			target_data = EwUser(member = cmd.mentions[0])
+			target_data = EwPlayer(member = cmd.mentions[0])
 			if target_data.race == ewcfg.races["furry"]:
 				poi = ewcfg.id_to_poi.get(user_data.poi)
 				if (target_data.poi == user_data.poi) and poi.is_apartment: # low effort
@@ -242,10 +242,10 @@ async def yiff(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def hiss(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["scalie"]:
-		response = "*{}* lets out a piercing hiss.\n".format(cmd.message.author.display_name)
+		response = "*{}* lets out a piercing hiss.\n".format(cmd.message.author.name)
 		sssss = random.randrange(200, 500) * "s" # sssssssss
 		response += "**HIS{}**".format(''.join(random.choice((str.upper, str.lower))(s) for s in sssss))
 		return await ewutils.send_message(cmd.client, cmd.message.channel, response)
@@ -254,7 +254,7 @@ async def hiss(cmd):
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def jiggle(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["slime-derived"]:
 		if cmd.mentions_count == 0:
@@ -263,30 +263,30 @@ async def jiggle(cmd):
 			response = "You jiggle at the crowd."
 		if cmd.mentions_count == 1:
 			target_member = cmd.mentions[0]
-			target_data = EwUser(member = target_member)
+			target_data = EwPlayer(member = target_member)
 			if target_data.race == ewcfg.races["slime-derived"]:
-				response = "You jiggle along with {}.".format(target_member.display_name)
+				response = "You jiggle along with {}.".format(target_member.name)
 			elif target_data.life_state == ewcfg.life_state_corpse and user_data.life_state != ewcfg.life_state_corpse:
-				response = "You jiggle in fear of {}.".format(target_member.display_name)
+				response = "You jiggle in fear of {}.".format(target_member.name)
 			elif target_data.life_state == ewcfg.life_state_kingpin:
 				if target_data.life_state == ewcfg.life_state_enlisted and target_data.faction != user_data.faction:
-					response = "You spitefully jiggle at {}.".format(target_member.display_name)
+					response = "You spitefully jiggle at {}.".format(target_member.name)
 				else:
-					response = "You jiggle in awe of {}.".format(target_member.display_name)
+					response = "You jiggle in awe of {}.".format(target_member.name)
 			elif target_data.life_state == ewcfg.life_state_enlisted:
 				if target_data.faction == user_data.faction:
-					response = "You jiggle at {} as a gesture of friendship.".format(target_member.display_name)
+					response = "You jiggle at {} as a gesture of friendship.".format(target_member.name)
 				else:
-					response = "You jiggle at {} menacingly.".format(target_member.display_name)
+					response = "You jiggle at {} menacingly.".format(target_member.name)
 			else:
-				response = "You jiggle at {}.".format(target_member.display_name)
+				response = "You jiggle at {}.".format(target_member.name)
 	else:
 		response = "You people are not allowed to do that."
 		
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def request_petting(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["critter"]:
 		if cmd.mentions_count == 0:
@@ -295,7 +295,7 @@ async def request_petting(cmd):
 			response = "You would die of overpetting."
 		if cmd.mentions_count == 1:
 			target_member = cmd.mentions[0]
-			proposal_response = "You rub against {}'s leg and look at them expectantly. Will they **{}** and give you a rub, or do they **{}** your affection?".format(target_member.display_name, ewcfg.cmd_accept, ewcfg.cmd_refuse)
+			proposal_response = "You rub against {}'s leg and look at them expectantly. Will they **{}** and give you a rub, or do they **{}** your affection?".format(target_member.name, ewcfg.cmd_accept, ewcfg.cmd_refuse)
 			await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, proposal_response))
     
 			accepted = False
@@ -318,17 +318,17 @@ async def request_petting(cmd):
 					"{target} sits down next to {user}, who gets on their lap. They both lie there for a while, comforting one another.",
 					"{target} gets on the floor and starts petting the heck out of {user}!",
 				]
-				accepted_response = random.choice(responses).format(user = cmd.message.author.display_name, target = target_member.display_name)
+				accepted_response = random.choice(responses).format(user = cmd.message.author.name, target = target_member.name)
 				await ewutils.send_message(cmd.client, cmd.message.channel, accepted_response)
 			else:
-				response = "The pain of rejection will only make you stronger, {}.".format(cmd.message.author.display_name)
+				response = "The pain of rejection will only make you stronger, {}.".format(cmd.message.author.name)
 	else:
 		response = "You people are not allowed to do that."
 	if response:
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def rampage(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["monster"]:
 		responses = [
@@ -345,7 +345,7 @@ async def rampage(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def flutter(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.race == ewcfg.races["avian"]:
 		district_data = EwDistrict(district = user_data.poi, id_server = cmd.guild.id)
 		market_data = EwMarket(id_server=cmd.guild.id)
@@ -364,7 +364,7 @@ async def flutter(cmd):
 		else:
 			excuses.append("flying in plain daylight might get you shot off the sky, so you decide not to.")
 
-		if user_data.slimes > 1000000:
+		if user_data.slime > 1000000:
 			excuses.append("you have too much slime on you, so you don't even get off the ground.")
 		else:
 			excuses.append("you're too weak for this right now, gonna need to get more slime.")
@@ -396,7 +396,7 @@ async def flutter(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def entomize(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["insectoid"]:
 		responses = [
@@ -415,7 +415,7 @@ async def entomize(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def confuse(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["other"]:
 		if cmd.mentions_count == 0:
@@ -427,16 +427,16 @@ async def confuse(cmd):
 			response = "The crowd looks at you, winces slightly, and looks away."
 		if cmd.mentions_count == 1:
 			target_member = cmd.mentions[0]
-			target_data = EwUser(member = target_member)
+			target_data = EwPlayer(member = target_member)
 			if target_data.race == ewcfg.races["other"]:
-				response = "You and {} actually understand each other in a way, despite your differences.".format(target_member.display_name)
+				response = "You and {} actually understand each other in a way, despite your differences.".format(target_member.name)
 			else:
 				responses = [
-					"{} doesn't know what on earth they're looking at.".format(target_member.display_name),
-					"{} stares at you, expressionless, then turns away.".format(target_member.display_name),
-					"{} gets a little dizzy from staring at you for too long.".format(target_member.display_name),
-					"{} wonders how you're even alive. Are you?".format(target_member.display_name),
-					"{} has seen some shit. Now they've seen some more.".format(target_member.display_name)
+					"{} doesn't know what on earth they're looking at.".format(target_member.name),
+					"{} stares at you, expressionless, then turns away.".format(target_member.name),
+					"{} gets a little dizzy from staring at you for too long.".format(target_member.name),
+					"{} wonders how you're even alive. Are you?".format(target_member.name),
+					"{} has seen some shit. Now they've seen some more.".format(target_member.name)
 				]
 				response = random.choice(responses)
 	else:
@@ -445,7 +445,7 @@ async def confuse(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def shamble(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.race == ewcfg.races["shambler"]:
 		#Stole response system from the yiff system.

@@ -7,37 +7,14 @@ import ewrolemgr
 import ewitem
 import ewhunting
 
-from ew import EwUser
+from ew import EwPlayer
 from ewmarket import EwMarket
-from ewplayer import EwPlayer
+from ewplayer import EwDiscordUser
 from ewdistrict import EwDistrict
 from ewslimeoid import EwSlimeoid
 from ewhunting import EwEnemy
 from ewitem import EwItem
 
-""" A weather object. Pure flavor. """
-class EwWeather:
-	# The identifier for this weather pattern.
-	name = ""
-
-	str_sunrise = ""
-	str_day = ""
-	str_sunset = ""
-	str_night = ""
-
-	def __init__(
-		self,
-		name="",
-		sunrise="",
-		day="",
-		sunset="",
-		night=""
-	):
-		self.name = name
-		self.str_sunrise = sunrise
-		self.str_day = day
-		self.str_sunset = sunset
-		self.str_night = night
 
 """
 	Coroutine that continually calls weather_tick; is called once per server, and not just once globally
@@ -72,7 +49,7 @@ async def weather_tick(id_server = None):
 					))
 				for user in users:
 					try:
-						user_data = EwUser(id_user=user[0], id_server=id_server)
+						user_data = EwPlayer(id_user=user[0], id_server=id_server)
 						if user_data.life_state == ewcfg.life_state_kingpin:
 							continue
 						else:
@@ -107,11 +84,11 @@ async def weather_tick(id_server = None):
 			deathreport = ""
 			resp_cont = ewutils.EwResponseContainer(id_server = id_server)
 			for user in users:
-				user_data = EwUser(id_user = user[0], id_server = id_server)
+				user_data = EwPlayer(id_user = user[0], id_server = id_server)
 				if user_data.life_state == ewcfg.life_state_kingpin:
 					continue
 				user_poi = ewcfg.id_to_poi.get(user_data.poi)
-				player_data = EwPlayer(id_server = user_data.id_server, id_user = user_data.id_user)
+				player_data = EwDiscordUser(id_server = user_data.id_server, id_user = user_data.id_user)
 
 				protected = False
 				slimeoid_protected = False
@@ -134,9 +111,9 @@ async def weather_tick(id_server = None):
 				if not protected:
 
 					if user_data.life_state == ewcfg.life_state_shambler:
-						slime_gain = (ewcfg.slimes_shambler - user_data.slimes) / 10
+						slime_gain = (ewcfg.slimes_shambler - user_data.slime) / 10
 						slime_gain = max(0, int(slime_gain))
-						user_data.change_slimes(n = slime_gain, source = ewcfg.source_weather)
+						user_data.change_slime(n = slime_gain, source = ewcfg.source_weather)
 						
 					else:
 						if random.random() < 0.01:
@@ -153,7 +130,7 @@ async def weather_tick(id_server = None):
 
 					slimeoid_response = ""
 					if random.randrange(10) < slimeoid_data.level:
-						slimeoid_response = "*{uname}*: {slname} cries out in pain, as it's hit by the bicarbonate rain.".format(uname = player_data.display_name, slname = slimeoid_data.name)
+						slimeoid_response = "*{uname}*: {slname} cries out in pain, as it's hit by the bicarbonate rain.".format(uname = player_data.name, slname = slimeoid_data.name)
 
 					else:
 						item_props = {
@@ -170,15 +147,15 @@ async def weather_tick(id_server = None):
 						)
 						slimeoid_data.die()
 						slimeoid_data.persist()
-						slimeoid_response = "*{uname}*: {slname} lets out a final whimper as it's dissolved by the bicarbonate rain. {skull} You quickly pocket its heart.".format(uname = player_data.display_name, slname = slimeoid_data.name, skull = ewcfg.emote_slimeskull)
+						slimeoid_response = "*{uname}*: {slname} lets out a final whimper as it's dissolved by the bicarbonate rain. {skull} You quickly pocket its heart.".format(uname = player_data.name, slname = slimeoid_data.name, skull = ewcfg.emote_slimeskull)
 
 				
 					resp_cont.add_channel_response(user_poi.channel, slimeoid_response)
 			for poi in exposed_pois:
 				district_data = EwDistrict(district = poi, id_server = id_server)
-				slimes_to_erase = district_data.slimes * 0.01 * ewcfg.weather_tick_length
+				slimes_to_erase = district_data.slime * 0.01 * ewcfg.weather_tick_length
 				slimes_to_erase = max(slimes_to_erase, ewcfg.weather_tick_length * 1000)
-				slimes_to_erase = min(district_data.slimes, slimes_to_erase)
+				slimes_to_erase = min(district_data.slime, slimes_to_erase)
 
 				#round up or down, randomly weighted
 				remainder = slimes_to_erase - int(slimes_to_erase)
@@ -186,7 +163,7 @@ async def weather_tick(id_server = None):
 					slimes_to_erase += 1 
 				slimes_to_erase = int(slimes_to_erase)
 
-				district_data.change_slimes(n = - slimes_to_erase, source = ewcfg.source_weather)
+				district_data.change_slime(n = - slimes_to_erase, source = ewcfg.source_weather)
 				district_data.persist()
 			
 			enemies = ewutils.execute_sql_query("SELECT id_enemy FROM enemies WHERE id_server = %s AND {poi} IN %s AND {life_state} = %s AND {weathertype} != %s".format(
@@ -204,9 +181,9 @@ async def weather_tick(id_server = None):
 				enemy_data = EwEnemy(id_enemy = enemy[0])
 				enemy_poi = ewcfg.id_to_poi.get(enemy_data.poi)
 
-				slimes_to_erase = enemy_data.slimes * 0.01 * ewcfg.weather_tick_length
+				slimes_to_erase = enemy_data.slime * 0.01 * ewcfg.weather_tick_length
 				slimes_to_erase = max(slimes_to_erase, ewcfg.weather_tick_length * 1000)
-				slimes_to_erase = min(enemy_data.slimes, slimes_to_erase)
+				slimes_to_erase = min(enemy_data.slime, slimes_to_erase)
 
 				#round up or down, randomly weighted
 				remainder = slimes_to_erase - int(slimes_to_erase)
@@ -214,14 +191,14 @@ async def weather_tick(id_server = None):
 					slimes_to_erase += 1 
 				slimes_to_erase = int(slimes_to_erase)
 
-				enemy_data.change_slimes(n = - slimes_to_erase, source = ewcfg.source_weather)
+				enemy_data.change_slime(n = - slimes_to_erase, source = ewcfg.source_weather)
 				enemy_data.persist()
 
-				response = "{name} takes {slimeloss:,} damage from the bicarbonate rain.".format(name = enemy_data.display_name, slimeloss = slimes_to_erase)
+				response = "{name} takes {slimeloss:,} damage from the bicarbonate rain.".format(name = enemy_data.name, slimeloss = slimes_to_erase)
 				resp_cont.add_channel_response(enemy_poi.channel, response)
-				if enemy_data.slimes <= 0:
+				if enemy_data.slime <= 0:
 					ewhunting.delete_enemy(enemy_data)
-					deathreport = "{skull} {name} is dissolved by the bicarbonate rain. {skull}".format(skull = ewcfg.emote_slimeskull, name = enemy_data.display_name)
+					deathreport = "{skull} {name} is dissolved by the bicarbonate rain. {skull}".format(skull = ewcfg.emote_slimeskull, name = enemy_data.name)
 					resp_cont.add_channel_response(enemy_poi.channel, deathreport)
 
 

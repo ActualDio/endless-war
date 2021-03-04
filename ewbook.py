@@ -1,277 +1,16 @@
 import ewcfg
 import ewutils
 import ewitem
-from ew import EwUser
+from ew import EwPlayer
 from ewmarket import EwMarket
 from ewitem import EwItem
-from ewplayer import EwPlayer
-
-class EwBook:
-	id_book = 0
-	id_server = -1
-	id_user = -1
-
-	# The name of the book
-	title = ""
-
-	# The name of the author
-	author = ""
-
-	# If its been published or not
-	book_state = 0
-
-	# The in-game day it was published
-	date_published = 0
-
-	# Genre of zine (0-7)
-	genre = -1
-
-	# Length of the book after publishing
-	length = 0
-
-	# The total sales of the published book
-	sales = 0
-
-	# The average rating of the published book
-	rating = 0
-
-	# The number of people who have rated the book
-	rates = 0
-
-	# The number of pages in a book (between 5 and 20)
-	pages = 10
-
-	# The contents of the book
-	book_pages = {}
-
-	def __init__(
-			self,
-			id_book = None,
-			member = None,
-			book_state = None,
-	):
-		self.book_pages = {}
-
-		query_suffix = ""
-		if id_book is not None:
-			self.id_book = id_book
-			query_suffix = " id_book = {}".format(self.id_book)
-
-		elif member is not None:
-			self.id_server = member.guild.id
-			self.id_user = member.id
-			query_suffix = " id_server = {} AND id_user = {}".format(self.id_server, self.id_user)
-			if book_state is not None:
-				self.book_state = book_state
-				query_suffix += " AND book_state = {}".format(self.book_state)
-
-		try:
-			conn_info = ewutils.databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor()
-
-			# Retrieve object
-			cursor.execute("SELECT {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} FROM books WHERE{}".format(
-				ewcfg.col_id_book,
-				ewcfg.col_id_user,
-				ewcfg.col_id_server,
-				ewcfg.col_title,
-				ewcfg.col_author,
-				ewcfg.col_book_state,
-				ewcfg.col_date_published,
-				ewcfg.col_genre,
-				ewcfg.col_length,
-				ewcfg.col_sales,
-				ewcfg.col_rating,
-				ewcfg.col_rates,
-				ewcfg.col_pages,
-				query_suffix,
-			))
-			result = cursor.fetchone();
-
-			if result != None:
-				# Record found: apply the data to this object.
-				self.id_book = result[0]
-				self.id_user = result[1]
-				self.id_server = result[2]
-				self.title = result[3]
-				self.author = result[4]
-				self.book_state = result[5]
-				self.date_published = result[6]
-				self.genre = result[7]
-				self.length = result[8]
-				self.sales = result[9]
-				self.rating = result[10]
-				self.rates = result[11]
-				self.pages = result[12]
-
-				# Retrieve additional properties
-				cursor.execute("SELECT {}, {} FROM book_pages WHERE id_book = %s".format(
-					ewcfg.col_page,
-					ewcfg.col_contents
-				), (
-					self.id_book,
-				))
-
-				for row in cursor:
-					# this try catch is only necessary as long as extraneous props exist in the table
-					try:
-						self.book_pages[row[0]] = row[1]
-					except:
-						ewutils.logMsg("extraneous book_pages row detected.")
-
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			ewutils.databaseClose(conn_info)
-
-	def persist(self):
-		try:
-			conn_info = ewutils.databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor()
-
-			# Save the object.
-			cursor.execute(
-				"REPLACE INTO books({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
-					ewcfg.col_id_book,
-					ewcfg.col_id_server,
-					ewcfg.col_id_user,
-					ewcfg.col_title,
-					ewcfg.col_author,
-					ewcfg.col_book_state,
-					ewcfg.col_date_published,
-					ewcfg.col_genre,
-					ewcfg.col_length,
-					ewcfg.col_sales,
-					ewcfg.col_rating,
-					ewcfg.col_rates,
-					ewcfg.col_pages,
-				), (
-					self.id_book,
-					self.id_server,
-					self.id_user,
-					self.title,
-					self.author,
-					self.book_state,
-					self.date_published,
-					self.genre,
-					self.length,
-					self.sales,
-					self.rating,
-					self.rates,
-					self.pages,
-				))
-
-			# Remove all existing property rows.
-			cursor.execute("DELETE FROM book_pages WHERE {} = %s".format(
-				ewcfg.col_id_book
-			), (
-				self.id_book,
-			))
-
-			# Write out all current property rows.
-			for name in self.book_pages:
-				cursor.execute("INSERT INTO book_pages({}, {}, {}) VALUES(%s, %s, %s)".format(
-					ewcfg.col_id_book,
-					ewcfg.col_page,
-					ewcfg.col_contents
-				), (
-					self.id_book,
-					name,
-					self.book_pages[name]
-				))
-
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			ewutils.databaseClose(conn_info)
-
+from ewplayer import EwDiscordUser
 
 def bought_check(bought):
 	if bought == 0:
 		return False
 	else:
 		return True
-
-# The purpose of this is to make finding the average rating easier and to measure sales based on the amount of different people that buy them.
-class EwBookSale:
-	id_book = 0
-	id_user = -1
-	id_server = -1
-
-	# If a user bought the book. 0 is not bought.
-	bought = 0
-
-	# A user's rating of a book. 0 is unrated.
-	rating = 0
-
-	def __init__(
-			self,
-			id_book = None,
-			member = None,
-	):
-		self.id_book = id_book
-		self.id_user = member.id
-		self.id_server = member.guild.id
-
-		try:
-			conn_info = ewutils.databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor()
-
-			# Retrieve object
-			cursor.execute("SELECT {}, {} FROM book_sales WHERE {} = %s AND {} = %s AND {} = %s".format(
-				ewcfg.col_bought,
-				ewcfg.col_rating,
-				ewcfg.col_id_book,
-				ewcfg.col_id_user,
-				ewcfg.col_id_server,
-			), (
-				self.id_book,
-				self.id_user,
-				self.id_server,
-			))
-			result = cursor.fetchone();
-
-			if result != None:
-				# Record found: apply the data to this object.
-				self.bought = result[0]
-				self.rating = result[1]
-
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			ewutils.databaseClose(conn_info)
-
-	def persist(self):
-		try:
-			conn_info = ewutils.databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor()
-
-			# Save the object.
-			cursor.execute(
-				"REPLACE INTO book_sales({}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s)".format(
-					ewcfg.col_id_book,
-					ewcfg.col_id_server,
-					ewcfg.col_id_user,
-					ewcfg.col_bought,
-					ewcfg.col_rating,
-				), (
-					self.id_book,
-					self.id_server,
-					self.id_user,
-					self.bought,
-					self.rating,
-				))
-
-			conn.commit()
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			ewutils.databaseClose(conn_info)
 
 readers = {}
 
@@ -280,7 +19,7 @@ def check(str):
 		return True
 
 async def begin_manuscript(cmd = None, dm = False):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	title = cmd.message.content[(len(cmd.tokens[0])):].strip()
 
 	if user_data.life_state == ewcfg.life_state_shambler:
@@ -294,8 +33,8 @@ async def begin_manuscript(cmd = None, dm = False):
 	if not poi.write_manuscript or poi.id_poi == ewcfg.poi_id_clinicofslimoplasty:
 		response = "You'd love to work on your zine, however your current location doesn't strike you as a particularly good place to write. Try heading over the the Cafe, the Comic Shop, or one of the colleges (NLACU/NMS)."
 
-	elif user_data.slimes < cost:
-		 response = "You don't have enough slime to create a manuscript. ({:,}/{:,})".format(user_data.slimes, cost)
+	elif user_data.slime < cost:
+		 response = "You don't have enough slime to create a manuscript. ({:,}/{:,})".format(user_data.slime, cost)
 
 	elif user_data.hunger >= user_data.get_hunger_max() and user_data.life_state != ewcfg.life_state_corpse:
 		response = "You are just too hungry to begin your masterpiece!"
@@ -312,10 +51,10 @@ async def begin_manuscript(cmd = None, dm = False):
 			response = "You already have a manuscript deployed you eager beaver!"
 		else:
 			book = EwBook(member = cmd.message.author, book_state = 0)
-			book.author = cmd.message.author.display_name
+			book.author = cmd.message.author.name
 			book.title = title
 			user_data.manuscript = book.id_book
-			user_data.change_slimes(n=-cost, source=ewcfg.source_spending)
+			user_data.change_slime(n=-cost, source=ewcfg.source_spending)
 
 			book.persist()
 			user_data.persist()
@@ -325,7 +64,7 @@ async def begin_manuscript(cmd = None, dm = False):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def set_pen_name(cmd = None, dm = False):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
@@ -344,8 +83,8 @@ async def set_pen_name(cmd = None, dm = False):
 
 	else:
 		book = EwBook(member = cmd.message.author, book_state = 0)
-		if book.author != cmd.message.author.display_name:
-			book.author = cmd.message.author.display_name
+		if book.author != cmd.message.author.name:
+			book.author = cmd.message.author.name
 
 			book.persist()
 
@@ -356,7 +95,7 @@ async def set_pen_name(cmd = None, dm = False):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def set_genre(cmd = None, dm = False):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -394,7 +133,7 @@ async def set_genre(cmd = None, dm = False):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def set_length(cmd = None, dm = False):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -480,7 +219,7 @@ async def set_length(cmd = None, dm = False):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def set_title(cmd = None, dm = False):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -515,7 +254,7 @@ async def set_title(cmd = None, dm = False):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def edit_page(cmd = None, dm = False):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -594,7 +333,7 @@ async def edit_page(cmd = None, dm = False):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def view_page(cmd = None, dm = False):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -635,7 +374,7 @@ async def view_page(cmd = None, dm = False):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def check_manuscript(cmd = None, dm = False):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -671,7 +410,7 @@ async def check_manuscript(cmd = None, dm = False):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def publish_manuscript(cmd = None, dm = False):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -762,7 +501,7 @@ def get_page(id_book, page):
 	return contents
 
 async def read_book(cmd = None, dm = False):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -847,7 +586,7 @@ async def read_book(cmd = None, dm = False):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def next_page(cmd = None, dm = False):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -891,7 +630,7 @@ async def next_page(cmd = None, dm = False):
 
 
 async def previous_page(cmd = None, dm = False):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -971,7 +710,7 @@ async def browse_zines(cmd):
 	else:
 		sort_token = "null"
 
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	poi = ewcfg.id_to_poi.get(user_data.poi)
 
 	if not poi.write_manuscript:
@@ -1167,7 +906,7 @@ async def browse_zines(cmd):
 			await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def order_zine(cmd):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -1216,15 +955,15 @@ async def order_zine(cmd):
 						response = "Specify a zine to purchase. Find zine IDs with !browse."
 						return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-					user_data = EwUser(member=cmd.message.author)
+					user_data = EwPlayer(member=cmd.message.author)
 
 					if book.genre != 10:
 						price = ewcfg.zine_cost
 					else:
 						price = ewcfg.zine_cost/4
 
-					if user_data.slimes < price:
-						response = "YOU CAN'T AFFORD IT. ({:,}/{:,})".format(user_data.slimes, price)
+					if user_data.slime < price:
+						response = "YOU CAN'T AFFORD IT. ({:,}/{:,})".format(user_data.slime, price)
 
 					else:
 						ewitem.item_create(
@@ -1247,12 +986,12 @@ async def order_zine(cmd):
 								book_sale.persist()
 								book.persist()
 
-						user_data.change_slimes(n = -(price), source = ewcfg.source_spending)
+						user_data.change_slime(n = -(price), source = ewcfg.source_spending)
 						
 						user_data.persist()
 
 						if book.genre != 10:
-							author = EwUser(id_user = book.id_user, id_server = book.id_server)
+							author = EwPlayer(id_user = book.id_user, id_server = book.id_server)
 
 							if author.id_user != user_data.id_user and ewitem.check_inv_capacity(id_server = user_data.id_server, id_user = user_data.id_user, item_type = ewcfg.it_item):
 								ewitem.item_create(
@@ -1448,8 +1187,8 @@ async def untake_down_zine(cmd):
 async def zine_dm_commands(cmd):
 	tokens_count = len(cmd.tokens)
 	cmd_text = cmd.tokens[0].lower() if tokens_count >= 1 else ""
-	player = EwPlayer(id_user=cmd.message.author.id)
-	user_data = EwUser(id_user=cmd.message.author.id, id_server=player.id_server)
+	player = EwDiscordUser(id_user=cmd.message.author.id)
+	user_data = EwPlayer(id_user=cmd.message.author.id, id_server=player.id_server)
 	server = ewcfg.server_list[user_data.id_server]
 	member_object = server.get_member(user_data.id_user)
 	cmd.message.author = member_object

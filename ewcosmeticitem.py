@@ -6,111 +6,12 @@ import ewitem
 import ewutils
 import asyncio
 
-from ew import EwUser
+from ew import EwPlayer
 from ewitem import EwItem
 
-"""
-	Cosmetic item model object
-"""
-class EwCosmeticItem:
-	item_type = "cosmetic"
-
-	# The proper name of the cosmetic item
-	id_cosmetic = ""
-
-	# The string name of the cosmetic item
-	str_name = ""
-
-	# The text displayed when you !inspect it
-	str_desc = ""
-
-	# The text displayed when you !adorn it
-	str_onadorn = ""
-
-	# The text displayed when you take it off
-	str_unadorn = ""
-
-	# The text displayed when it breaks! Oh no!
-	str_onbreak = ""
-
-	# How rare the item is, can be "Plebeian", "Patrician", or "Princeps"
-	rarity = ""
-
-	# The stats the item increases/decreases
-	stats = {}
-
-	# Some items have special abilities that act like less powerful Mutations
-	ability = ""
-
-	# While !adorn'd, this item takes damage-- If this reaches 0, it breaks
-	durability = 0
-
-	# How much space this item takes up on your person-- You can only wear so many items at a time, the amount is determined by your level
-	size = 0
-
-	# What fashion style the cosmetic belongs to: Goth, jock, prep, nerd
-	style = ""
-
-	# How fresh a cosmetic is, in other words how fleek, in other words how godDAMN it is, in other words how good it looks
-	freshness = 0
-
-	# The ingredients necessary to make this item via it's acquisition method
-	ingredients = ""
-
-	# Cost in SlimeCoin to buy this item.
-	price = 0
-
-	# Names of the vendors selling this item.
-	vendors = []
-
-	#Whether a cosmetic is a hat or not
-	is_hat = False
-
-	def __init__(
-		self,
-		id_cosmetic = "",
-		str_name = "",
-		str_desc = "",
-		str_onadorn = "",
-		str_unadorn = "",
-		str_onbreak = "",
-		rarity = "",
-		stats = {},
-		ability = "",
-		durability = 0,
-		size = 0,
-		style = "",
-		freshness = 0,
-		ingredients = "",
-		acquisition = "",
-		price = 0,
-		vendors = [],
-		is_hat = False,
-
-	):
-		self.item_type = ewcfg.it_cosmetic
-
-		self.id_cosmetic = id_cosmetic
-		self.str_name = str_name
-		self.str_desc = str_desc
-		self.str_onadorn = str_onadorn
-		self.str_unadorn = str_unadorn
-		self.str_onbreak = str_onbreak
-		self.rarity = rarity
-		self.stats = stats
-		self.ability = ability
-		self.durability = durability
-		self.size = size
-		self.style = style
-		self.freshness = freshness
-		self.ingredients = ingredients
-		self.acquisition = acquisition
-		self.price = price
-		self.vendors = vendors
-		self.is_hat = is_hat
 
 async def adorn(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 
 	# Check to see if you even have the item you want to repair
 	item_id = ewutils.flattenTokenListToString(cmd.tokens[1:])
@@ -197,7 +98,7 @@ async def adorn(cmd):
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, 'Adorn which cosmetic? Check your **!inventory**.'))
 
 async def dedorn(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	# ewutils.moves_active[cmd.message.author.id] = 0
 
 	# Check to see if you even have the item you want to repair
@@ -314,7 +215,7 @@ async def dye(cmd):
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, 'You need to specify which cosmetic you want to paint and which dye you want to use! Check your **!inventory**.'))
 
 async def smoke(cmd):
-	usermodel = EwUser(member=cmd.message.author)
+	usermodel = EwPlayer(member=cmd.message.author)
 	#item_sought = ewitem.find_item(item_search="cigarette", id_user=cmd.message.author.id, id_server=usermodel.id_server)
 	item_sought = None
 	space_adorned = 0
@@ -411,7 +312,7 @@ def dedorn_all_costumes():
 	ewutils.logMsg("Dedorned {} costumes after full moon ended.".format(costume_count))
 
 async def sew(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 
 	# Player must be at the Bodega
 	if user_data.poi == ewcfg.poi_id_bodega:
@@ -485,7 +386,7 @@ async def sew(cmd):
 						# cost_ofrepair = difference * 4 # NO ONE SAID IT WOULD BE EASY
 						cost_ofrepair = 10000 # I did...
 
-						if cost_ofrepair > user_data.slimes:
+						if cost_ofrepair > user_data.slime:
 							response = 'The hipster behind the counter narrows his gaze, his thick-rimmed glasses magnify his hatred of your ignoble ancestry.\n"Sir… it would cost {:,} to sew this garment back together. That’s more slime than you or your clan could ever accrue. Good day, sir. I SAID GOOD DAY. Come back when you’re a little, mmmmhh, *richer*."'.format(cost_ofrepair)
 						else:
 							response ='"Let’s see, all told… including tax… plus gratuity… and a hefty tip, of course… your total comes out to {}, sir."'.format(cost_ofrepair)
@@ -517,11 +418,11 @@ async def sew(cmd):
 								accepted = False
 
 							# Candel deal if the user doesn't have enough slime anymore
-							if cost_ofrepair > user_data.slimes:
+							if cost_ofrepair > user_data.slime:
 								accepted = False
 
 							if accepted == True:
-								user_data.change_slimes(n=-cost_ofrepair, source=ewcfg.source_spending)
+								user_data.change_slime(n=-cost_ofrepair, source=ewcfg.source_spending)
 								user_data.persist()
 
 								item_sought.item_props['durability'] = original_durability
@@ -541,7 +442,7 @@ async def sew(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def retrofit(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 
 	# Player must be at the Bodega
 	if user_data.poi == ewcfg.poi_id_bodega:
@@ -615,7 +516,7 @@ async def retrofit(cmd):
 					if current_item_stats != desired_item_stats:
 						cost_ofretrofit = 100 # This is a completely random number that I arbitrarily pulled out of my ass
 
-						if cost_ofretrofit > user_data.slimes:
+						if cost_ofretrofit > user_data.slime:
 							response = 'The hipster behind the counter narrows his gaze, his thick-rimmed glasses magnify his hatred of your ignoble ancestry.\n"Sir… it would cost {:,} to retrofit this garment with updated combat abilities. That’s more slime than you or your clan could ever accrue. Good day, sir. I SAID GOOD DAY. Come back when you’re a little, mmmmhh, *richer*."'.format(cost_ofretrofit)
 						else:
 							response = '"Let’s see, all told… including tax… plus gratuity… and a hefty tip, of course… your total comes out to {}, sir."'.format(cost_ofretrofit)
@@ -647,7 +548,7 @@ async def retrofit(cmd):
 								accepted = False
 
 							# Candel deal if the user doesn't have enough slime anymore
-							if cost_ofretrofit > user_data.slimes:
+							if cost_ofretrofit > user_data.slime:
 								accepted = False
 
 							if accepted == True:
@@ -657,7 +558,7 @@ async def retrofit(cmd):
 
 								item_sought.persist()
 
-								user_data.slimes -= cost_ofretrofit
+								user_data.slime -= cost_ofretrofit
 
 
 								user_data.persist()

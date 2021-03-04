@@ -3,7 +3,7 @@ import time
 import ewcfg
 import ewutils
 import ewstats
-from ew import EwUser
+from ew import EwPlayer
 
 # Returns a user's life state/gang color as a discord.Colour object
 def get_tweet_color(user_data):
@@ -21,7 +21,7 @@ def get_tweet_color(user_data):
 
 async def tweet(cmd):
     
-    user_data = EwUser(id_user=cmd.message.author.id, id_server=cmd.guild.id)
+    user_data = EwPlayer(id_user=cmd.message.author.id, id_server=cmd.guild.id)
     
     if user_data.has_gellphone():
 
@@ -61,7 +61,7 @@ async def tweet(cmd):
 
 async def verification(cmd):
 
-    user_data = EwUser(member=cmd.message.author)
+    user_data = EwPlayer(member=cmd.message.author)
     
     if user_data.poi == ewcfg.poi_id_slimecorphq:
 
@@ -74,9 +74,9 @@ async def verification(cmd):
 
         if time_in_server >= 60 * 60 * 24 * 180: # 6 months
 
-            lifetime_slime = ewstats.get_stat(user=user_data, metric=ewcfg.stat_lifetime_slimes)
+            lifetime_slime = user_data.get_stat(metric=ewcfg.stat_lifetime_slimes)
             # you can use haunted slimes too cause we're nicer to ghosts than we should be
-            lifetime_haunted = ewstats.get_stat(user=user_data, metric=ewcfg.stat_lifetime_slimeshaunted)
+            lifetime_haunted = user_data.get_stat(metric=ewcfg.stat_lifetime_slimeshaunted)
 
             if lifetime_slime > 1000000000 or lifetime_haunted > 100000000:
 

@@ -5,7 +5,7 @@ import ewrolemgr
 import ewutils
 import ewcfg
 import ewcmd
-from ew import EwUser
+from ew import EwPlayer
 
 """
 	Commands for raid bosses only.
@@ -15,7 +15,7 @@ from ew import EwUser
 async def writhe(cmd):
 	resp = await ewcmd.start(cmd = cmd)
 	response = ""
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 
 	if user_data.life_state != ewcfg.life_state_grandfoe:
 		response = "Only the NEGASLIME {} can do that.".format(ewcfg.emote_negaslime)
@@ -85,7 +85,7 @@ async def writhe(cmd):
 		# kill everyone in the negaslime's poi and remember their names
 		for target in targets:
 			if target != None:
-				user_data_target = EwUser(member = target)
+				user_data_target = EwPlayer(member = target)
 
 				user_data_target.id_killer = cmd.message.author.id
 				user_data_target.die(cause = ewcfg.cause_grandfoe)

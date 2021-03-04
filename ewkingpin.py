@@ -6,15 +6,14 @@ import ewutils
 import ewcfg
 import ewrolemgr
 import ewmap
-from ew import EwUser
-import re
+from ew import EwPlayer
 
 """
 	Release the specified player from their commitment to their faction.
 	Returns enlisted players to juvenile.
 """
 async def pardon(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 
 	if user_data.life_state != ewcfg.life_state_kingpin and user_data.life_state != ewcfg.life_state_executive and not cmd.message.author.guild_permissions.administrator:
 		response = "Only the Rowdy Fucker {}, the Cop Killer {} and Slimecorp Executives {} can do that.".format(ewcfg.emote_rowdyfucker, ewcfg.emote_copkiller, ewcfg.emote_slimecorp)
@@ -28,11 +27,11 @@ async def pardon(cmd):
 		if member == None:
 			response = "Who?"
 		else:
-			member_data = EwUser(member = member)
+			member_data = EwPlayer(member = member)
 			member_data.unban(faction = user_data.faction)
 
 			if member_data.faction == "":
-				response = "{} has been allowed to join the {} again.".format(member.display_name, user_data.faction)
+				response = "{} has been allowed to join the {} again.".format(member.name, user_data.faction)
 			else:
 				faction_old = member_data.faction
 				member_data.faction = ""
@@ -41,7 +40,7 @@ async def pardon(cmd):
 					member_data.life_state = ewcfg.life_state_juvenile
 					member_data.weapon = -1
 
-				response = "{} has been released from their association with the {}.".format(member.display_name, faction_old)
+				response = "{} has been released from their association with the {}.".format(member.name, faction_old)
 
 			member_poi = ewcfg.id_to_poi.get(member_data.poi)
 			if ewmap.inaccessible(user_data = member_data, poi = member_poi):
@@ -53,7 +52,7 @@ async def pardon(cmd):
 
 
 async def banish(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 
 	if user_data.life_state != ewcfg.life_state_kingpin and user_data.life_state != ewcfg.life_state_executive and not cmd.message.author.guild_permissions.administrator:
 		response = "Only the Rowdy Fucker {}, the Cop Killer {} and Slimecorp Executives {} can do that.".format(ewcfg.emote_rowdyfucker, ewcfg.emote_copkiller, ewcfg.emote_slimecorp)
@@ -70,7 +69,7 @@ async def banish(cmd):
 		if member == None:
 			response = "Who?"
 		else:
-			member_data = EwUser(member = member)
+			member_data = EwPlayer(member = member)
 			member_data.ban(faction = user_data.faction)
 			member_data.unvouch(faction = user_data.faction)
 
@@ -83,7 +82,7 @@ async def banish(cmd):
 			if ewmap.inaccessible(user_data = member_data, poi = member_poi):
 				member_data.poi = ewcfg.poi_id_downtown
 			member_data.persist()
-			response = "{} has been banned from enlisting in the {}".format(member.display_name, user_data.faction)
+			response = "{} has been banned from enlisting in the {}".format(member.name, user_data.faction)
 			await ewrolemgr.updateRoles(client = cmd.client, member = member)
 
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -91,7 +90,7 @@ async def banish(cmd):
 """ Destroy a megaslime of your own for lore reasons. """
 async def deadmega(cmd):
 	response = ""
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 
 	if user_data.life_state != ewcfg.life_state_kingpin:
 		response = "Only the Rowdy Fucker {} and the Cop Killer {} can do that.".format(ewcfg.emote_rowdyfucker, ewcfg.emote_copkiller)
@@ -99,12 +98,12 @@ async def deadmega(cmd):
 		value = 1000000
 		user_slimes = 0
 
-		if value > user_data.slimes:
-			response = "You don't have that much slime to lose ({:,}/{:,}).".format(user_data.slimes, value)
+		if value > user_data.slime:
+			response = "You don't have that much slime to lose ({:,}/{:,}).".format(user_data.slime, value)
 		else:
-			user_data.change_slimes(n = -value)
+			user_data.change_slime(n = -value)
 			user_data.persist()
-			response = "Alas, poor megaslime. You have {:,} slime remaining.".format(user_data.slimes)
+			response = "Alas, poor megaslime. You have {:,} slime remaining.".format(user_data.slime)
 
 	# Send the response to the player.
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -114,18 +113,16 @@ async def deadmega(cmd):
 """
 async def create(cmd):
 	#if not cmd.message.author.guild_permissions.administrator:
-	if EwUser(member = cmd.message.author).life_state != ewcfg.life_state_kingpin and not cmd.message.author.guild_permissions.administrator:
+	if EwPlayer(member = cmd.message.author).life_state != ewcfg.life_state_kingpin and not cmd.message.author.guild_permissions.administrator:
 		response = 'Lowly Non-Kingpins cannot hope to create items with their bare hands.'
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	if len(cmd.tokens) not in [4, 5, 6]:
-		response = 'Usage: !create "<item_name>" "<item_desc>" <recipient> <rarity(optional)>, <context>(optional)'
+	if len(cmd.tokens) != 4:
+		response = 'Usage: !create "<item_name>" "<item_desc>" <recipient>'
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 	item_name = cmd.tokens[1]
 	item_desc = cmd.tokens[2]
-	rarity =  cmd.tokens[4] if len(cmd.tokens) >= 5 and ewutils.flattenTokenListToString(cmd.tokens[4]) in ['princeps', 'plebeian', 'patrician'] else 'princeps'
-	context = cmd.tokens[5] if len(cmd.tokens) >= 6 else ''
 
 	if cmd.mentions[0]:
 		recipient = cmd.mentions[0]
@@ -137,11 +134,8 @@ async def create(cmd):
 		"cosmetic_name": item_name,
 		"cosmetic_desc": item_desc,
 		"adorned": "false",
-		"rarity": rarity,
-		"context": context
+		"rarity": "princeps"
 	}
-
-
 
 	new_item_id = ewitem.item_create(
 		id_server = cmd.guild.id,
@@ -160,7 +154,7 @@ async def create(cmd):
 """
 async def exalt(cmd):
 	author = cmd.message.author
-	user_data = EwUser(member=author)
+	user_data = EwPlayer(member=author)
 
 	if not author.guild_permissions.administrator and user_data.life_state != ewcfg.life_state_kingpin:
 		response = "You do not have the power within you worthy of !exalting another player."
@@ -172,7 +166,7 @@ async def exalt(cmd):
 		response = 'You need to specify a recipient. Usage: !exalt @[recipient].'
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	recipient_data = EwUser(member=recipient)
+	recipient_data = EwPlayer(member=recipient)
 
 # 	DOUBLE HALLOWEEN
 # 
@@ -198,7 +192,7 @@ async def exalt(cmd):
  	# I imagine this would be something similar to how players can destroy Australium Wrenches in TF2, which broadcasts a message to everyone in the game, or something.
 	ewitem.soulbind(medallion_id)
 
-	response = "**{} has been gifted the Double Halloween Medallion!!**\n".format(recipient.display_name)
+	response = "**{} has been gifted the Double Halloween Medallion!!**\n".format(recipient.name)
 # 	
 # 	SWILLDERMUK
 # 	
@@ -224,7 +218,7 @@ async def exalt(cmd):
 # 
 # 		ewitem.soulbind(mask_id)
 # 
-# 		response = "In light of their supreme reign over Swilldermuk, and in honor of their pranking prowess, {} recieves the Janus Mask!".format(recipient.display_name)
+# 		response = "In light of their supreme reign over Swilldermuk, and in honor of their pranking prowess, {} recieves the Janus Mask!".format(recipient.name)
 # 
 # 	else:
 # 		# Give the user the Sword of Seething
@@ -247,28 +241,6 @@ async def exalt(cmd):
 # 
 # 		ewitem.soulbind(sword_id)
 # 
-# 		response = "In response to their unparalleled ability to let everything go to shit and be the laughingstock of all of NLACakaNM, {} recieves the SWORD OF SEETHING! God help us all...".format(recipient.display_name)
+# 		response = "In response to their unparalleled ability to let everything go to shit and be the laughingstock of all of NLACakaNM, {} recieves the SWORD OF SEETHING! God help us all...".format(recipient.name)
 # 
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
-
-
-async def pa_command(cmd):
-	if not cmd.message.author.guild_permissions.administrator:
-		return await ewutils.fake_failed_command(cmd)
-	else:
-		if cmd.tokens_count >= 3:
-			poi = ewutils.flattenTokenListToString(cmd.tokens[1])
-
-			poi_obj = ewcfg.id_to_poi.get(poi)
-			if poi == "auditorium":
-				channel = "auditorium"
-			else:
-				channel = poi_obj.channel
-
-			loc_channel = ewutils.get_channel(cmd.guild, channel)
-
-			if poi is not None:
-				patext = re.sub("<.+>", "", cmd.message.content[(len(cmd.tokens[0])+len(cmd.tokens[1])+1):]).strip()
-				if len(patext) > 500:
-					patext = patext[:-500]
-				return await ewutils.send_message(cmd.client, loc_channel, patext)

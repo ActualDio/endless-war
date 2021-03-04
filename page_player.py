@@ -11,8 +11,8 @@ import ewutils
 import ewcmd
 import ewcfg
 
-from ew import EwUser
-from ewplayer import EwPlayer
+from ewuser import EwPlayer
+from ewplayer import EwDiscordUser
 
 def faction(faction, life_state):
 	url = "<img src=/img/icons/{}.png style=\"height: 1em;\"> "
@@ -36,8 +36,8 @@ else:
 
 print("<article class=story>")
 
-user_data = EwUser(id_user = id_user, id_server = id_server)
-player = EwPlayer(id_user = id_user)
+user_data = EwPlayer(id_user = id_user, id_server = id_server)
+player = EwDiscordUser(id_user = id_user)
 
 # Floating profile section
 print("<div class=profile_float><img src=\"{avatar_url}\" class=profile_avatar>".format(
@@ -50,7 +50,7 @@ print("<tr><td>Faction</td><td>{icon}{faction}</td></tr>".format(
 	faction = user_data.faction
 
 ))
-print("<tr><td>Slime</td><td>{slime:,}</td></tr>".format(slime = user_data.slimes))
+print("<tr><td>Slime</td><td>{slime:,}</td></tr>".format(slime = user_data.slime))
 print("<tr><td>SlimeCoin</td><td>{slimecoin:,}</td></tr>".format(slimecoin = user_data.slimecoin))
 print("<tr><td>Bounty</td><td>{bounty:,}</td></tr>".format(bounty = int((user_data.bounty + 1) / ewcfg.slimecoin_exchangerate)))
 print("</table>")
@@ -59,9 +59,9 @@ print("</div>")
 
 
 # Header bar
-print("<header><h2>{faction}<a href=player.html?pl={id_user}>{display_name}</a></h2></header>".format(
+print("<header><h2>{faction}<a href=player.html?pl={id_user}>{name}</a></h2></header>".format(
 	id_user = id_user,
-	display_name = html.escape(player.display_name),
+	name = html.escape(player.name),
 	faction = faction(user_data.faction, user_data.life_state)
 ))
 
@@ -72,7 +72,7 @@ print("<div>")
 print("<p>{}</p>".format(html.escape("".join(ewcmd.gen_data_text(
 	id_user = id_user,
 	id_server = id_server,
-	display_name = player.display_name
+	name = player.name
 )
 ))))
 

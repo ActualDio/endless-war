@@ -17,7 +17,7 @@ import ewslimeoid
 import ewitem
 import ewquadrants
 import ewstats
-from ew import EwUser
+from ew import EwPlayer
 from ewmarket import EwMarket
 from ewslimeoid import EwSlimeoid
 
@@ -29,7 +29,7 @@ async def revive(cmd):
 	if cmd.message.channel.name != ewcfg.channel_endlesswar and cmd.message.channel.name != ewcfg.channel_sewers:
 		response = "Come to me. I hunger. #{}.".format(ewcfg.channel_sewers)
 	else:
-		player_data = EwUser(member = cmd.message.author)
+		player_data = EwPlayer(member = cmd.message.author)
 
 		#time_until_revive = (player_data.time_lastdeath + 600) - time_now
 		time_until_revive = (player_data.time_lastdeath + player_data.degradation) - time_now
@@ -50,9 +50,9 @@ async def revive(cmd):
 			#player_data.busted = False
 			
 			# Preserve negaslime
-			if player_data.slimes < 0:
-				#market_data.negaslime += player_data.slimes
-				player_data.change_slimes(n = -player_data.slimes) # set to 0
+			if player_data.slime < 0:
+				#market_data.negaslime += player_data.slime
+				player_data.change_slime(n = -player_data.slime) # set to 0
 
 			# reset slimelevel to zero
 			player_data.slimelevel = 0
@@ -63,7 +63,7 @@ async def revive(cmd):
 			
 			if player_data.degradation >= 100:
 				player_data.life_state = ewcfg.life_state_shambler
-				player_data.change_slimes(n = 0.5 * ewcfg.slimes_shambler)
+				player_data.change_slime(n = 0.5 * ewcfg.slimes_shambler)
 				player_data.trauma = ""
 				poi_death = ewcfg.id_to_poi.get(player_data.poi_death)
 				if ewmap.inaccessible(poi = poi_death, user_data = player_data):
@@ -74,7 +74,7 @@ async def revive(cmd):
 				# Set life state. This is what determines whether the player is actually alive.
 				player_data.life_state = ewcfg.life_state_juvenile
 				# Give player some initial slimes.
-				player_data.change_slimes(n = ewcfg.slimes_onrevive)
+				player_data.change_slime(n = ewcfg.slimes_onrevive)
 				# Get the player out of the sewers.
 				player_data.poi = ewcfg.poi_id_endlesswar
 
@@ -87,13 +87,13 @@ async def revive(cmd):
 			sewer_data = EwDistrict(district = ewcfg.poi_id_thesewers, id_server = cmd.guild.id)
 			# the amount of slime showered is divided equally amongst the districts
 			districts_amount = len(ewcfg.capturable_districts)
-			geyser_amount = int(0.5 * sewer_data.slimes / districts_amount)
+			geyser_amount = int(0.5 * sewer_data.slime / districts_amount)
 			# Get a list of all the districts
 			for poi in ewcfg.capturable_districts:
 				district_data = EwDistrict(district = poi, id_server = cmd.guild.id)
 
-				district_data.change_slimes(n = geyser_amount)
-				sewer_data.change_slimes(n = -1 * geyser_amount)
+				district_data.change_slime(n = geyser_amount)
+				sewer_data.change_slime(n = -1 * geyser_amount)
 
 				district_data.persist()
 				sewer_data.persist()
@@ -108,11 +108,11 @@ async def revive(cmd):
 			await ewrolemgr.updateRoles(client = cmd.client, member = cmd.message.author)
 
 			response = '{slime4} Geysers of fresh slime erupt from every manhole in the city, showering their surrounding districts. {slime4} {name} has been reborn in slime. {slime4}'.format(
-				slime4 = ewcfg.emote_slime4, name = cmd.message.author.display_name)
+				slime4 = ewcfg.emote_slime4, name = cmd.message.author.name)
 		else:
 			response = 'You\'re not dead just yet.'
 
-	#	deathreport = "You were {} by {}. {}".format(kill_descriptor, cmd.message.author.display_name, ewcfg.emote_slimeskull)
+	#	deathreport = "You were {} by {}. {}".format(kill_descriptor, cmd.message.author.name, ewcfg.emote_slimeskull)
 	#	deathreport = "{} ".format(ewcfg.emote_slimeskull) + ewutils.formatMessage(member, deathreport)
 
 		if slimeoid.life_state == ewcfg.slimeoid_state_active:
@@ -144,14 +144,14 @@ async def haunt(cmd):
 		if cmd.mentions_count == 0 and cmd.tokens_count > 1:
 			server = cmd.guild
 			member = server.get_member(ewutils.getIntToken(cmd.tokens))
-			haunted_data = EwUser(member = member)
+			haunted_data = EwPlayer(member = member)
 		elif cmd.mentions_count == 1:
 			member = cmd.mentions[0]
-			haunted_data = EwUser(member = member)
+			haunted_data = EwPlayer(member = member)
 		
 		if member:
 			# Get the user and target data from the database.
-			user_data = EwUser(member = cmd.message.author)
+			user_data = EwPlayer(member = cmd.message.author)
 			market_data = EwMarket(id_server = cmd.guild.id)
 			target_mutations = haunted_data.get_mutations()
 			target_poi = ewcfg.id_to_poi.get(haunted_data.poi)
@@ -172,13 +172,13 @@ async def haunt(cmd):
 				response = "You can't commit violence from here."
 			elif target_poi.pvp == False:
 			#Require the target to be in a PvP area, and flagged if it's a remote haunt
-				response = "{} is not mired in the ENDLESS WAR right now.".format(member.display_name)
+				response = "{} is not mired in the ENDLESS WAR right now.".format(member.name)
 			elif haunted_data.life_state == ewcfg.life_state_corpse:
 				# Dead players can't be haunted.
-				response = "{} is already dead.".format(member.display_name)
+				response = "{} is already dead.".format(member.name)
 			elif haunted_data.life_state == ewcfg.life_state_grandfoe:
 				# Grand foes can't be haunted.
-				response = "{} is invulnerable to ghosts.".format(member.display_name)
+				response = "{} is invulnerable to ghosts.".format(member.name)
 			elif haunted_data.life_state == ewcfg.life_state_enlisted or haunted_data.life_state == ewcfg.life_state_juvenile or haunted_data.life_state == ewcfg.life_state_shambler:
 				haunt_power_multiplier = 1
 
@@ -216,7 +216,7 @@ async def haunt(cmd):
 					haunt_power_multiplier *= 1.25
 
 				# glory to the vanquished
-				target_kills = ewstats.get_stat(user = haunted_data, metric = ewcfg.stat_kills)
+				target_kills = haunted_data.get_stat(metric = ewcfg.stat_kills)
 				if target_kills > 5:
 					haunt_power_multiplier *= 1.25 + ((target_kills - 5) / 100) # 1% per kill after 5
 				else:
@@ -241,16 +241,16 @@ async def haunt(cmd):
 				# Double Halloween
 				#haunt_power_multiplier *= 4
 
-				haunted_slimes = int((haunted_data.slimes / ewcfg.slimes_hauntratio) * haunt_power_multiplier)
+				haunted_slimes = int((haunted_data.slime / ewcfg.slimes_hauntratio) * haunt_power_multiplier)
 				slimes_lost = int(haunted_slimes / 5) # hauntee only loses 1/5th of what the ghost gets as antislime
 
 				if ewcfg.mutation_id_coleblooded in target_mutations:
 					haunted_slimes = -10000
-					if user_data.slimes > haunted_slimes:
-						haunted_slimes = user_data.slimes
+					if user_data.slime > haunted_slimes:
+						haunted_slimes = user_data.slime
 
-				haunted_data.change_slimes(n = -slimes_lost, source = ewcfg.source_haunted)
-				user_data.change_slimes(n = -haunted_slimes, source = ewcfg.source_haunter)
+				haunted_data.change_slime(n = -slimes_lost, source = ewcfg.source_haunted)
+				user_data.change_slime(n = -haunted_slimes, source = ewcfg.source_haunter)
 				market_data.negaslime -= haunted_slimes
 
 				user_data.time_lasthaunt = time_now
@@ -262,9 +262,9 @@ async def haunt(cmd):
 				haunted_data.persist()
 				market_data.persist()
 
-				response = "{} has been haunted by the ghost of {}! Slime has been lost! {} antislime congeals within you.".format(member.display_name, cmd.message.author.display_name, haunted_slimes)
+				response = "{} has been haunted by the ghost of {}! Slime has been lost! {} antislime congeals within you.".format(member.name, cmd.message.author.name, haunted_slimes)
 				if ewcfg.mutation_id_coleblooded in target_mutations:
-					response = "{} has been haunted by the ghost of {}! Their exorcising coleslaw blood purges {} antislime from your being! Better not do that again.".format(member.display_name, cmd.message.author.display_name, -haunted_slimes)
+					response = "{} has been haunted by the ghost of {}! Their exorcising coleslaw blood purges {} antislime from your being! Better not do that again.".format(member.name, cmd.message.author.name, -haunted_slimes)
 
 				haunted_channel = ewcfg.id_to_poi.get(haunted_data.poi).channel
 				haunt_message = "You feel a cold shiver run down your spine"
@@ -308,7 +308,7 @@ async def negaslime(cmd):
 
 async def summon_negaslimeoid(cmd):
 	response = ""
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state != ewcfg.life_state_corpse:
 		response = "Only the dead have the occult knowledge required to summon a cosmic horror."
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -334,10 +334,10 @@ async def summon_negaslimeoid(cmd):
 		if market_data.negaslime >= 0:
 			response = "The dead haven't amassed any negaslime yet."
 		else:
-			max_level = min(len(str(user_data.slimes)) - 1, len(str(market_data.negaslime)) - 1)
+			max_level = min(len(str(user_data.slime)) - 1, len(str(market_data.negaslime)) - 1)
 			level = random.randint(1, max_level)
 			value = 10 ** (level - 1)
-			#user_data.change_slimes(n = int(value/10))
+			#user_data.change_slime(n = int(value/10))
 			market_data.negaslime += value
 			slimeoid.sltype = ewcfg.sltype_nega
 			slimeoid.life_state = ewcfg.slimeoid_state_active
@@ -402,7 +402,7 @@ def generate_negaslimeoid_name():
 	allows ghosts to hook on to living players and follow them around
 """
 async def inhabit(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 		
 	if user_data.life_state != ewcfg.life_state_corpse:
@@ -413,7 +413,7 @@ async def inhabit(cmd):
 			response = "Are you trying to split yourself in half? You can only inhabit one body at a time."
 		elif cmd.mentions_count == 1:
 			member = cmd.mentions[0]
-			target_data = EwUser(member = member)
+			target_data = EwPlayer(member = member)
 
 			if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
 				# Has to be done in a gameplay channel
@@ -450,14 +450,14 @@ async def inhabit(cmd):
 					)
 				)
 
-				response = "{}\'s body is inhabitted by the ghost of {}!".format(member.display_name, cmd.message.author.display_name)
+				response = "{}\'s body is inhabitted by the ghost of {}!".format(member.name, cmd.message.author.name)
 		else:
 			response = "Your spookiness is appreciated, but ENDLESS WAR didn\'t understand that name."
 
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def let_go(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 
 	if user_data.life_state != ewcfg.life_state_corpse:
@@ -472,20 +472,20 @@ async def let_go(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def possess_weapon(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.life_state != ewcfg.life_state_corpse:
 		response = "You have no idea what you're doing."
 	elif not user_data.get_inhabitee():
 		response = "You're not **{}**ing anyone right now.".format(ewcfg.cmd_inhabit)
-	elif user_data.slimes >= ewcfg.slimes_to_possess_weapon:
+	elif user_data.slime >= ewcfg.slimes_to_possess_weapon:
 		response = "You'll have to become stronger before you can perform occult arts of this level."
 	else:
 		server = cmd.guild
 		inhabitee_id = user_data.get_inhabitee()
-		inhabitee_data = EwUser(id_user = inhabitee_id, id_server = user_data.id_server)
+		inhabitee_data = EwPlayer(id_user = inhabitee_id, id_server = user_data.id_server)
 		inhabitee_member = server.get_member(inhabitee_id)
-		inhabitee_name = inhabitee_member.display_name
+		inhabitee_name = inhabitee_member.name
 		if inhabitee_data.weapon < 0:
 			response = "{} is not wielding a weapon right now.".format(inhabitee_name)
 		elif inhabitee_data.get_possession():
@@ -519,9 +519,9 @@ async def possess_weapon(cmd):
 					inhabitee_id,
 					user_data.id_user,
 				))
-				user_data.change_slimes(n = -ewcfg.slimes_to_possess_weapon, source = ewcfg.source_ghost_contract)
+				user_data.change_slime(n = -ewcfg.slimes_to_possess_weapon, source = ewcfg.source_ghost_contract)
 				user_data.persist()
-				accepted_response = "You feel a metallic taste in your mouth as you sign {}'s spectral contract. You see them bind themselves to your weapon, which now bears their mark. It feels cold to the touch.".format(cmd.message.author.display_name)
+				accepted_response = "You feel a metallic taste in your mouth as you sign {}'s spectral contract. You see them bind themselves to your weapon, which now bears their mark. It feels cold to the touch.".format(cmd.message.author.name)
 				await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(inhabitee_member, accepted_response))
 			else:
 				response = "You should've known better, why would anyone ever trust you?"
@@ -530,20 +530,20 @@ async def possess_weapon(cmd):
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def possess_fishing_rod(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.life_state != ewcfg.life_state_corpse:
 		response = "You have no idea what you're doing."
 	elif not user_data.get_inhabitee():
 		response = "You're not **{}**ing anyone right now.".format(ewcfg.cmd_inhabit)
-	elif user_data.slimes >= ewcfg.slimes_to_possess_fishing_rod:
+	elif user_data.slime >= ewcfg.slimes_to_possess_fishing_rod:
 		response = "You'll have to become stronger before you can perform occult arts of this level."
 	else:
 		server = cmd.guild
 		inhabitee_id = user_data.get_inhabitee()
-		inhabitee_data = EwUser(id_user = inhabitee_id, id_server = user_data.id_server)
+		inhabitee_data = EwPlayer(id_user = inhabitee_id, id_server = user_data.id_server)
 		inhabitee_member = server.get_member(inhabitee_id)
-		inhabitee_name = inhabitee_member.display_name
+		inhabitee_name = inhabitee_member.name
 		if inhabitee_data.get_possession():
 			response = "{} is already being possessed.".format(inhabitee_name)
 		else:
@@ -575,9 +575,9 @@ async def possess_fishing_rod(cmd):
 					inhabitee_id,
 					user_data.id_user,
 				))
-				user_data.change_slimes(n = -ewcfg.slimes_to_possess_fishing_rod, source = ewcfg.source_ghost_contract)
+				user_data.change_slime(n = -ewcfg.slimes_to_possess_fishing_rod, source = ewcfg.source_ghost_contract)
 				user_data.persist()
-				accepted_response = "You feel a metallic taste in your mouth as you sign {}'s spectral contract. Their ghastly arms superpose yours, enhancing your grip and causing shadowy tendrils to appear near your rod's hook.".format(cmd.message.author.display_name)
+				accepted_response = "You feel a metallic taste in your mouth as you sign {}'s spectral contract. Their ghastly arms superpose yours, enhancing your grip and causing shadowy tendrils to appear near your rod's hook.".format(cmd.message.author.name)
 				await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(inhabitee_member, accepted_response))
 			else:
 				response = "You should've known better, why would anyone ever trust you?"
@@ -586,11 +586,11 @@ async def possess_fishing_rod(cmd):
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def crystalize_negapoudrin(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 	if user_data.life_state != ewcfg.life_state_corpse:
 		response = "What the fuck do you think you're doing, you corporeal bitch?"
-	elif user_data.slimes >= ewcfg.slimes_to_crystalize_negapoudrin:
+	elif user_data.slime >= ewcfg.slimes_to_crystalize_negapoudrin:
 		response = "Crystalizing a negapoudrin requires a lot of negaslime, and you're not quite there yet."
 	else:
 		negapoudrin_data = next(i for i in ewcfg.item_list if i.id_item == ewcfg.item_id_negapoudrin)
@@ -604,7 +604,7 @@ async def crystalize_negapoudrin(cmd):
 				'item_desc': negapoudrin_data.str_desc,
 			}
 		)
-		user_data.change_slimes(n = -ewcfg.slimes_to_crystalize_negapoudrin, source = ewcfg.source_spending)
+		user_data.change_slime(n = -ewcfg.slimes_to_crystalize_negapoudrin, source = ewcfg.source_spending)
 		user_data.persist()
 		response = "The cathedral's bells toll in the distance, and a rumbling {} can be heard echoing from deep within the sewers. A negapoudrin has formed.".format(ewcfg.cmd_boo)
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))

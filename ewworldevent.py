@@ -5,124 +5,8 @@ import random
 import ewcfg
 import ewutils
 
-from ew import EwUser
-from ewplayer import EwPlayer
-
-class EwEventDef:
-	event_type = ""
-	
-	str_event_start = ""
-	str_event_end = ""
-
-	def __init__(
-		self,
-		event_type = "",
-		str_event_start = "",
-		str_event_end = "",
-	):
-		self.event_type = event_type
-		self.str_event_start = str_event_start
-		self.str_event_end = str_event_end
-		
-
-class EwWorldEvent:
-	id_event = -1
-	id_server = -1
-	event_type = ""
-	time_activate = -1
-	time_expir = -1
-
-	event_props = None
-
-	def __init__(
-		self,
-		id_event = None
-	):
-		if(id_event != None):
-			self.id_event = id_event
-
-			self.event_props = {}
-
-			try:
-				# Retrieve object
-				result = ewutils.execute_sql_query("SELECT {}, {}, {}, {} FROM world_events WHERE id_event = %s".format(
-					ewcfg.col_id_server,
-					ewcfg.col_event_type,
-					ewcfg.col_time_activate,
-					ewcfg.col_time_expir,
-				), (
-					self.id_event,
-				))
-
-				if len(result) > 0:
-					result = result[0]
-
-					# Record found: apply the data to this object.
-					self.id_server = result[0]
-					self.event_type = result[1]
-					self.time_activate = result[2]
-					self.time_expir = result[3]
-
-					# Retrieve additional properties
-					props = ewutils.execute_sql_query("SELECT {}, {} FROM world_events_prop WHERE id_event = %s".format(
-						ewcfg.col_name,
-						ewcfg.col_value
-					), (
-						self.id_event,
-					))
-
-					for row in props:
-						# this try catch is only necessary as long as extraneous props exist in the table
-						try:
-							self.event_props[row[0]] = row[1]
-						except:
-							ewutils.logMsg("extraneous event_prop row detected.")
-
-				else:
-					# Item not found.
-					self.id_event = -1
-			except:
-				ewutils.logMsg("Error while retrieving world event {}".format(id_event))
-
-
-	""" Save event data object to the database. """
-	def persist(self):
-		try:
-			# Save the object.
-			ewutils.execute_sql_query("REPLACE INTO world_events({}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s)".format(
-				ewcfg.col_id_event,
-				ewcfg.col_id_server,
-				ewcfg.col_event_type,
-				ewcfg.col_time_activate,
-				ewcfg.col_time_expir,
-			), (
-				self.id_event,
-				self.id_server,
-				self.event_type,
-				self.time_activate,
-				self.time_expir,
-			))
-
-			# Remove all existing property rows.
-			ewutils.execute_sql_query("DELETE FROM world_events_prop WHERE {} = %s".format(
-				ewcfg.col_id_event
-			), (
-				self.id_event,
-			))
-
-			# Write out all current property rows.
-			for name in self.event_props:
-				ewutils.execute_sql_query("INSERT INTO world_events_prop({}, {}, {}) VALUES(%s, %s, %s)".format(
-					ewcfg.col_id_event,
-					ewcfg.col_name,
-					ewcfg.col_value
-				), (
-					self.id_event,
-					name,
-					self.event_props[name]
-				))
-		except:
-			ewutils.logMsg("Error while persisting world event {}".format(self.id_event))
+from ew import EwPlayer
+from ewplayer import EwDiscordUser
 
 
 def get_world_events(id_server = None, active_only = True):
@@ -247,21 +131,21 @@ async def event_tick(id_server):
 
 				response = event_def.str_event_end if event_def else ""
 				if event_data.event_type == ewcfg.event_type_minecollapse:
-					user_data = EwUser(id_user = event_data.event_props.get('id_user'), id_server = id_server)
+					user_data = EwPlayer(id_user = event_data.event_props.get('id_user'), id_server = id_server)
 					mutations = user_data.get_mutations()
 					if user_data.poi == event_data.event_props.get('poi'):
 
-						player_data = EwPlayer(id_user=user_data.id_user)
-						response = "*{}*: You have lost an arm and a leg in a mining accident. Tis but a scratch.".format(player_data.display_name)
+						player_data = EwDiscordUser(id_user=user_data.id_user)
+						response = "*{}*: You have lost an arm and a leg in a mining accident. Tis but a scratch.".format(player_data.name)
 
 						if random.randrange(4) == 0:
-							response = "*{}*: Big John arrives just in time to save you from your mining accident!\nhttps://cdn.discordapp.com/attachments/431275470902788107/743629505876197416/mine2.jpg".format(player_data.display_name)
+							response = "*{}*: Big John arrives just in time to save you from your mining accident!\nhttps://cdn.discordapp.com/attachments/431275470902788107/743629505876197416/mine2.jpg".format(player_data.name)
 						else:
 
 							if ewcfg.mutation_id_lightminer in mutations:
-								response = "*{}*: You instinctively jump out of the way of the collapsing shaft, not a scratch on you. Whew, really gets your blood pumping.".format(player_data.display_name)
+								response = "*{}*: You instinctively jump out of the way of the collapsing shaft, not a scratch on you. Whew, really gets your blood pumping.".format(player_data.name)
 							else:
-								user_data.change_slimes(n = -(user_data.slimes * 0.5))
+								user_data.change_slime(n = -(user_data.slime * 0.5))
 								user_data.persist()
 
 

@@ -2312,7 +2312,6 @@
             "ghosts",
             "ts",
             "s",
-	    "brazil",
             "loser"
         ],
         "str_name": "The Sewers",
@@ -2420,8 +2419,7 @@
         "write_manuscript": false,
         "max_degradation": 10000,
         "neighbors": {
-            "underworldsubwaystation": 20,
-            "thevoid": 20
+            "underworldsubwaystation": 20
         },
         "topic": "A cave underneath the city, well-lit by trash can bonfires scattered about. The walls are decorated with crude depictions of ENDLESS WAR. Strangely enough, there's a punching bag off in the distance, with what looks to be a picture of Phoebus taped onto it.",
         "wikipage": "https://rfck.miraheze.org/wiki/The_Underworld"
@@ -6895,8 +6893,8 @@
     "gatlingsdalestreetc": {
         "id_poi": "gatlingsdalestreetc",
         "alias": [
-            "",
-            ""
+            "universitysquare",
+            "university"
         ],
         "str_name": "University Square",
         "str_desc": "This is a commercial center for students of nearby N.L.A.C.U., and the greater Gatlingsdale population. Convenience stores, local restaurants, and designer clothing stores targeted towards rich hipsters all appear right next to one another. It\u2019s pretty cool, if you like getting a good meal and window shopping for stuff you\u2019d never be able to afford to buy. This street connects back into Gatlingsdale. This street is connected to Wholesale Warehouse, N.L.A.C.U. Campus, and N.L.A.C.U. Institute of Slimeology.",
@@ -16977,7 +16975,7 @@
             "br"
         ],
         "str_name": "The SlimeCorp Headquaters Breakroom",
-        "str_desc": "A high-class corporate breakroom. This place has everything! Storage lockers, vending machines, ration dispensers, heck, even free weapon caches! Who WOULDN'T want to be a security officer with benefits like these? Exits into the Security Force Tunnel and Downtown.",
+        "str_desc": "A high-class corporate breakroom. This place has everything! Storage lockers, vending machines, ration dispensers, heck, even free weapon caches! Who WOULDN'T want to be a security officer with benefits like these?",
         "str_in": "in",
         "str_enter": "enter",
         "coord": [],
@@ -17027,9 +17025,7 @@
         "has_ads": false,
         "write_manuscript": false,
         "max_degradation": 10000,
-        "neighbors": {
-            "securityforcetunnel": 30
-        },
+        "neighbors": {},
         "topic": "",
         "wikipage": "https://rfck.miraheze.org/wiki/SlimeCorp"
     },
@@ -18315,68 +18311,7 @@
         "max_degradation": 10000,
         "neighbors": {
             "nuclearbeach": 60,
-            "northoutskirtsdepths": 60,
-            "securityforcetunnel": 30
-        },
-        "topic": "",
-        "wikipage": "https://rfck.miraheze.org/wiki/Outskirts#Depths"
-    },
-     "securityforcetunnel": {
-        "id_poi": "securityforcetunnel",
-        "alias": [
-            "sftunnel",
-            "sft"
-        ],
-        "str_name": "SlimeCorp Security Force Tunnel",
-        "str_desc": "This place must be miles long, and the higher-ups must've decided to save on lighting here since it's pitch black, too. Good thing it's linear if that's the case. \n\nExits are Nuclear Beach Outskirts and The Breakroom.",
-        "str_in": "in",
-        "str_enter": "enter",
-        "coord": null,
-        "coord_alias": [],
-        "channel": "security-force-tunnel",
-        "role": null,
-        "major_role": "nullmajorrole",
-        "minor_role": "nullminorrole",
-        "permissions": {
-            "securityforcetunnel": [
-                "read",
-                "send",
-                "connect"
-            ]
-        },
-        "pvp": false,
-        "factions": [
-            "slimecorp"
-        ],
-        "life_states": [],
-        "closed": false,
-        "str_closed": null,
-        "vendors": [],
-        "property_class": "",
-        "is_district": false,
-        "is_gangbase": true,
-        "is_capturable": false,
-        "is_subzone": false,
-        "is_apartment": false,
-        "is_street": false,
-        "mother_districts": [],
-        "father_district": "",
-        "is_transport": false,
-        "transport_type": "",
-        "default_line": "",
-        "default_stop": "",
-        "is_transport_stop": false,
-        "is_outskirts": true,
-        "community_chest": null,
-        "is_pier": false,
-        "pier_type": null,
-        "is_tutorial": false,
-        "has_ads": false,
-        "write_manuscript": false,
-        "max_degradation": 10000,
-        "neighbors": {
-            "nuclearbeachdepths": 360,
-            "thebreakroom": 360
+            "northoutskirtsdepths": 60
         },
         "topic": "",
         "wikipage": "https://rfck.miraheze.org/wiki/Outskirts#Depths"

@@ -15,7 +15,7 @@ import ewstats
 import ewworldevent
 
 from ewitem import EwItem
-from ew import EwUser
+from ew import EwPlayer
 from ewmarket import EwMarket
 from ewdistrict import EwDistrict
 from ewworldevent import EwWorldEvent
@@ -49,38 +49,15 @@ mines_map = {
 scavenge_combos = {}
 scavenge_captchas = {}
 
-class EwMineGrid:
-	grid_type = ""
-	
-	grid = []
-
-	message = ""
-	wall_message = ""
-
-	times_edited = 0
-
-	time_last_posted = 0
-
-	cells_mined = 0
-
-	def __init__(self, grid = [], grid_type = ""):
-		self.grid = grid
-		self.grid_type = grid_type
-		self.message = ""
-		self.wall_message = ""
-		self.times_edited = 0
-		self.time_last_posted = 0
-		self.cells_mined = 0
-
 
 """ player enlists in a faction/gang """
 async def enlist(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	user_slimes = user_data.slimes
+	user_slimes = user_data.slime
 	time_now = int(time.time())
 	bans = user_data.get_bans()
 	vouchers = user_data.get_vouchers()
@@ -151,7 +128,6 @@ async def enlist(cmd):
 			user_data.life_state = ewcfg.life_state_enlisted
 			user_data.faction = ewcfg.faction_rowdys
 			user_data.time_lastenlist = time_now + ewcfg.cd_enlist
-			user_data.juviemode = 0
 			
 			for faction in vouchers:
 				user_data.unvouch(faction)
@@ -203,7 +179,7 @@ async def enlist(cmd):
 				accepted = 2
 				
 			if accepted >= 1:
-				user_data = EwUser(member=member)
+				user_data = EwPlayer(member=member)
 				
 				if accepted == 1:
 					# User has accepted for the first time, banish them.
@@ -217,7 +193,6 @@ async def enlist(cmd):
 				user_data.life_state = ewcfg.life_state_enlisted
 				user_data.faction = ewcfg.faction_slimecorp
 				user_data.time_lastenlist = time_now + ewcfg.cd_enlist
-				user_data.juviemode = 0
 				user_data.persist()
 				await ewrolemgr.updateRoles(client=cmd.client, member=cmd.message.author)
 			else:
@@ -230,7 +205,7 @@ async def enlist(cmd):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def renounce(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -247,12 +222,11 @@ async def renounce(cmd):
 		response = "To turn in your badge, you must return to your soon-to-be former gang base."
 
 	else:
-		renounce_fee = int(user_data.slimes) / 2
-		user_data.change_slimes(n = -renounce_fee)
+		renounce_fee = int(user_data.slime) / 2
+		user_data.change_slime(n = -renounce_fee)
 		faction = user_data.faction
 		user_data.life_state = ewcfg.life_state_juvenile
 		user_data.weapon = -1
-		user_data.sidearm = -1
 		user_data.persist()
 		response = "You are no longer enlisted in the {}, but you are not free of association with them. Your former teammates immediately begin to beat the shit out of you, knocking {} slime out of you before you're able to get away.".format(faction, renounce_fee)
 		await ewrolemgr.updateRoles(client = cmd.client, member = cmd.message.author)
@@ -262,7 +236,7 @@ async def renounce(cmd):
 """ mine for slime (or endless rocks) """
 async def mine(cmd):
 	market_data = EwMarket(id_server = cmd.message.author.guild.id)
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -379,7 +353,7 @@ async def mine(cmd):
 			if user_data.weapon >= 0:
 				weapon_item = EwItem(id_item = user_data.weapon)
 				weapon = ewcfg.weapon_map.get(weapon_item.item_props.get("weapon_type"))
-				if weapon.id_weapon == ewcfg.weapon_id_pickaxe and user_data.life_state != ewcfg.life_state_juvenile:
+				if weapon.id_weapon == ewcfg.weapon_id_pickaxe:
 					has_pickaxe = True
 			#if user_data.sidearm >= 0:
 			#	sidearm_item = EwItem(id_item=user_data.sidearm)
@@ -462,9 +436,9 @@ async def mine(cmd):
 					else:
 						response += "You unearthed {} {}s! ".format(unearthed_item_amount, item.str_name)
 
-					ewstats.change_stat(user = user_data, metric = ewcfg.stat_lifetime_poudrins, n = unearthed_item_amount)
+					user_data.change_stat(metric = ewcfg.stat_lifetime_poudrins, n = unearthed_item_amount)
 
-				# ewutils.logMsg('{} has found {} {}(s)!'.format(cmd.message.author.display_name, item.str_name, unearthed_item_amount))
+				# ewutils.logMsg('{} has found {} {}(s)!'.format(cmd.message.author.name, item.str_name, unearthed_item_amount))
 
 			user_initial_level = user_data.slimelevel
 
@@ -500,7 +474,7 @@ async def mine(cmd):
 				if random.randint(1, 100) <= extra * 100:
 					user_data.hunger += ewcfg.hunger_permine
 
-			levelup_response = user_data.change_slimes(n = mining_yield, source = ewcfg.source_mining)
+			levelup_response = user_data.change_slime(n = mining_yield, source = ewcfg.source_mining)
 
 			was_levelup = True if user_initial_level < user_data.slimelevel else False
 
@@ -527,7 +501,7 @@ async def mine(cmd):
 """ mine for slime (or endless rocks) """
 async def flag(cmd):
 	market_data = EwMarket(id_server = cmd.message.author.guild.id)
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	mutations = user_data.get_mutations()
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
@@ -703,7 +677,7 @@ async def mismine(cmd, user_data, cause):
 			if ewcfg.mutation_id_lightminer in mutations:
 				response = "You instinctively jump out of the way of the collapsing shaft, not a scratch on you. Whew, really gets your blood pumping."
 			else:
-				user_data.change_slimes(n=-(user_data.slimes * 0.5))
+				user_data.change_slime(n=-(user_data.slime * 0.5))
 				user_data.persist()
 
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, accident_response))
@@ -727,7 +701,7 @@ async def mismine(cmd, user_data, cause):
 """ scavenge for slime """
 async def scavenge(cmd):
 	market_data = EwMarket(id_server = cmd.message.author.guild.id)
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	mutations = user_data.get_mutations()
 
 	time_now = int(time.time())
@@ -782,13 +756,13 @@ async def scavenge(cmd):
 				scavenge_mod *= 1.5
 
 			if ewcfg.mutation_id_webbedfeet in mutations:
-				district_slimelevel = len(str(district_data.slimes))
+				district_slimelevel = len(str(district_data.slime))
 				scavenge_mod *= max(1, min(district_slimelevel - 3, 4))
 
-			scavenge_yield = math.floor(scavenge_mod * district_data.slimes)
+			scavenge_yield = math.floor(scavenge_mod * district_data.slime)
 
-			levelup_response = user_data.change_slimes(n = scavenge_yield, source = ewcfg.source_scavenging)
-			district_data.change_slimes(n = -1 * scavenge_yield, source = ewcfg.source_scavenging)
+			levelup_response = user_data.change_slime(n = scavenge_yield, source = ewcfg.source_scavenging)
+			district_data.change_slime(n = -1 * scavenge_yield, source = ewcfg.source_scavenging)
 			district_data.persist()
 
 			if levelup_response != "":
@@ -872,7 +846,7 @@ async def scavenge(cmd):
 
 async def crush(cmd):
 	member = cmd.message.author
-	user_data = EwUser(member=member)
+	user_data = EwPlayer(member=member)
 	response = "" # if it's not overwritten
 	crush_slimes = ewcfg.crush_slimes
 
@@ -897,7 +871,7 @@ async def crush(cmd):
 			# delete a slime poudrin from the player's inventory
 			ewitem.item_delete(id_item=sought_id)
 
-			levelup_response = user_data.change_slimes(n = crush_slimes, source = ewcfg.source_crush)
+			levelup_response = user_data.change_slime(n = crush_slimes, source = ewcfg.source_crush)
 			user_data.persist()
 			
 			response = "You {} the hardened slime crystal with your bare teeth.\nYou gain {} slime. Sick, dude!!".format(command, crush_slimes)
@@ -910,7 +884,7 @@ async def crush(cmd):
 			ewitem.item_delete(id_item=sought_id)
 			crush_slimes = 5000
 
-			levelup_response = user_data.change_slimes(n = crush_slimes, source = ewcfg.source_crush)
+			levelup_response = user_data.change_slime(n = crush_slimes, source = ewcfg.source_crush)
 			user_data.persist()
 
 			response = "You {} your hard-earned slime crystal with your bare teeth.\nYou gain {} slime. Ah, the joy of writing!".format(command, crush_slimes)
@@ -1053,7 +1027,7 @@ def init_grid_none(poi, id_server):
 		mines_map.get(poi)[id_server] = grid_cont
 
 async def print_grid(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	poi = user_data.poi
 	channel = cmd.message.channel.name
 	id_server = cmd.guild.id
@@ -1074,7 +1048,7 @@ async def print_grid(cmd):
 
 async def print_grid_minesweeper(cmd):
 	grid_str = ""
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	poi = user_data.poi
 	channel = cmd.message.channel.name
 	id_server = cmd.guild.id
@@ -1147,7 +1121,7 @@ async def print_grid_pokemine(cmd):
 
 async def print_grid_bubblebreaker(cmd):
 	grid_str = ""
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	poi = user_data.poi
 	channel = cmd.message.channel.name
 	id_server = cmd.guild.id
@@ -1361,7 +1335,7 @@ def get_mining_yield_by_grid_type(cmd, grid_cont):
 		return get_mining_yield_default(cmd)
 
 def get_mining_yield_minesweeper(cmd, grid_cont):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	grid = grid_cont.grid
 	grid_multiplier = grid_cont.cells_mined ** 0.4
 
@@ -1429,7 +1403,7 @@ def get_mining_yield_minesweeper(cmd, grid_cont):
 		init_grid_minesweeper(user_data.poi, user_data.id_server)
 
 	if mining_accident:
-		slimes_lost = 0.1 * grid_multiplier * user_data.slimes
+		slimes_lost = 0.1 * grid_multiplier * user_data.slime
 		if slimes_lost <= 0:
 			response = "You barely avoided getting into a mining accident."
 		else:
@@ -1444,7 +1418,7 @@ def get_mining_yield_minesweeper(cmd, grid_cont):
 					user_data.hunger += int(ewcfg.hunger_perlmcollapse * hunger_cost_mod)
 					user_data.persist()
 				else:
-					user_data.change_slimes(n=-(user_data.slimes * 0.3))
+					user_data.change_slime(n=-(user_data.slime * 0.3))
 					user_data.persist()
 				
 		init_grid_minesweeper(user_data.poi, user_data.id_server)
@@ -1459,7 +1433,7 @@ def get_mining_yield_pokemine(cmd, grid_cont):
 
 def get_mining_yield_bubblebreaker(cmd, grid_cont):
 	
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	grid = grid_cont.grid
 
 	hunger_cost_mod = ewutils.hunger_cost_mod(user_data.slimelevel)
@@ -1543,7 +1517,7 @@ def get_mining_yield_bubblebreaker(cmd, grid_cont):
 			if ewcfg.mutation_id_lightminer in mutations:
 				response = "You instinctively jump out of the way of the collapsing shaft, not a scratch on you. Whew, really gets your blood pumping."
 			else:
-				user_data.change_slimes(n=-(user_data.slimes * 0.3))
+				user_data.change_slime(n=-(user_data.slime * 0.3))
 				user_data.persist()
 
 		init_grid_bubblebreaker(cmd.message.channel.name, user_data.id_server)
@@ -1561,7 +1535,7 @@ def get_mining_yield_default(cmd):
 def create_mining_event(cmd):
 	randomn = random.random()
 	time_now = int(time.time())
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	mine_district_data = EwDistrict(district = user_data.poi, id_server = user_data.id_server)
 
 	life_states = [ewcfg.life_state_enlisted, ewcfg.life_state_juvenile]
@@ -1703,7 +1677,7 @@ def gen_scavenge_captcha(n = 0, id_user = 0, id_server = 0):
 
 
 async def juviemode(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	status_effects = user_data.getStatusEffects()
 
 	if user_data.juviemode == 1:

@@ -3,61 +3,7 @@ import time
 import ewcfg
 import ewutils
 
-from ew import EwUser
-from ewplayer import EwPlayer
-from ewdistrict import EwDistrict
-
-class EwAd:
-
-	id_ad = -1
-
-	id_server = -1
-	id_sponsor = ""
-
-	content = ""
-	time_expir = 0
-
-	def __init__(
-		self,
-		id_ad = None
-	):
-		if id_ad != None:
-			self.id_ad = id_ad
-			data = ewutils.execute_sql_query("SELECT {id_server}, {id_sponsor}, {content}, {time_expir} FROM ads WHERE {id_ad} = %s".format(
-				id_server = ewcfg.col_id_server,
-				id_sponsor = ewcfg.col_id_sponsor,
-				content = ewcfg.col_ad_content,
-				time_expir = ewcfg.col_time_expir,
-				id_ad = ewcfg.col_id_ad,
-			),(
-				self.id_ad,
-			))
-
-			if len(data) > 0:
-				result = data[0]
-				
-				self.id_server = result[0]
-				self.id_sponsor = result[1]
-				self.content = result[2]
-				self.time_expir = result[3]
-			else:
-				self.id_ad = -1
-
-	def persist(self):
-		ewutils.execute_sql_query("REPLACE INTO ads ({}, {}, {}, {}, {}) VALUES (%s, %s, %s, %s, %s)".format(
-			ewcfg.col_id_ad,
-			ewcfg.col_id_server,
-			ewcfg.col_id_sponsor,
-			ewcfg.col_ad_content,
-			ewcfg.col_time_expir,
-		),(
-			self.id_ad,
-			self.id_server,
-			self.id_sponsor,
-			self.content,
-			self.time_expir
-		))
-	
+from ewClass.id_class import EwId
 
 def create_ad(id_server, id_sponsor, content, time_expir):
 	ewutils.execute_sql_query("INSERT INTO ads ({}, {}, {}, {}) VALUES (%s, %s, %s, %s)".format(
@@ -102,8 +48,8 @@ def delete_expired_ads(id_server):
 
 def format_ad_response(ad_data):
 	
-	sponsor_player = EwPlayer(id_user = ad_data.id_sponsor)
-	sponsor_disclaimer = "Paid for by {}".format(sponsor_player.display_name)
+	sponsor_player = EwDiscordUser(id_user = ad_data.id_sponsor)
+	sponsor_disclaimer = "Paid for by {}".format(sponsor_player.name)
 	ad_response = "A billboard catches your eye:\n\n{}\n\n*{}*".format(ad_data.content, sponsor_disclaimer)
 
 	return ad_response
@@ -111,7 +57,7 @@ def format_ad_response(ad_data):
 async def advertise(cmd):
 
 	time_now = int(time.time())
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	if user_data.life_state == ewcfg.life_state_shambler:
 		response = "You lack the higher brain functions required to {}.".format(cmd.tokens[0])
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -171,7 +117,7 @@ async def advertise(cmd):
 		response = "Your ad is too long, we can't fit that on a billboard. ({:,}/{:,})".format(len(content), ewcfg.max_length_ads)
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	sponsor_disclaimer = "Paid for by {}".format(cmd.message.author.display_name)
+	sponsor_disclaimer = "Paid for by {}".format(cmd.message.author.name)
 
 	response = "This is what your ad is going to look like."
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
@@ -213,7 +159,7 @@ async def advertise(cmd):
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def ads_look(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	poi = ewcfg.id_to_poi.get(user_data.poi)
 
 	response = "You look around for ads. God, you love being advertised to...\n"

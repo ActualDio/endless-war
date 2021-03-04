@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 #
-# endless-war
+# endless-warimport discord
 # mperron (2018)
 #
 # a chat bot for the RFCK discord server
@@ -59,8 +59,8 @@ import ewslimetwitter
 import ewdebug
 
 from ewitem import EwItem
-from ew import EwUser
-from ewplayer import EwPlayer
+from ew import EwPlayer
+from ewplayer import EwDiscordUser
 from ewmarket import EwMarket
 from ewmarket import EwStock
 from ewdistrict import EwDistrict
@@ -538,8 +538,8 @@ cmd_map = {
 
 	# Link to the guide.
 	ewcfg.cmd_help: ewcmd.help,
-	ewcfg.cmd_commands_alt1: ewcmd.commands,
-	ewcfg.cmd_commands: ewcmd.commands,
+	ewcfg.cmd_help_alt1: ewcmd.help,
+	ewcfg.cmd_help_alt2: ewcmd.help,
 	ewcfg.cmd_help_alt3: ewcmd.help,
 
 	# Misc
@@ -554,7 +554,6 @@ cmd_map = {
 	ewcfg.cmd_patchnotes: ewcmd.patchnotes,
 	ewcfg.cmd_wiki: ewcmd.wiki,
 	ewcfg.cmd_booru: ewcmd.booru,
-	ewcfg.cmd_bandcamp: ewcmd.bandcamp,
 	ewcfg.cmd_leaderboard: ewcmd.leaderboard,
 	ewcfg.cmd_leaderboard_alt1: ewcmd.leaderboard,
 
@@ -845,9 +844,7 @@ cmd_map = {
 	ewcfg.cmd_verification_alt: ewslimetwitter.verification,
 
 	# Check your weapon masteries
-	ewcfg.cmd_mastery: ewcmd.check_mastery,
-	ewcfg.cmd_getattire: ewcmd.get_attire,
-	ewcfg.cmd_pacommand: ewkingpin.pa_command
+	ewcfg.cmd_mastery: ewcmd.check_mastery
 }
 
 debug = False
@@ -872,7 +869,7 @@ ewutils.logMsg('Using database: {}'.format(ewcfg.database))
 async def on_member_remove(member):
 	# Kill players who leave the server.
 	try:
-		user_data = EwUser(member = member)
+		user_data = EwPlayer(member = member)
 
 		# don't kill players who haven't cleared the tutorial yet
 		if user_data.poi in ewcfg.tutorial_pois:
@@ -892,7 +889,7 @@ async def on_member_update(before, after):
 	try:
 		if before.status == discord.Status.offline and after.status != discord.Status.offline:
 
-			user_data = EwUser(member = after)
+			user_data = EwPlayer(member = after)
 			user_data.time_lastoffline = int(time.time())
 			user_data.persist()
 	except:
@@ -904,14 +901,14 @@ async def on_ready():
 	if init_complete:
 		return
 	init_complete = True
-	ewcfg.set_client(client)
+	ewutils.set_client(client)
 	ewutils.logMsg('Logged in as {} ({}).'.format(client.user.name, client.user.id))
 
 	ewutils.logMsg("Loaded NLACakaNM world map. ({}x{})".format(ewmap.map_width, ewmap.map_height))
 	ewmap.map_draw()
 
 	# Flatten role names to all lowercase, no spaces.
-	fake_observer = EwUser()
+	fake_observer = EwPlayer()
 	fake_observer.life_state = ewcfg.life_state_observer
 	for poi in ewcfg.poi_list:
 		if poi.role != None:
@@ -981,7 +978,7 @@ async def on_ready():
 		ewserver.server_update(server = server)
 
 		# store the list of channels in an ewutils field
-		ewcfg.update_server_list(server = server)
+		ewutils.update_server_list(server = server)
 
 		# find roles and add them tom the database
 		ewrolemgr.setupRoles(client = client, id_server = server.id)
@@ -1350,13 +1347,13 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-	ewutils.logMsg("New member \"{}\" joined. Configuring default roles / permissions now.".format(member.display_name))
+	ewutils.logMsg("New member \"{}\" joined. Configuring default roles / permissions now.".format(member.name))
 	await ewrolemgr.updateRoles(client = client, member = member)
 	ewplayer.player_update(
 		member = member,
 		server = member.guild
 	)
-	user_data = EwUser(member = member)
+	user_data = EwPlayer(member = member)
 
 	if user_data.poi in ewcfg.tutorial_pois:
 		await ewdungeons.begin_tutorial(member)
@@ -1364,17 +1361,17 @@ async def on_member_join(member):
 @client.event
 async def on_message_delete(message):
 	if message != None and message.guild != None and message.author.id != client.user.id and message.content.startswith(ewcfg.cmd_prefix):
-		user_data = EwUser(member=message.author)
+		user_data = EwPlayer(member=message.author)
 		mutations = user_data.get_mutations()
 
 		if ewcfg.mutation_id_amnesia not in mutations:
-			ewutils.logMsg("deleted message from {}: {}".format(message.author.display_name, message.content))
+			ewutils.logMsg("deleted message from {}: {}".format(message.author.name, message.content))
 			await ewutils.send_message(client, message.channel, ewutils.formatMessage(message.author, '**I SAW THAT.**'))
 
 @client.event
 async def on_message(message):
 	time_now = int(time.time())
-	ewcfg.set_client(client)
+	ewutils.set_client(client)
 
 	""" do not interact with our own messages """
 	if message.author.id == client.user.id or message.author.bot == True:
@@ -1414,13 +1411,13 @@ async def on_message(message):
 		except:
 			ewutils.logMsg('server {}: failed to update time_last_action for {}'.format(message.guild.id, message.author.id))
 		
-		user_data = EwUser(member = message.author)
+		user_data = EwPlayer(member = message.author)
 		statuses = user_data.getStatusEffects()
 
 		if ewcfg.status_strangled_id in statuses:
 			strangle_effect = EwStatusEffect(id_status=ewcfg.status_strangled_id, user_data=user_data)
-			source = EwPlayer(id_user=strangle_effect.source, id_server=message.guild.id)
-			response = "You manage to break {}'s garrote wire!".format(source.display_name)
+			source = EwDiscordUser(id_user=strangle_effect.source, id_server=message.guild.id)
+			response = "You manage to break {}'s garrote wire!".format(source.name)
 			user_data.clear_status(ewcfg.status_strangled_id)			
 			return await ewutils.send_message(client, message.channel, ewutils.formatMessage(message.author, response))
 		
@@ -1431,7 +1428,7 @@ async def on_message(message):
 			await ewrolemgr.updateRoles(client=client, member=message.author)
 			await die_resp.post()
 
-			response = "ENDLESS WAR completely and utterly obliterates {} with a bone-hurting beam.".format(message.author.display_name).replace("@", "\{at\}")
+			response = "ENDLESS WAR completely and utterly obliterates {} with a bone-hurting beam.".format(message.author.name).replace("@", "\{at\}")
 			return await ewutils.send_message(client, message.channel, response)
 	
 	if message.content.startswith(ewcfg.cmd_prefix) or message.guild == None or (any(swear in content_tolower for swear in ewcfg.curse_words.keys())):
@@ -1447,7 +1444,7 @@ async def on_message(message):
 		#Ignore users with weird characters in their name
 
 		try:
-			message.author.display_name[:3].encode('utf-8').decode('ascii')
+			message.author.name[:3].encode('utf-8').decode('ascii')
 		except UnicodeError:
 			return await ewutils.send_message(client, message.channel, ewutils.formatMessage(message.author, "We don't take kindly to moon runes around here."))
 
@@ -1463,7 +1460,7 @@ async def on_message(message):
 		mentions = message.mentions
 		mentions_count = len(mentions)
 
-		playermodel = ewplayer.EwPlayer(id_user=message.author.id)
+		playermodel = ewplayer.EwDiscordUser(id_user=message.author.id)
 		
 		if message.guild == None:
 			guild_used = ewcfg.server_list[playermodel.id_server]
@@ -1493,7 +1490,7 @@ async def on_message(message):
 		if (any(swear in content_tolower for swear in ewcfg.curse_words.keys())):
 			# print(content_tolower_list)
 			swear_multiplier = 0
-			usermodel = EwUser(id_user=message.author.id, id_server=playermodel.id_server)
+			usermodel = EwPlayer(id_user=message.author.id, id_server=playermodel.id_server)
 
 			if usermodel != None:
 				market_data = EwMarket(id_server=usermodel.id_server)
@@ -1537,7 +1534,7 @@ async def on_message(message):
 	
 						usermodel.salary_credits -= swear_jar_fee
 						
-						response = '*{}*: Your SlimeCorp headset chatters in your ear...\n"Reminder: Foul language is strictly prohibited. {} salary credits have been docked from your profile."'.format(message.author.display_name, swear_jar_fee)
+						response = '*{}*: Your SlimeCorp headset chatters in your ear...\n"Reminder: Foul language is strictly prohibited. {} salary credits have been docked from your profile."'.format(message.author.name, swear_jar_fee)
 						await ewutils.send_message(client, message.channel, response)
 	
 					market_data.persist()
@@ -1551,8 +1548,8 @@ async def on_message(message):
 			Handle direct messages.
 		"""
 		if message.guild == None:
-			playermodel = ewplayer.EwPlayer(id_user = message.author.id)
-			usermodel = EwUser(id_user=message.author.id, id_server= playermodel.id_server)
+			playermodel = ewplayer.EwDiscordUser(id_user = message.author.id)
+			usermodel = EwPlayer(id_user=message.author.id, id_server= playermodel.id_server)
 			poi = ewcfg.id_to_poi.get(usermodel.poi)
 			cmd_obj.guild = ewcfg.server_list[playermodel.id_server]
 			cmd_obj.message.author = cmd_obj.guild.get_member(playermodel.id_user)
@@ -1590,7 +1587,7 @@ async def on_message(message):
 		# if len(message.author.roles) < 4:
 			# await ewrolemgr.updateRoles(client = client, member = message.author)
 
-		user_data = EwUser(member = message.author)
+		user_data = EwPlayer(member = message.author)
 		if user_data.arrested:
 			return
 
@@ -1681,7 +1678,7 @@ async def on_message(message):
 
 		# Shows damage
 		elif debug == True and cmd == (ewcfg.cmd_prefix + 'damage'):
-			user_data = EwUser(member = message.author, data_level = 1)
+			user_data = EwPlayer(member = message.author, data_level = 1)
 			slimes_spent = int(ewutils.slime_bylevel(user_data.slimelevel) / 60)
 			# disabled until held items update
 			# attack_stat_multiplier = 1 + (user_data.attack / 50) # 2% more damage per stat point
@@ -1692,12 +1689,12 @@ async def on_message(message):
 
 		# Gives the user some slime
 		elif debug == True and cmd == (ewcfg.cmd_prefix + 'getslime'):
-			user_data = EwUser(member = message.author)
+			user_data = EwPlayer(member = message.author)
 			user_initial_level = user_data.slimelevel
 
 			response = "You get 1,000,000 slime!"
 
-			levelup_response = user_data.change_slimes(n = 1000000)
+			levelup_response = user_data.change_slime(n = 1000000)
 
 			was_levelup = True if user_initial_level < user_data.slimelevel else False
 
@@ -1707,7 +1704,7 @@ async def on_message(message):
 			user_data.persist()
 			await ewutils.send_message(client, message.channel, ewutils.formatMessage(message.author, response))
 		elif debug == True and cmd == (ewcfg.cmd_prefix + 'getcoin'):
-			user_data = EwUser(member=message.author)
+			user_data = EwPlayer(member=message.author)
 			user_data.change_slimecoin(n=1000000000000, coinsource=ewcfg.coinsource_spending)
 
 			response = "You get 1,000,000,000,000 slimecoin!"
@@ -1717,7 +1714,7 @@ async def on_message(message):
 
 		# Deletes all items in your inventory.
 		elif debug == True and cmd == (ewcfg.cmd_prefix + 'clearinv'):
-			user_data = EwUser(member = message.author)
+			user_data = EwPlayer(member = message.author)
 			ewitem.item_destroyall(id_server = message.guild.id, id_user = message.author.id)
 			response = "You destroy every single item in your inventory."
 			user_data.persist()
@@ -1936,7 +1933,7 @@ async def on_message(message):
 						try:
 							await user.edit(roles=role)
 						except:
-							ewutils.logMsg('Failed to replace_roles for user {} with {}.'.format(user.display_name, role.name))
+							ewutils.logMsg('Failed to replace_roles for user {} with {}.'.format(user.name, role.name))
 
 					response = 'Done.'
 				else:
@@ -1946,7 +1943,7 @@ async def on_message(message):
 			
 		elif debug == True and cmd == (ewcfg.cmd_prefix + 'getrowdy'):
 			response = "You get rowdy. Fuck. YES!"
-			user_data = EwUser(member=message.author)
+			user_data = EwPlayer(member=message.author)
 			user_data.life_state = ewcfg.life_state_enlisted
 			user_data.faction = ewcfg.faction_rowdys
 			user_data.time_lastenlist = time_now + ewcfg.cd_enlist
@@ -1955,7 +1952,7 @@ async def on_message(message):
 		
 		elif debug == True and cmd == (ewcfg.cmd_prefix + 'getkiller'):
 			response = "You uh... 'get' killer. Sure."
-			user_data = EwUser(member=message.author)
+			user_data = EwPlayer(member=message.author)
 			user_data.life_state = ewcfg.life_state_enlisted
 			user_data.faction = ewcfg.faction_killers
 			user_data.time_lastenlist = time_now + ewcfg.cd_enlist
@@ -1964,7 +1961,7 @@ async def on_message(message):
 
 		elif debug == True and cmd == (ewcfg.cmd_prefix + 'getshambler'):
 			response = "You get shambler. Jesus fucking Christ, why not, sure."
-			user_data = EwUser(member=message.author)
+			user_data = EwPlayer(member=message.author)
 			user_data.life_state = ewcfg.life_state_shambler
 			user_data.persist()
 			await ewutils.send_message(client, message.channel, ewutils.formatMessage(message.author, response))

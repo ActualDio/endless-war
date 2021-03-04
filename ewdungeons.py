@@ -5,39 +5,7 @@ import ewcfg
 import ewutils
 import ewrolemgr
 
-from ew import EwUser
-
-class EwDungeonScene:
-
-	# The text sent when a scene starts
-	text = ""
-
-	# Whether or not the dungeon is active
-	dungeon_state = True
-
-	# Where the scene is taking place
-	poi = None
-
-	# life state to assign for this scene
-	life_state = None
-
-	# Commands that can be used in a scene, and what scene ID that leads to
-	options = {}
-
-	def __init__(
-			self,
-			text="",
-			dungeon_state=True,
-			options={},
-			poi=None,
-			life_state=None,
-	):
-		self.text = text
-		self.dungeon_state = dungeon_state
-		self.options = options
-		self.poi = poi
-		self.life_state = life_state
-
+from ew import EwPlayer
 
 # maps users to where they are in the tutorial
 user_to_tutorial_state = {}
@@ -56,7 +24,7 @@ def format_tutorial_response(scene):
 	return response
 
 async def begin_tutorial(member):
-	user_data = EwUser(member = member)
+	user_data = EwPlayer(member = member)
 	user_to_tutorial_state[user_data.id_user] = 0
 	
 	scene = ewcfg.dungeon_tutorial[0]
@@ -78,7 +46,7 @@ async def begin_tutorial(member):
 
 
 async def tutorial_cmd(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	client = cmd.client
 
 	if user_data.poi not in ewcfg.tutorial_pois:

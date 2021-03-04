@@ -12,12 +12,12 @@ import ewrolemgr
 from ewstatuseffects import EwStatusEffect
 
 """ User model for database persistence """
-class EwUser:
+class EwPlayer:
 	id_user = -1
 	id_server = -1
 	id_killer = -1
 
-	combatant_type = "player"
+	char_type = "player"
 
 	slimes = 0
 	slimecoin = 0
@@ -126,19 +126,19 @@ class EwUser:
 
 
 	""" gain or lose slime, recording statistics and potentially leveling up. """
-	def change_slimes(self, n = 0, source = None):
+	def change_slime(self, n = 0, source = None):
 		change = int(n)
-		self.slimes += change
+		self.slime += change
 		if self.life_state == ewcfg.life_state_juvenile:
 
-			if self.juviemode == 1 and self.slimes > ewcfg.max_safe_slime:
-				self.slimes = ewcfg.max_safe_slime
+			if self.juviemode == 1 and self.slime > ewcfg.max_safe_slime:
+				self.slime = ewcfg.max_safe_slime
 
 		response = ""
 
 		if n >= 0:
 			ewstats.change_stat(user = self, metric = ewcfg.stat_lifetime_slimes, n = change)
-			ewstats.track_maximum(user = self, metric = ewcfg.stat_max_slimes, value = self.slimes)
+			ewstats.track_maximum(user = self, metric = ewcfg.stat_max_slimes, value = self.slime)
 
 			if source == ewcfg.source_mining:
 				ewstats.change_stat(user = self, metric = ewcfg.stat_slimesmined, n = change)
@@ -177,7 +177,7 @@ class EwUser:
 				ewstats.change_stat(user = self, metric = ewcfg.stat_lifetime_slimeshaunted, n = change)
 
 		# potentially level up
-		new_level = ewutils.level_byslime(self.slimes)
+		new_level = ewutils.level_byslime(self.slime)
 		if new_level > self.slimelevel:
 			if self.life_state != ewcfg.life_state_corpse:
 				response += "You have been empowered by slime and are now a level {} slimeboi.".format(new_level)
@@ -237,7 +237,7 @@ class EwUser:
 		if self.life_state == ewcfg.life_state_corpse:
 			self.busted = True
 			self.poi = ewcfg.poi_id_thesewers
-			#self.slimes = int(self.slimes * 0.9)
+			#self.slime = int(self.slime * 0.9)
 		else:
 			if cause != ewcfg.cause_suicide or self.slimelevel > 10:
 				self.rand_seed = random.randrange(500000)
@@ -248,7 +248,7 @@ class EwUser:
 				rigor = False
 
 			self.busted = False  # reset busted state on normal death; potentially move this to ewspooky.revive
-			self.slimes = 0
+			self.slime = 0
 			self.slimelevel = 1
 			self.clear_mutations()
 			self.clear_allstatuses()
@@ -268,7 +268,7 @@ class EwUser:
 			# 	self.degradation += 5
 
 			ewstats.increment_stat(user = self, metric = ewcfg.stat_lifetime_deaths)
-			ewstats.change_stat(user = self, metric = ewcfg.stat_lifetime_slimeloss, n = self.slimes)
+			ewstats.change_stat(user = self, metric = ewcfg.stat_lifetime_slimeloss, n = self.slime)
 
 			if cause == ewcfg.cause_cliff:
 				pass
@@ -337,7 +337,7 @@ class EwUser:
 
 		if cause not in explosion_block_list: # Run explosion after location/stat reset, to prevent looping onto self
 			if user_hasCombustion:
-				explode_resp = "\n{} spontaneously combusts, horribly dying in a fiery explosion of slime and shrapnel!! Oh, the humanity!\n".format(server.get_member(self.id_user).display_name)
+				explode_resp = "\n{} spontaneously combusts, horribly dying in a fiery explosion of slime and shrapnel!! Oh, the humanity!\n".format(server.get_member(self.id_user).name)
 				ewutils.logMsg("")
 				resp_cont.add_channel_response(explode_poi_channel, explode_resp)
 
@@ -957,7 +957,7 @@ class EwUser:
 		if inhabitants:
 			server = client.get_guild(self.id_server)
 			for ghost in inhabitants:
-				ghost_data = EwUser(id_user = ghost, id_server = self.id_server)
+				ghost_data = EwPlayer(id_user = ghost, id_server = self.id_server)
 				ghost_data.poi = id_poi
 				ghost_data.time_lastenter = int(time.time())
 				ghost_data.persist()
@@ -1163,10 +1163,10 @@ class EwUser:
 
 		return len(data) > 0
 
-	""" Create a new EwUser and optionally retrieve it from the database. """
+	""" Create a new EwPlayer and optionally retrieve it from the database. """
 	def __init__(self, ew_id = None, member = None, id_user = None, id_server = None, data_level = 0):
 
-		self.combatant_type = ewcfg.combatant_type_player
+		self.char_type = ewcfg.char_type_player
 
 		if ew_id != None:
 			id_user = ew_id.user
@@ -1260,7 +1260,7 @@ class EwUser:
 
 				if result != None:
 					# Record found: apply the data to this object.
-					self.slimes = result[0]
+					self.slime = result[0]
 					self.slimelevel = result[1]
 					self.hunger = result[2]
 					self.totaldamage = result[3]
@@ -1453,7 +1453,7 @@ class EwUser:
 			), (
 				self.id_user,
 				self.id_server,
-				self.slimes,
+				self.slime,
 				self.slimelevel,
 				self.hunger,
 				self.totaldamage,

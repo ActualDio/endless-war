@@ -14,256 +14,9 @@ import ewsmelting
 import ewprank
 import ewdebug
 
-from ew import EwUser
-from ewplayer import EwPlayer
+from ew import EwPlayer
+from ewplayer import EwDiscordUser
 import re
-
-"""
-	EwItemDef is a class used to model base items. These are NOT the items
-	owned by players, but rather the description of what those items are.
-"""
-class EwItemDef:
-	# This is the unique reference name for this item.
-	item_type = ""
-
-	# If this is true, the item can not be traded or stolen.
-	soulbound = False
-
-	# If this value is positive, the item may actually be a pile of the same type of item, up to the specified size.
-	stack_max = -1
-
-	# If this value is greater than one, creating this item will actually give the user that many of them.
-	stack_size = 1
-
-	# Nice display name for this item.
-	str_name = ""
-
-	# The long description of this item's appearance.
-	str_desc = ""
-
-	# A map of default additional properties.
-	item_props = None
-
-	def __init__(
-		self,
-		item_type = "",
-		str_name = "",
-		str_desc = "",
-		soulbound = False,
-		stack_max = -1,
-		stack_size = 1,
-		item_props = None
-	):
-		self.item_type = item_type
-		self.str_name = str_name
-		self.str_desc = str_desc
-		self.soulbound = soulbound
-		self.stack_max = stack_max
-		self.stack_size = stack_size
-		self.item_props = item_props
-
-"""
-	EwItem is the instance of an item (described by EwItemDef, linked by
-	item_type) which is possessed by a player and stored in the database.
-"""
-class EwItem:
-	id_item = -1
-	id_server = -1
-	id_owner = ""
-	item_type = ""
-	time_expir = -1
-
-	stack_max = -1
-	stack_size = 0
-	soulbound = False
-
-	template = "-2"
-
-	item_props = None
-
-	def __init__(
-		self,
-		id_item = None
-	):
-		if(id_item != None):
-			self.id_item = id_item
-
-			self.item_props = {}
-			# the item props don't reset themselves automatically which is why the items_prop table had tons of extraneous rows (like food items having medal_names)
-			#self.item_props.clear()
-
-			try:
-				conn_info = ewutils.databaseConnect()
-				conn = conn_info.get('conn')
-				cursor = conn.cursor()
-
-				# Retrieve object
-				cursor.execute("SELECT {}, {}, {}, {}, {}, {}, {}, {} FROM items WHERE id_item = %s".format(
-					ewcfg.col_id_server,
-					ewcfg.col_id_user,
-					ewcfg.col_item_type,
-					ewcfg.col_time_expir,
-					ewcfg.col_stack_max,
-					ewcfg.col_stack_size,
-					ewcfg.col_soulbound,
-					ewcfg.col_template
-				), (
-					self.id_item,
-				))
-				result = cursor.fetchone();
-
-				if result != None:
-					# Record found: apply the data to this object.
-					self.id_server = result[0]
-					self.id_owner = result[1]
-					self.item_type = result[2]
-					self.time_expir = result[3]
-					self.stack_max = result[4]
-					self.stack_size = result[5]
-					self.soulbound = (result[6] != 0)
-					self.template = result[7]
-
-					# Retrieve additional properties
-					cursor.execute("SELECT {}, {} FROM items_prop WHERE id_item = %s".format(
-						ewcfg.col_name,
-						ewcfg.col_value
-					), (
-						self.id_item,
-					))
-
-					for row in cursor:
-						# this try catch is only necessary as long as extraneous props exist in the table
-						try:
-							self.item_props[row[0]] = row[1]
-						except:
-							ewutils.logMsg("extraneous item_prop row detected.")
-
-				else:
-					# Item not found.
-					self.id_item = -1
-			
-				if self.template == "-2":
-					self.persist()
-
-			finally:
-				# Clean up the database handles.
-				cursor.close()
-				ewutils.databaseClose(conn_info)
-
-	""" Save item data object to the database. """
-	def persist(self):
-		
-		if self.template == "-2":
-			if self.item_type == ewcfg.it_item:
-				self.template = self.item_props.get("id_item", "bad general item id")
-			elif self.item_type == ewcfg.it_food:
-				self.template = self.item_props.get("id_food", "bad food id")
-			elif self.item_type == ewcfg.it_weapon:
-				self.template = self.item_props.get("weapon_type", "bad weapon id")
-			elif self.item_type == ewcfg.it_cosmetic:
-				self.template = self.item_props.get("id_cosmetic", "bad cosmetic id")
-			elif self.item_type == ewcfg.it_furniture:
-				self.template = self.item_props.get("id_furniture", "bad furniture id")
-			elif self.item_type == ewcfg.it_book:
-				self.template = "player book"
-			elif self.item_type == ewcfg.it_medal:
-				self.template = "MEDAL ITEM????" #p sure these are fake news
-			elif self.item_type == ewcfg.it_questitem:
-				self.template = "QUEST ITEM????"
-
-		try:
-			conn_info = ewutils.databaseConnect()
-			conn = conn_info.get('conn')
-			cursor = conn.cursor()
-
-			# Save the object.
-			cursor.execute("REPLACE INTO items({}, {}, {}, {}, {}, {}, {}, {}, {}) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)".format(
-				ewcfg.col_id_item,
-				ewcfg.col_id_server,
-				ewcfg.col_id_user,
-				ewcfg.col_item_type,
-				ewcfg.col_time_expir,
-				ewcfg.col_stack_max,
-				ewcfg.col_stack_size,
-				ewcfg.col_soulbound,
-				ewcfg.col_template
-			), (
-				self.id_item,
-				self.id_server,
-				self.id_owner,
-				self.item_type,
-				self.time_expir if self.time_expir is not None else self.item_props['time_expir'] if 'time_expir' in self.item_props.keys() else 0,
-				self.stack_max,
-				self.stack_size,
-				(1 if self.soulbound else 0),
-				self.template
-			))
-
-			# Remove all existing property rows.
-			cursor.execute("DELETE FROM items_prop WHERE {} = %s".format(
-				ewcfg.col_id_item
-			), (
-				self.id_item,
-			))
-
-			# Write out all current property rows.
-			for name in self.item_props:
-				cursor.execute("INSERT INTO items_prop({}, {}, {}) VALUES(%s, %s, %s)".format(
-					ewcfg.col_id_item,
-					ewcfg.col_name,
-					ewcfg.col_value
-				), (
-					self.id_item,
-					name,
-					self.item_props[name]
-				))
-
-			conn.commit()			
-		finally:
-			# Clean up the database handles.
-			cursor.close()
-			ewutils.databaseClose(conn_info)
-
-"""
-	These are unassuming, tangible, multi-faceted, customizable items that you can actually interact with in-game.
-"""
-class EwGeneralItem:
-	item_type = "item"
-	id_item = " "
-	alias = []
-	context = ""
-	str_name = ""
-	str_desc = ""
-	ingredients = ""
-	acquisition = ""
-	price = 0
-	durability = 0
-	vendors = []
-
-	def __init__(
-		self,
-		id_item = " ",
-		alias = [],
-		context = "",
-		str_name = "",
-		str_desc = "",
-		ingredients = "",
-		acquisition = "",
-		price = 0,
-		durability = 0,
-		vendors = [],
-	):
-		self.item_type = ewcfg.it_item
-		self.id_item = id_item
-		self.alias = alias
-		self.context = context
-		self.str_name = str_name
-		self.str_desc = str_desc
-		self.ingredients = ingredients
-		self.acquisition = acquisition
-		self.price = price
-		self.durability = durability
-		self.vendors = vendors
 
 
 """
@@ -302,7 +55,7 @@ def item_drop(
 ):
 	try:
 		item_data = EwItem(id_item = id_item)
-		user_data = EwUser(id_user = item_data.id_owner, id_server = item_data.id_server)
+		user_data = EwPlayer(id_user = item_data.id_owner, id_server = item_data.id_server)
 		if other_poi == None:
 			dest = user_data.poi
 		else:
@@ -416,7 +169,7 @@ def item_dropall(
 ):
 	
 	try:
-		user_data = EwUser(id_server = id_server, id_user = id_user)
+		user_data = EwPlayer(id_server = id_server, id_user = id_user)
 		
 		ewutils.execute_sql_query(
 			"UPDATE items SET id_user = %s WHERE id_user = %s AND id_server = %s AND soulbound = 0",(
@@ -433,17 +186,18 @@ def item_dropall(
 """
 def item_dropsome(id_server = None, id_user = None, item_type_filter = None, fraction = None, rigor = False):
 	#try:
-	user_data = EwUser(id_server = id_server, id_user = id_user)
+	user_data = EwPlayer(id_server = id_server, id_user = id_user)
 	items = inventory(id_user = id_user, id_server = id_server, item_type_filter = item_type_filter)
 	mutations = user_data.get_mutations()
 
 
 	drop_candidates = []
 	#safe_items = [ewcfg.item_id_gameguide]
+
 	# Filter out Soulbound items.
 	for item in items:
 		item_obj = EwItem(id_item = item.get('id_item'))
-		if item.get('soulbound') == False and not (rigor == True and item_obj.item_props.get('preserved') ==  str(user_data.id_user)) and item_obj.item_props.get('context') != 'gellphone':
+		if item.get('soulbound') == False and not (rigor == True and item_obj.item_props.get('preserved') ==  user_data.id_user) and item_obj.item_props.get('context') != 'gellphone':
 			drop_candidates.append(item)
 
 	filtered_items = []
@@ -479,7 +233,19 @@ def item_dropsome(id_server = None, id_user = None, item_type_filter = None, fra
 	#except:
 	#	ewutils.logMsg('Failed to drop items for user with id {}'.format(id_user))
 
+	try:
+		ewutils.execute_sql_query(
+			"DELETE FROM items_prop WHERE {} = %s AND  {} = %s".format(
+				ewcfg.col_name,
+				ewcfg.col_value
+			),
+			(
+				'preserved',
+				user_data.id_user
+			))
 
+	except:
+		ewutils.logMsg('Failed to remove preserved tags from items.'.format(id_user))
 
 """
 	Dedorn all of a player's cosmetics
@@ -509,7 +275,7 @@ def item_dedorn_cosmetics(
 def item_lootspecific(id_server = None, id_user = None, item_search = None):
 	response = ""
 	if id_server is not None and id_user is not None:
-		user_data = EwUser(id_user = id_user, id_server = id_server)
+		user_data = EwPlayer(id_user = id_user, id_server = id_server)
 		item_sought = find_item(
 			item_search = item_search, 
 			id_server = user_data.id_server, 
@@ -537,7 +303,7 @@ def item_lootrandom(id_server = None, id_user = None):
 	response = ""
 
 	try:
-		user_data = EwUser(id_server = id_server, id_user = id_user)
+		user_data = EwPlayer(id_server = id_server, id_user = id_user)
 
 		items_in_poi = ewutils.execute_sql_query("SELECT {id_item} FROM items WHERE {id_owner} = %s AND {id_server} = %s".format(
 				id_item = ewcfg.col_id_item,
@@ -590,7 +356,7 @@ def item_lootrandom(id_server = None, id_user = None):
 
 				else:
 					if item_sought.get('name') == "Slime Poudrin":
-						ewstats.change_stat(
+						user_data.change_stat(
 							id_server = user_data.id_server,
 							id_user = user_data.id_user,
 							metric = ewcfg.stat_poudrins_looted,
@@ -649,8 +415,8 @@ def item_loot(
 		return
 
 	try:
-		target_data = EwUser(id_user = id_user_target, id_server = member.guild.id)
-		source_data = EwUser(member = member)
+		target_data = EwPlayer(id_user = id_user_target, id_server = member.guild.id)
+		source_data = EwPlayer(member = member)
 
 		# Transfer adorned cosmetics
 		data = ewutils.execute_sql_query(
@@ -690,7 +456,7 @@ def item_loot(
 
 def check_inv_capacity(id_user = None, id_server = None, item_type = None):
 	if id_user is not None and id_server is not None and item_type is not None:
-		user_data = EwUser(id_user = id_user, id_server = id_server)
+		user_data = EwPlayer(id_user = id_user, id_server = id_server)
 		if item_type == ewcfg.it_food:
 			food_items = inventory(
 				id_user = id_user,
@@ -1096,13 +862,11 @@ async def inventory_print(cmd):
 	
 	community_chest = False
 	can_message_user = True
-	item_type = None
-
 	inventory_source = cmd.message.author.id
 
-	player = EwPlayer(id_user = cmd.message.author.id)
+	player = EwDiscordUser(id_user = cmd.message.author.id)
 
-	user_data = EwUser(id_user = cmd.message.author.id, id_server = player.id_server)
+	user_data = EwPlayer(id_user = cmd.message.author.id, id_server = player.id_server)
 	poi = ewcfg.id_to_poi.get(user_data.poi)
 	if cmd.tokens[0].lower() == ewcfg.cmd_communitychest:
 		if poi.community_chest == None:
@@ -1141,21 +905,6 @@ async def inventory_print(cmd):
 		if 'stack' in lower_token_list:
 			stacking = True
 
-		if 'general' in lower_token_list:
-			item_type = ewcfg.it_item
-
-		if 'weapon' in lower_token_list:
-			item_type = ewcfg.it_weapon
-
-		if 'furniture' in lower_token_list:
-			item_type = ewcfg.it_furniture
-
-		if 'cosmetic' in lower_token_list:
-			item_type = ewcfg.it_cosmetic
-
-		if 'food' in lower_token_list:
-			item_type = ewcfg.it_food
-
 		if 'search' in lower_token_list:
 			stacking = False
 			sort_by_id = False
@@ -1167,29 +916,26 @@ async def inventory_print(cmd):
 		items = inventory(
 			id_user = inventory_source,
 			id_server = player.id_server,
-			item_sorting_method='id',
-			item_type_filter = item_type
+			item_sorting_method='id'
 		)
 	elif sort_by_type:
 		items = inventory(
 			id_user=inventory_source,
 			id_server=player.id_server,
-			item_sorting_method='type',
-			item_type_filter = item_type
+			item_sorting_method='type'
 		)
 	elif search == True:
+		print(ewutils.flattenTokenListToString(cmd.tokens[2:]))
 		items = find_item_all(
 			item_search = ewutils.flattenTokenListToString(cmd.tokens[2:]),
 			id_server=player.id_server,
 			id_user=inventory_source,
-			exact_search=False,
-			search_names=True
+			exact_search=False
 		)
 	else:
 		items = inventory(
 			id_user=inventory_source,
 			id_server=player.id_server,
-			item_type_filter = item_type
 		)
 
 	if community_chest:
@@ -1291,14 +1037,14 @@ async def inventory_print(cmd):
 async def item_look(cmd):
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
 	author = cmd.message.author
-	player = EwPlayer(id_user=cmd.message.author.id)
+	player = EwDiscordUser(id_user=cmd.message.author.id)
 	server = player.id_server
-	user_data = EwUser(id_user=cmd.message.author.id, id_server=server)
+	user_data = EwPlayer(id_user=cmd.message.author.id, id_server=server)
 	poi = ewcfg.id_to_poi.get(user_data.poi)
 	mutations = user_data.get_mutations()
 
 	if user_data.visiting != ewcfg.location_id_empty:
-		user_data = EwUser(id_user=user_data.visiting, id_server=server)
+		user_data = EwPlayer(id_user=user_data.visiting, id_server=server)
 
 	item_dest = []
 
@@ -1349,10 +1095,10 @@ async def item_look(cmd):
 				response += "\n\n"
 
 				if item.item_props.get("married") != "":
-					previous_partner = EwPlayer(id_user = int(item.item_props.get("married")), id_server = server)
+					previous_partner = EwDiscordUser(id_user = int(item.item_props.get("married")), id_server = server)
 
 					if not user_data.weaponmarried or int(item.item_props.get("married")) != str(user_data.id_user) or item.id_item != user_data.weapon:
-						response += "There's a barely legible engraving on the weapon that reads *{} :heart: {}*.\n\n".format(previous_partner.display_name, name)
+						response += "There's a barely legible engraving on the weapon that reads *{} :heart: {}*.\n\n".format(previous_partner.name, name)
 					else:
 						response += "Your beloved partner. You can't help but give it a little kiss on the handle.\n"
 
@@ -1510,7 +1256,7 @@ async def item_use(cmd):
 
 	if item_sought:		
 		# Load the user before the item so that the right item props are used
-		user_data = EwUser(member = author)
+		user_data = EwPlayer(member = author)
 
 		item = EwItem(id_item = item_sought.get('id_item'))
 
@@ -1686,12 +1432,9 @@ def find_item(item_search = None, id_user = None, id_server = None, item_type_fi
 
 		# find the first (i.e. the oldest) item that matches the search
 		for item in items:
-			item_name = ewutils.flattenTokenListToString(item.get('name'))
-			if item.get('id_item') == item_search_int or item_name == item_search:
+			if item.get('id_item') == item_search_int or item_search in ewutils.flattenTokenListToString(item.get('name')):
 				item_sought = item
 				break
-			if item_sought == None and item_search in item_name:
-				item_sought = item
 
 	return item_sought
 
@@ -1700,7 +1443,7 @@ def find_item(item_search = None, id_user = None, id_server = None, item_type_fi
 """
 	Find every item matching the search in the player's inventory (returns a list of (non-EwItem) item)
 """
-def find_item_all(item_search = None, id_user = None, id_server = None, item_type_filter = None, exact_search = True, search_names = False):
+def find_item_all(item_search = None, id_user = None, id_server = None, item_type_filter = None, exact_search = True):
 	items_sought = []
 	props_to_search = [
 		'weapon_type',
@@ -1709,17 +1452,6 @@ def find_item_all(item_search = None, id_user = None, id_server = None, item_typ
 		'id_cosmetic',
 		'id_furniture'
 	]
-
-	if search_names == True:
-		props_to_search = [
-			'cosmetic_name',
-			'furniture_name',
-			'food_name',
-			'title',
-			'weapon_type',
-			'weapon_name',
-			'item_name'
-		]
 
 
 	if item_search:
@@ -1773,8 +1505,8 @@ async def give(cmd):
 		response = "You have to specify the recipient of the item."
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
-	user_data = EwUser(member = author)
-	recipient_data = EwUser(member = recipient)
+	user_data = EwPlayer(member = author)
+	recipient_data = EwPlayer(member = recipient)
 
 	if user_data.poi != recipient_data.poi:
 		response = "You must be in the same location as the person you want to gift your item to, bitch."
@@ -1849,7 +1581,7 @@ async def give(cmd):
 			)
 
 			response = "You gave {recipient} a {item}".format(
-				recipient = recipient.display_name,
+				recipient = recipient.name,
 				item = item_sought.get('name')
 			)
 
@@ -1876,7 +1608,7 @@ async def give(cmd):
 	Throw away an item
 """
 async def discard(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
 
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[1:])
@@ -2053,8 +1785,8 @@ def gen_item_props(item):
 
 
 async def soulextract(cmd):
-	usermodel = EwUser(member=cmd.message.author)
-	playermodel = EwPlayer(id_user=cmd.message.author.id, id_server=cmd.guild.id)
+	usermodel = EwPlayer(member=cmd.message.author)
+	playermodel = EwDiscordUser(id_user=cmd.message.author.id, id_server=cmd.guild.id)
 	if usermodel.has_soul == 1 and (ewutils.active_target_map.get(usermodel.id_user) == None or ewutils.active_target_map.get(usermodel.id_user) == ""):
 		item_create(
 			id_user=cmd.message.author.id,
@@ -2062,8 +1794,8 @@ async def soulextract(cmd):
 			item_type=ewcfg.it_cosmetic,
 			item_props = {
 				'id_cosmetic': "soul",
-				'cosmetic_name': "{}'s soul".format(playermodel.display_name),
-				'cosmetic_desc': "The immortal soul of {}. It dances with a vivacious energy inside its jar.\n If you listen to it closely you can hear it whispering numbers: {}.".format(playermodel.display_name, cmd.message.author.id),
+				'cosmetic_name': "{}'s soul".format(playermodel.name),
+				'cosmetic_desc': "The immortal soul of {}. It dances with a vivacious energy inside its jar.\n If you listen to it closely you can hear it whispering numbers: {}.".format(playermodel.name, cmd.message.author.id),
 				'str_onadorn': ewcfg.str_soul_onadorn,
 				'str_unadorn': ewcfg.str_soul_unadorn,
 				'str_onbreak': ewcfg.str_soul_onbreak,
@@ -2091,7 +1823,7 @@ async def soulextract(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 		
 async def returnsoul(cmd):
-	usermodel = EwUser(member=cmd.message.author)
+	usermodel = EwPlayer(member=cmd.message.author)
 	#soul = find_item(item_search="soul", id_user=cmd.message.author.id, id_server=cmd.guild.id)
 	user_inv = inventory(id_user=cmd.message.author.id, id_server=cmd.guild.id, item_type_filter=ewcfg.it_cosmetic)
 	soul_item = None
@@ -2121,7 +1853,7 @@ async def returnsoul(cmd):
 	return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def squeeze(cmd):
-	usermodel = EwUser(member=cmd.message.author)
+	usermodel = EwPlayer(member=cmd.message.author)
 	soul_inv = inventory(id_user=cmd.message.author.id, id_server=cmd.guild.id, item_type_filter=ewcfg.it_cosmetic)
 	
 	if usermodel.life_state == ewcfg.life_state_shambler:
@@ -2140,7 +1872,7 @@ async def squeeze(cmd):
 	if target.id == cmd.message.author.id:
 		targetmodel = usermodel
 	else:
-		targetmodel = EwUser(member=target)
+		targetmodel = EwPlayer(member=target)
 
 	if cmd.mentions_count > 1:
 		response = "One dehumanizing soul-clutch at a time, please."
@@ -2148,7 +1880,7 @@ async def squeeze(cmd):
 		response = "Enough already. They're dead."
 	else:
 
-		playermodel = EwPlayer(id_user=targetmodel.id_user)
+		playermodel = EwDiscordUser(id_user=targetmodel.id_user)
 		receivingreport = "" #the receiver of the squeeze gets this in their channel
 
 		squeezetext = re.sub("<.+>", "", cmd.message.content[(len(cmd.tokens[0])):]).strip()
@@ -2173,11 +1905,11 @@ async def squeeze(cmd):
 			response = "It's still all rubbery and deflated from the last time you squeezed it. Give it {} seconds.".format(timeleft)
 		else:
 			if targetmodel.life_state == ewcfg.life_state_shambler:
-				receivingreport = "You feel searing palpitations in your chest, but your lust for brains overwhelms the pain of {} squeezing your soul.".format(cmd.message.author.display_name)
+				receivingreport = "You feel searing palpitations in your chest, but your lust for brains overwhelms the pain of {} squeezing your soul.".format(cmd.message.author.name)
 			elif squeezetext != "":
-				receivingreport = "A voice in your head screams: \"{}\"\nSuddenly, you feel searing palpitations in your chest, and vomit slime all over the floor. Dammit, {} must be fucking around with your soul.".format(squeezetext, cmd.message.author.display_name)
+				receivingreport = "A voice in your head screams: \"{}\"\nSuddenly, you feel searing palpitations in your chest, and vomit slime all over the floor. Dammit, {} must be fucking around with your soul.".format(squeezetext, cmd.message.author.name)
 			else:
-				receivingreport = "You feel searing palpitations in your chest, and vomit slime all over the floor. Dammit, {} must be fucking with your soul.".format(cmd.message.author.display_name)
+				receivingreport = "You feel searing palpitations in your chest, and vomit slime all over the floor. Dammit, {} must be fucking with your soul.".format(cmd.message.author.name)
 
 			poi = ewcfg.id_to_poi.get(targetmodel.poi)
 
@@ -2185,19 +1917,19 @@ async def squeeze(cmd):
 			usermodel.persist()
 
 			if targetmodel.life_state != ewcfg.life_state_shambler:
-				penalty = (targetmodel.slimes* -0.25)
-				targetmodel.change_slimes(n=penalty, source=ewcfg.source_haunted)
+				penalty = (targetmodel.slime* -0.25)
+				targetmodel.change_slime(n=penalty, source=ewcfg.source_haunted)
 				targetmodel.persist()
 
 				district_data = ewdistrict.EwDistrict(district=targetmodel.poi, id_server=cmd.guild.id)
-				district_data.change_slimes(n= -penalty, source=ewcfg.source_squeeze)
+				district_data.change_slime(n= -penalty, source=ewcfg.source_squeeze)
 				district_data.persist()
 
 			if receivingreport != "":
 				loc_channel = ewutils.get_channel(cmd.guild, poi.channel)
 				await ewutils.send_message(cmd.client, loc_channel, ewutils.formatMessage(target, receivingreport))
 
-			response = "You tightly squeeze {}'s soul in your hand, jeering into it as you do so. This thing was worth every penny.".format(playermodel.display_name)
+			response = "You tightly squeeze {}'s soul in your hand, jeering into it as you do so. This thing was worth every penny.".format(playermodel.name)
 
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
@@ -2219,7 +1951,7 @@ def remove_from_trades(id_item):
 async def makecostume(cmd):
 	costumekit = find_item(item_search="costumekit", id_user=cmd.message.author.id, id_server=cmd.guild.id if cmd.guild is not None else None, item_type_filter = ewcfg.it_item)
 
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	
 	id_user = user_data.id_user
 	id_server = user_data.id_server
@@ -2277,7 +2009,7 @@ async def trash(cmd):
 
 	if item_sought:
 		# Load the user before the item so that the right item props are used
-		user_data = EwUser(member=author)
+		user_data = EwPlayer(member=author)
 
 		item = EwItem(id_item=item_sought.get('id_item'))
 
@@ -2294,9 +2026,9 @@ async def trash(cmd):
 def surrendersoul(giver = None, receiver = None, id_server=None):
 
 	if giver != None and receiver != None:
-		receivermodel = EwUser(id_server=id_server, id_user=receiver)
-		givermodel = EwUser(id_server=id_server, id_user=giver)
-		giverplayer = EwPlayer(id_user=givermodel.id_user)
+		receivermodel = EwPlayer(id_server=id_server, id_user=receiver)
+		givermodel = EwPlayer(id_server=id_server, id_user=giver)
+		giverplayer = EwDiscordUser(id_user=givermodel.id_user)
 		if givermodel.has_soul == 1:
 			givermodel.has_soul = 0
 			givermodel.persist()
@@ -2307,9 +2039,9 @@ def surrendersoul(giver = None, receiver = None, id_server=None):
 				item_type=ewcfg.it_cosmetic,
 				item_props={
 					'id_cosmetic': "soul",
-					'cosmetic_name': "{}'s soul".format(giverplayer.display_name),
+					'cosmetic_name': "{}'s soul".format(giverplayer.name),
 					'cosmetic_desc': "The immortal soul of {}. It dances with a vivacious energy inside its jar.\n If you listen to it closely you can hear it whispering numbers: {}.".format(
-						giverplayer.display_name, givermodel.id_user),
+						giverplayer.name, givermodel.id_user),
 					'str_onadorn': ewcfg.str_generic_onadorn,
 					'str_unadorn': ewcfg.str_generic_unadorn,
 					'str_onbreak': ewcfg.str_generic_onbreak,
@@ -2338,7 +2070,7 @@ async def perform_prank_item_side_effect(side_effect, cmd=None, member=None):
 		target_member = cmd.mentions[0]
 		client = cmd.client
 		
-		current_nickname = target_member.display_name
+		current_nickname = target_member.name
 		new_nickname = current_nickname + ' (Bungis)'
 		
 		if len(new_nickname) > 32:
@@ -2348,12 +2080,12 @@ async def perform_prank_item_side_effect(side_effect, cmd=None, member=None):
 
 		await target_member.edit(nick=new_nickname)
 		
-		response = "\n\nYou are now known as {}!".format(target_member.display_name)
+		response = "\n\nYou are now known as {}!".format(target_member.name)
 
 	elif side_effect == "cumjar_effect":
 
 		target_member = cmd.mentions[0]
-		target_data = EwUser(member=target_member)
+		target_data = EwPlayer(member=target_member)
 
 		if random.randrange(2) == 0:
 			
@@ -2373,7 +2105,7 @@ async def perform_prank_item_side_effect(side_effect, cmd=None, member=None):
 				item_props=item_props,
 			)
 
-			response = "\n\n*{}*: What's this? It looks like a pony figurine was inside the Cum Jar all along! You stash it in your inventory quickly.".format(target_member.display_name)
+			response = "\n\n*{}*: What's this? It looks like a pony figurine was inside the Cum Jar all along! You stash it in your inventory quickly.".format(target_member.name)
 
 	elif side_effect == "bensaintsign_effect":
 
@@ -2384,7 +2116,7 @@ async def perform_prank_item_side_effect(side_effect, cmd=None, member=None):
 
 		await target_member.edit(nick=new_nickname)
 
-		response = "\n\nYou are now Ben Saint.".format(target_member.display_name)
+		response = "\n\nYou are now Ben Saint.".format(target_member.name)
 		
 	elif side_effect == "bodynotifier_effect":
 		target_member = cmd.mentions[0]
@@ -2433,11 +2165,11 @@ async def manually_edit_item_properties(cmd):
 
 
 async def longdrop(cmd):
-	user_data = EwUser(member=cmd.message.author)
+	user_data = EwPlayer(member=cmd.message.author)
 	mutations = user_data.get_mutations()
 	poi = ewcfg.id_to_poi.get(user_data.poi)
 
-	destination = ewutils.flattenTokenListToString(cmd.tokens[1])
+	destination = cmd.tokens[1]
 	dest_poi = ewcfg.id_to_poi.get(destination)
 
 	item_search = ewutils.flattenTokenListToString(cmd.tokens[2:])
@@ -2475,7 +2207,7 @@ async def longdrop(cmd):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 async def skullbash(cmd):
-	user_data = EwUser(member = cmd.message.author)
+	user_data = EwPlayer(member = cmd.message.author)
 	item_stash = inventory(id_user=cmd.message.author.id, id_server=user_data.id_server)
 	item_sought = None
 	for item_piece in item_stash:

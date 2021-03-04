@@ -2,9 +2,7 @@ import datetime
 
 import ewcfg
 import ewutils
-from ew import EwUser
-from ewplayer import EwPlayer
-from ewmarket import EwMarket, EwStock
+from ewmarket import EwMarket
 from ewdistrict import EwDistrict
 
 
@@ -23,18 +21,14 @@ async def post_leaderboards(client = None, server = None):
 	topslimes = make_userdata_board(server = server, category = ewcfg.col_slimes, title = ewcfg.leaderboard_slimes)
 	await ewutils.send_message(client, leaderboard_channel, topslimes)
 	#topcoins = make_userdata_board(server = server, category = ewcfg.col_slimecoin, title = ewcfg.leaderboard_slimecoin)
-	ewutils.logMsg("starting net worth calc")
 	topcoins = make_stocks_top_board(server = server)
-	ewutils.logMsg("finished net worth calc")
 	await ewutils.send_message(client, leaderboard_channel, topcoins)
 	topghosts = make_userdata_board(server = server, category = ewcfg.col_slimes, title = ewcfg.leaderboard_ghosts, lowscores = True, rows = 3)
 	await ewutils.send_message(client, leaderboard_channel, topghosts)
 	topbounty = make_userdata_board(server = server, category = ewcfg.col_bounty, title = ewcfg.leaderboard_bounty, divide_by = ewcfg.slimecoin_exchangerate)
 	await ewutils.send_message(client, leaderboard_channel, topbounty)
 	#topfashion = make_userdata_board(server = server, category = ewcfg.col_freshness, title = ewcfg.leaderboard_fashion)
-	ewutils.logMsg("starting freshness calc")
 	topfashion = make_freshness_top_board(server = server)
-	ewutils.logMsg("finished freshness calc")
 	await ewutils.send_message(client, leaderboard_channel, topfashion)
 	topdonated = make_userdata_board(server = server, category = ewcfg.col_splattered_slimes, title = ewcfg.leaderboard_donated)
 	await ewutils.send_message(client, leaderboard_channel, topdonated)
@@ -56,35 +50,16 @@ async def post_leaderboards(client = None, server = None):
 def make_stocks_top_board(server = None):
 	entries = []
 	try:
-		players_coin = ewutils.execute_sql_query((
-			"SELECT pl.display_name, u.life_state, u.faction, u.slimecoin, IFNULL(sh_kfc.shares, 0), IFNULL(sh_tb.shares, 0), IFNULL(sh_ph.shares, 0), u.id_user " +
+		data = ewutils.execute_sql_query((
+			"SELECT pl.name, u.life_state, u.faction, nw.total " +
 			"FROM users AS u " +
 			"INNER JOIN players AS pl ON u.id_user = pl.id_user " +
-			"LEFT JOIN shares AS sh_kfc ON sh_kfc.id_user = u.id_user AND sh_kfc.id_server = u.id_server AND sh_kfc.stock = 'kfc' " +
-			"LEFT JOIN shares AS sh_tb ON sh_tb.id_user = u.id_user AND sh_tb.id_server = u.id_server AND sh_tb.stock = 'tacobell' " +
-			"LEFT JOIN shares AS sh_ph ON sh_ph.id_user = u.id_user AND sh_ph.id_server = u.id_server AND sh_ph.stock = 'pizzahut' " +
+			"INNER JOIN net_worth AS nw ON u.id_user = nw.id_user AND u.id_server = nw.id_server "
 			"WHERE u.id_server = %(id_server)s " +
-			"ORDER BY u.slimecoin DESC"
+			"ORDER BY nw.total DESC LIMIT 5"
 		), {
 			"id_server" : server.id,
 		})
-		
-		stock_kfc = EwStock(id_server = server.id, stock = 'kfc')
-		stock_tb = EwStock(id_server = server.id, stock = 'tacobell')
-		stock_ph = EwStock(id_server = server.id, stock = 'pizzahut')
-
-		shares_value = lambda shares, stock: round(shares * (stock.exchange_rate / 1000.0))
-
-		net_worth = lambda u: u[3] + shares_value(u[4], stock_kfc) + shares_value(u[5], stock_tb) + shares_value(u[6], stock_ph)
-
-
-		nw_map = {}
-		for user in players_coin:
-			nw_map[user[-1]] = net_worth(user)
-
-		players_coin = sorted(players_coin, key = lambda u: nw_map.get(u[-1]), reverse=True)
-
-		data = map(lambda u: [u[0], u[1], u[2], nw_map.get(u[-1])], players_coin[:5])
 
 		if data != None:
 			for row in data:
@@ -99,66 +74,16 @@ def make_stocks_top_board(server = None):
 def make_freshness_top_board(server = None):
 	entries = []
 	try:
-		all_adorned = ewutils.execute_sql_query("SELECT id_item FROM items WHERE id_server = %s " + 
-			"AND id_item IN (SELECT id_item FROM items_prop WHERE name = 'adorned' AND value = 'true')",
-			( server.id, )
-		)
-
-		all_adorned = tuple(map(lambda a : a[0], all_adorned))
- 
-		if len(all_adorned) == 0:
-			return format_board(entries = entries, title = ewcfg.leaderboard_fashion)
-
-		all_basefresh = ewutils.execute_sql_query("SELECT id_item, value FROM items_prop WHERE name = 'freshness' " + 
-			"AND id_item IN %s",
-			( all_adorned, )
-		)
-
-		all_users = ewutils.execute_sql_query("SELECT id_item, id_user FROM items WHERE id_item IN %s", ( all_adorned, ))
-
-
-		fresh_map = {}
-
-		user_fresh = {}
-		for row in all_basefresh:
-			basefresh = int(row[1])
-			fresh_map[row[0]] = basefresh
-
-		for row in all_users:
-			user_fresh[row[1]] = 0
-
-		for row in all_users:
-			item_fresh = fresh_map.get(row[0])
-			if type(item_fresh) != int:
-				item_fresh = 0
-			user_fresh[row[1]] += item_fresh
-
-		user_ids = sorted(user_fresh, key=lambda u : user_fresh[u], reverse=True)
-
-		
-		top_five = []
-
-		current_user = None
-
-		max_fresh = lambda base : base * 50 + 100
-
-		while len(user_ids) > 0 and (len(top_five) < 5 or top_five[-1].freshness < max_fresh(user_fresh.get(user_ids[0]))):
-			current_user = EwUser(id_user = user_ids.pop(0), id_server = server.id, data_level = 2)
-
-			top_five.append(current_user)
-
-			top_five.sort(key=lambda u : u.freshness, reverse=True)
-			
-			top_five = top_five[:5]
-
-		
-
-		data = []
-
-		for user in top_five:
-			player_data = EwPlayer(id_user = user.id_user)
-
-			data.append([player_data.display_name, user.life_state, user.faction, user.freshness])
+		data = ewutils.execute_sql_query((
+			"SELECT pl.name, u.life_state, u.faction, f.freshness AS fresh " +
+			"FROM users AS u " +
+			"INNER JOIN players AS pl ON u.id_user = pl.id_user " +
+			"INNER JOIN freshness AS f ON u.id_user = f.id_user AND u.id_server = f.id_server " +
+			"WHERE u.id_server = %(id_server)s " +
+			"ORDER BY fresh DESC LIMIT 5"
+		), {
+			"id_server" : server.id,
+		})
 
 		if data != None:
 			for row in data:
@@ -180,7 +105,7 @@ def make_slimeoids_top_board(server = None):
 		cursor = conn.cursor()
 
 		cursor.execute((
-			"SELECT pl.display_name, sl.name, sl.clout " +
+			"SELECT pl.name, sl.name, sl.clout " +
 			"FROM slimeoids AS sl " +
 			"INNER JOIN players AS pl ON sl.id_user = pl.id_user " +
 			"WHERE sl.id_server = %s AND sl.life_state = 2 " +
@@ -374,7 +299,7 @@ def make_district_control_board(id_server, title):
 def make_slimernalia_board(server, title):
 	entries = []
 	data = ewutils.execute_sql_query(
-		"SELECT {display_name}, {state}, {faction}, FLOOR({festivity}) + COALESCE(sigillaria, 0) + FLOOR({festivity_from_slimecoin}) as total_festivity FROM users "\
+		"SELECT {name}, {state}, {faction}, FLOOR({festivity}) + COALESCE(sigillaria, 0) + FLOOR({festivity_from_slimecoin}) as total_festivity FROM users "\
 		"LEFT JOIN (SELECT id_user, COUNT(*) * 1000 as sigillaria FROM items INNER JOIN items_prop ON items.{id_item} = items_prop.{id_item} WHERE {name} = %s AND {value} = %s GROUP BY items.{id_user}) f on users.{id_user} = f.{id_user}, players "\
 		"WHERE users.{id_server} = %s AND users.{id_user} = players.{id_user} ORDER BY total_festivity DESC LIMIT 5".format(
 			id_user = ewcfg.col_id_user,
@@ -383,7 +308,7 @@ def make_slimernalia_board(server, title):
 			festivity = ewcfg.col_festivity,
 			festivity_from_slimecoin = ewcfg.col_festivity_from_slimecoin,
 			name = ewcfg.col_name,
-			display_name = ewcfg.col_display_name,
+			name = ewcfg.col_display_name,
 			value = ewcfg.col_value,
 			state = ewcfg.col_life_state,
 			faction = ewcfg.col_faction
