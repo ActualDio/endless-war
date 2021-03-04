@@ -1108,7 +1108,7 @@ async def print_grid_minesweeper(cmd):
 
 		if grid_cont.wall_message == "":
 			wall_channel = ewcfg.mines_wall_map.get(poi)
-			resp_cont = ewutils.EwResponseContainer(id_server = id_server)
+			resp_cont = ewutils.EwResponse(id_server = id_server)
 			resp_cont.add_channel_response(wall_channel, grid_edit)
 			msg_handles = await resp_cont.post()
 			grid_cont.wall_message = msg_handles[0]
@@ -1174,7 +1174,7 @@ async def print_grid_bubblebreaker(cmd):
 
 		if grid_cont.wall_message == "":
 			wall_channel = ewcfg.mines_wall_map.get(poi)
-			resp_cont = ewutils.EwResponseContainer(id_server = id_server)
+			resp_cont = ewutils.EwResponse(id_server = id_server)
 			resp_cont.add_channel_response(wall_channel, grid_edit)
 			msg_handles = await resp_cont.post()
 			grid_cont.wall_message = msg_handles[0]

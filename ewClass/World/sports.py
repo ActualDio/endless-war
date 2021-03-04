@@ -55,7 +55,7 @@ class EwSlimeballPlayer:
 
 
 	def move(self):
-		resp_cont = ewutils.EwResponseContainer(id_server = self.id_server)
+		resp_cont = ewutils.EwResponse(id_server = self.id_server)
 		abs_x = abs(self.velocity[0])
 		abs_y = abs(self.velocity[1])
 		abs_sum = abs_x + abs_y
@@ -209,7 +209,7 @@ class EwSlimeballGame:
 		return player
 
 	def move_ball(self):
-		resp_cont = ewutils.EwResponseContainer(id_server = self.id_server)
+		resp_cont = ewutils.EwResponse(id_server = self.id_server)
 		abs_x = abs(self.ball_velocity[0])
 		abs_y = abs(self.ball_velocity[1])
 		abs_sum = abs_x + abs_y

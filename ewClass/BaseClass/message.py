@@ -1,20 +1,41 @@
 
-from ewClass.basic import EwBasic
-import ewcfg
-import ewutils
-	
+#Putting a code word here so I remember when I search the files #TODO
+#DIOTODO -- Finish the class and all the methods docstrings
 
-class EwResponseContainer(EwBasic):
-	""" Class for storing, passing, editing and posting channel responses and topics
+import ewutils
+import ewcfg
+import ewrolemgr
+from ewClass import EwBasic
+
+class EwResponse(EwBasic):
+	""" Class for storing, passing, editing and posting channel responses and topics\n
+    	Attributes:
+            ~~~~{inherited: EwBasic}~~~~\n
+		    'id_server': int -- ID for the last server used\n
+		    'name': string -- General name string\n
+
+            ~~~~{Unique}~~~~\n
+            'client': discord.Client -- The dicord client for the bot\n
+	        'channel_responses': dict -- ?\n
+	        'channel_topics': dict -- ?\n
+	        'members_to_update': list -- ?\n
+        Methods:
+            ~~~~{inherited: EwBasic}~~~~\n
+		    'access_database' -- Access the database through a sequel query\n
+
+            ~~~~{Unique}~~~~\n
+            '__init__' -- Constructor for this class\n
+			'add_channel_response' -- 
 
 	"""
+
 	client = None
 	channel_responses = {}
 	channel_topics = {}
 	members_to_update = []
 
-	def __init__(self, client = None, id_server = None):
-		self.client = client
+	def __init__(self, id_server = None):
+		self.client = ewutils.get_client()
 		self.id_server = id_server
 		self.channel_responses = {}
 		self.channel_topics = {}
@@ -51,10 +72,10 @@ class EwResponseContainer(EwBasic):
 	def format_channel_response(self, channel, member):
 		if channel in self.channel_responses:
 			for i in range(len(self.channel_responses[channel])):
-				self.channel_responses[channel][i] = formatMessage(member, self.channel_responses[channel][i])
+				self.channel_responses[channel][i] = ewutils.formatMessage(member, self.channel_responses[channel][i])
 
 	async def post(self, channel=None):
-		self.client = ewutils.get_client()
+		#self.client = ewutils.get_client()
 		messages = []
 
 		if self.client == None:
@@ -71,7 +92,7 @@ class EwResponseContainer(EwBasic):
 
 		for ch in self.channel_responses:
 			if channel == None:
-				current_channel = get_channel(server = server, channel_name = ch)
+				current_channel = ewutils.get_channel(server = server, channel_name = ch)
 				if current_channel == None:
 					current_channel = ch
 			else:
@@ -85,19 +106,19 @@ class EwResponseContainer(EwBasic):
 
 						split_list = [(response[i:i+2000]) for i in range(0, length, 2000)]
 						for blurb in split_list:
-							message = await send_message(self.client, current_channel, blurb)
+							message = await ewutils.send_message(self.client, current_channel, blurb)
 							messages.append(message)
 						response = ""
 					elif len(response) == 0 or len("{}\n{}".format(response, self.channel_responses[ch][0])) < ewcfg.discord_message_length_limit:
 						response += "\n" + self.channel_responses[ch].pop(0)
 					else:
-						message = await send_message(self.client, current_channel, response)
+						message = await ewutils.send_message(self.client, current_channel, response)
 						messages.append(message)
 						response = ""
-				message = await send_message(self.client, current_channel, response)
+				message = await ewutils.send_message(self.client, current_channel, response)
 				messages.append(message)
 			except:
-				logMsg('Failed to send message to channel {}: {}'.format(ch, self.channel_responses[ch]))
+				ewutils.logMsg('Failed to send message to channel {}: {}'.format(ch, self.channel_responses[ch]))
 				
 
 		# for ch in self.channel_topics:
@@ -108,66 +129,3 @@ class EwResponseContainer(EwBasic):
 		# 		logMsg('Failed to set channel topic for {} to {}'.format(ch, self.channel_topics[ch]))
 
 		return messages
-
-class Message:
-	# Send the message to this exact channel by name.
-	channel = None
-
-	# Send the message to the channel associated with this point of interest.
-	id_poi = None
-
-	# Should this message echo to adjacent points of interest?
-	reverb = None
-	message = ""
-
-	def __init__(
-		self,
-		channel = None,
-		reverb = False,
-		message = "",
-		id_poi = None
-	):
-		self.channel = channel
-		self.reverb = reverb
-		self.message = message
-		self.id_poi = id_poi
-
-	def readMessage(fname):
-		msg = Message()
-
-		try:
-			f = open(fname, "r")
-			f_lines = f.readlines()
-
-			count = 0
-			for line in f_lines:
-				line = line.rstrip()
-				count += 1
-				if len(line) == 0:
-					break
-
-				args = line.split('=')
-				if len(args) == 2:
-					field = args[0].strip().lower()
-					value = args[1].strip()
-
-					if field == "channel":
-						msg.channel = value.lower()
-					elif field == "poi":
-						msg.poi = value.lower()
-					elif field == "reverb":
-						msg.reverb = True if (value.lower() == "true") else False
-				else:
-					count -= 1
-					break
-
-			for line in f_lines[count:]:
-				msg.message += (line.rstrip() + "\n")
-		except:
-			logMsg('failed to parse message.')
-			traceback.print_exc(file = sys.stdout)
-		finally:
-			f.close()
-
-		return msg
-

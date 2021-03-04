@@ -3,9 +3,9 @@ import random
 
 import ewcfg
 import ewutils
-from ewClass.market import EwMarket
-from ewClass.player import EwDiscordUser
-from ewClass.user import EwPlayer
+from ewClass import EwMarket
+from ewClass import EwDiscordUser
+from ewClass import EwPlayer
 
 active_slimeoidbattles = {}
 
@@ -208,7 +208,7 @@ class EwSlimeoid:
 		))
 	
 	def haunt(self):
-		resp_cont = ewutils.EwResponseContainer(id_server = self.id_server)
+		resp_cont = ewutils.EwResponse(id_server = self.id_server)
 		if (self.sltype != ewcfg.sltype_nega) or active_slimeoidbattles.get(self.id_slimeoid):
 			return resp_cont
 		market_data = EwMarket(id_server = self.id_server)
@@ -245,7 +245,7 @@ class EwSlimeoid:
 		return resp_cont
 
 	def move(self):
-		resp_cont = ewutils.EwResponseContainer(id_server = self.id_server)
+		resp_cont = ewutils.EwResponse(id_server = self.id_server)
 		if active_slimeoidbattles.get(self.id_slimeoid):
 			return resp_cont
 		try:

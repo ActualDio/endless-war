@@ -53,7 +53,7 @@ async def capture_progress(cmd):
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, response))
 
 	response = ""
-	resp_cont = ewutils.EwResponseContainer(id_server = cmd.guild.id)
+	resp_cont = ewutils.EwResponse(id_server = cmd.guild.id)
 	time_now = int(time.time())
 
 	poi = ewcfg.id_to_poi.get(user_data.poi)
@@ -294,7 +294,7 @@ async def capture_tick(id_server):
 	cursor = None
 	conn_info = None
 
-	resp_cont_capture_tick = ewutils.EwResponseContainer(client = ewutils.get_client(), id_server = id_server)
+	resp_cont_capture_tick = ewutils.EwResponse(client = ewutils.get_client(), id_server = id_server)
 
 	all_districts = ewcfg.capturable_districts
 
@@ -440,7 +440,7 @@ async def capture_tick_loop(id_server):
 	Gives both kingpins the appropriate amount of slime for how many districts they own and lowers the capture_points property of each district by a certain amount, turning them neutral after a while
 """
 async def give_kingpins_slime_and_decay_capture_points(id_server):
-	resp_cont_decay_loop = ewutils.EwResponseContainer(client = ewutils.get_client(), id_server = id_server)
+	resp_cont_decay_loop = ewutils.EwResponse(client = ewutils.get_client(), id_server = id_server)
 
 	for kingpin_role in [ewcfg.role_rowdyfucker, ewcfg.role_copkiller]:
 		kingpin = ewutils.find_kingpin(id_server = id_server, kingpin_role = kingpin_role)

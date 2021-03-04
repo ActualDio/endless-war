@@ -114,7 +114,7 @@ async def event_tick_loop(id_server):
 
 async def event_tick(id_server):
 	time_now = int(time.time())
-	resp_cont = ewutils.EwResponseContainer(id_server = id_server)
+	resp_cont = ewutils.EwResponse(id_server = id_server)
 	try:
 		data = ewutils.execute_sql_query("SELECT {id_event} FROM world_events WHERE {time_expir} <= %s AND {time_expir} > 0 AND id_server = %s".format(
 			id_event = ewcfg.col_id_event,

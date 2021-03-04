@@ -82,7 +82,7 @@ async def weather_tick(id_server = None):
 			))
 
 			deathreport = ""
-			resp_cont = ewutils.EwResponseContainer(id_server = id_server)
+			resp_cont = ewutils.EwResponse(id_server = id_server)
 			for user in users:
 				user_data = EwPlayer(id_user = user[0], id_server = id_server)
 				if user_data.life_state == ewcfg.life_state_kingpin:

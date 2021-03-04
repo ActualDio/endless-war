@@ -1,4 +1,4 @@
-from ewClass.message import EwResponseContainer
+from ewClass.message import EwResponse
 import sys
 import traceback
 import collections
@@ -575,7 +575,7 @@ async def bleedSlimes(id_server = None):
 		))
 
 		total_bled = 0
-		resp_cont = EwResponseContainer(id_server = id_server)
+		resp_cont = EwResponse(id_server = id_server)
 		for user in users:
 			user_data = EwPlayer(id_user = user[0], id_server = id_server)
 
@@ -641,7 +641,7 @@ async def enemyBleedSlimes(id_server = None):
 		))
 
 		total_bled = 0
-		resp_cont = EwResponseContainer(id_server = id_server)
+		resp_cont = EwResponse(id_server = id_server)
 		for enemy in enemies:
 			enemy_data = EwEnemy(id_enemy = enemy[0], id_server = id_server)
 			slimes_to_bleed = enemy_data.bleed_storage * (1 - .5 ** (ewcfg.bleed_tick_length / ewcfg.bleed_half_life))
@@ -743,7 +743,7 @@ async def burnSlimes(id_server = None):
 			id_server
 		))
 
-		resp_cont = EwResponseContainer(id_server = id_server)
+		resp_cont = EwResponse(id_server = id_server)
 		for result in data:
 			user_data = EwPlayer(id_user = result[0], id_server = id_server)
 			member = server.get_member(user_data.id_user)
@@ -847,7 +847,7 @@ async def enemyBurnSlimes(id_server):
 			id_server
 		))
 
-		resp_cont = EwResponseContainer(id_server = id_server)
+		resp_cont = EwResponse(id_server = id_server)
 		for result in data:
 			enemy_data = EwEnemy(id_enemy = result[0], id_server = id_server)
 			
@@ -1380,7 +1380,7 @@ async def send_message(client, channel, text = None, embed = None, delete_after 
 
 	Arguments:
 		'client': discord.Client -- The bot client \n
-		'channel': discord.TextChannel -- The channel to send teh message to \n
+		'channel': discord.TextChannel -- The channel to send the message to \n
 
 	Keyword Arguments:
 		'text': string -- Message text (default: None) \n
@@ -1586,7 +1586,7 @@ async def enemy_action_tick_loop(id_server):
 	# Causes hostile enemies to attack every tick.
 	while not TERMINATE:
 		await asyncio.sleep(interval)
-		# resp_cont = EwResponseContainer(id_server=id_server)
+		# resp_cont = EwResponse(id_server=id_server)
 		if ewcfg.gvs_active:
 			await ewhunting.enemy_perform_action_gvs(id_server)
 
@@ -1669,7 +1669,7 @@ def explode(damage = 0, district_data = None, market_data = None):
 		'district_data': EwDistrict -- District where all players will take damage (default: None) \n
 		'market_data': EwMarket -- Market data for that particular server (default: None) \n
 
-	Returns: EwResponseContainer -- Response to be displayed
+	Returns: EwResponse -- Response to be displayed
 	"""	
 	id_server = district_data.id_server
 	poi = district_data.name
@@ -1680,7 +1680,7 @@ def explode(damage = 0, district_data = None, market_data = None):
 	client = get_client()
 	server = client.get_guild(id_server)
 
-	resp_cont = EwResponseContainer(id_server = id_server)
+	resp_cont = EwResponse(id_server = id_server)
 	response = ""
 	channel = ewcfg.id_to_poi.get(poi).channel
 
@@ -2479,7 +2479,7 @@ async def shut_down_bot(cmd):
 	Arguments:
 		'cmd': EwCmd -- The command object that called this function \n
 
-	Returns: EwMessageContainer -- Message for the suicide option
+	Returns: EwResponse -- Message for the suicide option
 	"""	
 	
 	if not cmd.message.author.guild_permissions.administrator:

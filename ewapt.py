@@ -393,7 +393,7 @@ async def apt_look(cmd):
 	poi = ewcfg.id_to_poi.get(apt_model.poi)
 	lookObject = str(cmd.message.author.id)
 	isVisiting = False
-	resp_cont = ewutils.EwResponseContainer(id_server=playermodel.id_server)
+	resp_cont = ewutils.EwResponse(id_server=playermodel.id_server)
 
 	if usermodel.visiting != ewcfg.location_id_empty:
 		apt_model = EwApartment(id_user=usermodel.visiting, id_server=playermodel.id_server)
@@ -1452,7 +1452,7 @@ async def trickortreat(cmd = None):
 					server = client.get_guild(user_data.id_server)
 					user_poi = ewcfg.id_to_poi.get(user_data.poi)
 
-					resp_cont = ewutils.EwResponseContainer(id_server=user_data.id_server)
+					resp_cont = ewutils.EwResponse(id_server=user_data.id_server)
 					player_data = EwDiscordUser(id_user=user_data.id_user, id_server=user_data.id_server)
 
 					user_data.trauma = ewcfg.trauma_id_environment
@@ -1548,7 +1548,7 @@ async def trickortreat(cmd = None):
 					server = client.get_guild(user_data.id_server)
 					user_poi = ewcfg.id_to_poi.get(user_data.poi)
 
-					resp_cont = ewutils.EwResponseContainer(id_server=user_data.id_server)
+					resp_cont = ewutils.EwResponse(id_server=user_data.id_server)
 					player_data = EwDiscordUser(id_user=user_data.id_user, id_server=user_data.id_server)
 
 					user_data.trauma = ewcfg.trauma_id_environment

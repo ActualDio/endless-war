@@ -721,7 +721,7 @@ async def browse_zines(cmd):
 	else:
 		if not sort_token.isdigit():
 			book_list = []
-			resp_cont = ewutils.EwResponseContainer(id_server=cmd.guild.id)
+			resp_cont = ewutils.EwResponse(id_server=cmd.guild.id)
 			query_suffix = ""
 			query_sort = "id_book"
 			more_selects = ""

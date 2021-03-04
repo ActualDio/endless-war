@@ -2378,7 +2378,7 @@ async def slimeoid_tick(id_server):
 		id_server
 	))
 
-	resp_cont = ewutils.EwResponseContainer(id_server = id_server)
+	resp_cont = ewutils.EwResponse(id_server = id_server)
 	for row in data:
 		slimeoid_data = EwSlimeoid(id_slimeoid = row[0])
 		haunt_resp = slimeoid_data.haunt()

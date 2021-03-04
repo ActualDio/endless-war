@@ -1,11 +1,12 @@
 
+from ewClass import EwBasic, EwCharacter
 import time
 
 import ewcfg
 import ewutils
 
 # Reskinned version of effect container from ewwep.
-class EwEnemyEffectContainer:
+"""class EwEnemyEffectContainer:
 	miss = False
 	crit = False
 	strikes = 0
@@ -53,8 +54,8 @@ class EwEnemyEffectContainer:
 		#self.sap_ignored = sap_ignored
 		self.hit_chance_mod = hit_chance_mod
 		self.crit_mod = crit_mod
-
-class EwStatusEffectDef:
+"""
+"""class EwStatusEffectDef:
 	id_status = ""
 	# Time until expiration, negative values have specific expiration conditions
 	time_expire = -1
@@ -94,16 +95,28 @@ class EwStatusEffectDef:
 		self.dmg_mod = dmg_mod
 		self.hit_chance_mod = hit_chance_mod
 		self.crit_mod = crit_mod
+"""
+class EwStatusEffect(EwBasic):
+	""" Object class for a status effect placed on a character\n
+		Attributes:
+			~~~~{inherited: EwBasic}~~~~\n
+			'id_server': int -- ID for the last server used\n
+			'name': string -- General name string\n
 
-class EwStatusEffect:
-	id_server = -1
-	id_user = -1
+			~~~~{Unique}~~~~\n
+
+    	Methods:
+			~~~~{inherited: EwBasic}~~~~\n
+			'access_database' -- Access the database through a sequel query\n
+
+			~~~~{Unique}~~~~\n
+
+	"""	
+	id_target = -1
 	id_status = ""
-	
 	time_expire = -1
 	value = 0
 	source = ""
-	id_target = -1
 
 	def __init__(
 		self,

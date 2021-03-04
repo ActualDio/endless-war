@@ -895,7 +895,7 @@ async def teleport(cmd):
 	poi_now = user_data.poi
 	mutations = user_data.get_mutations()
 	response = ""
-	resp_cont = ewutils.EwResponseContainer(id_server = cmd.guild.id)
+	resp_cont = ewutils.EwResponse(id_server = cmd.guild.id)
 	target_name = ewutils.flattenTokenListToString(cmd.tokens[1:])
 	
 	if ewutils.active_restrictions.get(user_data.id_user) != None and ewutils.active_restrictions.get(user_data.id_user) > 0:
@@ -1589,7 +1589,7 @@ async def loop(cmd):
 	time_now = int(time.time())
 	user_data = EwPlayer(member=cmd.message.author)
 	mutations = user_data.get_mutations()
-	resp_cont = ewutils.EwResponseContainer(id_server=cmd.guild.id)
+	resp_cont = ewutils.EwResponse(id_server=cmd.guild.id)
 	dest_poi = ewcfg.landlocked_destinations.get(user_data.poi)
 	dest_poi_obj = ewcfg.id_to_poi.get(dest_poi)
 
@@ -1639,7 +1639,7 @@ async def slap(cmd):
 	target_data = -1
 
 	mutations = user_data.get_mutations()
-	resp_cont = ewutils.EwResponseContainer(id_server=cmd.guild.id)
+	resp_cont = ewutils.EwResponse(id_server=cmd.guild.id)
 
 	if cmd.tokens_count < 3:
 		response = "You'll need to specify who and where you're slapping. Try !slap <target> <location>."

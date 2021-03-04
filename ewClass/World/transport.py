@@ -91,7 +91,7 @@ class EwTransport:
 
 			transport_line = ewcfg.id_to_transport_line[self.current_line]
 			client = ewutils.get_client()
-			resp_cont = ewutils.EwResponseContainer(client = client, id_server = self.id_server)
+			resp_cont = ewutils.EwResponse(client = client, id_server = self.id_server)
 
 			if self.current_stop == transport_line.last_stop:
 				self.current_line = transport_line.next_line

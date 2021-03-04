@@ -550,7 +550,7 @@ class EwDistrict:
 		return filtered_enemies
 
 	def decay_capture_points(self):
-		resp_cont_decay = ewutils.EwResponseContainer(client = ewutils.get_client(), id_server = self.id_server)
+		resp_cont_decay = ewutils.EwResponse(client = ewutils.get_client(), id_server = self.id_server)
 		if self.capture_points > 0:
 				#and self.time_unlock == 0:
 
@@ -598,7 +598,7 @@ class EwDistrict:
 		return resp_cont_decay
 
 	def change_capture_lock(self, progress):
-		resp_cont = ewutils.EwResponseContainer(id_server = self.id_server)
+		resp_cont = ewutils.EwResponse(id_server = self.id_server)
 
 		progress_before = self.time_unlock
 
@@ -656,7 +656,7 @@ class EwDistrict:
 
 		self.capture_points += progress
 
-		resp_cont_change_cp = ewutils.EwResponseContainer(client = ewutils.get_client(), id_server = self.id_server)
+		resp_cont_change_cp = ewutils.EwResponse(client = ewutils.get_client(), id_server = self.id_server)
 
 		# ensures that the value doesn't exceed the bounds
 		if self.capture_points < 0:
@@ -808,7 +808,7 @@ class EwDistrict:
 		Change who controls the district. Can be used to update the channel topic by passing the already controlling faction as an arg.
 	"""
 	def change_ownership(self, new_owner, actor, client = None):  # actor can either be a faction, "decay", or "init"
-		resp_cont_owner = ewutils.EwResponseContainer(client = ewutils.get_client(), id_server = self.id_server)
+		resp_cont_owner = ewutils.EwResponse(client = ewutils.get_client(), id_server = self.id_server)
 
 		factions = ["", ewcfg.faction_killers, ewcfg.faction_rowdys]
 

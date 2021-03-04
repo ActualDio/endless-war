@@ -19,7 +19,7 @@ async def slimeball_tick_loop(id_server):
 		
 
 async def slimeball_tick(id_server):
-	resp_cont = ewutils.EwResponseContainer(id_server = id_server)
+	resp_cont = ewutils.EwResponse(id_server = id_server)
 
 	for id_game in sb_games:
 		game = sb_games.get(id_game)

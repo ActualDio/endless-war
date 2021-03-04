@@ -289,7 +289,7 @@ class EwEnemy(EwCharacter):
         enemy_data = self
 
         time_now = int(time.time())
-        resp_cont = ewutils.EwResponseContainer(id_server=enemy_data.id_server)
+        resp_cont = ewutils.EwResponse(id_server=enemy_data.id_server)
         district_data = EwDistrict(district=enemy_data.poi, id_server=enemy_data.id_server)
         market_data = EwMarket(id_server=enemy_data.id_server)
         ch_name = ewcfg.id_to_poi.get(enemy_data.poi).channel
@@ -793,7 +793,7 @@ class EwEnemy(EwCharacter):
         enemy_data = self
 
         time_now = int(time.time())
-        resp_cont = ewutils.EwResponseContainer(id_server=enemy_data.id_server)
+        resp_cont = ewutils.EwResponse(id_server=enemy_data.id_server)
         district_data = EwDistrict(district=enemy_data.poi, id_server=enemy_data.id_server)
         market_data = EwMarket(id_server=enemy_data.id_server)
         ch_name = ewcfg.id_to_poi.get(enemy_data.poi).channel
@@ -1171,7 +1171,7 @@ class EwEnemy(EwCharacter):
             await resp_cont.post()
 
     def move(self):
-        resp_cont = ewutils.EwResponseContainer(id_server=self.id_server)
+        resp_cont = ewutils.EwResponse(id_server=self.id_server)
 
         old_district_response = ""
         new_district_response = ""
@@ -1349,7 +1349,7 @@ class EwEnemy(EwCharacter):
     def dodge(self):
         enemy_data = self 
 
-        resp_cont = ewutils.EwResponseContainer(id_server=enemy_data.id_server)
+        resp_cont = ewutils.EwResponse(id_server=enemy_data.id_server)
         
         target_data = None
 
@@ -1394,7 +1394,7 @@ class EwEnemy(EwCharacter):
     def taunt(self):
         enemy_data = self 
 
-        resp_cont = ewutils.EwResponseContainer(id_server=enemy_data.id_server)
+        resp_cont = ewutils.EwResponse(id_server=enemy_data.id_server)
         
         target_data = None
 
@@ -1429,7 +1429,7 @@ class EwEnemy(EwCharacter):
     def aim(self):
         enemy_data = self 
 
-        resp_cont = ewutils.EwResponseContainer(id_server=enemy_data.id_server)
+        resp_cont = ewutils.EwResponse(id_server=enemy_data.id_server)
         
         target_data = None
 

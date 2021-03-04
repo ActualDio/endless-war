@@ -159,7 +159,7 @@ async def disembark(cmd):
 		return await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "You must {} in a zone's channel.".format(cmd.tokens[0])))
 	user_data = EwPlayer(member = cmd.message.author)
 	response = ""
-	resp_cont = ewutils.EwResponseContainer(client = cmd.client, id_server = user_data.id_server)
+	resp_cont = ewutils.EwResponse(client = cmd.client, id_server = user_data.id_server)
 
 	# prevent ghosts currently inhabiting other players from moving on their own
 	if user_data.get_inhabitee():

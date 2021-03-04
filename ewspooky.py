@@ -134,7 +134,7 @@ async def revive(cmd):
 async def haunt(cmd):
 	time_now = int(time.time())
 	response = ""
-	resp_cont = ewutils.EwResponseContainer(id_server = cmd.guild.id)
+	resp_cont = ewutils.EwResponse(id_server = cmd.guild.id)
 
 	if cmd.mentions_count > 1:
 		response = "You can only spook one person at a time. Who do you think you are, the Lord of Ghosts?"

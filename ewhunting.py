@@ -191,7 +191,7 @@ async def enemy_perform_action(id_server):
 	for row in enemydata:
 		enemy = EwEnemy(id_enemy=row[0], id_server=id_server)
 		enemy_statuses = enemy.getStatusEffects()
-		resp_cont = ewutils.EwResponseContainer(id_server=id_server)
+		resp_cont = ewutils.EwResponse(id_server=id_server)
 
 		# If an enemy is marked for death or has been alive too long, delete it
 		if enemy.life_state == ewcfg.enemy_lifestate_dead or (enemy.expiration_date < time_now):
@@ -316,7 +316,7 @@ async def enemy_perform_action_gvs(id_server):
 		if enemy.attacktype == ewcfg.enemy_attacktype_unarmed:
 			continue
 		
-		resp_cont = ewutils.EwResponseContainer(id_server=id_server)
+		resp_cont = ewutils.EwResponse(id_server=id_server)
 
 		# If an enemy is marked for death or has been alive too long, delete it
 		if enemy.life_state == ewcfg.enemy_lifestate_dead or (enemy.expiration_date < time_now):
@@ -415,7 +415,7 @@ def spawn_enemy(
 	time_now = int(time.time())
 	response = ""
 	ch_name = ""
-	resp_cont = ewutils.EwResponseContainer(id_server = id_server)
+	resp_cont = ewutils.EwResponse(id_server = id_server)
 	chosen_poi = ""
 	potential_chosen_poi = ""
 	threat_level = ""
@@ -695,7 +695,7 @@ def delete_enemy(enemy_data):
 # Drops items into the district when an enemy dies.
 def drop_enemy_loot(enemy_data, district_data):
 	loot_poi = ewcfg.id_to_poi.get(district_data.name)
-	loot_resp_cont = ewutils.EwResponseContainer(id_server=enemy_data.id_server)
+	loot_resp_cont = ewutils.EwResponse(id_server=enemy_data.id_server)
 	response = ""
 
 	item_counter = 0

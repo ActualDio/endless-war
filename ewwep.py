@@ -308,7 +308,7 @@ async def attack(cmd):
 	levelup_response = ""
 	shambler_resp = ""
 	coinbounty = 0
-	resp_cont = ewutils.EwResponseContainer(id_server = cmd.guild.id)
+	resp_cont = ewutils.EwResponse(id_server = cmd.guild.id)
 	market_data = EwMarket(id_server = cmd.guild.id)
 	amb_switch = 0
 	user_data = EwPlayer(member = cmd.message.author, data_level = 1)
@@ -1000,7 +1000,7 @@ async def attack(cmd):
 				# announce death in kill feed channel
 				#killfeed_channel = ewutils.get_channel(cmd.guild, ewcfg.channel_killfeed)
 				killfeed_resp = resp_cont.channel_responses[cmd.message.channel.name]
-				killfeed_resp_cont = ewutils.EwResponseContainer(id_server=cmd.guild.id)
+				killfeed_resp_cont = ewutils.EwResponse(id_server=cmd.guild.id)
 
 				for r in killfeed_resp:
 					killfeed_resp_cont.add_channel_response(ewcfg.channel_killfeed, r)
@@ -1042,7 +1042,7 @@ async def attack(cmd):
 async def suicide(cmd):
 	response = ""
 
-	resp_cont = ewutils.EwResponseContainer(id_server = cmd.guild.id)
+	resp_cont = ewutils.EwResponse(id_server = cmd.guild.id)
 
 	# Only allowed in the combat zone.
 	if ewutils.channel_name_is_poi(cmd.message.channel.name) == False:
@@ -1136,7 +1136,7 @@ def weapon_explosion(user_data = None, shootee_data = None, district_data = None
 		
 		channel = ewcfg.id_to_poi.get(user_data.poi).channel
 
-		resp_cont = ewutils.EwResponseContainer(id_server=user_data.id_server)
+		resp_cont = ewutils.EwResponse(id_server=user_data.id_server)
 
 		bystander_users = district_data.get_players_in_district(life_states=life_states, factions=factions, pvp_only=True)
 		bystander_enemies = district_data.get_enemies_in_district()
@@ -1377,7 +1377,7 @@ def weapon_explosion(user_data = None, shootee_data = None, district_data = None
 def burn_bystanders(user_data = None, burn_dmg = 0, life_states = None, factions = None, district_data = None):
 	if life_states != None and factions != None and district_data != None:
 		bystander_users = district_data.get_players_in_district(life_states=life_states, factions=factions, pvp_only=True)
-		resp_cont = ewutils.EwResponseContainer(id_server=user_data.id_server)
+		resp_cont = ewutils.EwResponse(id_server=user_data.id_server)
 		channel = ewcfg.id_to_poi.get(district_data.name).channel
 		market_data = EwMarket(id_server=user_data.id_server)
 
@@ -2431,7 +2431,7 @@ async def attackEnemy(cmd, user_data, weapon, resp_cont, weapon_item, slimeoid, 
 		killfeed_resp = "*{}*: {}".format(cmd.message.author.name, old_response)
 		killfeed_resp += "\n`-------------------------`{}".format(ewcfg.emote_megaslime)
 
-		killfeed_resp_cont = ewutils.EwResponseContainer(id_server=cmd.guild.id)
+		killfeed_resp_cont = ewutils.EwResponse(id_server=cmd.guild.id)
 		killfeed_resp_cont.add_channel_response(ewcfg.channel_killfeed, killfeed_resp)
 
 		if ewcfg.mutation_id_amnesia in user_mutations:
@@ -2847,7 +2847,7 @@ async def spray(cmd):
 				weapon.fn_effect(ctn)
 
 				# Apply effects for non-reference values
-				resp_cont = ewutils.EwResponseContainer(id_server=cmd.guild.id)
+				resp_cont = ewutils.EwResponse(id_server=cmd.guild.id)
 				miss = ctn.miss
 				crit = ctn.crit
 				slimes_damage = ctn.slimes_damage
@@ -3111,7 +3111,7 @@ async def sanitize(cmd):
 				weapon.fn_effect(ctn)
 
 				# Apply effects for non-reference values
-				resp_cont = ewutils.EwResponseContainer(id_server=cmd.guild.id)
+				resp_cont = ewutils.EwResponse(id_server=cmd.guild.id)
 				miss = ctn.miss
 				crit = ctn.crit
 				slimes_damage = ctn.slimes_damage

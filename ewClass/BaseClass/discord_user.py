@@ -1,21 +1,29 @@
 
-from ewClass.basic import EwBasic
-import random
-import time
+from ewClass import EwBasic
+#import random
+#import time
 
 import ewcfg
-import ewutils
-from ewClass.poi import EwDistrict
+#import ewutils
+#from ewClass import EwDistrict
 
 class EwDiscordUser(EwBasic):
 	""" EwDiscordUser is a representation of an actual player discord account. There is
 	one record for each person, no matter how many servers they interact with
 	endless-war on.\n
 	Attributes:
+		~~~~{inherited: EwBasic}~~~~\n
+		'id_server': int -- ID for the last server used\n
+		'name': string -- General name string\n
+
+		~~~~{Unique}~~~~\n
 		'id_user' : int -- The Discord User ID stored in the database.\n
 		'avatar' : string -- The discord avatar for this user.\n
-		(Inherited)'name' : string -- The user's display name.\n 
 	Methods:
+		~~~~{inherited: EwBasic}~~~~\n
+		'access_database' -- Access the database through a sequel query\n
+		
+		~~~~{Unique}~~~~\n
 		'__init__' -- Accesses the database to populate the object or generates a new entry in the database.\n
 		'persist' -- Save object data to the database.\n
 	"""
