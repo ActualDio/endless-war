@@ -1,0 +1,79 @@
+{   
+    "quadrants":{
+
+        "flushed":{
+
+            "aliases" : ["maw", "maws", "soulvent", "soulution", "pinked", "pink", "hotpink",
+            "brightpink", "flushed", "heart", "hearts", "matesprit", "matespritship"],
+
+            "resp_add_onesided" : "You have developed sloshed feelings for {}.",
+            "resp_add_relationship" : "You have entered into a soulution with {}.",
+            "resp_view_onesided" : "{} has a one-sided pink crush on {}.",
+            "resp_view_onesided_self" : "You have a one-sided pink crush on {}.",
+            "emote" : "<:q_maws:752228834027241554>",
+            "resp_view_relationship" : "{} is in a soulution with {}. ",
+            "resp_view_relationship_self" : "You are in a soulution with {}. "
+            },
+
+        "pale":{
+
+            "aliases" : ["hat", "hats", "bedenizen", "bedenaissance", "denizen", "palepink", "pastelpink", 
+            "pale", "diamond", "diamonds", "moirail", "moiraillegiance"], 
+            "resp_add_onesided" : "You have developed roseate feelings for {}.",
+            "resp_add_relationship" : "You have entered into a bedenaissance with {}.",
+            "resp_view_onesided" : "{} has a one-sided roseate crush on {}.",
+            "resp_view_onesided_self" : "You have a one-sided roseate crush on {}.",
+            "emote" : "<:q_hats:752228833968783441>",
+            "resp_view_relationship" : "{} is in a bedenaissance with {}. ",
+            "resp_view_relationship_self" : "You are in a bedenaissance with {}. "
+            },
+
+        "caliginous":{
+
+            "aliases" : ["slug", "slugs", "amaranthagonist", "amaranthagony", "antagonist", "agony",
+            "purple", "violent", "violet", "hotpurple", "caliginous", "spade", "spades", "kismesis", "kismesissitude"], 
+
+            "resp_add_onesided" : "You have developed violacious feelings for {}.",
+            "resp_add_relationship" : "You have entered into a amaranthagony with {}.",
+            "resp_view_onesided" : "{} has a one-sided violet crush on {}.",
+            "resp_view_onesided_self" : "You have a one-sided violet crush on {}.",
+            "emote" : "<:q_slugs:752228834333556756>",
+            "resp_view_relationship" : "{} is in a amaranthagony with {}. ",
+            "resp_view_relationship_self" : "You are in a amaranthagony with {}. "
+            },
+
+        "ashen":{
+
+            "aliases" : ["shield", "shields", "arbitraitor", "arbitreason", "police", "traitor", "treason",
+            "lightpurple", "pastelpurple", "ashen", "club", "clubs", "auspistice", "auspisticism"],
+
+            "resp_add_onesided" : "You have developed policitous feelings for {}.",
+            "resp_add_relationship" : "You have entered into an arbitreason with {}.",
+            "resp_view_onesided" : "{} has a one-sided policitous crush on {}.",
+            "resp_view_onesided_self" : "You have a one-sided policitous crush on {}.",
+            "emote" : "<:q_shields:752228833897218159>",
+            "resp_view_relationship" : "{} is in an arbitreason with {}. ",
+            "resp_view_relationship_self" : "You are in an arbitreason with {}. "
+        }
+    },    
+
+    "quadrants_comments_onesided" : [
+		"Adorable~",
+		"GAY!",
+		"Disgusting.",
+		"How embarrassing!",
+		"Epic.",
+		"Have you no shame...?",
+		"As if you'd ever have a shot with them."
+	],
+
+    "quadrants_comments_relationship" : [
+		"Adorable~",
+		"GAY!",
+		"Disgusting.",
+		"How embarrassing!",
+		"Epic.",
+		"Have you no shame...?",
+		"Lke that's gonna last."
+    ]
+}

@@ -1,0 +1,1733 @@
+{
+    "coolcosmetic": {
+        "str_name": "a cool cosmetic",
+        "alias": [
+            "cool",
+            "coolhat"
+        ],
+        "ingredients": {
+            "slimepoudrin": 4,
+            "coolbeans": 1
+        },
+        "products": [
+            "baseballcap",
+            "backwardsbaseballcap",
+            "piratehat",
+            "eyepatch",
+            "cigarette",
+            "pairofsunglasses",
+            "beanie",
+            "jestershat",
+            "pairof3dglasses",
+            "cowboyhat",
+            "varsityjacket",
+            "sombrero",
+            "captainshat",
+            "hoodie",
+            "pairofcircularsunglasses",
+            "halloweenmedallion",
+            "pileus",
+            "janusmask",
+            "leatherjacket",
+            "afrowig",
+            "pompadourwig",
+            "rainbowafrowig",
+            "vrheadset",
+            "chickenmask",
+            "tikihead",
+            "rollerblades"
+        ]
+    },
+    "toughcosmetic": {
+        "str_name": "a tough cosmetic",
+        "alias": [
+            "tough",
+            "toughhat"
+        ],
+        "ingredients": {
+            "slimepoudrin": 4,
+            "toughnails": 1
+        },
+        "products": [
+            "mininghelmet",
+            "pickelhaube",
+            "headband",
+            "handkerchief",
+            "bandanna",
+            "bomberhat",
+            "vikinghelmet",
+            "kepi",
+            "tamoshanter",
+            "ushanka",
+            "karategi",
+            "kilt",
+            "cigar",
+            "cabbagetreehat",
+            "strawhat",
+            "spikedbracelets",
+            "overalls",
+            "rustynail",
+            "fullmetaljacket",
+            "knightarmor",
+            "gasmask",
+            "firefightershelmet",
+            "blindfold",
+            "aviatorshat"
+        ]
+    },
+    "smartcosmetic": {
+        "str_name": "a smart cosmetic",
+        "alias": [
+            "smart",
+            "smarthat"
+        ],
+        "ingredients": {
+            "slimepoudrin": 4,
+            "smartcookies": 1
+        },
+        "products": [
+            "fedora",
+            "pairofglasses",
+            "scarf",
+            "witchhat",
+            "pairofflipflops",
+            "fez",
+            "bowtie",
+            "hawaiianshirt",
+            "earbuds",
+            "bowlerhat",
+            "braces",
+            "copbadge",
+            "slimecorppin",
+            "tinfoilhat",
+            "raincoat",
+            "powderedwig",
+            "ghostlygibus",
+            "pairofpoindexterglasses",
+            "mountiehat",
+            "bearskinhat",
+            "reinforcedkfcbucket"
+        ]
+    },
+    "beautifulcosmetic": {
+        "str_name": "a beautiful cosmetic",
+        "alias": [
+            "beautiful",
+            "beautifulhat"
+        ],
+        "ingredients": {
+            "slimepoudrin": 4,
+            "beautyspots": 1
+        },
+        "products": [
+            "tuxedo",
+            "necktie",
+            "turban",
+            "nemes",
+            "diadem",
+            "billshat",
+            "weddingring",
+            "nursesoutfit",
+            "resplendentcoronet",
+            "seacowcostume",
+            "militaryberet"
+        ]
+    },
+    "cutecosmetic": {
+        "str_name": "a cute cosmetic",
+        "alias": [
+            "cute",
+            "cutehat"
+        ],
+        "ingredients": {
+            "slimepoudrin": 4,
+            "cutebuttons": 1
+        },
+        "products": [
+            "propellerhat",
+            "birthdayhat",
+            "fursuit",
+            "heartboxers",
+            "juveolantern",
+            "cosplayhorns",
+            "yourfavoritehat",
+            "pajamaonesie",
+            "flowercrown",
+            "wrappingpaperhat",
+            "velcroshoes",
+            "crocs",
+            "duncecap",
+            "felinehat",
+            "reinforcedjuveolantern"
+        ]
+    },
+    "knightarmor": {
+        "str_name": "a set of Knight Armor",
+        "alias": [
+            "armor"
+        ],
+        "ingredients": {
+            "ironingot": 2
+        },
+        "products": [
+            "knightarmor"
+        ]
+    },
+    "monstersoup": {
+        "str_name": "a bowl of Monster Soup",
+        "alias": [
+            "soup",
+            "meatsoup",
+            "stew",
+            "meatstew",
+            "monstersoup",
+            "monster soup"
+        ],
+        "ingredients": {
+            "monsterbones": 5,
+            "dinoslimemeat": 1
+        },
+        "products": [
+            "monstersoup"
+        ]
+    },
+    "quadruplestuffedcrust": {
+        "str_name": "a Quadruple Stuffed Crust",
+        "alias": [
+            "qsc",
+            "quadruple",
+            "quadruplestuffed"
+        ],
+        "ingredients": {
+            "doublestuffedcrust": 2
+        },
+        "products": [
+            "quadruplestuffedcrust"
+        ]
+    },
+    "octuplestuffedcrust": {
+        "str_name": "an Octuple Stuffed Crust",
+        "alias": [
+            "osc",
+            "octuple",
+            "octuplestuffed"
+        ],
+        "ingredients": {
+            "quadruplestuffedcrust": 2
+        },
+        "products": [
+            "octuplestuffedcrust"
+        ]
+    },
+    "sexdecuplestuffedcrust": {
+        "str_name": "a Sexdecuple Stuffed Crust",
+        "alias": [
+            "sdsc",
+            "sexdecuple",
+            "sexdecuplestuffed"
+        ],
+        "ingredients": {
+            "octuplestuffedcrust": 2
+        },
+        "products": [
+            "sexdecuplestuffedcrust"
+        ]
+    },
+    "duotrigintuplestuffedcrust": {
+        "str_name": "a Duotrigintuple Stuffed Crust",
+        "alias": [
+            "dtsc",
+            "duotrigintuple",
+            "duotrigintuplestuffed"
+        ],
+        "ingredients": {
+            "sexdecuplestuffedcrust": 2
+        },
+        "products": [
+            "duotrigintuplestuffedcrust"
+        ]
+    },
+    "quattuorsexagintuplestuffedcrust": {
+        "str_name": "a Quattuorsexagintuple Stuffed Crust",
+        "alias": [
+            "qssc",
+            "quattuorsexagintuple",
+            "quattuorsexagintuplestuffed"
+        ],
+        "ingredients": {
+            "duotrigintuplestuffedcrust": 2
+        },
+        "products": [
+            "quattuorsexagintuplestuffedcrust"
+        ]
+    },
+    "theforbiddenstuffedcrust": {
+        "str_name": "a Forbidden Stuffed Crust",
+        "alias": [
+            "fsc",
+            "forbiddenstuffedcrust"
+        ],
+        "ingredients": {
+            "quattuorsexagintuplestuffedcrust": 2,
+            "theforbiddenoneoneone": 1
+        },
+        "products": [
+            "theforbiddenstuffedcrust"
+        ]
+    },
+    "theforbiddenoneoneone": {
+        "str_name": "The Forbidden <:111:431547758181220377>",
+        "alias": [
+            "forbiddenone",
+            "forbidden",
+            "sealed",
+            "exodia",
+            "oneoneone",
+            "forbidden111",
+            ":111:"
+        ],
+        "ingredients": {
+            "leftleg": 1,
+            "rightleg": 1,
+            "slimexodia": 1,
+            "rightarm": 1,
+            "leftarm": 1
+        },
+        "products": [
+            "theforbiddenoneoneone"
+        ]
+    },
+    "pickaxe": {
+        "str_name": "a Poudrin Pickaxe",
+        "alias": [
+            "pp",
+            "poudrinpick",
+            "poudrinpickaxe",
+            "pick"
+        ],
+        "ingredients": {
+            "slimepoudrin": 3,
+            "stick": 2
+        },
+        "products": [
+            "pickaxe"
+        ]
+    },
+    "faggot": {
+        "str_name": "a Faggot",
+        "alias": [
+            "f",
+            "fag"
+        ],
+        "ingredients": {
+            "stick": 3
+        },
+        "products": [
+            "faggot"
+        ]
+    },
+    "doublefaggot": {
+        "str_name": "a Double Faggot",
+        "alias": [
+            "df",
+            "dfag"
+        ],
+        "ingredients": {
+            "faggot": 2
+        },
+        "products": [
+            "doublefaggot"
+        ]
+    },
+    "dinoslimesteak": {
+        "str_name": "a cooked piece of Dinoslime meat",
+        "alias": [
+            "cookedmeat",
+            "dss"
+        ],
+        "ingredients": {
+            "faggot": 1,
+            "dinoslimemeat": 1
+        },
+        "products": [
+            "dinoslimesteak"
+        ]
+    },
+    "fishingrod": {
+        "str_name": "a fishing rod",
+        "alias": [
+            "fish",
+            "fishing",
+            "rod",
+            "fr"
+        ],
+        "ingredients": {
+            "string": 2,
+            "stick": 3
+        },
+        "products": [
+            "fishingrod"
+        ]
+    },
+    "bass": {
+        "str_name": "a Bass Guitar",
+        "alias": [
+            "bassguitar"
+        ],
+        "ingredients": {
+            "thebassedgod": 1,
+            "string": 4
+        },
+        "products": [
+            "bass"
+        ]
+    },
+    "bow": {
+        "str_name": "a Minecraft Bow",
+        "alias": [
+            "minecraft bow"
+        ],
+        "ingredients": {
+            "stick": 3,
+            "string": 3
+        },
+        "products": [
+            "bow"
+        ]
+    },
+    "ironingot": {
+        "str_name": "an Iron Ingot",
+        "alias": [
+            "ingotmetal",
+            "ironingot",
+            "iron ingot"
+        ],
+        "ingredients": {
+            "tincan": 10,
+            "faggot": 1
+        },
+        "products": [
+            "ironingot"
+        ]
+    },
+    "tanningknife": {
+        "str_name": "a small tanning knife",
+        "alias": [
+            "knife",
+            "tanningknife",
+            "tanning"
+        ],
+        "ingredients": {
+            "ironingot": 1
+        },
+        "products": [
+            "tanningknife"
+        ]
+    },
+    "leather": {
+        "str_name": "a piece of leather",
+        "alias": [
+            "leather"
+        ],
+        "ingredients": {
+            "oldboot": 10,
+            "tanningknife": 1
+        },
+        "products": [
+            "leather"
+        ]
+    },
+    "bloodstone": {
+        "str_name": "a chunk of bloodstone",
+        "alias": [
+            "bloodstone",
+            "bstone"
+        ],
+        "ingredients": {
+            "monsterbones": 100,
+            "faggot": 1
+        },
+        "products": [
+            "bloodstone"
+        ]
+    },
+    "dclaw": {
+        "str_name": "a Dragon Claw",
+        "alias": [
+            "dragonclaw",
+            "claw",
+            "dclaw"
+        ],
+        "ingredients": {
+            "dragonsoul": 1,
+            "slimepoudrin": 5,
+            "ironingot": 1,
+            "leather": 1
+        },
+        "products": [
+            "dclaw"
+        ]
+    },
+    "staff": {
+        "str_name": "an eldritch staff",
+        "alias": [
+            "eldritchstaff",
+            "spookystaff",
+            "reprehensiblerod",
+            "wickedwand",
+            "frighteningfaggot"
+        ],
+        "ingredients": {
+            "doublefaggot": 1,
+            "negapoudrin": 1
+        },
+        "products": [
+            "staff"
+        ]
+    },
+    "leathercouch": {
+        "str_name": "a leather couch",
+        "alias": [
+            "humancouch"
+        ],
+        "ingredients": {
+            "couch": 1,
+            "scalp": 10
+        },
+        "products": [
+            "leathercouch"
+        ]
+    },
+    "leatherchair": {
+        "str_name": "a leather chair",
+        "alias": [
+            "humanchair"
+        ],
+        "ingredients": {
+            "chair": 1,
+            "scalp": 5
+        },
+        "products": [
+            "leatherchair"
+        ]
+    },
+    "leatherlamp": {
+        "str_name": "a leather coated lamp",
+        "alias": [
+            "humanlamp"
+        ],
+        "ingredients": {
+            "lamp": 1,
+            "scalp": 3
+        },
+        "products": [
+            "leatherlamp"
+        ]
+    },
+    "leatherdesk": {
+        "str_name": "a leather desk",
+        "alias": [
+            "humandesk"
+        ],
+        "ingredients": {
+            "desk": 1,
+            "scalp": 4
+        },
+        "products": [
+            "leatherdesk"
+        ]
+    },
+    "leatherbed": {
+        "str_name": "a leather bed",
+        "alias": [
+            "humanbed"
+        ],
+        "ingredients": {
+            "bed": 1,
+            "scalp": 12
+        },
+        "products": [
+            "leatherbed"
+        ]
+    },
+    "seaweedjoint": {
+        "str_name": "a seaweed joint",
+        "alias": [
+            "joint",
+            "seaweed",
+            "weed",
+            "doobie",
+            "blunt"
+        ],
+        "ingredients": {
+            "seaweed": 3,
+            "dankwheat": 1,
+            "slimepoudrin": 1
+        },
+        "products": [
+            "seaweedjoint"
+        ]
+    },
+    "slimepoudrin": {
+        "str_name": "a slime poudrin",
+        "alias": [
+            "poudrin",
+            "poud",
+            "pou",
+            "poodrin"
+        ],
+        "ingredients": {
+            "royaltypoudrin": 2
+        },
+        "products": [
+            "slimepoudrin"
+        ]
+    },
+    "humancorpse": {
+        "str_name": "a corpse",
+        "alias": [
+            "stiff",
+            "corpse",
+            "deadperson",
+            "cadaver"
+        ],
+        "ingredients": {
+            "scalp": 20,
+            "dinoslimemeat": 2,
+            "string": 2
+        },
+        "products": [
+            "humancorpse"
+        ]
+    },
+    "popeonarope": {
+        "str_name": "a pope on a rope",
+        "alias": [
+            "pope",
+            "francis",
+            "deadpope",
+            "sacrilege"
+        ],
+        "ingredients": {
+            "humancorpse": 1,
+            "diadem": 1,
+            "scarf": 1,
+            "confessionbooth": 1
+        },
+        "products": [
+            "popeonarope"
+        ]
+    },
+    "reanimatedcorpse": {
+        "str_name": "a reanimated corpse",
+        "alias": [
+            "frankenstein",
+            "reanimate",
+            "revenant"
+        ],
+        "ingredients": {
+            "humancorpse": 1,
+            "soul": 1
+        },
+        "products": [
+            "reanimatedcorpse"
+        ]
+    },
+    "soul": {
+        "str_name": "a soul",
+        "alias": [
+            "spirit",
+            "essence",
+            "hippiebullshit"
+        ],
+        "ingredients": {
+            "reanimatedcorpse": 1
+        },
+        "products": [
+            "soul"
+        ]
+    },
+    "humanskeleton": {
+        "str_name": "a human skeleton",
+        "ingredients": {
+            "bone": 206
+        },
+        "products": [
+            "humanskeleton"
+        ]
+    },
+    "monsterskeleton": {
+        "str_name": "a wild beast's skeleton",
+        "ingredients": {
+            "monsterbones": 200
+        },
+        "products": [
+            "dinoslimeskeleton",
+            "slimeadactylskeleton",
+            "mammoslimeskeleton",
+            "slimeasaurusskeleton",
+            "slimedragonskeleton"
+        ]
+    },
+    "handmadechair": {
+        "str_name": "a handmade chair",
+        "alias": [
+            "woodchair",
+            "carvedchair",
+            "woodenchair",
+            "ornatechair"
+        ],
+        "ingredients": {
+            "stick": 5,
+            "bat": 2
+        },
+        "products": [
+            "ornatechair",
+            "shittychair"
+        ]
+    },
+    "handmadebench": {
+        "str_name": "a handmade bench",
+        "alias": [
+            "woodbench",
+            "carvedbench",
+            "woodenbench",
+            "ornatebench"
+        ],
+        "ingredients": {
+            "stick": 10,
+            "bat": 4
+        },
+        "products": [
+            "ornatebench",
+            "shittybench"
+        ]
+    },
+    "handmadebed": {
+        "str_name": "a handmade bed",
+        "alias": [
+            "woodbed",
+            "carvedbed",
+            "woodenbed",
+            "ornatebed"
+        ],
+        "ingredients": {
+            "stick": 12,
+            "bat": 3
+        },
+        "products": [
+            "ornatebed",
+            "shittybed"
+        ]
+    },
+    "handmadedesk": {
+        "str_name": "a handmade desk",
+        "alias": [
+            "wooddesk",
+            "carveddesk",
+            "woodendesk",
+            "ornatedesk"
+        ],
+        "ingredients": {
+            "stick": 4,
+            "bat": 1
+        },
+        "products": [
+            "ornatedesk",
+            "shittydesk"
+        ]
+    },
+    "clarinet": {
+        "str_name": "a clarinet",
+        "alias": [
+            "flute",
+            "bennygoodmanthing",
+            "vuvuzela"
+        ],
+        "ingredients": {
+            "bat": 1,
+            "razornuts": 1,
+            "knives": 1,
+            "blacklimes": 1,
+            "direappleciderfuckenergy": 1,
+            "sweetfish": 1
+        },
+        "products": [
+            "craftsmansclarinet",
+            "woodenvuvuzela"
+        ]
+    },
+    "guitar": {
+        "str_name": "a solid poudrin guitar",
+        "alias": [
+            "poudringuitar",
+            "electricguitar",
+            "solidpoudringuitar"
+        ],
+        "ingredients": {
+            "slimepoudrin": 150,
+            "string": 6
+        },
+        "products": [
+            "solidpoudringuitar"
+        ]
+    },
+    "drums": {
+        "str_name": "a beast skin drums",
+        "alias": [
+            "beastskindrums",
+            "drumset",
+            "drum"
+        ],
+        "ingredients": {
+            "dinoslimemeat": 5,
+            "dinoslimesteak": 2,
+            "scalp": 5,
+            "string": 3,
+            "stick": 2
+        },
+        "products": [
+            "beastskindrums"
+        ]
+    },
+    "xylophone": {
+        "str_name": "a fish bone xylophone",
+        "alias": [
+            "xylo",
+            "metallophone",
+            "fishbonexylophone"
+        ],
+        "ingredients": {
+            "nuclearbream": 1,
+            "largebonedlionfish": 2,
+            "plebefish": 3,
+            "sweetfish": 1,
+            "stick": 1
+        },
+        "products": [
+            "fishbonexylophone"
+        ]
+    },
+    "maracas": {
+        "str_name": "a gourd maracas",
+        "alias": [
+            "gourdmaracas",
+            "shakers",
+            "rattle"
+        ],
+        "ingredients": {
+            "pulpgourds": 1,
+            "suganmanuts": 1,
+            "sludgeberries": 1,
+            "razornuts": 1,
+            "joybeans": 1,
+            "phosphorpoppies": 1
+        },
+        "products": [
+            "gourdmaracas"
+        ]
+    },
+    "saxophone": {
+        "str_name": "a saxophone",
+        "alias": [
+            "sax",
+            "saxamaphone"
+        ],
+        "ingredients": {
+            "shotgun": 1,
+            "earlbrowntea": 1,
+            "metallicapheads": 4,
+            "cutebuttons": 10,
+            "aushuckstalks": 1,
+            "slimepoudrin": 5
+        },
+        "products": [
+            "saxophone"
+        ]
+    },
+    "cornet": {
+        "str_name": "a cornet",
+        "alias": [
+            "trumpet",
+            "horn",
+            "trump"
+        ],
+        "ingredients": {
+            "slimeringcan": 1,
+            "goobalibre": 1,
+            "steelbeanpods": 2,
+            "toughnails": 10,
+            "aushuckstalks": 2,
+            "slimepoudrin": 6
+        },
+        "products": [
+            "cornet"
+        ]
+    },
+    "trombone": {
+        "str_name": "a trombone",
+        "alias": [
+            "tbone",
+            "bestinstrument",
+            "sackbut"
+        ],
+        "ingredients": {
+            "shotgun": 2,
+            "manhattanproject": 1,
+            "metallicapheads": 1,
+            "smartcookies": 10,
+            "aushuckstalks": 3,
+            "slimepoudrin": 10
+        },
+        "products": [
+            "trombone"
+        ]
+    },
+    "whitedye": {
+        "str_name": "a vial of White Dye",
+        "alias": [
+            "white"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "poketubereyes": 1
+        },
+        "products": [
+            "whitedye"
+        ]
+    },
+    "yellowdye": {
+        "str_name": "a vial of Yellow Dye",
+        "alias": [
+            "yellow"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "pulpgourdpulp": 1
+        },
+        "products": [
+            "yellowdye"
+        ]
+    },
+    "orangedye": {
+        "str_name": "a vial of Orange Dye",
+        "alias": [
+            "orange"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "sourpotatoskins": 1
+        },
+        "products": [
+            "orangedye"
+        ]
+    },
+    "reddye": {
+        "str_name": "a vial of Red Dye",
+        "alias": [
+            "red"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "bloodcabbageleaves": 1
+        },
+        "products": [
+            "reddye"
+        ]
+    },
+    "magentadye": {
+        "str_name": "a vial of Magenta Dye",
+        "alias": [
+            "magenta"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "joybeanvines": 1
+        },
+        "products": [
+            "magentadye"
+        ]
+    },
+    "purpledye": {
+        "str_name": "a vial of Purple Dye",
+        "alias": [
+            "purple"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "purplekilliflowerflorets": 1
+        },
+        "products": [
+            "purpledye"
+        ]
+    },
+    "bluedye": {
+        "str_name": "a vial of Blue Dye",
+        "alias": [
+            "blue"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "razornutshells": 1
+        },
+        "products": [
+            "bluedye"
+        ]
+    },
+    "greendye": {
+        "str_name": "a vial of Green Dye",
+        "alias": [
+            "green"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "pawpawflesh": 1
+        },
+        "products": [
+            "greendye"
+        ]
+    },
+    "tealdye": {
+        "str_name": "a vial of Teal Dye",
+        "alias": [
+            "teal"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "sludgeberrysludge": 1
+        },
+        "products": [
+            "tealdye"
+        ]
+    },
+    "rainbowdye": {
+        "str_name": "a vial of ***Rainbow Dye***",
+        "alias": [
+            "rainbow"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "suganmanutfruit": 1
+        },
+        "products": [
+            "rainbowdye"
+        ]
+    },
+    "pinkdye": {
+        "str_name": "a vial of Pink Dye",
+        "alias": [
+            "pink"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "pinkrowddishroot": 1
+        },
+        "products": [
+            "pinkdye"
+        ]
+    },
+    "greydye": {
+        "str_name": "a vial of Grey Dye",
+        "alias": [
+            "grey"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "dankwheatchaff": 1
+        },
+        "products": [
+            "greydye"
+        ]
+    },
+    "cobaltdye": {
+        "str_name": "a vial of Cobalt Dye",
+        "alias": [
+            "cobalt"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "brightshadeberries": 1
+        },
+        "products": [
+            "cobaltdye"
+        ]
+    },
+    "blackdye": {
+        "str_name": "a vial of Black Dye",
+        "alias": [
+            "black"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "blacklimeade": 1
+        },
+        "products": [
+            "blackdye"
+        ]
+    },
+    "limedye": {
+        "str_name": "a vial of Lime Dye",
+        "alias": [
+            "lime"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "phosphorpoppypetals": 1
+        },
+        "products": [
+            "limedye"
+        ]
+    },
+    "cyandye": {
+        "str_name": "a vial of Cyan Dye",
+        "alias": [
+            "cyan"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "direapplestems": 1
+        },
+        "products": [
+            "cyandye"
+        ]
+    },
+    "browndye": {
+        "str_name": "a vial of Brown dye",
+        "alias": [
+            "brown"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "rustealeafblades": 1
+        },
+        "products": [
+            "browndye"
+        ]
+    },
+    "copperpaint": {
+        "str_name": "a bucket of Copper Paint",
+        "alias": [
+            "copper"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "metallicapheads": 1
+        },
+        "products": [
+            "copperpaint"
+        ]
+    },
+    "chromepaint": {
+        "str_name": "a bucket of Chrome Paint",
+        "alias": [
+            "chrome"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "steelbeanpods": 1
+        },
+        "products": [
+            "chromepaint"
+        ]
+    },
+    "goldpaint": {
+        "str_name": "a bucket of Gold Paint",
+        "alias": [
+            "gold"
+        ],
+        "ingredients": {
+            "dyesolution": 1,
+            "aushuckstalks": 1
+        },
+        "products": [
+            "goldpaint"
+        ]
+    },
+    "jellyfilleddoughnut": {
+        "str_name": "a Jelly Filled Donut",
+        "alias": [
+            "donut",
+            "doughnut"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "poketubereyes": 1
+        },
+        "products": [
+            "jellyfilleddoughnut"
+        ]
+    },
+    "pulpgourdpie": {
+        "str_name": "a plate of Pulp Gourd Pie",
+        "alias": [
+            "pie"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "pulpgourdpulp": 1
+        },
+        "products": [
+            "pulpgourdpie"
+        ]
+    },
+    "sourpotatofrenchfries": {
+        "str_name": "a plate of Sour Potato French Fries",
+        "alias": [
+            "fries",
+            "frenchfries"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "sourpotatoskins": 1
+        },
+        "products": [
+            "sourpotatofrenchfries"
+        ]
+    },
+    "bloodcabbagecoleslaw": {
+        "str_name": "a tub of Blood Cabbage Coleslaw",
+        "alias": [
+            "coleslaw",
+            "redcoleslaw",
+            "blood"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "bloodcabbageleaves": 1
+        },
+        "products": [
+            "bloodcabbagecoleslaw"
+        ]
+    },
+    "joybeanpastemochi": {
+        "str_name": "a pile of Joybean Paste Mochi",
+        "alias": [
+            "mochi"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "joybeanvines": 1
+        },
+        "products": [
+            "joybeanpastemochi"
+        ]
+    },
+    "purplekilliflowercrustpizza": {
+        "str_name": "a plate of Purple Killiflower Crust Pizza",
+        "alias": [
+            "pizza",
+            "cauliflowercrustpizza"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "purplekilliflowerflorets": 1
+        },
+        "products": [
+            "purplekilliflowercrustpizza"
+        ]
+    },
+    "razornutbutter": {
+        "str_name": "a tub of Razornut Butter",
+        "alias": [
+            "butter"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "razornutshells": 1
+        },
+        "products": [
+            "razornutbutter"
+        ]
+    },
+    "pawpawfood": {
+        "str_name": "a plate of Pawpaw Food",
+        "alias": [
+            "food"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "pawpawflesh": 1
+        },
+        "products": [
+            "pawpawfood"
+        ]
+    },
+    "sludgeberrypancakes": {
+        "str_name": "a plate of Sludgeberry Pancakes",
+        "alias": [
+            "pancakes"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "sludgeberrysludge": 1
+        },
+        "products": [
+            "sludgeberrypancakes"
+        ]
+    },
+    "yourfavoritefood": {
+        "str_name": "a plate of ***Your Favorite Food***",
+        "alias": [
+            "favoritefood",
+            "favefood"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "suganmanutfruit": 1
+        },
+        "products": [
+            "yourfavoritefood"
+        ]
+    },
+    "pinkrowdatouille": {
+        "str_name": "a plate of Pink Rowdatouille",
+        "alias": [
+            "rowdatouille"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "pinkrowddishroot": 1
+        },
+        "products": [
+            "pinkrowdatouille"
+        ]
+    },
+    "dankwheattoast": {
+        "str_name": "a plate of Dankwheat Toast",
+        "alias": [
+            "toast"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "dankwheatchaff": 1
+        },
+        "products": [
+            "dankwheattoast"
+        ]
+    },
+    "brightshadeseeds": {
+        "str_name": "some Brightshade Seeds",
+        "alias": [
+            "seeds"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "brightshadeberries": 1
+        },
+        "products": [
+            "brightshadeseeds"
+        ]
+    },
+    "blacklimesour": {
+        "str_name": "some Black Lime Sours",
+        "alias": [
+            "sours",
+            "sour"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "blacklimeade": 1
+        },
+        "products": [
+            "blacklimesour"
+        ]
+    },
+    "phosphorpoppiesmuffin": {
+        "str_name": "a Phosphorpoppies Muffin",
+        "alias": [
+            "muffin",
+            "muffins"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "phosphorpoppypetals": 1
+        },
+        "products": [
+            "phosphorpoppiesmuffin"
+        ]
+    },
+    "direapplejuice": {
+        "str_name": "a bottle of Dire Apple Juice",
+        "alias": [
+            "juice",
+            "applejuice",
+            "appyjuice"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "direapplestems": 1
+        },
+        "products": [
+            "direapplejuice"
+        ]
+    },
+    "earlbrowntea": {
+        "str_name": "a cup of Earl Brown Tea",
+        "alias": [
+            "tea"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "rustealeafblades": 1
+        },
+        "products": [
+            "earlbrowntea"
+        ]
+    },
+    "badshroomz": {
+        "str_name": "some Bad Shroomz",
+        "alias": [
+            "shrooms",
+            "mushrooms",
+            "shroomz"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "metallicapheads": 1
+        },
+        "products": [
+            "badshroomz"
+        ]
+    },
+    "chromaccino": {
+        "str_name": "a Chromaccino",
+        "alias": [
+            "cappuccino",
+            "chroma"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "steelbeanpods": 1
+        },
+        "products": [
+            "chromaccino"
+        ]
+    },
+    "moltenpopcorn": {
+        "str_name": "a bag of Molten Popcorn",
+        "alias": [
+            "popcorn"
+        ],
+        "ingredients": {
+            "foodbase": 1,
+            "aushuckstalks": 1
+        },
+        "products": [
+            "moltenpopcorn"
+        ]
+    },
+    "captainshat": {
+        "str_name": "a Captain's Hat",
+        "alias": [
+            "captain"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "poketubereyes": 1
+        },
+        "products": [
+            "captainshat"
+        ]
+    },
+    "juveolantern": {
+        "str_name": "a Juve-O' Lantern",
+        "alias": [
+            "juve",
+            "jackolantern"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "pulpgourdpulp": 1
+        },
+        "products": [
+            "juveolantern"
+        ]
+    },
+    "bowlerhat": {
+        "str_name": "a Bowler Hat",
+        "alias": [
+            "bowler"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "sourpotatoskins": 1
+        },
+        "products": [
+            "bowlerhat"
+        ]
+    },
+    "cabbagetreehat": {
+        "str_name": "a Cabbage Tree Hat",
+        "alias": [
+            "cabbagehat"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "bloodcabbageleaves": 1
+        },
+        "products": [
+            "cabbagetreehat"
+        ]
+    },
+    "braces": {
+        "str_name": "some Braces",
+        "alias": [
+            "headgear"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "joybeanvines": 1
+        },
+        "products": [
+            "braces"
+        ]
+    },
+    "hoodie": {
+        "str_name": "a Hoodie",
+        "alias": [
+            "hood"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "purplekilliflowerflorets": 1
+        },
+        "products": [
+            "hoodie"
+        ]
+    },
+    "copbadge": {
+        "str_name": "a Cop Badge",
+        "alias": [
+            "badge"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "razornutshells": 1
+        },
+        "products": [
+            "copbadge"
+        ]
+    },
+    "strawhat": {
+        "str_name": "a Straw Hat",
+        "alias": [
+            "straw"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "pawpawflesh": 1
+        },
+        "products": [
+            "strawhat"
+        ]
+    },
+    "cosplayhorns": {
+        "str_name": "a pair of Cosplay Horns",
+        "alias": [
+            "horns"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "sludgeberrysludge": 1
+        },
+        "products": [
+            "cosplayhorns"
+        ]
+    },
+    "yourfavoritehat": {
+        "str_name": "***Your Favorite Hat***",
+        "alias": [
+            "favoritehat",
+            "favehat"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "suganmanutfruit": 1
+        },
+        "products": [
+            "yourfavoritehat"
+        ]
+    },
+    "pajamaonesie": {
+        "str_name": "a Pajama Onesie",
+        "alias": [
+            "pajamas",
+            "onesie"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "pinkrowddishroot": 1
+        },
+        "products": [
+            "pajamaonesie"
+        ]
+    },
+    "pairofcircularsunglasses": {
+        "str_name": "a Pair Of Circular Sunglasses",
+        "alias": [
+            "digibroglasses",
+            "circleglasses",
+            "circularglasses"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "dankwheatchaff": 1
+        },
+        "products": [
+            "pairofcircularsunglasses"
+        ]
+    },
+    "flowercrown": {
+        "str_name": "a Flower Crown",
+        "alias": [
+            "flower"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "brightshadeberries": 1
+        },
+        "products": [
+            "flowercrown"
+        ]
+    },
+    "spikedbracelets": {
+        "str_name": "a pair of Spiked Bracelets",
+        "alias": [
+            "spiked",
+            "bracelets"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "blacklimeade": 1
+        },
+        "products": [
+            "spikedbracelets"
+        ]
+    },
+    "slimecorppin": {
+        "str_name": "a SlimeCorp Pin",
+        "alias": [
+            "pin",
+            "shillpin"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "phosphorpoppypetals": 1
+        },
+        "products": [
+            "slimecorppin"
+        ]
+    },
+    "overalls": {
+        "str_name": "a pair of Overalls",
+        "alias": [
+            "trousers"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "direapplestems": 1
+        },
+        "products": [
+            "overalls"
+        ]
+    },
+    "rustynail": {
+        "str_name": "a Rusty Nail",
+        "alias": [
+            "nail"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "rustealeafblades": 1
+        },
+        "products": [
+            "rustynail"
+        ]
+    },
+    "fullmetaljacket": {
+        "str_name": "a Full Metal Jacket",
+        "alias": [
+            "jacket",
+            "metaljacket"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "metallicapheads": 1
+        },
+        "products": [
+            "fullmetaljacket"
+        ]
+    },
+    "tinfoilhat": {
+        "str_name": "a Tinfoil Hat",
+        "alias": [
+            "tinfoil"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "steelbeanpods": 1
+        },
+        "products": [
+            "tinfoilhat"
+        ]
+    },
+    "resplendentcoronet": {
+        "str_name": "a Resplendent Coronet",
+        "alias": [
+            "crown",
+            "goldcrown"
+        ],
+        "ingredients": {
+            "textiles": 1,
+            "aushuckstalks": 1
+        },
+        "products": [
+            "resplendentcoronet"
+        ]
+    },
+    "stick": {
+        "str_name": "a stick",
+        "alias": [
+            "wood"
+        ],
+        "ingredients": {
+            "direapplestems": 3
+        },
+        "products": [
+            "stick"
+        ]
+    },
+    "rollerblades": {
+        "str_name": "a pair of rollerblades",
+        "alias": [
+            "rollerblades",
+            "inlineskates",
+            "skates",
+            "jsr"
+        ],
+        "ingredients": {
+            "oldboot": 2,
+            "slimepoudrin": 8,
+            "leather": 1,
+            "string": 2
+        },
+        "products": [
+            "rollerblades"
+        ]
+    },
+    "ferroslimeoid": {
+        "str_name": "a ferroslimeoid",
+        "alias": [
+            "ferroslimeoid",
+            "magnet"
+        ],
+        "ingredients": {
+            "tincan": 2,
+            "slimepoudrin": 5,
+            "string": 1
+        },
+        "products": [
+            "ferroslimeoid"
+        ]
+    }
+}

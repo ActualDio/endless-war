@@ -1,0 +1,1589 @@
+{
+    "generalitem": {
+        "slimepoudrin": {
+            "alias": [
+                "poudrin"
+            ],
+            "context": "poudrin",
+            "str_name": "Slime Poudrin",
+            "str_desc": "A dense, crystalized chunk of precious slime.",
+            "acquisition": "mining"
+        },
+        "whitedye": {
+            "context": "dye",
+            "str_name": "White Dye",
+            "str_desc": "A small vial of white dye.",
+            "acquisition": "smelting"
+        },
+        "yellowdye": {
+            "context": "dye",
+            "str_name": "Yellow Dye",
+            "str_desc": "A small vial of yellow dye.",
+            "acquisition": "smelting"
+        },
+        "orangedye": {
+            "context": "dye",
+            "str_name": "Orange Dye",
+            "str_desc": "A small vial of orange dye.",
+            "acquisition": "smelting"
+        },
+        "reddye": {
+            "context": "dye",
+            "str_name": "Red Dye",
+            "str_desc": "A small vial of red dye.",
+            "acquisition": "smelting"
+        },
+        "magentadye": {
+            "context": "dye",
+            "str_name": "Magenta Dye",
+            "str_desc": "A small vial of magenta dye.",
+            "acquisition": "smelting"
+        },
+        "purpledye": {
+            "context": "dye",
+            "str_name": "Purple Dye",
+            "str_desc": "A small vial of purple dye.",
+            "acquisition": "smelting"
+        },
+        "bluedye": {
+            "context": "dye",
+            "str_name": "Blue Dye",
+            "str_desc": "A small vial of blue dye.",
+            "acquisition": "smelting"
+        },
+        "greendye": {
+            "context": "dye",
+            "str_name": "Green Dye",
+            "str_desc": "A small vial of green dye.",
+            "acquisition": "smelting"
+        },
+        "tealdye": {
+            "context": "dye",
+            "str_name": "Teal Dye",
+            "str_desc": "A small vial of teal dye.",
+            "acquisition": "smelting"
+        },
+        "rainbowdye": {
+            "context": "dye",
+            "str_name": "***Rainbow Dye!!***",
+            "str_desc": "***A small vial of Rainbow dye!!***",
+            "acquisition": "smelting"
+        },
+        "pinkdye": {
+            "context": "dye",
+            "str_name": "Pink Dye",
+            "str_desc": "A small vial of pink dye.",
+            "acquisition": "smelting"
+        },
+        "greydye": {
+            "context": "dye",
+            "str_name": "Grey Dye",
+            "str_desc": "A small vial of grey dye.",
+            "acquisition": "smelting"
+        },
+        "cobaltdye": {
+            "context": "dye",
+            "str_name": "Cobalt Dye",
+            "str_desc": "A small vial of cobalt dye.",
+            "acquisition": "smelting"
+        },
+        "blackdye": {
+            "context": "dye",
+            "str_name": "Black Dye",
+            "str_desc": "A small vial of black dye.",
+            "acquisition": "smelting"
+        },
+        "limedye": {
+            "context": "dye",
+            "str_name": "Lime Dye",
+            "str_desc": "A small vial of lime dye.",
+            "acquisition": "smelting"
+        },
+        "cyandye": {
+            "context": "dye",
+            "str_name": "Cyan Dye",
+            "str_desc": "A small vial of cyan dye.",
+            "acquisition": "smelting"
+        },
+        "browndye": {
+            "context": "dye",
+            "str_name": "Brown Dye",
+            "str_desc": "A small vial of brown dye.",
+            "acquisition": "smelting"
+        },
+        "copperpaint": {
+            "context": "dye",
+            "str_name": "Copper Paint",
+            "str_desc": "A small bucket of Copper Paint.",
+            "acquisition": "smelting",
+            "durability": 3
+        },
+        "chromepaint": {
+            "context": "dye",
+            "str_name": "Chrome Paint",
+            "str_desc": "A small bucket of Chrome Paint.",
+            "acquisition": "smelting",
+            "durability": 3
+        },
+        "goldpaint": {
+            "context": "dye",
+            "str_name": "Gold Paint",
+            "str_desc": "A small bucket of Gold Paint.",
+            "acquisition": "smelting",
+            "durability": 3
+        },
+        "bone": {
+            "str_name": "Bone",
+            "str_desc": "A small nondescript bone. Traces of fresh slime in it indicate it must've belonged to one of the city's residents.",
+            "context": "player_bone"
+        },
+        "negapoudrin": {
+            "str_name": "negapoudrin",
+            "str_desc": "A dense, crystalized slab of unholy negaslime."
+        },
+        "tradingcardpack": {
+            "alias": [
+                "tcp",
+                "tradingcard",
+                "trading",
+                "card",
+                "cardpack",
+                "pack"
+            ],
+            "str_name": "Trading Cards",
+            "str_desc": "A pack of trading cards",
+            "price": 50000,
+            "vendors": [
+                "bazaar",
+                "Glocksbury Comics"
+            ]
+        },
+        "rightleg": {
+            "context": "slimexodia",
+            "str_name": "The Right Leg of The Forbidden {}",
+            "str_desc": "One of the extremely rare, legendary Forbidden {} cards. Gazing upon the card and its accompanying intense holographic sheen without the proper eyewear can have disastrous consequences. Yet, you do it anyway. It's just too beautiful not to."
+        },
+        "leftleg": {
+            "context": "slimexodia",
+            "str_name": "Left Leg of The Forbidden {}",
+            "str_desc": "One of the extremely rare, legendary Forbidden {} cards. Gazing upon the card and its accompanying intense holographic sheen without the proper eyewear can have disastrous consequences. Yet, you do it anyway. It's just too beautiful not to."
+        },
+        "slimexodia": {
+            "context": "slimexodia",
+            "str_name": "Slimexodia The Forbidden {}",
+            "str_desc": "The centerpiece of the extremely rare, legendary Forbidden {} cards. Gazing upon the card and its accompanying intense holographic sheen without the proper eyewear can have disastrous consequences. Yet, you do it anyway. It's just too beautiful not to."
+        },
+        "rightarm": {
+            "context": "slimexodia",
+            "str_name": "Right Arm of The Forbidden {}",
+            "str_desc": "One of the extremely rare, legendary Forbidden {} cards. Gazing upon the card and its accompanying intense holographic sheen without the proper eyewear can have disastrous consequences. Yet, you do it anyway. It's just too beautiful not to."
+        },
+        "leftarm": {
+            "context": "slimexodia",
+            "str_name": "Left Arm of The Forbidden {}",
+            "str_desc": "One of the extremely rare, legendary Forbidden {} cards. Gazing upon the card and its accompanying intense holographic sheen without the proper eyewear can have disastrous consequences. Yet, you do it anyway. It's just too beautiful not to."
+        },
+        "theforbiddenoneoneone": {
+            "str_name": "The Forbidden {}",
+            "str_desc": "This card that you hold in your hands contains an indescribably powerful being known simply as The Forbidden {emote_111}. It is an unimaginable horror, a beast of such supreme might that wields destructive capabilities that is beyond any human\ufffds true understanding. And for its power, the very fabric of reality conspired to dismember and seal The Forbidden {emote_111} away into the most obscured, nightmarish cages conceivable: trading cards. Now you, foolish mortal, have revived this ancient evil. Once again this slime-starved beast may roam the lands, obliterating all life that dares to evolve.forbiddenstuffedcrust_eat: Dough, pepperoni, grease, marinara and cheese. Those five simple ingredients folded into one another thousands upon thousands of times, and multiplied in quantity exponentially over the course of weeks. That is what has begat this, an affront to god and man. To explain the ramifications of the mere existence of this pizza is pointless. You could not comprehend the amount of temporal and spatial destruction you have caused this day. The very fabric of space and time cry out in agony, bleeding from the mortal wound you have inflicted upon them. Imbued into every molecule of this monstrosity is exactly one word, one thought, one concept. Hate. Hate for conscious life, in concept. Deep inside of this pizza, a primordial evil is sealed away for it\ufffds sheer destructive power. Escaped from its original prison only to be caged in another. To release, all one needs to do is do exactly what you are doing. That is to say, eat a slice. They don\ufffdt even need to finish it, as after the very first bite it will be free. Go on. It\ufffds about that time, isn\ufffdt it? You gaze upon this, the epitome of existential dread that you imprudently smelted, and despair. Tepidly, you bring the first slice to your tongue, letting the melted cheese drizzle unto your awaiting tongue. There are no screams. There is no time. There is only discord. And then, nothing.forbiddenstuffedcrust_desc: What are you waiting for? You\ufffdve come this far, why do you hesitate? Useless. Useless, useless, useless. Escaping your purpose is impossible. Not destiny, purpose. You were never truly alive, never truly free. Your one, singular purpose, that you were created to fulfill, is on the precipice of completion. You\ufffdve sought that absolution all your life, haven\ufffdt you? You\ufffdve begged to be given the answer, to be shown that you and your family and your friends were put on this planet for a purpose. Well, here it is. Here is what you were meant to do. Don\ufffdt fight it. It\ufffds useless. Useless, useless, useless. Don\ufffdt keep the universe waiting. It\ufffds ready to die. Slather it in some low-quality marinara, toss it up into the air like in the old movies, and shove it into the oven, to teach it the true meaning of heat death. Eat a slice of that motherfucking pizza.",
+            "acquisition": "smelting"
+        },
+        "stick": {
+            "str_name": "stick",
+            "str_desc": "It's just some useless, dumb stick.",
+            "acquisition": "smelting"
+        },
+        "faggot": {
+            "str_name": "faggot",
+            "str_desc": "Wow, incredible! We've evolved from one dumb stick to several, all tied together for the sake of a retarded puesdo-pun! Truly, ENDLESS WAR has reached its peak. It's all downhill from here, folks.",
+            "acquisition": "smelting"
+        },
+        "doublefaggot": {
+            "str_name": "double faggot",
+            "str_desc": "It's just a bundle of sticks, twice as long and hard as the two combined to form it. Hey, what are you chucklin' at?.",
+            "acquisition": "smelting"
+        },
+        "seaweed": {
+            "str_name": "Seaweed",
+            "str_desc": "OH GOD IT'S A FUCKING SEAWEED!",
+            "acquisition": "bartering",
+            "ingredients": "generic",
+            "context": 10
+        },
+        "oldboot": {
+            "str_name": "Old Boot",
+            "str_desc": "OH GOD IT'S A FUCKING OLD BOOT!",
+            "acquisition": "bartering",
+            "ingredients": "generic",
+            "context": 10
+        },
+        "tincan": {
+            "str_name": "Tin Can",
+            "str_desc": "OH GOD IT'S A FUCKING TIN CAN!",
+            "acquisition": "bartering",
+            "ingredients": "generic",
+            "context": 10
+        },
+        "leather": {
+            "str_name": "Leather",
+            "str_desc": "A strip of leather.",
+            "acquisition": "smelting",
+            "ingredients": "generic",
+            "context": 10
+        },
+        "ironingot": {
+            "str_name": "Iron Ingot",
+            "str_desc": "A bar of iron",
+            "acquisition": "smelting",
+            "ingredients": "generic",
+            "context": 10
+        },
+        "dragonsoul": {
+            "str_name": "Dragon Soul",
+            "str_desc": "A fearsome dragon soul, pried from the corpse of a Green Eyes Slime Dragon. It's just like Dark Souls! Wait... *just like* Dark Souls??? Maybe you can use this for something.",
+            "context": "dragon soul"
+        },
+        "monsterbones": {
+            "str_name": "Monster Bones",
+            "str_desc": "A large set of bones, taken from the monsters that roam the outskirts. Tastes meaty.",
+            "context": "monster bone"
+        },
+        "bloodstone": {
+            "str_name": "blood stone",
+            "str_desc": "Formed from the cracking of monster bones, it glistens in your palm with the screams of those whos bones comprise it. Perhaps it will be of use one day.",
+            "context": "blood stone",
+            "acquisition": "smelting"
+        },
+        "tanningknife": {
+            "context": "tool",
+            "str_name": "Tanning Knife",
+            "str_desc": "A tanning knife",
+            "acquisition": "smelting"
+        },
+        "string": {
+            "str_name": "string",
+            "str_desc": "It's just some string.",
+            "acquisition": "bartering",
+            "ingredients": "generic",
+            "context": 60
+        },
+        "gameguide": {
+            "alias": [
+                "gg",
+                "gameguide",
+                "gamergate"
+            ],
+            "str_name": "The official unofficial ENDLESS WAR Game Guide, Version III",
+            "str_desc": "A guide on all the game mechanics found in ENDLESS WAR, accurate as of 7/19/2020. Use the !help command to crack it open.",
+            "vendors": [
+                "College"
+            ],
+            "price": 10000
+        },
+        "juviegradefuckenergybodyspray": {
+            "context": "repel",
+            "alias": [
+                "regular body spray",
+                "regbs",
+                "regular repel",
+                "juvie",
+                "juviegrade",
+                "juvie grade",
+                "repel",
+                "body spray",
+                "bodyspray",
+                "bs"
+            ],
+            "str_name": "Juvie Grade FUCK ENERGY Body Spray",
+            "str_desc": "A canister of perfume. Somehow doubles as a slime beast repellant. The label on the back says it lasts for three hours.",
+            "vendors": [
+                "Glocksbury Comics"
+            ],
+            "price": 10000
+        },
+        "superduperfuckenergybodyspray": {
+            "context": "superrepel",
+            "alias": [
+                "superrepel",
+                "super repel",
+                "super duper body spray",
+                "superbodyspray",
+                "superduperbodyspray",
+                "sdbs",
+                "super"
+            ],
+            "str_name": "Super Duper FUCK ENERGY Body Spray",
+            "str_desc": "A canister of perfume. Somehow doubles as a slime beast repellant. The label on the back says it lasts for six hours.",
+            "vendors": [
+                "Glocksbury Comics"
+            ],
+            "price": 20000
+        },
+        "gmaxfuckenergybodyspray": {
+            "context": "maxrepel",
+            "alias": [
+                "maxrepel",
+                "max repel",
+                "g-max body spray",
+                "gmaxbodyspray",
+                "gmbs",
+                "gmax",
+                "g-max"
+            ],
+            "str_name": "G-Max FUCK ENERGY Body Spray",
+            "str_desc": "A canister of perfume. Somehow doubles as a slime beast repellant. The label on the back says it lasts for twelve hours.",
+            "vendors": [
+                "Glocksbury Comics"
+            ],
+            "price": 40000
+        },
+        "costumekit": {
+            "context": "costumekit",
+            "alias": [
+                "costumekit",
+                "ck",
+                "kit",
+                "costume"
+            ],
+            "vendors": [
+                "RP City"
+            ],
+            "str_name": "Double Halloween Costume Kit",
+            "str_desc": "A package of all the necessary tools and fabrics needed to make the Double Halloween costume of your dreams.",
+            "price": 50000
+        },
+        "doublehalloweengrist": {
+            "context": "dhgrist",
+            "alias": [
+                "grist"
+            ],
+            "str_name": "Double Halloween Grist",
+            "str_desc": "A mush of finely ground candy. Perhaps it can be forged into something special?"
+        },
+        "ticket": {
+            "context": "wlticket",
+            "alias": [
+                "tickettohell"
+            ],
+            "str_name": "Ticket to the White Line",
+            "str_desc": "A large assortment of candy molded into one unholy voucher for access into the underworld. Use it in a White Line subway station... ***IF YOU DARE!!***",
+            "acquisition": "smelting"
+        },
+        "megaslimewrappingpaper": {
+            "context": "wrappingpaper",
+            "alias": [
+                "mswp"
+            ],
+            "str_name": "Megaslime Wrapping Paper",
+            "str_desc": "Wrapping paper with Megaslimes plastered all over it. Blaargh!",
+            "price": 1000
+        },
+        "greeneyesslimedragonwrappingpaper": {
+            "context": "wrappingpaper",
+            "alias": [
+                "gesdwp"
+            ],
+            "str_name": "Green Eyes Slime Dragon Wrapping Paper",
+            "str_desc": "Wrapping paper with many images of the Green Eyes Slime Dragon printed on it. Powerful...",
+            "price": 1000
+        },
+        "phoebuswrappingpaper": {
+            "context": "wrappingpaper",
+            "alias": [
+                "pwp"
+            ],
+            "str_name": "Phoebus Wrapping Paper",
+            "str_desc": "A set of wrapping paper with Slime Invictus on it. Yo, Slimernalia!",
+            "price": 1000
+        },
+        "slimeheartswrappingpaper": {
+            "context": "wrappingpaper",
+            "alias": [
+                "shwp"
+            ],
+            "str_name": "Slime Hearts Wrapping Paper",
+            "str_desc": "Wrapping paper decorated with slime hearts. Cute!!",
+            "price": 1000
+        },
+        "slimeskullswrappingpaper": {
+            "context": "wrappingpaper",
+            "alias": [
+                "sswp"
+            ],
+            "str_name": "Slime Skulls Wrapping Paper",
+            "str_desc": "A roll of wrapping paper with Slime Skulls stamped all over it. Spooky...",
+            "price": 1000
+        },
+        "shermanwrappingpaper": {
+            "context": "wrappingpaper",
+            "alias": [
+                "swp"
+            ],
+            "str_name": "Sherman Wrapping Paper",
+            "str_desc": "Wrapping paper with Sherman, the SlimeCorp salaryman etched into it. Jesus Christ, how horrifying!",
+            "price": 1000
+        },
+        "slimecorpwrappingpaper": {
+            "context": "wrappingpaper",
+            "alias": [
+                "scwp"
+            ],
+            "str_name": "SlimeCorp Wrapping Paper",
+            "str_desc": "A set of wrapping paper with that accursed logo printed all over it. What sort of corporate bootlicker would wrap a gift in this?",
+            "price": 1000
+        },
+        "pickaxewrappingpaper": {
+            "context": "wrappingpaper",
+            "alias": [
+                "pawp"
+            ],
+            "str_name": "Pickaxe Wrapping Paper",
+            "str_desc": "A roll of wrapping paper with a bunch of pickaxes depicted on it. Perfect for Juvies who love to toil away in the mines.",
+            "price": 1000
+        },
+        "benwrappingpaper": {
+            "context": "wrappingpaper",
+            "alias": [
+                "bwp"
+            ],
+            "str_name": "Ben Wrapping Paper",
+            "str_desc": "Wrapping paper with the Cop Killer printed on it. !dab !dab !dab",
+            "price": 1000
+        },
+        "munchywrappingpaper": {
+            "context": "wrappingpaper",
+            "alias": [
+                "mwp"
+            ],
+            "str_name": "Munchy Wrapping Paper",
+            "str_desc": "Wrapping paper with the Rowdy Fucker printed on it. !THRASH !THRASH !THRASH",
+            "price": 1000
+        },
+        "gellphone": {
+            "context": "gellphone",
+            "alias": [
+                "gell",
+                "phone",
+                "cellphone",
+                "flipphone",
+                "nokia"
+            ],
+            "str_name": "Gellphone",
+            "str_desc": "A cell phone manufactured by SlimeCorp. Turning it on allows you to access various apps and games.",
+            "vendors": [
+                "bazaar"
+            ],
+            "price": 1000000
+        },
+        "modelovirusvaccine": {
+            "context": "modelovirusvaccine",
+            "alias": [
+                "vaccine",
+                "cure"
+            ],
+            "str_name": "Modelovirus vaccine",
+            "str_desc": "It's a rusty syringe containing a thick, dark-red substance. It begins to bubble slightly when you shake it. A few charred bits rise to the top. Looks yummy!",
+            "vendors": [
+                "Lab"
+            ],
+            "price": 1000000
+        },
+        "swordofseething": {
+            "str_name": "SWORD OF SEETHING",
+            "str_desc": "An ancient blade of legend. It's said to contain the foul malevolence of the Oozoth, sealed away long ago. The forces resting inside the sword are practically begging you to !use it, before its power fades away into nothingness, so you might as well get it over with.",
+            "context": "swordofseething"
+        },
+        "brokensword": {
+            "str_name": "Broken Sword",
+            "str_desc": "The lower half of a broken sword. A useless trinket now, but perhaps one day it can be turned into something useful.",
+            "context": "brokensword"
+        },
+        "prankcapsule": {
+            "alias": [
+                "prank",
+                "capsule"
+            ],
+            "str_name": "Prank Capsule",
+            "str_desc": "A small little plastic capsule, which holds a devious prank item on the inside.",
+            "price": 20000,
+            "vendors": [
+                "vending machine"
+            ],
+            "context": "prankcapsule"
+        },
+        "coolbeans": {
+            "str_name": "Cool Beans",
+            "str_desc": "A couple of cool beans! Far out, man. Well, they aren't really beans per se, more like little condensed nuggets of your crop. Whatever they are, they're undeniably cool."
+        },
+        "toughnails": {
+            "str_name": "Tough Nails",
+            "str_desc": "A handful of rusty nails caked in dried blood that were presumably waiting for you if you had eaten your crops instead of milling them. Damn, what a missed opportunity!"
+        },
+        "smartcookies": {
+            "str_name": "Smart Cookies",
+            "str_desc": "A farmer's dozen of smart cookies. Well, they aren't really cookies per se, more like little bland condensed patties of your crop. Whatever they are, they're undeniably smart."
+        },
+        "beautyspots": {
+            "str_name": "Beauty Spots",
+            "str_desc": "A small collection of severed beauty spots, mostly freckles and moles, that were presumably waiting for you if you had eaten your crops instead of milling them. Damn, what a missed opportunity!"
+        },
+        "cutebuttons": {
+            "str_name": "Cute Buttons",
+            "str_desc": "A wardrobe of cute buttons. You know you should probably be concerned that these lil' guys were hiding in your crops, but honestly you're overcome with emotion and feel utterly blessed. Lookit \ufffdem! They're adorable! D'awww..."
+        },
+        "dyesolution": {
+            "str_name": "Dye Solution",
+            "str_desc": "A small vial of salt, water, and vinegar. You can smelt this together with crop materials to make dyes.",
+            "price": 1000,
+            "vendors": [
+                "Based Hardware"
+            ]
+        },
+        "textiles": {
+            "str_name": "Textiles",
+            "str_desc": "A set of fabrics. You can smelt this together with crop materials to make exclusive cosmetics.",
+            "price": 1000,
+            "vendors": [
+                "Based Hardware"
+            ]
+        },
+        "foodbase": {
+            "str_name": "Food Base",
+            "str_desc": "A set of powders and chemicals. You can smelt this together with crop materials to make exclusive food items which take longer to expire.",
+            "price": 1000,
+            "vendors": [
+                "Based Hardware"
+            ]
+        },
+        "poketubereyes": {
+            "str_name": "Poketuber Eyes",
+            "str_desc": "The small stem buds of a Poketuber.",
+            "acquisition": "milling",
+            "ingredients": [
+                "poketubers"
+            ]
+        },
+        "pulpgourdpulp": {
+            "str_name": "Pulp Gourd Pulp",
+            "str_desc": "The pulp of a Pulp Gourd.",
+            "acquisition": "milling",
+            "ingredients": [
+                "pulpgourds"
+            ]
+        },
+        "sourpotatoskins": {
+            "str_name": "Sour Potato Skins",
+            "str_desc": "The skins of a Sour Potato.",
+            "acquisition": "milling",
+            "ingredients": [
+                "sourpotatoes"
+            ]
+        },
+        "bloodcabbageleaves": {
+            "str_name": "Blood Cabbage Leaves",
+            "str_desc": "The soft leaves of a Blood Cabbage.",
+            "acquisition": "milling",
+            "ingredients": [
+                "bloodcabbages"
+            ]
+        },
+        "joybeanvines": {
+            "str_name": "Joybean Vines",
+            "str_desc": "The severed vines on which Joybeans grow.",
+            "acquisition": "milling",
+            "ingredients": [
+                "joybeans"
+            ]
+        },
+        "purplekilliflowerflorets": {
+            "str_name": "Killiflower Florets",
+            "str_desc": "The bush-like appendages of a Killiflower plant.",
+            "acquisition": "milling",
+            "ingredients": [
+                "purplekilliflower"
+            ]
+        },
+        "razornutshells": {
+            "str_name": "Razornut Shells",
+            "str_desc": "The sharp and pointy shells of a Razornut.",
+            "acquisition": "milling",
+            "ingredients": [
+                "razornuts"
+            ]
+        },
+        "pawpawflesh": {
+            "str_name": "Pawpaw Flesh",
+            "str_desc": "The ground flesh of a Pawpaw.",
+            "acquisition": "milling",
+            "ingredients": [
+                "pawpaw"
+            ]
+        },
+        "sludgeberrysludge": {
+            "str_name": "Sludgeberry Sludge",
+            "str_desc": "The thick syrup of a Sludgeberry.",
+            "acquisition": "milling",
+            "ingredients": [
+                "sludgeberries"
+            ]
+        },
+        "suganmanutfruit": {
+            "str_name": "Suganmanut Fruit",
+            "str_desc": "The bright, multi-colored fruit off which Suganmanuts grow.",
+            "acquisition": "milling",
+            "ingredients": [
+                "suganmanuts"
+            ]
+        },
+        "pinkrowddishroot": {
+            "str_name": "Pink Rowddish Root",
+            "str_desc": "The thin, light-colored root of a Pink Rowddish.",
+            "acquisition": "milling",
+            "ingredients": [
+                "pinkrowddishes"
+            ]
+        },
+        "dankwheatchaff": {
+            "str_name": "Dankwheat Chaff",
+            "str_desc": "The scaly, protective casing on Dankwheat plants.",
+            "acquisition": "milling",
+            "ingredients": [
+                "dankwheat"
+            ]
+        },
+        "brightshadeberries": {
+            "str_name": "Brightshade Berries",
+            "str_desc": "The small blue berries that grow on Brightshade plants.",
+            "acquisition": "milling",
+            "ingredients": [
+                "brightshade"
+            ]
+        },
+        "blacklimeade": {
+            "str_name": "Black Limeade",
+            "str_desc": "The sweet and sour juice of a Black Lime.",
+            "acquisition": "milling",
+            "ingredients": [
+                "blacklimes"
+            ]
+        },
+        "phosphorpoppypetals": {
+            "str_name": "Phosphorpoppy Petals",
+            "str_desc": "The yellow-green petals of a Phosphorpoppy.",
+            "acquisition": "milling",
+            "ingredients": [
+                "phosphorpoppies"
+            ]
+        },
+        "direapplestems": {
+            "str_name": "Dire Apple Stems",
+            "str_desc": "The orange stems of a Dire Apple.",
+            "acquisition": "milling",
+            "ingredients": [
+                "direapples"
+            ]
+        },
+        "rustealeafblades": {
+            "str_name": "Rustea Leaf Blades",
+            "str_desc": "The razor-sharp blades attatched to the stems of Rustea Leaves.",
+            "acquisition": "milling",
+            "ingredients": [
+                "rustealeaves"
+            ]
+        },
+        "metallicapheads": {
+            "str_name": "Metallicap Heads",
+            "str_desc": "The bulbous head on the top of a Metallicap.",
+            "acquisition": "milling",
+            "ingredients": [
+                "metallicaps"
+            ]
+        },
+        "steelbeanpods": {
+            "str_name": "Steel Bean Pods",
+            "str_desc": "The long and hard pods that house Steel Beans.",
+            "acquisition": "milling",
+            "ingredients": [
+                "steelbeans"
+            ]
+        },
+        "aushuckstalks": {
+            "str_name": "Aushuck Stalks",
+            "str_desc": "The lengthy stalks of an Aushuck plant.",
+            "acquisition": "milling",
+            "ingredients": [
+                "aushucks"
+            ]
+        },
+        "civilianscalp": {
+            "str_name": "civilian's scalp",
+            "str_desc": "It's the discarded scalp of an innocent NLACakaNM resident. You always wanted to kill one of these guys."
+        }
+    },
+    "slimeoid": {
+        "fragilecandy": {
+            "alias": [
+                "fragile"
+            ],
+            "str_name": "Fragile Candy",
+            "str_desc": "Increases Chutzpah and decreases Grit, when fed to a slimeoid.",
+            "vendors": [
+                "Glocksbury Comics",
+                "Slimy Persuits"
+            ],
+            "price": 100000,
+            "increase": "chutzpah",
+            "decrease": "grit"
+        },
+        "rigidcandy": {
+            "alias": [
+                "rigid"
+            ],
+            "str_name": "Rigid Candy",
+            "str_desc": "Increases Grit and decreases Chutzpah, when fed to a slimeoid.",
+            "vendors": [
+                "Glocksbury Comics",
+                "Slimy Persuits"
+            ],
+            "price": 100000,
+            "increase": "grit",
+            "decrease": "chutzpah"
+        },
+        "reservedcandy": {
+            "alias": [
+                "reserved"
+            ],
+            "str_name": "Reserved Candy",
+            "str_desc": "Increases Grit and decreases Moxie, when fed to a slimeoid.",
+            "vendors": [
+                "Glocksbury Comics",
+                "Slimy Persuits"
+            ],
+            "price": 100000,
+            "increase": "grit",
+            "decrease": "moxie"
+        },
+        "recklesscandy": {
+            "alias": [
+                "reckless"
+            ],
+            "str_name": "Reckless Candy",
+            "str_desc": "Increases Moxie and decreases Grit, when fed to a slimeoid.",
+            "vendors": [
+                "Glocksbury Comics",
+                "Slimy Persuits"
+            ],
+            "price": 100000,
+            "increase": "moxie",
+            "decrease": "grit"
+        },
+        "insidiouscandy": {
+            "alias": [
+                "insidious"
+            ],
+            "str_name": "Insidious Candy",
+            "str_desc": "Increases Chutzpah and decreases Moxie, when fed to a slimeoid.",
+            "vendors": [
+                "Glocksbury Comics",
+                "Slimy Persuits"
+            ],
+            "price": 100000,
+            "increase": "chutzpah",
+            "decrease": "moxie"
+        },
+        "bluntcandy": {
+            "alias": [
+                "blunt"
+            ],
+            "str_name": "Blunt Candy",
+            "str_desc": "Increases Moxie and decreases Chutzpah, when fed to a slimeoid.",
+            "vendors": [
+                "Glocksbury Comics",
+                "Slimy Persuits"
+            ],
+            "price": 100000,
+            "increase": "moxie",
+            "decrease": "chutzpah"
+        }
+    },
+    "prank": {
+        "creampie": {
+            "str_name": "Coconut Cream Pie",
+            "str_desc": "A coconut cream pie, perfect for creaming all over someone!\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} throws a cream pie at your face! How embarrassing, yet tasty!",
+            "rarity": "heinous",
+            "gambit": 15
+        },
+        "waterbaloon": {
+            "str_name": "Water Balloon",
+            "str_desc": "A simple, yet effective water balloon. Aim for the groin for maximum effectiveness.\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} throws a water balloon at your crotch. Haha, fucking piss your pants much?",
+            "rarity": "heinous",
+            "gambit": 15
+        },
+        "bungisbeam": {
+            "str_name": "Bungis Beam",
+            "str_desc": "A high-tech futuristic ray gun, with the uncanny ability to turn someone into Sky {Bungis)... or so the legends say.\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} shoots you with a Bungis Beam! Slowly but surely, you transmogrify into Sky {Bungis)!!",
+            "rarity": "scandalous",
+            "gambit": 10,
+            "side_effect": "bungisbeam_effect"
+        },
+        "circumcisionray": {
+            "str_name": "Circumcision Ray",
+            "str_desc": "A powerful surgical tool in the form of a handgun. You're not really sure how it works, but testing it out on yourself seems unwise.\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} fires off a Circumcision Ray at your genitals! Oh god, **IT BURNS!!** What the fuck is wrong with them?",
+            "rarity": "scandalous",
+            "gambit": 25
+        },
+        "cumjar": {
+            "str_name": "Cum Jar",
+            "str_desc": "A jar full of seminal fluid. You think you can spot what looks like a My Little Pony figurine on the inside.\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} chucks a Cum Jar in your general direction! The sticky white stuff gets everywhere!!",
+            "rarity": "scandalous",
+            "gambit": 30,
+            "side_effect": "cumjar_effect"
+        },
+        "discounttransbeam": {
+            "str_name": "Discount Trans Beam",
+            "str_desc": "A shitty knock-off of the real thing. Gotta work with the hand you're dealt, I guess.\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} emits a Discount Trans Beam! You are imbued with a mild sense of gender dysphoria.",
+            "rarity": "heinous",
+            "gambit": 20
+        },
+        "transbeamreplica": {
+            "str_name": "Legally Distinct Trans Beam Replica",
+            "str_desc": "A scientifically perfected replica of the famous Trans Beam. Could SlimeCorp be responsible?\n\n**THIS IS A LEGALLY DISTINCT VERSION OF THE TRANS BEAM. IT IS IN NO WAY AN ACT OF PLAGIARISM AGAINST PARADOX CROCS OR THE PARADOX CROCS FAN CLUB TREEHOUSE LLC**\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "***PSHOOOOOOOO!!!*** {} calls upon the all powerful **Trans Beam!** Your gender dysphoria levels are off the fucking charts!! You, dare I say it, might just be Transgendered now.",
+            "rarity": "forbidden",
+            "gambit": 50
+        },
+        "bloodtransfusion": {
+            "str_name": "Blood Transfusion",
+            "str_desc": "A packet of unknown blood hooked up to a syringe. They'll never see it coming.\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} stabs you with a syringe and performs a Blood Transfusion! Who knows what kind of fucked up diseases they just gave you?!",
+            "rarity": "scandalous",
+            "gambit": 30
+        },
+        "transformationmask": {
+            "str_name": "Transformation Mask",
+            "str_desc": "A mask used to transform into other people, somewhat visually reminiscent of the one used in The Mask {1994), starring Jim Carrey.\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "***SSSSMMMMMMOOOOKKIIIN!!*** {} puts on their Transformation Mask and copies your likeness! While in disguise, they do all sorts of crazy, messed up shit and ruin your reputation completely!!",
+            "rarity": "forbidden",
+            "gambit": 45
+        },
+        "emptychewinggumpacket": {
+            "str_name": "Empty Chewing Packet",
+            "str_desc": "A packet of chewing gum, which, upon closer inspection, is completely empty. It's fool-proof, really.\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} offers you a piece of Chewing Gum in these desperate times. HA, sike! The packet is completely empty, you fucking IDIOT!",
+            "rarity": "heinous",
+            "gambit": 10
+        },
+        "airhorn": {
+            "str_name": "Air Horn",
+            "str_desc": "A device capable of deafening those who get too close to it.\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} blasts an Air Horn and ruptures your eardrums! What an asshole!",
+            "rarity": "heinous",
+            "gambit": 20
+        },
+        "banggun": {
+            "str_name": "BANG! Gun",
+            "str_desc": "A firearm that shoots out a tiny little flag. Also capable of shooting real bullets.\n\nPrank Type: Instant Use - Good for hit-and-run tactics.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} points a gun at your! Oh, haha, it just shoots out a little flag with the word 'BANG!' on it, how cu-\n\n**The gun then ejects the flag and fires a bullet right into your foot.**",
+            "rarity": "heinous",
+            "gambit": 20
+        },
+        "pranknote": {
+            "str_name": "Prank Note",
+            "str_desc": "A mysterious notebook. It's said that if you write someone's name down in it, they get pranked hardcore.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} writes your name down in the Prank Note! You are almost instantly assaulted by a barrage of cream pies, water baloons, and air horns! Holy fucking shit!!",
+            "rarity": "forbidden",
+            "gambit": 45
+        },
+        "bodynotifier": {
+            "str_name": "Body Notifier",
+            "str_desc": "An item that notifies someone of their basic bodily functions.",
+            "prank_type": "instantuse",
+            "prank_desc": "{} notifies you of your basic bodily functions.",
+            "rarity": "heinous",
+            "gambit": 15,
+            "side_effect": "bodynotifier_effect"
+        },
+        "chinesefingertrap": {
+            "str_name": "Chinese Finger Trap",
+            "str_desc": "An item of oriental origin. Wrap it around someone's finger to totally prank them!\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "Oh no! {} has ensnared you in a Chinese finger trap! Type **!loosenfinger** to escape!",
+            "response_desc_1": "You try to separate your fingers but they are truly trapped. Type **!loosenfinger** to untrap yourself.",
+            "response_desc_2": "The paper finger trap holds strong. Type **!loosenfinger** to break free.",
+            "response_desc_3": "You pull your fingers apart with all your might, but the finger trap only grips tighter. Typing **!loosenfinger** might loosen your finger and help you escape.",
+            "response_desc_4": "You surrender, resigning your fingers to be connected forever. You think about all the things you can still do with conjoined index fingers. You try to jack it but it doesn't quite work.",
+            "response_command": "loosenfinger",
+            "rarity": "heinous",
+            "gambit": 2
+        },
+        "japanesefingertrap": {
+            "str_name": "Japanese Finger Trap",
+            "str_desc": "By all means it's an upgrade compared to the Chinese one. This one has barbs on the inside. Youch!\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "?????? {}??????????????????????? **!wigglefinger**???????",
+            "response_desc_1": "??????????????????????**!wigglefinger**???????",
+            "response_desc_2": "??????????????????? **!wigglefinger**????????????",
+            "response_desc_3": "????????????????????????? **!wigglefinger**?",
+            "response_desc_4": "?????????????",
+            "response_command": "wigglefinger",
+            "rarity": "scandalous",
+            "gambit": 4
+        },
+        "sissyhypnodevice": {
+            "str_name": "Sissy Hypno Device",
+            "str_desc": "A VR headset with some rather dubious content being broadcast to it. Yeah, you better save this for when the chips are down and you really wanna fuck someone's day up.\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "Oh no! When you weren't looking, {} slipped a sissy hypno device onto your head and tightened the straps! Type **!takeoffheadset** to get out of there before your mind becomes corrupted!",
+            "response_desc_1": "The sissy hypno device analyzes your brainwaves and finds you a perfect candidate to become a sissy. Type **!takeoffheadset** to stop the procedure.",
+            "response_desc_2": "Your grey matter is probed by the tendrils of the sissy hypno device. You are about to sustain permanant sissyfication. Type **!takeoffheadset** now.",
+            "response_desc_3": "You feel the sudden urge to don striped socks. **!takeoffheadset**.",
+            "response_desc_4": "You have been fully hypnotized and are now 100% a sissy. **!takeoffheadset** will not help you any longer.",
+            "response_command": "takeoffheadset",
+            "rarity": "forbidden",
+            "gambit": 6
+        },
+        "piedpiperkazoo": {
+            "str_name": "Pied Piper Kazoo",
+            "str_desc": "A musical instrument capable of summoning a swarm of rodents! Let's see what kind of trouble this thing can get you into.\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "Oh no! {} has sicced their rats on you. Type **!runfromtherats** to run from the rats.",
+            "response_desc_1": "A rat peeks its head out of a nearby gutter and peers directly at you. You can get a headstart on him by typing **!runfromtherats**.",
+            "response_desc_2": "Three rats crawl out of a trashcan and attempt to block your way. You could probably step over them, if you type **!runfromtherats**.",
+            "response_desc_3": "About 15 or 16 rats encircle you. It looks grim, but you may still have a chance to **!runfromtherats**.",
+            "response_desc_4": "A rat runs up your pant leg and bites your taint. You stumble and fall into what can only be described as a sea of rats.",
+            "response_command": "runfromtherats",
+            "rarity": "scandalous",
+            "gambit": 4
+        },
+        "sandpapergloves": {
+            "str_name": "Sandpaper Gloves",
+            "str_desc": "Gloves padded with sandpaper on the palms and fingers. Although it's capable of giving some real mean Indian burns, its slapping attacks are nothing to be scoffed at, either.\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "Oh no! {} approaches. It looks like they want a hi-five. Type **!dodgetheglove** to dodge their sandpaper glove.",
+            "response_desc_1": "You don't know them that well... they might just be waving at you. Type **!dodgetheglove** to try and avoid an awkward situation.",
+            "response_desc_2": "You raise your hand to wave back, but it seems they're waving at someone behind you. Type **!dodgetheglove** to sprint in the opposite direction as fast as possible.",
+            "response_desc_3": "They stop waving, but are still approaching you with -- what you can now see is a sandpaper glove -- outstretched. Type **!dodgetheglove** to dodge their hand, matrix-style.",
+            "response_desc_4": "{} reaches you, and slaps you across the face with their 80 grit, diamond powder, industry-standard sandpaper glove. It tears your facial dermis straight off.",
+            "response_command": "dodgetheglove",
+            "rarity": "heinous",
+            "gambit": 3
+        },
+        "ticklefeather": {
+            "str_name": "Tickle Feather",
+            "str_desc": "A feather? For like, tickling people or some shit? Honestly, these pranks are starting to get a bit weird.\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "Oh no! Imminent tickling from {} approaching. Type **!dontlaugh** to not laugh.",
+            "response_desc_1": "aaahahaaha it tickles **!dontlaugh**",
+            "response_desc_2": "hehehehheh STOP **!dontlaugh**",
+            "response_desc_3": "AAAAAHHAHAHAHHAHHAAH **!dontlaugh** HHEJHJHHAHAHAHA!",
+            "response_desc_4": "OOOOOO OOOOO OOOO OOOOO OO OO O O O O OOO!",
+            "response_command": "dontlaugh",
+            "rarity": "heinous",
+            "gambit": 2
+        },
+        "gentialmutilationinstrument": {
+            "str_name": "Genital Mutilation Instrument",
+            "str_desc": "A horrid, nightmarish mechanism which should have been hidden away off ages ago, but has somehow returned. Legends say the Double Headless Double Horseman had one in his possession.\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "{} has your genitals in an iron grip! Type **!resisttorture** to minimize the extreme pain!",
+            "response_desc_1": "{} has your genitals in an iron grip! Type **!resisttorture** to minimize the extreme pain!",
+            "response_desc_2": "{} has your genitals in an iron grip! Type **!resisttorture** to minimize the extreme pain!",
+            "response_desc_3": "{} has your genitals in an iron grip! Type **!resisttorture** to minimize the extreme pain!",
+            "response_desc_4": "{} has your genitals in an iron grip! Type **!resisttorture** to minimize the extreme pain!",
+            "response_command": "resisttorture",
+            "rarity": "forbidden",
+            "gambit": 7
+        },
+        "gamerficationasmr": {
+            "str_name": "Gamerfication ASMR",
+            "str_desc": "An incredibly long recording of some depraved hypnotization method. You wouldn't wish this kind of thing on your worst enemy.\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "Oh no! {} approaches you with a 10-hour YouTube video of Gamerification ASMR. Type **!closeyourears** to try not to listen.",
+            "response_desc_1": "woooOOOooo yooouuu are becooooming a gaaaamer. yoou playy temple ruuuun on the toiiiilet. **!closeyourears** to turn off the video.",
+            "response_desc_2": "ooooooo yoooou seeeee a csgo major at a bar and kiiiinda enjoooy iiiit. **!closeyourears** to stop the damage any further.",
+            "response_desc_3": "oooohhhhhh youuuuu plaaaaayyy dota 2 and flaaaame your teammates !votekick **!closeyourears**.",
+            "response_desc_4": "yooouu suudeenly waant too speeend eeight houurs debuuugiiinng skyriiim moooodsss oooOOOoooo.",
+            "response_command": "closeyourears",
+            "rarity": "scandalous",
+            "gambit": 5
+        },
+        "beansinacan": {
+            "str_name": "Beans In A Can",
+            "str_desc": "A tin of beans. Warning: Place In A Microwave-Safe Container Before Heating.\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "Oh no! {} approches you with a can of Bush's Baked Beans in one hand, and a spoon in the other. They are making train noises. Type **!duckthebeans** to dodge the choo-choo.",
+            "response_desc_1": "You ate the entire can of baked beans, but {} pulls out another can. This time it's Pinto Beans in Liquid. **!duckthebeans** so you don't have to eat slimy beans.",
+            "response_desc_2": "You polish off another can of beans. {} pulls out an entire 8-layer Bean Dip and a bag of Tostito's. Honestly it looks pretty good, but you are full. Type **!duckthebeans** because you can't bear to eat anything more.",
+            "response_desc_3": "Now {} pulls out a baggie of Jelly Beans. You think it could be a nice desert. Maybe you don't want to **!duckthebeans** this time.",
+            "response_desc_4": "You finish off the Jelly Beans, but {} pulls out a handful of toe beans. It looks like they just poached them off a pack of furries. They still have hair on them. Absolutely disgusting.",
+            "response_command": "duckthebeans",
+            "rarity": "scandalous",
+            "gambit": 4
+        },
+        "brandingiron": {
+            "str_name": "Branding Iron",
+            "str_desc": "A big, red hot iron used for branding cattle. Is this how we're doing !vouches nowawadays?\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "Oh no! {} lunges towards you with a white-hot branding iron. Type **!deflectthebrand** to attempt to knock it away.",
+            "response_desc_1": "{} jabs you with the white-hot brand. It's only one letter, any tattoo artist could work it into another word. They still looks angry, and the brand is still yellow hot, so you should probably try to **!deflectthebrand**.",
+            "response_desc_2": "{} drives the brand into you a few more times. It looks like they are trying to spell their name. Type **!deflectthebrand** before they can remember the last few letters.",
+            "response_desc_3": "At this point it looks like {} is using you like a loose-leaf paper. They are taking Social Studies notes using an orange-hot metal rod on your flesh. Type **!deflectthebrand** before they can get to your face.",
+            "response_desc_4": "You are fully covered in brands. You look like a human crossword puzzle, children run by and sharpie circles on you. You look down at your abdomen and notice a few choice epithets.",
+            "response_command": "deflectthebrand",
+            "rarity": "scandalous",
+            "gambit": 3
+        },
+        "lasso": {
+            "str_name": "Lasso",
+            "str_desc": "A rope with a hoop tied at the end. You're reminded of Quickdraw Saloon, if only because of the blatantly out-of-place cowboy theming this item represents.\n\nPrank Type: Response - Use it on an unsuspecting bystander.",
+            "prank_type": "response",
+            "prank_desc": "Aw shucks! {} is wavin' their lasso high in the air! Type **!escapethelasso** to git on out of their, partner!",
+            "response_desc_1": "YEEHAW! {} lassos you up once! Type **!escapethelasso** and maybe you can walk away with your bounty intact!",
+            "response_desc_2": "YEEEEHAAW!! {} lassos you up twice! Type **!escapethelasso** to buck away that twine!",
+            "response_desc_3": "YEEEEEEHAAAW!!! {} lassos you up thrice! Holy hell, you're a goddamn rope mummy at this point, partner! Type **!escapethelasso** and maybe you can still *rope* your way out of this one!",
+            "response_desc_4": "YYYYYYYYEEEEEEEEHHHHHHHAAAAAAWWWWWWW!!!!! {} has made a lasso cocoon out of you! There's no way out!!",
+            "response_command": "escapethelasso",
+            "rarity": "heinous",
+            "gambit": 2
+        },
+        "fakecandy": {
+            "str_name": "Fake Candy",
+            "str_desc": "A bag of fake candy, disguised as candy from last year's Double Halloween",
+            "prank_type": "response",
+            "prank_desc": "You see a bag of candy lying on the ground. Neaby, you can see {} cackling to themselves like a madman. Maybe it's best to **!ignorethecandy**.",
+            "response_desc_1": "You scoop up the bag and ingest its contents instead. Yuck! These taste awful! Another bag of candy dropped close by catches your attention. **!ignorethecandy**.",
+            "response_desc_2": "You eat the next bag of candy, which tastes even worse than the previous! Seriously, maybe you should stop being retarded and **!ignorethecandy**.",
+            "response_desc_3": "You eat the third bag of candy in a row. Oh jesus fucking christ, you just cant help yourself at this point, and gobble up the awful confectionary without a second thought. Maybe it's time to **!ignorethecandy**.",
+            "response_desc_4": "You eat the last and final bag of candy. They taste like literal dogshit. What the fuck were you thinking?",
+            "response_command": "ignorethecandy",
+            "rarity": "heinous",
+            "gambit": 2
+        },
+        "crabarmy": {
+            "str_name": "Crab Army",
+            "str_desc": "An army of crabs, ready to be snip and snap at will.",
+            "prank_type": "response",
+            "prank_desc": "{} calls forth their Crab Army, and directs it towards you! Oh man, you better type **!jumpovercrabs** before it's too late!",
+            "response_desc_1": "A lonesome crab snips and snaps at your leg! Ow, the pain is just brutal! Others are skittering closely behind, type **!jumpovercrabs**.",
+            "response_desc_2": "A few more crabs come and attack your sides! Oh god! You gotta get these things off of you and **!jumpovercrabs** fast to make sure no more can latch on!!",
+            "response_desc_3": "Five or six more crabs grab on with their snippers and squeeze tightly against your arms and face. Despite everything, it's still you. With determination in hand, maybe you can **!jumpovercrabs** and escape them before they clutch victory in their crustacean appendages.",
+            "response_desc_4": "It's too late to **!jumpovercrabs** now. In light of their overwhelming victory against you, they hold a celebratory rave. The music they play, you will not soon forget.",
+            "response_command": "jumpovercrabs",
+            "rarity": "scandalous",
+            "gambit": 4
+        },
+        "whoopiecushion": {
+            "str_name": "Whoopie Cushion",
+            "str_desc": "A classic tool of the pranking trade. You'd be surprised if anyone actually fell for it these days, though.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "You step on a Whoopie Cushion by mistake, emitting a noise most foul. Strangers and passersby look at you like you just shit your fucking pants.",
+            "trap_chance": 35,
+            "rarity": "heinous",
+            "gambit": 15
+        },
+        "beartrap": {
+            "str_name": "Bear Trap",
+            "str_desc": "A hunk of metal jaws, with a trigger plate in the middle. Stepping on it would be a bad idea.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "Oh fuck! You just stepped inside a bear trap! After several minutes of bleeding profusely, you manage to pry it open and lift out your numbed, chomped up ankle!",
+            "trap_chance": 30,
+            "rarity": "heinous",
+            "gambit": 20
+        },
+        "bananapeel": {
+            "str_name": "Banana Peel",
+            "str_desc": "A rotten leftover banana peel. God, can't people fucking clean up after themselves anymore?\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "You slip and slide on a Banana Peel and land right on your tailbone! Oof, ouch, your bones!!",
+            "trap_chance": 35,
+            "rarity": "heinous",
+            "gambit": 15
+        },
+        "windupbox": {
+            "str_name": "Wind-up Box",
+            "str_desc": "One of those old-timey toys that somehow manages to scare the living daylights out of you. It has a jester on the inside, who by all means takes great joy in your fear, and the fear of others.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "What's this? You find a box with a crank on the side... hey! When you crank it, it starts to play music! This is pretty co- AH JESUS FUCK!!",
+            "trap_chance": 35,
+            "rarity": "scandalous",
+            "gambit": 25
+        },
+        "windupchatterteeth": {
+            "str_name": "Wind-up Chatter Teeth",
+            "str_desc": "A set of plastic teeth that chomp away the more you wind up the little dial on the side. It chugs along on a pair of feet while the gears inside tick away.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "OUCH!! What the fuck? A pair of Wind-up Chatter Teeth are nipping at your heels! Shoo, you fucking wannabe memorabilia!",
+            "trap_chance": 40,
+            "rarity": "heinous",
+            "gambit": 15
+        },
+        "snakeinacan": {
+            "str_name": "Snake In A Can",
+            "str_desc": "An undeniable classic. Pop it open, and watch the color drain from some poor dim-wit's face as the vinyl-coated viper reaches for the skies.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "What the heck... no way! A can of peanuts! You just gotta unscrew the lid, and... ***!!!***\n\nAfter a brief lapse in consciousness, you awake to find yourself lying on the ground next to that shitty Snake In A Can you can't believe you fell for.",
+            "trap_chance": 30,
+            "rarity": "heinous",
+            "gambit": 20
+        },
+        "landmine": {
+            "str_name": "Land Mine",
+            "str_desc": "A round metal plate, charged with explosives. These are normally only reserved for tanks, but during Swilldermuk, civilians have been given clearance to use them at their personal discretion.",
+            "prank_type": "trap",
+            "prank_desc": "**HOLY FUCKING SHIT!!** You just stepped on a God damn Land Mine! The blast knocks you on your ass and fractures several bones in the lower half of your body. Haha, fucking pranked, bro!!",
+            "trap_chance": 40,
+            "rarity": "forbidden",
+            "gambit": 45
+        },
+        "freeipad": {
+            "str_name": "Free Ipad",
+            "str_desc": "A free iPad. On the back, there's a logo sticker for... Cinemassacre? Oh god, you better drop this thing before that cyborg puts you out of your misery.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "Well what do ya know! A free iPad! You bend over to pick it up...\n\nENDLESS WAR judges you harshly! He shoots out two shots of a non-lethal variant of the Bone-hurting-beam, which is even more embarrassing than if he had just killed you, honestly. He told you to shut up, but you didn't listen.\n\n**\"OH LOOK, A FREE IPAD.\"**",
+            "trap_chance": 35,
+            "rarity": "forbidden",
+            "gambit": 45
+        },
+        "perfectlynormalfood": {
+            "str_name": "Perfectly Normal Food",
+            "str_desc": "A plate of perfectly normal food, which in no way has been tampered with in any capacity\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "Oh damn! A plate of perfectly normal food? Well, what could be the harm in having a bite, you wonder... **COUGH COUGH COUGH** OH GOD IT'S LACED WITH RAT POISON!",
+            "trap_chance": 30,
+            "rarity": "scandalous",
+            "gambit": 30
+        },
+        "pitfall": {
+            "str_name": "Pitfall Trap",
+            "str_desc": "A round sphere, with an exclamation mark painted on. You don't really know how it works, but aparrently all you gotta do to set it up is dig a hole in the ground and throw it in.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "Ah fuck! The ground caves underneath you, causing you to fall inside a Pitfall Trap! After a moment or two, you manage to climb back up out of the pit it so deviously hid from sight.",
+            "trap_chance": 40,
+            "rarity": "heinous",
+            "gambit": 20
+        },
+        "electrocage": {
+            "str_name": "Electro Cage",
+            "str_desc": "A cage with iron bars that are hooked up to some kind of electrical current. Apparently they used to use these things at the Slime Circus, to keep all the beasts this thing housed tempered and in line.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "Oh shit. Before you know it, you're 3 steps too far into an Electro Cage. The door locks behind you, and you're forced to endure an agonizing 1 Million Volt shock, with a decent amount of Amps to back it up. Incidentally, the overstimulation also forces you to vacate your bladder, worsening the embarrassment of the situation.",
+            "trap_chance": 40,
+            "rarity": "scandalous",
+            "gambit": 30
+        },
+        "ironmaiden": {
+            "str_name": "Iron Maiden",
+            "str_desc": "An ancient instrument of torture, in the form of a human-shaped closet with spears on the inside. Hauling it around is a pain in the fucking ass, so you hope someone at least gets tricked by it when the time comes.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "Like a complete fucking dumbass, you walk into a nearby Iron Maiden, which closes shut behind you. The spikes impale you on every limb and into every orifice, causing the whole thing to get damn near coated in slime on the inside. Try taking your eyes off your phone for once, dummy!",
+            "trap_chance": 25,
+            "rarity": "forbidden",
+            "gambit": 50
+        },
+        "signthatmakesyoubensaint": {
+            "str_name": "Sign That Makes You Ben Saint When You Read It",
+            "str_desc": "An otherworldy artifact. Has the fantastical effect of transforming someone into Ben Saint, should they trigger its effects by reading what it says.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "Hey, there's a sign over in the distance. You squint to make out what it says... Oh no! Upon closer inspection, it's a Sign That Makes You Ben Saint When You Read It!",
+            "trap_chance": 50,
+            "rarity": "forbidden",
+            "gambit": 15,
+            "side_effect": "bensaintsign_effect"
+        },
+        "piebomb": {
+            "str_name": "Pie Bomb",
+            "str_desc": "A bomb cleverly disguised as a Defective Coconut Cream Pie.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "Oh sweet! Another Defective Coconut Cream Pie for the taking!\n**BOOM!**\nAw man, someone set up a Pie Bomb and got you good!",
+            "trap_chance": 30,
+            "rarity": "scandalous",
+            "gambit": 30
+        },
+        "defectivealarmclock": {
+            "str_name": "Defective Alarm Clock",
+            "str_desc": "A factory-rejected Alarm Clock. This thing just won't stop fucking beeping at you!!\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "BLAAAP BLAAAP BLAAAP BLAAAP BLAAAP\nBLAAAP BLAAAP BLAAAP BLAAAP BLAAAP\nBLAAAP BLAAAP BLAAAP BLAAAP BLAAAP\nBLAAAP BLAAAP BLAAAP BLAAAP BLAAAP\nBLAAAP BLAAAP BLAAAP BLAAAP BLAAAP\nYou crush the Defective Alarm Clock with your bare hands. Good fucking riddance.",
+            "trap_chance": 40,
+            "rarity": "scandalous",
+            "gambit": 15
+        },
+        "freeipad_alt": {
+            "str_name": "Free Ipad...?",
+            "str_desc": "A free iPad. On the back, there's a logo sticker for... Cinemassacre? Oh god, you better drop this thing before that android puts you out of your misery.\n\nPrank Type: Trap - Lay it down in a district.",
+            "prank_type": "trap",
+            "prank_desc": "Well what do ya know! A free iPad! You bend over to pick it up...\n\nENDLESS WAR judges you harshly! He shoots out two shots of a non-lethal variant of the Bone-hurting-beam, which is even more embarrassing than if he had just killed you, honestly. He told you to shut up, but you didn't listen.\n\n**\"It always... ends like this...\"**\n\n**\"OH LOOK, A FREE IPAD.\"**",
+            "trap_chance": 35,
+            "rarity": "forbidden",
+            "gambit": 45
+        },
+        "alligatortoy": {
+            "str_name": "Alligator Toy",
+            "str_desc": "A toy alligator, where the objective is to brush its teeth without tripping its jaws. The top jaw on this one is mysteriously outfitted with razor blades instead of plastic, however.",
+            "prank_type": "trap",
+            "prank_desc": "Oh hey! A toy alligator! You had so much fun with these as a kid! You just gotta press on the teeth in the right combination, and...\nOH JESUS CHRIST, THE RAZOR BLADES HIDDEN INSIDE BURY THEMSELVES INTO YOUR HAND!!",
+            "trap_chance": 35,
+            "rarity": "heinous",
+            "gambit": 20
+        }
+    },
+    "seedpacket": {
+        "poketubersseedpacket": {
+            "cooldown": 30,
+            "cost": 50,
+            "str_name": "Poketuber Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Poketuber Gaiaslimeoid. It costs 50 gaiaslime to !plant one, and has a 30 second cooldown.",
+            "ingredients": [
+                "poketubereyes"
+            ],
+            "enemytype": "poketubers"
+        },
+        "pulpgourdsseedpacket": {
+            "cooldown": 45,
+            "cost": 100,
+            "str_name": "Pulp Gourds Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Pulp Gourds Gaiaslimeoid. It costs 100 gaiaslime to !plant one, and has a 45 second cooldown.",
+            "ingredients": [
+                "pulpgourdpulp"
+            ],
+            "enemytype": "pulpgourds"
+        },
+        "sourpotatoesseedpacket": {
+            "cooldown": 10,
+            "cost": 150,
+            "str_name": "Sour Potatoes Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Sour Potatoes Gaiaslimeoid. It costs 150 gaiaslime to !plant one, and has a 10 second cooldown.",
+            "ingredients": [
+                "sourpotatoskins"
+            ],
+            "enemytype": "sourpotatoes"
+        },
+        "bloodcabbagesseedpacket": {
+            "cooldown": 10,
+            "cost": 125,
+            "str_name": "Blood Cabbages Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Blood Cabbages Gaiaslimeoid. It costs 125 gaiaslime to !plant one, and has a 10 second cooldown.",
+            "ingredients": [
+                "bloodcabbageleaves"
+            ],
+            "enemytype": "bloodcabbages"
+        },
+        "joybeansseedpacket": {
+            "cooldown": 120,
+            "cost": 100,
+            "str_name": "Joybeans Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Joybean Gaiaslimeoid. It costs 100 gaiaslime to !plant one, and has a 120 second cooldown.",
+            "ingredients": [
+                "joybeanvines"
+            ],
+            "enemytype": "joybeans"
+        },
+        "purplekilliflowerseedpacket": {
+            "cooldown": 10,
+            "cost": 100,
+            "str_name": "Purple Killiflower Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Purple Killiflower Gaiaslimeoid. It costs 100 gaiaslime to !plant one, and has a 10 second cooldown.",
+            "ingredients": [
+                "purplekilliflowerflorets"
+            ],
+            "enemytype": "purplekilliflower"
+        },
+        "razornutsseedpacket": {
+            "cooldown": 45,
+            "cost": 50,
+            "str_name": "Razornuts Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Razornuts Gaiaslimeoid. It costs 50 gaiaslime to !plant one, and has a 45 second cooldown.",
+            "ingredients": [
+                "razornutshells"
+            ],
+            "enemytype": "razornuts"
+        },
+        "pawpawseedpacket": {
+            "cooldown": 45,
+            "cost": 150,
+            "str_name": "Pawpaw Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Pawpaw Gaiaslimeoid. It costs 150 gaiaslime to !plant one, and has a 45 second cooldown.",
+            "ingredients": [
+                "pawpawflesh"
+            ],
+            "enemytype": "pawpaw"
+        },
+        "sludgeberriesseedpacket": {
+            "cooldown": 15,
+            "cost": 75,
+            "str_name": "Sludgeberries Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Sludgeberries Gaiaslimeoid. It costs 75 gaiaslime to !plant one, and has a 15 second cooldown.",
+            "ingredients": [
+                "sludgeberrysludge"
+            ],
+            "enemytype": "sludgeberries"
+        },
+        "suganmanutsseedpacket": {
+            "cooldown": 60,
+            "cost": 125,
+            "str_name": "Suganmanuts Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Suganmanuts Gaiaslimeoid. It costs 125 gaiaslime to !plant one, and has a 60 second cooldown.",
+            "ingredients": [
+                "suganmanutfruit"
+            ],
+            "enemytype": "suganmanuts"
+        },
+        "pinkrowddishesseedpacket": {
+            "cooldown": 20,
+            "cost": 150,
+            "str_name": "Pink Rowddishes Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Pink Rowddishes Gaiaslimeoid. It costs 150 gaiaslime to !plant one, and has a 20 second cooldown.",
+            "ingredients": [
+                "pinkrowddishroot"
+            ],
+            "enemytype": "pinkrowddishes"
+        },
+        "brightshadeseedpacket": {
+            "cooldown": 10,
+            "cost": 50,
+            "str_name": "Brightshade Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Brightshade Gaiaslimeoid. It costs 50 gaiaslime to !plant one, and has a 10 second cooldown.",
+            "ingredients": [
+                "brightshadeberries"
+            ],
+            "enemytype": "brightshade"
+        },
+        "blacklimesseedpacket": {
+            "cooldown": 10,
+            "cost": 75,
+            "str_name": "Black Limes Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Black Limes Gaiaslimeoid. It costs 75 gaiaslime to !plant one, and has a 10 second cooldown.",
+            "ingredients": [
+                "blacklimeade"
+            ],
+            "enemytype": "blacklimes"
+        },
+        "phosphorpoppiesseedpacket": {
+            "cooldown": 10,
+            "cost": 75,
+            "str_name": "Phosphorpoppies Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Phosphorpoppies Gaiaslimeoid. It costs 75 gaiaslime to !plant one, and has a 10 second cooldown.",
+            "ingredients": [
+                "phosphorpoppypetals"
+            ],
+            "enemytype": "phosphorpoppies"
+        },
+        "direapplesseedpacket": {
+            "cooldown": 10,
+            "cost": 225,
+            "str_name": "Dire Apples Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Dire Apples Gaiaslimeoid. It costs 225 gaiaslime to !plant one, and has a 10 second cooldown.",
+            "ingredients": [
+                "direapplestems"
+            ],
+            "enemytype": "direapples"
+        },
+        "rustealeavesseedpacket": {
+            "cooldown": 10,
+            "cost": 100,
+            "str_name": "Rustea Leaves Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Rustea Leaves Gaiaslimeoid. It costs 100 gaiaslime to !plant one, and has a 10 second cooldown.",
+            "ingredients": [
+                "rustealeafblades"
+            ],
+            "enemytype": "rustealeaves"
+        },
+        "metallicapsseedpacket": {
+            "cooldown": 30,
+            "cost": 225,
+            "str_name": "Metallicaps Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Metallicaps Gaiaslimeoid. It costs 225 gaiaslime to !plant one, and has a 30 second cooldown.",
+            "ingredients": [
+                "metallicapheads"
+            ],
+            "enemytype": "metallicaps"
+        },
+        "steelbeansseedpacket": {
+            "cooldown": 90,
+            "cost": 150,
+            "str_name": "Steelbeans Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Steelbeans Gaiaslimeoid. It costs 150 gaiaslime to !plant one, and has a 90 second cooldown.",
+            "ingredients": [
+                "steelbeanpods"
+            ],
+            "enemytype": "steelbeans"
+        },
+        "aushucksseedpacket": {
+            "cooldown": 120,
+            "cost": 175,
+            "str_name": "Aushucks Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for an Aushucks Gaiaslimeoid. It costs 175 gaiaslime to !plant one, and has a 120 second cooldown.",
+            "ingredients": [
+                "aushuckstalks"
+            ],
+            "enemytype": "auschucks"
+        },
+        "dankwheatseedpacket": {
+            "cooldown": 30,
+            "cost": 200,
+            "str_name": "Dankwheat Gaiaslimeoid Seed Packet",
+            "str_desc": "A seed packet for a Dankwheat Gaiaslimeoid. It costs 200 gaiaslime to !plant one, and has a 30 second cooldown.",
+            "ingredients": [
+                "dankwheatchaff"
+            ],
+            "enemytype": "dankwheat"
+        }
+    },
+    "tombstone": {
+        "defaultshamblertombstone": {
+            "cost": 300,
+            "brainpower": 30,
+            "stock": 20,
+            "str_name": "Default Shambler Tombstone",
+            "str_desc": "A tombstone for a Default Shambler. If you use it in a graveyard op, it'll add a cooldown of 30 seconds.",
+            "enemytype": "defaultshambler"
+        },
+        "bucketshamblertombstone": {
+            "cost": 500,
+            "brainpower": 45,
+            "stock": 20,
+            "str_name": "Bucket Shambler Tombstone",
+            "str_desc": "A tombstone for a Bucket Shambler. If you use it in a graveyard op, it'll add a cooldown of 45 seconds.",
+            "enemytype": "bucketshambler"
+        },
+        "juveolanternshamblertombstone": {
+            "cost": 700,
+            "brainpower": 60,
+            "stock": 20,
+            "str_name": "Juve-O'-Lantern Shambler Tombstone",
+            "str_desc": "A tombstone for a Juve-O'-Lantern Shambler. If you use it in a graveyard op, it'll add a cooldown of 60 seconds.",
+            "enemytype": "juveolanternshambler"
+        },
+        "dinoshamblertombstone": {
+            "cost": 150,
+            "brainpower": 60,
+            "stock": 5,
+            "str_name": "Dinoshambler Tombstone",
+            "str_desc": "A tombstone for a Dinoshambler. If you use it in a graveyard op, it'll add a cooldown of 60 seconds.",
+            "enemytype": "dinoshambler"
+        },
+        "shambleballplayertombstone": {
+            "cost": 400,
+            "brainpower": 60,
+            "stock": 20,
+            "str_name": "Shambleball Player Tombstone",
+            "str_desc": "A tombstone for a Shambleball Player. If you use it in a graveyard op, it'll add a cooldown of 60 seconds.",
+            "enemytype": "shambleballplayer"
+        },
+        "shamblerwarlordtombstone": {
+            "cost": 400,
+            "brainpower": 180,
+            "stock": 5,
+            "str_name": "Shambler Warlord Tombstone",
+            "str_desc": "A tombstone for a Shambler Warlord. If you use it in a graveyard op, it'll add a cooldown of 180 seconds.",
+            "enemytype": "shamblerwarlord"
+        },
+        "shamblerraidertombstone": {
+            "cost": 500,
+            "brainpower": 120,
+            "stock": 1,
+            "str_name": "Shambler Raider Tombstone",
+            "str_desc": "A tombstone for a Shambler Raider. Acts as an upgrade to the Shambler Warlord tombstone. If you use it in a graveyard op, it'll add a cooldown of 120 seconds.",
+            "enemytype": "shamblerraider"
+        },
+        "flagshamblertombstone": {
+            "cost": 200,
+            "brainpower": 60,
+            "stock": 10,
+            "str_name": "Flag Shambler Tombstone",
+            "str_desc": "A tombstone for a Flag Shambler. If you use it in a graveyard op, it'll add a cooldown of 60 seconds.",
+            "enemytype": "flagshambler"
+        },
+        "shambonidrivertombstone": {
+            "cost": 300,
+            "brainpower": 90,
+            "stock": 10,
+            "str_name": "Shamboni Driver Tombstone",
+            "str_desc": "A tombstone for a Shamboni. If you use it in a graveyard op, it'll add a cooldown of 90 seconds.",
+            "enemytype": "shambonidriver"
+        },
+        "mammoshamblertombstone": {
+            "cost": 500,
+            "brainpower": 90,
+            "stock": 1,
+            "str_name": "Mammoshambler Tombstone",
+            "str_desc": "A tombstone for a Mammoshambler. Acts as an upgrade to the Shamboni Driver tombstone. If you use it in a graveyard op, it'll add a cooldown of 90 seconds.",
+            "enemytype": "mammoshambler"
+        },
+        "gigashamblertombstone": {
+            "cost": 500,
+            "brainpower": 180,
+            "stock": 3,
+            "str_name": "Gigashambler Tombstone",
+            "str_desc": "A tombstone for a Gigashambler. If you use it in a graveyard op, it'll add a cooldown of 180 seconds.",
+            "enemytype": "gigashambler"
+        },
+        "microshamblertombstone": {
+            "cost": 300,
+            "brainpower": 60,
+            "stock": 1,
+            "str_name": "Microshambler Tombstone",
+            "str_desc": "A tombstone for a Microshambler. Acts as an upgrade to the Gigashambler tombstone. If you use it in a graveyard op, it'll add a cooldown of 60 seconds.",
+            "enemytype": "microshambler"
+        },
+        "shamblesaurusrextombstone": {
+            "cost": 800,
+            "brainpower": 180,
+            "stock": 1,
+            "str_name": "Shamblesaurus Rex Tombstone",
+            "str_desc": "A tombstone for a Shamblesaurus. If you use it in a graveyard op, it'll add a cooldown of 180 seconds.",
+            "enemytype": "shamblesaurusrex"
+        },
+        "shamblerdactyltombstone": {
+            "cost": 200,
+            "brainpower": 90,
+            "stock": 5,
+            "str_name": "Shamblerdactyl Tombstone",
+            "str_desc": "A tombstone for a Shamblerdactyl. If you use it in a graveyard op, it'll add a cooldown of 90 seconds.",
+            "enemytype": "shamblerdactyl"
+        },
+        "ufoshamblertombstone": {
+            "cost": 200,
+            "brainpower": 120,
+            "stock": 5,
+            "str_name": "UFO Shambler Tombstone",
+            "str_desc": "A tombstone for a UFO Shambler. If you use it in a graveyard op, it'll add a cooldown of 120 seconds.",
+            "enemytype": "ufoshambler"
+        },
+        "brawldenboomertombstone": {
+            "cost": 150,
+            "brainpower": 60,
+            "stock": 10,
+            "str_name": "Brawlden Boomer Tombstone",
+            "str_desc": "A tombstone for a Brawlden Boomer. If you use it in a graveyard op, it'll add a cooldown of 60 seconds.",
+            "enemytype": "brawldenboomer"
+        },
+        "juvieshamblertombstone": {
+            "cost": 250,
+            "brainpower": 60,
+            "stock": 15,
+            "str_name": "Juvie Shambler Tombstone",
+            "str_desc": "A tombstone for a Juvie Shambler. If you use it in a graveyard op, it'll add a cooldown of 60 seconds.",
+            "enemytype": "juvieshambler"
+        }
+    }
+}

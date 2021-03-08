@@ -1,0 +1,1579 @@
+{
+    "types": {
+        "normal": {
+            "damage_multiplier": 1.1,
+            "cost_multiplier": 1,
+            "crit_chance": 0.2,
+            "crit_multiplier": 1.8,
+            "hit_chance": 0.9
+        },
+        "precision": {
+            "damage_multiplier": 1.3,
+            "cost_multiplier": 1.3,
+            "crit_chance": 0,
+            "crit_multiplier": 2,
+            "hit_chance": 1
+        },
+        "small_game": {
+            "damage_multiplier": 0.5,
+            "cost_multiplier": 0.25,
+            "crit_chance": 0.1,
+            "crit_multiplier": 2,
+            "hit_chance": 0.95
+        },
+        "variable_damage": {
+            "damage_multiplier": 0.5,
+            "variable_damage_multiplier": 2,
+            "cost_multiplier": 1,
+            "crit_chance": 0.1,
+            "crit_multiplier": 1.5,
+            "hit_chance": 0.9
+        },
+        "heavy": {
+            "damage_multiplier": 3,
+            "cost_multiplier": 5,
+            "crit_chance": 0.1,
+            "crit_multiplier": 1.5,
+            "hit_chance": 0.8
+        },
+        "defensive": {
+            "damage_multiplier": 0.75,
+            "cost_multiplier": 1.5,
+            "crit_chance": 0.1,
+            "crit_multiplier": 1.5,
+            "hit_chance": 0.85
+        },
+        "burst_fire": {
+            "damage_multiplier": 0.4,
+            "cost_multiplier": 0.8,
+            "crit_chance": 0.2,
+            "crit_multiplier": 1.5,
+            "hit_chance": 0.85,
+            "shots": 3
+        },
+        "minigun": {
+            "damage_multiplier": 0.3,
+            "cost_multiplier": 5,
+            "crit_chance": 0.1,
+            "crit_multiplier": 2,
+            "hit_chance": 0.5,
+            "shots": 10
+        },
+        "incendiary": {
+            "damage_multiplier": 0.75,
+            "bystander_damage": 0.5,
+            "cost_multiplier": 1.5,
+            "crit_chance": 0.1,
+            "crit_multiplier": 2,
+            "hit_chance": 0.9
+        },
+        "explosive": {
+            "damage_multiplier": 0.5,
+            "bystander_damage": 0.5,
+            "cost_multiplier": 1,
+            "crit_chance": 0.1,
+            "crit_multiplier": 2,
+            "hit_chance": 0.9
+        },
+        "tool": {
+            "damage_multiplier": 0.5,
+            "cost_multiplier": 1,
+            "crit_chance": 0.2,
+            "crit_multiplier": 1.8,
+            "hit_chance": 0.9
+        }
+    },
+    "player": {
+        "revolver": {
+            "alias": [
+                "pistol",
+                "handgun",
+                "bigiron"
+            ],
+            "str_crit": "**Critical Hit!** You have fataly wounded {name_target} with a lethal shot!",
+            "str_miss": "**You missed!** Your shot whizzed past {name_target}'s head!",
+            "str_equip": "You equip the revolver.",
+            "str_name": "revolver",
+            "str_weapon": "a revolver",
+            "str_weaponmaster_self": "You are a rank {rank} master of the revolver.",
+            "str_weaponmaster": "They are a rank {rank} master of the revolver.",
+            "str_kill": "{name_player} puts their revolver to {name_target}'s head. **BANG**. Execution-style. Blood splatters across the hot asphalt. {emote_skull}",
+            "str_killdescriptor": "gunned down",
+            "str_damage": "{name_target} takes a bullet to the {hitzone}!!",
+            "str_duel": "**BANG BANG**. {name_player} and {name_target} practice their quick-draw, bullets whizzing past one another's heads.",
+            "str_description": "It's a revolver.",
+            "str_reload": "You swing out the revolver's chamber, knocking out the used shells onto the floor before hastily slamming fresh bullets back into it.",
+            "str_reload_warning": "**BANG--** *tk tk...* **SHIT!!** {name_player} just spent the last of the ammo in their revolver's chamber, it's out of bullets!!",
+            "str_scalp": " It has a bullet hole in it.",
+            "fn_effect": {
+                "cost_multiplier": 0.8
+            },
+            "price": 10000,
+            "clip_size": 6,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [
+                "ammo"
+            ],
+            "stat": "revolver_kills"
+        },
+        "dualpistols": {
+            "alias": [
+                "dual",
+                "pistols",
+                "berettas",
+                "dualies"
+            ],
+            "str_crit": "**Critical Hit!** {name_player} has lodged several bullets into {name_target}'s vital arteries!",
+            "str_miss": "**You missed!** Your numerous, haphazard shots hit everything but {name_target}!",
+            "str_equip": "You equip the dual pistols.",
+            "str_name": "dual pistols",
+            "str_weapon": "dual pistols",
+            "str_weaponmaster_self": "You are a rank {rank} master of the dual pistols.",
+            "str_weaponmaster": "They are a rank {rank} master of the dual pistols.",
+            "str_kill": "{name_player} dramatically pulls both triggers on their dual pistols midair, sending two bullets straight into {name_target}'s lungs'. {emote_skull}",
+            "str_killdescriptor": "double gunned down",
+            "str_damage": "{name_target} takes a flurry of bullets to the {hitzone}!!",
+            "str_duel": "**tk tk tk tk tk tk tk tk tk tk**. {name_player} and {name_target} hone their twitch aim and trigger fingers, unloading clip after clip of airsoft BBs into one another with the eagerness of small children.",
+            "str_description": "They're dual pistols.",
+            "str_reload": "You swing out the handles on both of your pistols, knocking out the used magazines onto the floor before hastily slamming fresh mags back into them.",
+            "str_reload_warning": "**tk tk tk tk--** *tk...* **SHIT!!** {name_player} just spent the last of the ammo in their dual pistol's mags, they're out of bullets!!",
+            "str_scalp": " It has a couple bullet holes in it.",
+            "fn_effect": {},
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [],
+            "stat": "dual_pistols_kills"
+        },
+        "shotgun": {
+            "alias": [
+                "boomstick",
+                "remington",
+                "scattergun",
+                "r870"
+            ],
+            "str_crit": "**Critical Hit!** {name_player} has landed a thick, meaty shot into {name_target}'s chest!",
+            "str_miss": "**You missed!** Your pellets inexplicably dodge {name_target}. Fucking random bullet spread, this game will never be competitive.",
+            "str_equip": "You equip the shotgun.",
+            "str_name": "shotgun",
+            "str_weapon": "a shotgun",
+            "str_weaponmaster_self": "You are a rank {rank} master of the shotgun.",
+            "str_weaponmaster": "They are a rank {rank} master of the shotgun.",
+            "str_kill": "{name_player} blasts their shotgun into {name_target}'s chest at point-blank range, causing guts to explode from their back and coat the surrounding street. chk chk Who's next? {emote_skull}",
+            "str_killdescriptor": "pumped full of lead",
+            "str_damage": "{name_target} takes a shotgun blast to the {hitzone}!!",
+            "str_duel": "**BOOM.** {name_player} and {name_target} stand about five feet away from a wall, pumping it full of lead over and over to study it's bullet spread.",
+            "str_description": "It's a shotgun.",
+            "str_reload": "You tilt your shotgun and pop shell after shell into its chamber before cocking the forend back. Groovy.",
+            "str_reload_warning": "**chk--** *...* **SHIT!!** {name_player}'s shotgun has ejected the last shell in it's chamber, it's out of ammo!!",
+            "str_scalp": " It has a gaping hole in the center.",
+            "fn_effect": {
+                "cost_multiplier": 4,
+                "weapon_type": "heavy"
+            },
+            "clip_size": 2,
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [
+                "ammo"
+            ],
+            "stat": "shotgun_kills"
+        },
+        "rifle": {
+            "alias": [
+                "assaultrifle",
+                "machinegun",
+                "mg"
+            ],
+            "str_crit": "**Critical hit!!** You unload an entire magazine into the target!!",
+            "str_miss": "**You missed!** Not one of your bullets connected!!",
+            "str_equip": "You equip the assault rifle.",
+            "str_name": "assault rifle",
+            "str_weapon": "an assault rifle",
+            "str_weaponmaster_self": "You are a rank {rank} master of the assault rifle.",
+            "str_weaponmaster": "They are a rank {rank} master of the assault rifle.",
+            "str_kill": "**RAT-TAT-TAT-TAT-TAT!!** {name_player} rains a hail of bullets directly into {name_target}!! They're officially toast! {emote_skull}",
+            "str_killdescriptor": "gunned down",
+            "str_damage": "Bullets rake over {name_target}'s {hitzone}!!",
+            "str_duel": "**RAT-TAT-TAT-TAT-TAT!!** {name_player} and {name_target} practice shooting at distant targets with quick, controlled bursts.",
+            "str_description": "It's a rifle.",
+            "str_reload": "You hastily rip the spent magazine out of your assault rifle, before slamming a fresh one back into it.",
+            "str_reload_warning": "**RAT-TAT-TAT--** *ttrrr...* **SHIT!!** {name_player}'s rifle just chewed up the last of it's magazine, it's out of bullets!!",
+            "str_scalp": " It has a shit-load of holes in it.",
+            "fn_effect": {
+                "cost_multiplier": 0.7,
+                "weapon_type": "burst_fire"
+            },
+            "clip_size": 10,
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [
+                "ammo"
+            ],
+            "stat": "rifle_kills"
+        },
+        "smg": {
+            "alias": [
+                "submachinegun",
+                "machinegun"
+            ],
+            "str_crit": "**Critical hit!!** {name_target}'s vital arteries are ruptured by miraculously accurate bullets that actually hit their intended target!!",
+            "str_miss": "**You missed!!** {name_player}'s reckless aiming sends their barrage of bullets in every direction but into {name_target}'s body!",
+            "str_equip": "You equip the SMG.",
+            "str_name": "SMG",
+            "str_weapon": "an SMG",
+            "str_weaponmaster_self": "You are a rank {rank} master of the SMG.",
+            "str_weaponmaster": "They are a rank {rank} master of the SMG.",
+            "str_kill": "**RATTA TATTA TAT!!** {name_player}'s bullet rip through what little was left of {name_target} after the initial barrage. All that remains is a few shreds of clothing and splatterings of slime. {emote_skull}",
+            "str_killdescriptor": "riddled with bullets",
+            "str_damage": "A reckless barrage of bullets pummel {name_target}'s {hitzone}!!",
+            "str_duel": "**RATTA TATTA TAT!!** {name_player} and {name_target} spray bullets across the floor and walls of the Dojo, having a great time.",
+            "str_description": "It's a submachine gun.",
+            "str_reload": "You hastily rip the spent magazine out of your SMG, before slamming a fresh one back into it.",
+            "str_reload_warning": "**RATTA TATTA--** *tk tk tk tk'* **SHIT!!** {name_player}'s SMG just chewed up the last of it's magazine, it's out of bullets!!",
+            "str_scalp": " It has a bunch of holes strewn throughout it.",
+            "fn_effect": {
+                "cost_multiplier": 0.7,
+                "weapon_type": "burst_fire"
+            },
+            "clip_size": 10,
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [
+                "ammo"
+            ],
+            "stat": "smg_kills"
+        },
+        "minigun": {
+            "alias": [
+                "mini",
+                "gatlinggun"
+            ],
+            "str_crit": "**Critical hit!!** Round after round of bullets fly through {name_target}, inflicting irreparable damage!!",
+            "str_miss": "**You missed!!** Despite the growing heap of used ammunition shells {name_player} has accrued, none of their bullets actually hit {name_target}!",
+            "str_equip": "You equip the minigun.",
+            "str_name": "minigun",
+            "str_weapon": "a minigun",
+            "str_weaponmaster_self": "You are a rank {rank} master of the minigun.",
+            "str_weaponmaster": "They are a rank {rank} master of the minigun.",
+            "str_kill": "**TKTKTKTKTKTKTKTKTK!!** {name_player} pushes their minigun barrel right up to {name_target}'s chest, unloading a full round of ammunition and knocking their lifeless corpse back a few yards from the sheer force of the bullets. They failed to outsmart bullet. {emote_skull}",
+            "str_killdescriptor": "obliterated",
+            "str_damage": "Cascades of bullet easily puncture and rupture {name_target}'s {hitzone}!!",
+            "str_duel": "**...** {name_player} and {name_target} crouch close to the ground, throwing sandwiches unto the floor next to each other and repeating memetic voice lines ad nauseam.",
+            "str_description": "It's a minigun.",
+            "str_scalp": " It looks more like a thick slice of swiss cheese than a scalp.",
+            "fn_effect": {
+                "weapon_type": "minigun"
+            },
+            "price": 1000000,
+            "vendors": [
+                "bazaar"
+            ],
+            "classes": [
+                "captcha"
+            ],
+            "stat": "miningun_kills",
+            "captcha_length": 6
+        },
+        "bat": {
+            "alias": [
+                "club",
+                "batwithnails",
+                "nailbat"
+            ],
+            "str_crit": "**Critical hit!!** {name_player} has bashed {name_target} up real bad!",
+            "str_miss": "**MISS!!** {name_player} swung wide and didn't even come close!",
+            "str_equip": "You equip the bat with nails in it.",
+            "str_name": "bat",
+            "str_weaponmaster_self": "You are a rank {rank} master of the nailbat.",
+            "str_weaponmaster": "They are a rank {rank} master of the nailbat.",
+            "str_weapon": "a bat full of nails",
+            "str_kill": "{name_player} pulls back for a brutal swing! **CRUNCCHHH.** {name_target}'s brains splatter over the sidewalk. {emote_skull}",
+            "str_killdescriptor": "nail bat battered",
+            "str_damage": "{name_target} is struck with a hard blow to the {hitzone}!!",
+            "str_duel": "**SMASHH! CRAASH!!** {name_player} and {name_target} run through the neighborhood, breaking windshields, crushing street signs, and generally having a hell of a time.",
+            "str_description": "It's a nailbat.",
+            "str_scalp": " It has a couple nails in it.",
+            "fn_effect": {
+                "weapon_type": "variable_damage"
+            },
+            "price": 10000,
+            "classes": [],
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "stat": "bat_kills"
+        },
+        "brassknuckles": {
+            "alias": [
+                "knuckles",
+                "knuckledusters",
+                "dusters"
+            ],
+            "str_crit": "***SKY UPPERCUT!!*** {name_player} executes an artificially difficult combo, rocketing their fist into the bottom of {name_target}'s jaw so hard that {name_target}'s colliding teeth brutally sever an inch off their own tongue!!",
+            "str_miss": "**MISS!** {name_player} couldn't land a single blow!!",
+            "str_equip": "You equip the brass knuckles.",
+            "str_name": "brass knuckles",
+            "str_weapon": "brass knuckles",
+            "str_weaponmaster_self": "You are a rank {rank} master pugilist.",
+            "str_weaponmaster": "They are a rank {rank} master pugilist.",
+            "str_kill": "{name_player} slugs {name_target} right between the eyes! *POW! THWACK!!* **CRUNCH.** Shit. May have gotten carried away there. Oh, well. {emote_skull}",
+            "str_killdescriptor": "pummeled to death",
+            "str_damage": "{name_target} is socked in the {hitzone}!!",
+            "str_duel": "**POW! BIFF!!** {name_player} and {name_target} take turns punching each other in the abs. It hurts so good.",
+            "str_description": "They're brass knuckles.",
+            "str_scalp": " It has bone fragments in it.",
+            "fn_effect": {
+                "weapon_type": "variable_damage"
+            },
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [],
+            "stat": "brassknuckles_kills"
+        },
+        "katana": {
+            "alias": [
+                "weebsword",
+                "ninjasword",
+                "samuraisword",
+                "blade"
+            ],
+            "str_crit": "**Critical hit!!** {name_target} is cut deep!!",
+            "str_miss": "",
+            "str_equip": "You equip the katana.",
+            "str_name": "katana",
+            "str_weapon": "a katana",
+            "str_weaponmaster_self": "You are a rank {rank} blademaster.",
+            "str_weaponmaster": "They are a rank {rank} blademaster.",
+            "str_kill": "Faster than the eye can follow, {name_player}'s blade glints in the greenish light. {name_target} falls over, now in two pieces. {emote_skull}",
+            "str_killdescriptor": "bisected",
+            "str_damage": "{name_target} is slashed across the {hitzone}!!",
+            "str_duel": "**CRACK!! THWACK!! CRACK!!** {name_player} and {name_target} duel with bamboo swords, viciously striking at head, wrist and belly.",
+            "str_description": "It's a katana.",
+            "str_scalp": " It seems to have been removed with some precision.",
+            "fn_effect": {
+                "weapon_type": "precision"
+            },
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [
+                "captcha"
+            ],
+            "stat": "katana_kills",
+            "captcha_length": 4
+        },
+        "broadsword": {
+            "alias": [
+                "sword",
+                "highlander",
+                "arawheapofiron",
+                "eyelander"
+            ],
+            "str_crit": "Critical hit!! {name_player} screams at the top of their lungs and unleashes a devastating overhead swing that maims {name_target}.",
+            "str_miss": "You missed! You grunt as your failed overhead swing sends ripples through the air.",
+            "str_equip": "You equip the broadsword.",
+            "str_name": "broadsword",
+            "str_weapon": "a broadsword",
+            "str_weaponmaster_self": "You are a rank {rank} berserker.",
+            "str_weaponmaster": "They are a rank {rank} berserker.",
+            "str_kill": "{name_player} skewers {name_target} through the back to the hilt of their broadsword, before kicking their lifeless corpse onto the street corner in gruseome fashion. {name_player} screams at the top of their lungs. {emote_skull}",
+            "str_killdescriptor": "slayed",
+            "str_damage": "{name_target}'s {hitzone} is separated from their body!!",
+            "str_duel": "SCHWNG SCHWNG! {name_player} and {name_target} scream at the top of their lungs to rehearse their battle cries.",
+            "str_description": "It's a broadsword.",
+            "str_reload": "You summon strength and muster might from every muscle on your body to hoist your broadsword up for another swing.",
+            "str_reload_warning": "**THUD...** {name_player}'s broadsword is too heavy, it's blade has fallen to the ground!!",
+            "str_scalp": " It was sloppily lopped off.",
+            "clip_size": 1,
+            "price": 10000,
+            "fn_effect": {
+                "weapon_type": "heavy"
+            },
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [],
+            "stat": "broadsword_kills"
+        },
+        "nun-chucks": {
+            "alias": [
+                "nanchacku",
+                "nunchaku",
+                "chucks",
+                "numchucks",
+                "nunchucks"
+            ],
+            "str_crit": "**COMBO!** {name_player} strikes {name_target} with a flurry of 5 vicious blows!",
+            "str_equip": "You equip the nun-chucks.",
+            "str_name": "nun-chucks",
+            "str_weapon": "nun-chucks",
+            "str_weaponmaster_self": "You are a rank {rank} kung-fu master.",
+            "str_weaponmaster": "They are a rank {rank} kung-fu master.",
+            "str_kill": "**HIIII-YAA!!** With expert timing, {name_player} brutally batters {name_target} to death, then strikes a sweet kung-fu pose. {emote_skull}",
+            "str_killdescriptor": "fatally bludgeoned",
+            "str_damage": "{name_target} takes {strikes} nun-chuck whacks directly in the {hitzone}!!",
+            "str_duel": "**HII-YA! HOOOAAAAAHHHH!!** {name_player} and {name_target} twirl wildly around one another, lashing out with kung-fu precision.",
+            "str_description": "They're nunchucks.",
+            "str_scalp": " It looks very bruised.",
+            "fn_effect": {
+                "weapon_type": "burst_fire"
+            },
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [],
+            "stat": "nunchucks_kills"
+        },
+        "scythe": {
+            "alias": [
+                "sickle"
+            ],
+            "str_crit": "**Critical hit!!** {name_target} is carved by the wicked curved blade!",
+            "str_miss": "**MISS!!** {name_player}'s swings wide of the target!",
+            "str_equip": "You equip the scythe.",
+            "str_name": "scythe",
+            "str_weapon": "a scythe",
+            "str_weaponmaster_self": "You are a rank {rank} master of the scythe.",
+            "str_weaponmaster": "They are a rank {rank} master of the scythe.",
+            "str_kill": "**SLASHH!!** {name_player}'s scythe cleaves the air, and {name_target} staggers. A moment later, {name_target}'s torso topples off their waist. {emote_skull}",
+            "str_killdescriptor": "sliced in twain",
+            "str_damage": "{name_target} is cleaved through the {hitzone}!!",
+            "str_duel": "**WHOOSH, WHOOSH** {name_player} and {name_target} swing their blades in wide arcs, dodging one another's deadly slashes.",
+            "str_description": "It's a scythe.",
+            "str_scalp": " It's cut in two pieces.",
+            "price": 10000,
+            "fn_effect": {
+                "weapon_type": "heavy"
+            },
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [],
+            "stat": "scythe_kills"
+        },
+        "yo-yo": {
+            "alias": [
+                "yo-yos",
+                "yoyo",
+                "yoyos"
+            ],
+            "str_crit": "SMAAAASH!! {name_player} pulls off a modified Magic Drop, landing a critical hit on {name_target} just after the rejection!",
+            "str_miss": "You missed! {name_player} misjudges their yo-yos trajectory and botches an easy trick.",
+            "str_equip": "You equip the yo-yo.",
+            "str_name": "yo-yo",
+            "str_weaponmaster_self": "You are a rank {rank} master of the yo-yo.",
+            "str_weaponmaster": "They are a rank {rank} master of the yo-yo.",
+            "str_weapon": "a yo-yo",
+            "str_kill": "{name_player} performs a modified Kwyjibo, effortlessly nailing each step before killing their opponent just ahead of the dismount.",
+            "str_killdescriptor": "amazed",
+            "str_damage": "{name_player} used {name_target}'s {hitzone} as a counterweight!!",
+            "str_duel": "whhzzzzzz {name_player} and {name_target} practice trying to Walk the Dog for hours. It never clicks.",
+            "str_description": "It's a yo-yo.",
+            "str_scalp": " It has a ball bearing hidden inside it. You can spin it like a fidget spinner.",
+            "fn_effect": {},
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [],
+            "stat": "yoyo_kills"
+        },
+        "knives": {
+            "alias": [
+                "knife",
+                "dagger",
+                "daggers",
+                "throwingknives",
+                "throwingknife"
+            ],
+            "str_crit": "**Critical hit!!** {name_player}'s knife strikes a vital point!",
+            "str_miss": "**MISS!!** {name_player}'s knife missed its target!",
+            "str_equip": "You equip the throwing knives.",
+            "str_name": "throwing knives",
+            "str_weapon": "throwing knives",
+            "str_weaponmaster_self": "You are a rank {rank} master of the throwing knife.",
+            "str_weaponmaster": "They are a rank {rank} master of the throwing knife.",
+            "str_kill": "A blade flashes through the air!! **THUNK.** {name_target} is a goner, but {name_player} slits their throat before fleeing the scene, just to be safe. {emote_skull}",
+            "str_killdescriptor": "knifed",
+            "str_damage": "{name_target} is stuck by a knife in the {hitzone}!!",
+            "str_duel": "**TING! TING!!** {name_player} and {name_target} take turns hitting one another's knives out of the air.",
+            "str_description": "They're throwing knives.",
+            "str_scalp": " It has about a half dozen stab holes in it.",
+            "fn_effect": {
+                "weapon_type": "small_game"
+            },
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [],
+            "stat": "knives_kills"
+        },
+        "molotov": {
+            "alias": [
+                "firebomb",
+                "molotovcocktail",
+                "bomb",
+                "bombs",
+                "moly"
+            ],
+            "str_miss": "**A dud!!** the rag failed to ignite the molotov!",
+            "str_crit": "{name_player}'s cocktail shatters at the feet of {name_target}, sending a shower of shattered shards of glass into them!!",
+            "str_equip": "You equip the molotov cocktail.",
+            "str_name": "molotov cocktail",
+            "str_weapon": "molotov cocktails",
+            "str_weaponmaster_self": "You are a rank {rank} master arsonist.",
+            "str_weaponmaster": "They are a rank {rank} master arsonist.",
+            "str_kill": "**SMASH!** {name_target}'s front window shatters and suddenly flames are everywhere!! The next morning, police report that {name_player} is suspected of arson. {emote_skull}",
+            "str_killdescriptor": "exploded",
+            "str_damage": "{name_target} dodges a bottle, but is singed on the {hitzone} by the blast!!",
+            "str_duel": "{name_player} and {name_target} compare notes on frontier chemistry, seeking the optimal combination of combustibility and fuel efficiency.",
+            "str_description": "These are glass bottles filled with some good ol' fashioned pyrotechnics.",
+            "str_scalp": " It's burnt to a crisp!",
+            "fn_effect": {
+                "weapon_type": "incendiary"
+            },
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [
+                "burning",
+                "captcha"
+            ],
+            "stat": "molotov_kills",
+            "captcha_length": 4
+        },
+        "grenades": {
+            "alias": [
+                "nades",
+                "grenade"
+            ],
+            "str_crit": "**Critical hit!!** {name_target} is blown off their feet by the initial explosion, and lacerated by innumerable shards of shrapnel scattering themselves through their body!!",
+            "str_miss": "**You missed!!** {name_player}'s poor aim sends their grenade into a nearby alleyway, it's explosion eliciting a Wilhelm scream and the assumed death of an innocent passerby. LOL!!",
+            "str_equip": "You equip the grenades.",
+            "str_name": "grenades",
+            "str_weapon": "grenades",
+            "str_weaponmaster_self": "You are a rank {rank} master of the grenades.",
+            "str_weaponmaster": "They are a rank {rank} master of the grenades.",
+            "str_kill": "**KA-BOOM!!** {name_player} pulls the safety pin and holds their grenade just long enough to cause it to explode mid air, right in front of {name_target}'s face, blowing it to smithereens. {emote_skull}",
+            "str_killdescriptor": "exploded",
+            "str_damage": "{name_player}'s grenade explodes, sending {name_target}'s {hitzone} flying off their body!!",
+            "str_duel": "**KA-BOOM!!** {name_player} and {name_target} pull the pin out of their grenades and hold it in their hands to get a feel for how long it takes for them to explode. They lose a few body parts in the process.",
+            "str_description": "A stack of grenades.",
+            "str_scalp": " It's covered in metallic shrapnel.",
+            "fn_effect": {
+                "weapon_type": "explosive"
+            },
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [
+                "exploding",
+                "captcha"
+            ],
+            "stat": "grenade_kills",
+            "captcha_length": 4
+        },
+        "garrote": {
+            "alias": [
+                "wire",
+                "garrotewire",
+                "garrottewire"
+            ],
+            "str_crit": "**CRITICAL HIT!!** {name_player} got lucky and caught {name_target} completely unaware!!",
+            "str_miss": "**MISS!** {name_player}'s target got away in time!",
+            "str_equip": "You equip the garrotte wire.",
+            "str_name": "garrote wire",
+            "str_weapon": "a garrotte wire",
+            "str_weaponmaster_self": "You are a rank {rank} master of the garrotte.",
+            "str_weaponmaster": "They are a rank {rank} master of the garrotte.",
+            "str_kill": "{name_player} quietly moves behind {name_target} and... **!!!** After a brief struggle, only a cold body remains. {emote_skull}",
+            "str_killdescriptor": "garrote wired",
+            "str_damage": "{name_target} is ensnared by {name_player}'s wire!!",
+            "str_duel": "{name_player} and {name_target} compare their dexterity by playing Cat's Cradle with deadly wire.",
+            "str_description": "It's a garrote wire.",
+            "str_scalp": " It's a deep shade of blue.",
+            "price": 10000,
+            "vendors": [
+                "Dojo",
+                "The Breakroom"
+            ],
+            "classes": [],
+            "stat": "garrote_kills"
+        },
+        "pickaxe": {
+            "alias": [
+                "pick",
+                "poudrinpickaxe",
+                "poudrinpick"
+            ],
+            "str_crit": "**Critical hit!!** By sheer dumb luck, {name_player} manages to get a good hit off on {name_target}'s {hitzone}.",
+            "str_miss": "**MISS!!** {name_player} is too weak to lift their pickaxe!",
+            "str_equip": "You equip the pickaxe.",
+            "str_name": "pickaxe",
+            "str_weapon": "a pickaxe",
+            "str_weaponmaster_self": "You are a rank {rank} coward of the pickaxe.",
+            "str_weaponmaster": "They are a rank {rank} coward of the pickaxe.",
+            "str_kill": "**THWACK!!** {name_player} summons what little courage they possess to lift the pickaxe above their head and !mine {name_target} to death. How embarrassing! {emote_skull}",
+            "str_killdescriptor": "!mined",
+            "str_damage": "{name_target} is lightly tapped on the {hitzone}!!",
+            "str_duel": "**THWACK, THWACK** {name_player} and {name_target} spend some quality time together, catching up and discussing movies they recently watched or food they recently ate.",
+            "str_scalp": " It reeks of dirt and poudrins. How embarrassing!",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "str_description": "It's a pickaxe.",
+            "classes": [],
+            "acquisition": "smelting",
+            "stat": "pickaxe_kills",
+            "is_tool": 1
+        },
+        "fishingrod": {
+            "alias": [
+                "fish",
+                "fishing",
+                "rod",
+                "super",
+                "superrod",
+                "superfishingrod"
+            ],
+            "str_crit": "**Critical hit!!** By sheer dumb luck, {name_player} manages to get a good hit off on {name_target}'s {hitzone}.",
+            "str_miss": "**MISS!!** {name_player} is too weak to cast their fishing rod!",
+            "str_equip": "You equip the super fishing rod.",
+            "str_name": "super fishing rod",
+            "str_weapon": "a super fishing rod",
+            "str_weaponmaster_self": "You are a rank {rank} coward of the super fishing rod.",
+            "str_weaponmaster": "They are a rank {rank} coward of the super fishing rod.",
+            "str_kill": "*whsssh* {name_player} summons what little courage they possess to reel in {name_target} and wring all the slime out of them. How embarrassing! {emote_skull}",
+            "str_killdescriptor": "!reeled",
+            "str_damage": "{name_target} is lightly pierced on the {hitzone}!!",
+            "str_duel": "**whsssh, whsssh** {name_player} and {name_target} spend some quality time together, discussing fishing strategy and preferred types of bait.",
+            "str_scalp": " It has a fishing hook stuck in it. How embarrassing!",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "str_description": "It's a super fishing rod.",
+            "acquisition": "smelting",
+            "stat": "fishingrod_kills",
+            "is_tool": 1
+        },
+        "bass": {
+            "alias": [
+                "bass"
+            ],
+            "str_crit": "**Critical hit!!** Through skilled swipes {name_player} manages to sharply strike {name_target}'s {hitzone}.",
+            "str_miss": "**MISS!!** {name_player} swings and misses like a dumbass!",
+            "str_equip": "You equip the bass guitar, a highly distorted and reverbed riff of unknown origin plays as you place the strap over your neck.",
+            "str_name": "bass guitar",
+            "str_weapon": "a bass guitar",
+            "str_weaponmaster_self": "You are a rank {rank} master of the bass guitar.",
+            "str_weaponmaster": "They are a rank {rank} master of the bass guitar.",
+            "str_kill": "*CRASSHHH.* {name_player} brings down the bass on {name_target} with righteous fury. Discordant notes play harshly as the bass trys its hardest to keep itself together. {emote_skull}",
+            "str_killdescriptor": "smashed to pieces",
+            "str_damage": "{name_target} is whacked across the {hitzone}!!",
+            "str_duel": "**SMASHHH.** {name_player} and {name_target} smash their bass together before admiring eachothers skillful basslines.",
+            "str_scalp": " If you listen closely, you can still hear the echoes of a sick bassline from yesteryear.",
+            "fn_effect": {
+                "weapon_type": "variable_damage"
+            },
+            "str_description": "It's a bass guitar. All of its strings are completely out of tune and rusted.",
+            "acquisition": "smelting",
+            "stat": "bass_kills"
+        },
+        "umbrella": {
+            "alias": [
+                "umbrella",
+                "slimebrella",
+                "slimecorpumbrella"
+            ],
+            "str_crit": "**Critical hit!!** {name_player} briefly stuns {name_target} by opening their umbrella in their face, using the opportunity to score a devastating blow to their {hitzone}.",
+            "str_miss": "**MISS!!** {name_player} fiddles with their umbrella, failing to open it!",
+            "str_equip": "You equip the umbrella.",
+            "str_name": "umbrella",
+            "str_weapon": "an umbrella",
+            "str_weaponmaster_self": "You are a rank {rank} master of the umbrella.",
+            "str_weaponmaster": "They are a rank {rank} master of the umbrella.",
+            "str_kill": "*SPLAT.* {name_player} pierces {name_target} through the chest, hoists them over their head and opens their umbrella, causing them to explode in a rain of blood and slime. {emote_skull}",
+            "str_killdescriptor": "umbrella'd",
+            "str_damage": "{name_target} is struck in the {hitzone}!!",
+            "str_duel": "**THWACK THWACK.** {name_player} and {name_target} practice their fencing technique, before comparing their favorite umbrella patterns.",
+            "str_scalp": " At least it didn't get wet.",
+            "fn_effect": {
+                "weapon_type": "defensive"
+            },
+            "str_description": "It's an umbrella, both stylish and deadly.",
+            "price": 100000,
+            "vendors": [
+                "bazaar"
+            ],
+            "classes": [
+                "defensive",
+                "captcha"
+            ],
+            "stat": "umbrella_kills",
+            "captcha_length": 4
+        },
+        "bow": {
+            "alias": [
+                "bow"
+            ],
+            "str_crit": "**Critical hit!!** Through measured shots {name_player} manages to stick a pixelated arrow in {name_target}'s {hitzone}.",
+            "str_miss": "**MISS!!** {name_player} completely misses, a pixelated arrow embeds itself into the ground!",
+            "str_equip": "You equip the minecraft bow, c418 music plays in the background.",
+            "str_name": "minecraft bow",
+            "str_weapon": "a minecraft bow",
+            "str_weaponmaster_self": "You are a rank {rank} minecraft bowmaster.",
+            "str_weaponmaster": "They are a rank {rank} minecraft bowmaster.",
+            "str_kill": "*Pew Pew Pew.* {name_player} spams the bow as {name_target}'s life fades, riddling their body with arrows. {emote_skull}",
+            "str_killdescriptor": "shot to death",
+            "str_damage": "{name_target} is shot in the {hitzone}!!",
+            "str_duel": "{name_player} and {name_target} shoot distant targets, {name_player} is clearly the superior bowman.",
+            "str_scalp": " The scalp has pixels covering it.",
+            "fn_effect": {
+                "weapon_type": "small_game"
+            },
+            "str_description": "It's a newly crafted minecraft bow, complete with a set of minecraft arrows",
+            "acquisition": "smelting",
+            "stat": "bow_kills"
+        },
+        "dclaw": {
+            "alias": [
+                "dragon claw"
+            ],
+            "str_crit": "{name_player} runs like a madman towards {name_target}, {name_target} swings but is deftly parried by {name_player}, {name_player} hoists their dragon claw into the air and ripostes {name_target} for massive damage ***!!!Critical Hit!!!***",
+            "str_miss": "{name_player} swings but {name_target} is in the middle of a dodge roll and is protected by iframes. **!!Miss!!**",
+            "str_equip": "You place the core of the dragon claw on your hand and it unfolds around it, conforming to the contour of your hands, claws protude out the end of your fingers as your hand completes its transformation into the *dragon claw*.",
+            "str_name": "dragon claw",
+            "str_weapon": "a dragon claw",
+            "str_weaponmaster_self": "You are a rank {rank} master of the dragon claw.",
+            "str_weaponmaster": "They are a rank {rank} master of the dragon claw.",
+            "str_kill": "***Thwip.*** {name_player}'s dragon claw cuts the air followed by a trail of flame and blood, the camera pans out and {name_target} is shown, cut in twain. {emote_skull}",
+            "str_killdescriptor": "cut to pieces",
+            "str_damage": [
+                "{name_target} is slashed across the {hitzone}!!",
+                "{name_player} furiously slashes {name_target} across the {hitzone}!!",
+                "{name_player} flicks their fingers and a jet of flame ignites from the dragon claw, burning {name_target} in the {hitzone}!!"
+            ],
+            "str_duel": "**SLICE!! SWIPE!! SLASH!!** {name_player} and {name_target} cut the fuck out of eachother, a fire extinguisher is never more than a meter away.",
+            "str_scalp": "The scalp is burning and doesn't look like it's gonna stop.",
+            "fn_effect": {
+                "weapon_type": "incendiary"
+            },
+            "str_description": "It's the core of a Dragon Claw, it will morph around whatever hand it is held by granting them the power of the elusive GREEN EYES SLIME DRAGON. If you listen closely you can hear whines of the dragon soul as it remains perpetually trapped in the weapon.",
+            "acquisition": "smelting",
+            "stat": "dclaw_kills",
+            "classes": [
+                "burning",
+                "captcha"
+            ],
+            "captcha_length": 4
+        },
+        "spray can": {
+            "str_weapon": "a spray can",
+            "str_weaponmaster_self": "You are a rank {rank} vandal of the spray can.",
+            "str_weaponmaster": "They are a rank {rank} vandal of the spray can.",
+            "str_kill": "***PPPPPPSSSSSSSSSHHHHHhhhhhfff.*** {name_player} forcibly opens {name_target}'s mouth and sprays everything they have into their lungs. Their eyes roll back into their head and, trembling, they slowly asphyxiate in your arms. {emote_skull}",
+            "str_killdescriptor": "suffocated",
+            "str_damage": [
+                "{name_target} is whacked across the {hitzone}!!",
+                "{name_player} sprays {name_target} with paint, making them a gaudy color in the {hitzone}!!",
+                "{name_player} humiliates {name_target} by bringing a spray can to a gunfight, mentally damaging them in the {hitzone}!!"
+            ],
+            "str_duel": "**PSSS PSSS PSSSSSHH!** {name_player} and {name_target} spray the dojo walls until they get dizzy from the smell.",
+            "str_scalp": "The scalp is a nice shade of mauve.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "str_description": "It's a Based Hardware brand spray can, in your gang's color. The blurb on the backside preaches about the merits of street art and murals, but you're pretty sure that's just to cover their ass.",
+            "vendors": [
+                "Based Hardware",
+                "The Breakroom"
+            ],
+            "stat": "spraycan_kills",
+            "classes": [
+                "paint",
+                "captcha"
+            ],
+            "captcha_length": 3,
+            "is_tool": 1,
+            "tool_props": {
+                "reg_spray": "You run down the streets, tagging buildings, street signs and old ladies with spray paint in the image of the {gang}!",
+                "miss_spray": "**Miss!** Your can seems to be low on spray. You fill it up and give it a good shake. Good as new!",
+                "crit_spray": "**Critical hit!** You dual wield spray cans, painting an urban masterpiece in one hand and shooting toxic chemicals into a cop's mouth with the other!",
+                "equip_spray": "You get your trusty spray paint at the ready."
+            }
+        },
+        "paintgun": {
+            "alias": [
+                "paint gun",
+                "splatoon"
+            ],
+            "str_crit": "**Critical hit!!** {name_player} aims down the sights with the precision of a video game real life sniper, shooting {name_target} in the eyes from 30 yards! **SPLAAAAAT!!!**",
+            "str_miss": "**MISS!!** {name_player} fires off a volley of paint, but {name_target} jumps behind cover!",
+            "str_equip": "Now listen here. You just equipped a paint gun. Keep in mind this is the weapon that boomer families shoot each other with to have fun. Enjoy trying to kill with it.",
+            "str_name": "paint gun",
+            "str_weapon": "a paint gun",
+            "str_weaponmaster_self": "You are a rank {rank} vandal of the paint gun.",
+            "str_weaponmaster": "They are a rank {rank} vandal of the paint gun.",
+            "str_kill": "***SPLAAAAART!!!!*** {name_player} fatally strikes {name_target}, and they explode from the inside out! There's a lot more gore than when you see it happen in Splatoon, though.{emote_skull}",
+            "str_killdescriptor": "imploded",
+            "str_damage": [
+                "{name_target} is splatted in the {hitzone}!!",
+                "{name_player} shoots {name_target} with paint, making them a gaudy color in the {hitzone}!!",
+                "{name_player} attacks {name_target} with harmless paint!!"
+            ],
+            "str_duel": "**SPLAT TAT TAT!!** {name_player} and {name_target} harass everyone in the dojo with their paint guns.",
+            "str_scalp": "The scalp is colorful, from both blood and paint.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "str_description": "It's an industrial strength two handed paint gun with a sniper scope attached. What do they use this for in industry, anyway?",
+            "vendors": [
+                "Based Hardware",
+                "The Breakroom"
+            ],
+            "stat": "paintgun_kills",
+            "classes": [
+                "paint",
+                "ammo",
+                "captcha"
+            ],
+            "clip_size": 15,
+            "price": 5000,
+            "captcha_length": 4,
+            "is_tool": 1,
+            "str_reload": "*Click.* You grab a paint cylinder from god knows where and load it into your gun, chucking the leftover one behind an alleyway.",
+            "tool_props": {
+                "reg_spray": "You find a patch of wall several yards away that hasn't been vandalized yet. Time to take aim and...BAM! Nice shot!",
+                "miss_spray": "**Miss!** Your aim was as sharp as ever, but a fucking pigeon took the hit! Christ, what are the odds?",
+                "crit_spray": "**Critical hit!** The paint bullet skids a wall, spreading your paint across the whole thing!",
+                "equip_spray": "You load a clip of paint into the gun and throw it onto your back, kinda like Rambo if he were an art major."
+            }
+        },
+        "paintroller": {
+            "alias": [
+                "paint roller",
+                "roller"
+            ],
+            "str_crit": "**Critical hit!!** {name_player}  knocks {name_target} to the ground and does a golf swing to their vulnerable little head, sending them spinning. **FWAP!!!**",
+            "str_miss": "**MISS!!** {name_player} does cringey bo staff jujitsu moves with the roller and forgets to actually attack {name_target}!",
+            "str_equip": "You hold the paint roller in your hand. The light plastic broom handle and spongy brush are sure to deal at least 10 damage.",
+            "str_name": "paint roller",
+            "str_weapon": "a paint roller",
+            "str_weaponmaster_self": "You are a rank {rank} vandal of the paint roller.",
+            "str_weaponmaster": "They are a rank {rank} vandal of the paint roller.",
+            "str_kill": "***CA-CRACK!*** {name_player} opens {name_target}'s skull like an egg using the dull metal edge of the roller. It appears to be hollow, after all, {name_target} was stupid enough to get killed with a fucking paint roller.{emote_skull}",
+            "str_killdescriptor": "cracked open",
+            "str_damage": [
+                "{name_target} is swatted in the {hitzone}!!",
+                "{name_player} slaps {name_target} with paint, making them a gaudy color in the {hitzone}!!",
+                "{name_player} rolls paint all over {name_target}'s {hitzone}!!"
+            ],
+            "str_duel": "{name_player} and {name_target} quietly pass the time rolling paint over the windows of nearby houses You both have learned tranquility.",
+            "str_scalp": "The scalp is split in half, with a big hole right in the middle.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "price": 4500,
+            "str_description": "It's a long, broom-like plastic paint roller with a spongy brush and metal axle. The modern man's bo staff.",
+            "vendors": [
+                "Based Hardware",
+                "The Breakroom"
+            ],
+            "stat": "paintroller_kills",
+            "classes": [
+                "paint",
+                "captcha"
+            ],
+            "captcha_length": 4,
+            "is_tool": 1,
+            "tool_props": {
+                "reg_spray": "You roll paint over as much surface area as your puny little Juvie legs can take you to.",
+                "miss_spray": "**Miss!** The sponge on your roller snaps off and it takes too long for you to notice. What a waste!",
+                "crit_spray": "**Critical hit!** Your mind goes blank in a painting-induced rage. When you wake up, all your surroundings are {color} You should do that more often!",
+                "equip_spray": "You grab your paint roller and strap it on your back."
+            }
+        },
+        "paintbrush": {
+            "alias": [
+                "paint brushes",
+                "brush"
+            ],
+            "str_crit": "**Critical hit!!** {name_player}  stabs {name_target} with one brush and paints over their eyes with another!  **HOT DOG!!!**",
+            "str_miss": "**MISS!!** {name_player} throws the brushes at {name_target}, but they get hit with the soft bristles instead of the pointy bit!",
+            "str_equip": "If only you had a whittling knife that could sharpen paintbrush handles. That way you could equip the knife as a weapon instead of this.",
+            "str_name": "paintbrushes",
+            "str_weapon": "paintbrushes",
+            "str_weaponmaster_self": "You are a rank {rank} vandal of the paintbrush.",
+            "str_weaponmaster": "They are a rank {rank} vandal of the paintbrush.",
+            "str_kill": "***MASTERPIECE!*** {name_target} takes a mortal brush to the forehead, courtesy of {name_player}'s talent as a painter. {emote_skull}",
+            "str_killdescriptor": "paintbrushed to death",
+            "str_damage": [
+                "{name_target} is handlestabbed in the {hitzone}!!",
+                "{name_player} flecks {name_target} with paint, making them a gaudy color in the {hitzone}!!",
+                "{name_player} grazes {name_target}'s {hitzone} with coarse bristles!!"
+            ],
+            "str_duel": "{name_player} and {name_target} paint random text commands on the walls outside the Dojo. {name_target} paints some furry art when nobody's looking.",
+            "str_scalp": "The scalp has a bunch of welts, and has a faint smell of lead.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "str_description": "A stack of large, coarse-bristled paintbrushes, linked together on a burlap string.",
+            "vendors": [
+                "Based Hardware",
+                "The Breakroom"
+            ],
+            "stat": "paintbrush_kills",
+            "classes": [
+                "paint",
+                "captcha"
+            ],
+            "price": 100,
+            "captcha_length": 3,
+            "is_tool": 1,
+            "tool_props": {
+                "reg_spray": "You paint vulgar {gang} symbols on as many buildings as you can.",
+                "miss_spray": "**Miss!** You finish with a paint can and have to switch! You waste too much time getting the can open.",
+                "crit_spray": "**Critical hit!**  You hold the paint can in your mouth and start crab walking, throwing paint along the wall as you do it! Somehow, this is more efficient!",
+                "equip_spray": "You get your brushes at the ready."
+            }
+        },
+        "watercolors": {
+            "alias": [
+                "paint brushes",
+                "brush"
+            ],
+            "str_crit": "```css\n\"oooOOOOOOOH LA LA! {name_target} is exposed to {name_player}'s watercolor pornography! They won't be able to recover from that!\"\n```",
+            "str_miss": "```css\n[{name_player} paints a picture for {name_target}. It does no damage, as expected.]\n```",
+            "str_equip": "```ini\n[You get a nice mug to dip your little paintbrush in, and open your 12 set of watercolors. Look out world, here comes you!]\n```",
+            "str_name": "watercolors",
+            "str_weapon": "a set of watercolors",
+            "str_weaponmaster_self": "You are a rank {rank} flaming homosexual of watercolors.",
+            "str_weaponmaster": "They are a rank {rank} flaming homosexual of watercolors.",
+            "str_kill": "```bash\n\"HUUUUUUH?? {name_target} goes and kills themselves after having an existential crisis! {name_player} seems to have done this with only their own retardation!\"\n```",
+            "str_killdescriptor": "driven to suicide",
+            "str_damage": "```ini\n[{name_player} paints a picture of {name_target}. Their self esteem takes a hit!]\n```",
+            "str_duel": "```json\n\"{name_player} and {name_target} practice art using Dojo-owned easels and canvases. Eventually, the training session breaks down and, you just throw paint water at each other and giggle like schoolgirls.\"\n```",
+            "str_scalp": "The scalp is perfectly intact.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "str_description": "A 12 pack of watercolors, the kind you used when you were a 5 years old boy.",
+            "vendors": [
+                "Based Hardware",
+                "The Breakroom"
+            ],
+            "stat": "watercolor_kills",
+            "classes": [
+                "paint",
+                "captcha"
+            ],
+            "price": 1300,
+            "captcha_length": 3,
+            "is_tool": 1,
+            "tool_props": {
+                "reg_spray": "Nice drawing, {curse}! ",
+                "miss_spray": "**Miss!** Your painting sucks. God, you're stupid. ",
+                "crit_spray": "After the thousandth failed watercolor gesamtkunstwerk you decide enough is enough. Fuck this. Fuck the gangs, fuck the violence, fuck the perpetually rotting lets player that compels you to rigor mortis yourself more frequently than you eat breakfast. The spite is so concentrated that it compels you to turn your life around. You get a fake ID, join the PTA, and rope them into cleaning every last inch of this district until the homeless population smell like citrus and give out free, non-tainted lollipops. However, your newfound peaceful life is interrupted by the night terrors ENDLESS WAR now gives you on a daily basis, and you decide to go back to being a gangster. You suppose some things never change.",
+                "equip_spray": "You get out your 12 pack of watercolors. Can't believe you have to use one of these."
+            }
+        },
+        "thinnerbomb": {
+            "alias": [
+                "thinner",
+                "thinnerbombs"
+            ],
+            "str_crit": "**Critical hit!!** {name_player} slams {name_target} with a bottle of paint thinner, showering their face with broken glass and getting some of the thinner down their gullet. They fall back, dazed and bleeding.",
+            "str_miss": "**MISS!!** {name_player} is too dazed by their own chemicals to make a move! They drop the bottle on accident, throwing vapors all over the place.",
+            "str_equip": "You pull out the thinner bombs and hold their bottlenecks between your fingers. Never has a not-weapon ever felt so cool.",
+            "str_name": "thinner bombs",
+            "str_weapon": "thinner bombs",
+            "str_weaponmaster_self": "You are a rank {rank} vandal of the thinner bomb.",
+            "str_weaponmaster": "They are a rank {rank} vandal of the thinner bomb.",
+            "str_kill": "***WHAT A SIZZLER!*** {name_target}, dazed from the concentrated toxic chemicals in the air, falls to the ground, giving {name_player} the chance to stab them through the neck with the broken bottle. Inhalants. Not even once. {emote_skull}",
+            "str_killdescriptor": "drugged",
+            "str_damage": [
+                "{name_target} gets a thinnerbomb to the {hitzone}!!",
+                "{name_player} slashes {name_target} with a broken thinnerbomb! Ooh, right in the {hitzone}!!"
+            ],
+            "str_duel": "{name_player} and {name_target} build a resistance to the noxious chemicals they're using by drinking paint thinner together. Cheers.",
+            "str_scalp": "The scalp smells awful, you can hardly hold it.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "str_description": "A pack of brittle glass bottles filled with paint thinner. This stuff vaporizes like nobody's business, and could strip the osmotic membrane off a slimeoid.",
+            "vendors": [
+                "Based Hardware",
+                "The Breakroom"
+            ],
+            "stat": "thinnerbomb_kills",
+            "classes": [
+                "paint",
+                "captcha"
+            ],
+            "price": 15000,
+            "captcha_length": 4,
+            "is_tool": 1,
+            "tool_props": {
+                "reg_spray": "You find a vandalized wall and toss a thinner bomb on it! You hear a faint sizzling as paint begins to strip off the walls. Sick!",
+                "miss_spray": "**Miss!** You make a mistake on the throw's distance and it bursts uselessly on the ground. You got to do some littering, so at least there's that.",
+                "crit_spray": "**Critical hit!** You take out a paint bomb and throw it at a particularly fragile looking building. The chemicals you used were so caustic that they burned a hole through the whole wall, preventing anyone from painting it for all of time!",
+                "equip_spray": "You get your glass thinner bombs out you you can throw them in a moment's notice."
+            }
+        },
+        "staff": {
+            "alias": [
+                "eldritchstaff",
+                "spookystaff",
+                "reprehensiblerod",
+                "wickedwand",
+                "frighteningfaggot"
+            ],
+            "str_miss": "Your mind goes blank as you feel slime disappear from your body in preparation for a deadly attack.",
+            "str_damage": "{name_player} finalizes their invocation. ",
+            "staff_response": [
+                "Gravity violently increases in the space around {name_target}, slamming them into the ground.",
+                "A blinding white light shines from {name_target}'s {hitzone} as it burns hotter than the surface of the sun.",
+                "Spectral hands caress {name_target}'s body, leaving gaping wounds in their path.",
+                "An unseen force suddenly yoinks {name_target} by their {hitzone}, sending them flying into the air.",
+                "A pitch black horror forms around {name_target}'s {hitzone} and tears into it."
+            ],
+            "str_crit": "{name_player} notices {name_target} still recoiling from the damage, and takes the chance to bonk the everliving shit out of them with their staff. **Critical hit!!**",
+            "str_kill": "A mass of tiny hands erupts from the ground below {name_target}, grabbing on to their body. Their screams echo across the streets as they're dragged through the ground and into the sewers.",
+            "str_equip": "You equip the eldritch staff.",
+            "str_name": "eldritch staff",
+            "str_weapon": "an eldritch staff",
+            "str_weaponmaster_self": "You are a rank {rank} conduit of the ones below.",
+            "str_weaponmaster": "They are a rank {rank} conduit of the ones below.",
+            "str_killdescriptor": "cast down",
+            "str_duel": "{name_player} and {name_target} compare notes on their understanding of the eldritch fuckery they've each experienced.",
+            "str_description": "An intricate wooden staff with a cloudy crystal on its handle. It looks fucking class, but it also gives you the creeps.",
+            "str_scalp": "It's covered in symbols written with a strange black substance.",
+            "acquisition": "smelting",
+            "stat": "staff_kills",
+            "captcha_length": 10
+        },
+        "hoe": {
+            "str_miss": "**MISS!!** {name_player}'s hoe strikes the earth with a loud THUD.",
+            "str_damage": "{name_player} scrapes their hoe across {name_target}'s {hitzone}.",
+            "str_crit": "**CRITICAL HIT!!** {name_player} gets their hoe deep into {name_target}'s body, cutting up their vitals!",
+            "str_kill": "{name_player} pushes {name_target} to the ground. After an intense windup, they slam their hoe down on {name_target}'s neck, decapitating them in the process.",
+            "str_equip": "You ready your hoe.",
+            "str_name": "hoe",
+            "str_weapon": "a hoe",
+            "str_weaponmaster_self": "You are a rank {rank} farmer.",
+            "str_weaponmaster": "They are a rank {rank} farmer.",
+            "str_killdescriptor": "!reaped",
+            "str_duel": "{name_player} and {name_target} discuss their latest harvest and exchange farming tips.",
+            "str_description": "It's a farming hoe.",
+            "str_scalp": "It's covered in dirt.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "price": 100000,
+            "vendors": [
+                "Atomic Forest Stockpile"
+            ],
+            "classes": [
+                "farming",
+                "juvie"
+            ],
+            "stat": "hoe_kills",
+            "captcha_length": 2,
+            "is_tool": 1
+        },
+        "pitchfork": {
+            "str_miss": "**MISS!!** {name_player}'s pitchfork is planted firmly into the ground.",
+            "str_damage": "{name_player} stabs {name_target}'s {hitzone} with their pitchfork!",
+            "str_crit": "**CRITICAL HIT!!** {name_player} pokes several holes in {name_target}!",
+            "str_kill": "{name_player} plants their pitchfork firmly into {name_target} and lifts them high into the air. After {name_target} loses consciousness, {name_target} throws them to the ground.",
+            "str_equip": "You pick up your pitchfork and give the ground a light tap with the handle's end.",
+            "str_name": "pitchfork",
+            "str_weapon": "a pitchfork",
+            "str_weaponmaster_self": "You are a rank {rank} farmer.",
+            "str_weaponmaster": "They are a rank {rank} farmer.",
+            "str_killdescriptor": "!reaped",
+            "str_duel": "{name_player} and {name_target} joust with their pithforks. Thankfully, no one gets hurt in the process.",
+            "str_description": "It's a farming pitchfork.",
+            "str_scalp": "It's got three holes in it.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "price": 100000,
+            "vendors": [
+                "Atomic Forest Stockpile"
+            ],
+            "classes": [
+                "farming",
+                "juvie"
+            ],
+            "stat": "pitchfork_kills",
+            "captcha_length": 2,
+            "is_tool": 1
+        },
+        "shovel": {
+            "str_miss": "**MISS!!** {name_player}'s shovel is planted firmly into the ground.",
+            "str_damage": "{name_player} swings their shovel at {name_target}'s {hitzone}!",
+            "str_crit": "**CRITICAL HIT!** The flat end of {name_player}'s shovel impacts {name_target}'s chest! They start coughing up blood!",
+            "str_kill": "*BONK!* {name_player}'s shovel lands right on top of {name_target}'s head. Their skull and brain is completely crushed by the impact. {name_player} buries them in a shallow grave.",
+            "str_equip": "You grip your shovel tightly in both hands.",
+            "str_name": "shovel",
+            "str_weapon": "a shovel",
+            "str_weaponmaster_self": "You are a rank {rank} farmer.",
+            "str_weaponmaster": "They are a rank {rank} farmer.",
+            "str_killdescriptor": "!digged",
+            "str_duel": "{name_player} and {name_target} perform a high-shovel. The moment could not be more perfect.",
+            "str_description": "It's a shovel.",
+            "str_scalp": "It's flattened.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "price": 100000,
+            "vendors": [
+                "Atomic Forest Stockpile"
+            ],
+            "classes": [
+                "juvie"
+            ],
+            "stat": "shovel_kills",
+            "captcha_length": 2,
+            "is_tool": 1
+        },
+        "slimeringcan": {
+            "str_miss": "**MISS!!** Spouts of slime from {name_players} Slimering Can fly everywhere!",
+            "str_damage": "{name_player} pours slime onto {name_target}'s {hitzone}. What the fuck is that going to accomplish?",
+            "str_crit": "**CRITIAL HIT!!** {name_player} pours slime onto {name_target}'s eyes! How unsanitary!",
+            "str_kill": "{name_player} rams their Slimering Can down {name_target}'s throat. {name_target} chokes to death on slime.",
+            "str_equip": "You pick up your Slimering Can.",
+            "str_name": "slimering can",
+            "str_weapon": "a slimering can",
+            "str_weaponmaster_self": "You are a rank {rank} green thumbed coward.",
+            "str_weaponmaster": "They are a rank {rank} green thumbed coward.",
+            "str_killdescriptor": "drowned",
+            "str_duel": "{name_player} and {name_target} water flowers together. Sometimes it's nice to be a fucking weak willed coward, y'know?",
+            "str_description": "It's a slimering can.",
+            "str_scalp": "It's soaking wet.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "price": 100000,
+            "vendors": [
+                "Atomic Forest Stockpile"
+            ],
+            "classes": [
+                "juvie"
+            ],
+            "stat": "slimeringcan_kills",
+            "captcha_length": 2,
+            "is_tool": 1
+        },
+        "fingernails": {
+            "str_weapon": "their fingernails",
+            "str_weaponmaster_self": "",
+            "str_weaponmaster": "",
+            "str_kill": "{name_player} lunges at {name_target} with fingernails bared! They're mercilessly rips them to pieces, tufts of skin flying every which way! **BRRRRRRRAP!!!** When the dust settles, {name_target} is unrecognizable, and more importantly, dead as fuck. {emote_skull}",
+            "str_killdescriptor": "torn apart",
+            "str_damage": "{name_target} is slashed across the {hitzone}!!",
+            "str_duel": "",
+            "str_description": "",
+            "str_scalp": " Multiple slash marks run across it.",
+            "price": 0,
+            "vendors": [],
+            "classes": [],
+            "stat": "fingernails_kills",
+            "captcha_length": 8
+        },
+        "roomba": {
+            "str_weapon": "a roomba",
+            "str_weaponmaster_self": "You are a rank {rank} roomba acolyte.",
+            "str_weaponmaster": "They are a rank {rank} roomba acolyte.",
+            "str_kill": "{name_player} jumps at {name_target} using the roomba as a springboard! Screaming bloody murder, they beat {name_target} to within an inch of their life. The roomba follows, sucking whatever morsel of slime was left. Job finished. {emote_skull}",
+            "str_killdescriptor": "sucked dry",
+            "str_damage": "{name_player}'s roomba sucks gobs of slime out of {name_target}'s {hitzone}!!",
+            "str_duel": "{name_player} and {name_target} begin engineering their portable vaccums into high class battle bots. By the time you're done the Dojo floor is spotless and everyone nearby is dead.",
+            "str_description": "It's a high powered portable vaccuum designed to clean up dust. You use it to spread paint around by attaching a spray can to the back.",
+            "str_scalp": " It looks stretched and wrinkled.",
+            "fn_effect": {
+                "weapon_type": "tool"
+            },
+            "price": 40000,
+            "vendors": [
+                "Based Hardware"
+            ],
+            "classes": [
+                "paint",
+                "captcha"
+            ],
+            "stat": "fingernails_kills",
+            "captcha_length": 8,
+            "tool_props": {
+                "reg_spray": "The roomba continues its intrepid journey spraying paint around town.",
+                "miss_spray": "**Miss!** Fuck, the thing got stuck on a pothole again.",
+                "crit_spray": "**Critical hit!** A bystander walking by kicks your roomba as it's moving, which inadvertently overclocks its processor!! It speeds around the area with reckless abandon. Go go go!",
+                "equip_spray": "You pull out your roomba and set it on the ground."
+            }
+        },
+        "laywaster": {
+            "alias": [
+                "chainsaw",
+                "megachainsaw",
+                "widowmaker",
+                "jessica"
+            ],
+            "str_crit": "**Critical Hit!** {name_player} snaps {name_target} between two of the sawblades, ripping mercilessly into flesh and nearly vaporizing the spraying blood!",
+            "str_miss": "**Miss!** {name_player} swings the heavy blade around and hits nothing but air.",
+            "str_equip": "You rev up the Laywaster 9000.",
+            "str_name": "multiblade chainsaw",
+            "str_weapon": "a multiblade chainsaw",
+            "str_weaponmaster_self": "You are a rank {rank} master of the Laywaster 9000.",
+            "str_weaponmaster": "They are a rank {rank} master of the Laywaster 9000.",
+            "str_kill": "**VRRRRRRRRRRRRRRRRRRRRRRRRRRRR!**{name_player} swings violently through {name_target}'s unconscious body, each slash making them more unrecognizable than the last. As more and more blood flecks across {name_player}'s face, their opponent turns into a pile of viscera. {emote_skull}",
+            "str_killdescriptor": "shredded to a paste",
+            "str_damage": "{name_target}'s {hitzone} is torn into!! Blood flies everywhere!",
+            "str_duel": "**...** {name_player} and {name_target} clash with each other chainsaw blow for chainsaw blow like badasses.",
+            "str_description": "It's a multi-bladed chainsaw.",
+            "str_scalp": " It's not really a scalp anymore, more of a paste.",
+            "fn_effect": {
+                "weapon_type": "heavy"
+            },
+            "price": 1000000,
+            "vendors": [],
+            "classes": [],
+            "stat": "megachainsaw_kills"
+        },
+        "chainsaw": {
+            "alias": [
+                "ripper",
+                "motoraxe"
+            ],
+            "str_crit": "**Critical hit!!** The jagged teeth of the chainsaw rest within {name_target}, body as the slime flies!!",
+            "str_miss": "**You missed!!** In {name_player}'s excitement and desperation neither chain nor saw hits {name_target}!",
+            "str_equip": "You equip the chainsaw.",
+            "str_name": "chainsaw",
+            "str_weapon": "a chainsaw",
+            "str_weaponmaster_self": "You are a rank {rank} wielder of the chainsaw.",
+            "str_weaponmaster": "They are a rank {rank} wielder of the chainsaw.",
+            "str_kill": "**REEERNREERN!!** {name_player} revs up their chainsaw and carves up {name_target}'s torso, cutting through the guts,bile,viscera, and slime; sending it all flying. They've been cut down to size. {emote_skull}",
+            "str_killdescriptor": "chainsaw'd",
+            "str_damage": "The numerous finely tooth blades tear at {name_target}'s {hitzone}!!",
+            "str_duel": "**...** {name_player} and {name_target} clash with each other chainsaw blow for chainsaw blow like badasses.",
+            "str_description": "It's a chainsaw.",
+            "str_reload": "",
+            "str_reload_warning": "",
+            "str_scalp": "It's more like a collection of dandruff then a scalp.",
+            "fn_effect": {
+                "weapon_type": "heavy"
+            },
+            "price": 1000000,
+            "vendors": [
+                "Based Hardware"
+            ],
+            "classes": [],
+            "stat": "chainsaw_kills",
+            "captcha_length": 4
+        }
+    },
+    "enemy": {
+        "fangs": {
+            "str_crit": "**Critical Hit!** {name_enemy} sinks their teeth deep into {name_target}!",
+            "str_miss": "**{name_enemy} missed!** Their maw snaps shut!",
+            "str_kill": "{name_enemy} opens their jaw for one last bite right on {name_target}'s juicy neck. **CHOMP**. Blood gushes out of their arteries and onto the ground. {emote_skull}",
+            "str_killdescriptor": "mangled",
+            "str_damage": "{name_target} is bitten on the {hitzone}!!",
+            "fn_effect": "atf_fangs"
+        },
+        "talons": {
+            "str_crit": "**Critical hit!!** {name_target} is slashed across the chest!!",
+            "str_miss": "**{name_enemy} missed!** Their wings flap in the air as they prepare for another strike!",
+            "str_kill": "In a fantastic display of avian savagery, {name_enemy}'s talons grip {name_target}'s stomach, rip open their flesh and tear their intestines to pieces. {emote_skull}",
+            "str_killdescriptor": "disembowled",
+            "str_damage": "{name_target} has their {hitzone} clawed at!!",
+            "fn_effect": "atf_talons"
+        },
+        "scythe": {
+            "str_crit": "**Critical hit!!** {name_target} is carved by the wicked curved blade!",
+            "str_miss": "**MISS!!** {name_enemy}'s swings miss wide of the target!",
+            "str_kill": "**SLASHH!!** {name_enemy}'s scythe cleaves the air, and {name_target} staggers. A moment later, {name_target}'s torso topples off their waist. {emote_skull}",
+            "str_killdescriptor": "sliced in twain",
+            "str_damage": "{name_target} is cleaved through the {hitzone}!!",
+            "fn_effect": "atf_raiderscythe"
+        },
+        "gunkshot": {
+            "str_crit": "**Critical hit!!** {name_target} is covered in a thick, gelatenous ooze!",
+            "str_miss": "**MISS!!** {name_enemy}'s gunk shot just barely missed the target!",
+            "str_kill": "**SPLOOSH!!** {name_enemy}'s gunk shot completely envelops {name_target}, boiling their flesh alive in a radiation that rivals the Elephant's Foot. Nothing but a charred husk remains. {emote_skull}",
+            "str_killdescriptor": "slimed on",
+            "str_damage": "{name_target} is coated in searing, acidic radiation on their {hitzone}!!",
+            "fn_effect": "atf_gunkshot"
+        },
+        "tusks": {
+            "str_crit": "**Critical hit!!** {name_target} is smashed hard by {name_enemy}'s tusks!",
+            "str_miss": "**{name_enemy} missed!** Their tusks strike the ground, causing it to quake underneath!",
+            "str_kill": "**SHINK!!** {name_enemy}'s tusk rams right into your chest, impaling you right through your back! Moments later, you're thrusted out on to the ground, left to bleed profusely. {emote_skull}",
+            "str_killdescriptor": "pierced",
+            "str_damage": "{name_target} has tusks slammed into their {hitzone}!!",
+            "fn_effect": "atf_tusks"
+        },
+        "molotovbreath": {
+            "str_crit": "**Critical hit!!** {name_target} is char grilled by {name_enemy}'s barrage of molotov breath!",
+            "str_miss": "**{name_enemy} missed!** Their shot hits the ground instead, causing embers to shoot out in all directions!",
+            "str_kill": "In a last ditch effort, {name_enemy} breathes in deeply for an extra powerful shot of fire. Before you know it, your body is cooked alive like a rotisserie chicken. {emote_skull}",
+            "str_killdescriptor": "exploded",
+            "str_damage": "{name_target} is hit by a blast of fire on their {hitzone}!!",
+            "fn_effect": "atf_molotovbreath"
+        },
+        "armcannon": {
+            "str_crit": "**Critical hit!!** {name_target} has a clean hole shot through their chest by {name_enemy}'s bullet!",
+            "str_miss": "**{name_enemy} missed their target!** The stray bullet cleaves right into the ground!",
+            "str_kill": "{name_enemy} readies their crosshair right for your head and fires without hesitation. The force from the bullet is so powerful that when it lodges itself into your skull, it rips your head right off in the process. {emote_skull}",
+            "str_killdescriptor": "sniped",
+            "str_damage": "{name_target} has a bullet zoom right through their {hitzone}!!",
+            "fn_effect": "atf_armcannon"
+        },
+        "axe": {
+            "str_crit": "**Critical hit!!** {name_target} is thoroughly cleaved by {name_enemy}'s axe!",
+            "str_miss": "**{name_enemy} missed!** The axe gives a loud **THUD** as it strikes the earth!",
+            "str_kill": "{name_enemy} lifts up their axe for one last swing. The wicked edge buries itself deep into your skull, cutting your brain in twain. {emote_skull}",
+            "str_killdescriptor": "axed",
+            "str_damage": "{name_target} is swung at right on their {hitzone}!!",
+            "fn_effect": "atf_axe"
+        },
+        "hooves": {
+            "str_crit": "**Critical hit!!** {name_enemy} lays a savage hind-leg kick into {name_target}'s chest!",
+            "str_miss": "**WHOOSH!** {name_enemy}'s hooves just barely miss you!",
+            "str_kill": "{name_enemy} gallops right over your head, readying their hind legs just after landing. Before you can even ready your weapon, their legs are already planted right onto your chest. Your heart explodes. {emote_skull}",
+            "str_killdescriptor": "stomped",
+            "str_damage": "{name_target} is stomped all over their {hitzone}!!",
+            "fn_effect": "atf_hooves"
+        },
+        "body": {
+            "str_crit": "**OOF!!** {name_enemy} lands a critical strike onto {name_target}'s torso with the sheer impact of their body weight!",
+            "str_miss": "**MISS!** {name_enemy} flails their body around to try and attack {name_target}, but nothing happens...",
+            "str_kill": "{name_enemy} throws every once of force they can at you with your body. The impact is so strong that you're slammed into the ground, shattering your skull. {emote_skull}",
+            "str_killdescriptor": "pushed around",
+            "str_damage": "{name_target} gets bumped around a bit on their {hitzone}!",
+            "fn_effect": "atf_body"
+        },
+        "amateur": {
+            "str_crit": "**AIIIIEEE!!** {name_enemy} screams in abject fear, lunging at {name_target}'s with a {civ_weapon} in hand! Fuck, they actually got you!",
+            "str_miss": "**MISS!** {name_enemy} trips and falls facefirst on the ground. {name_target} is holding back their laughter at how goddamn stupid this all is.",
+            "str_kill": "{name_enemy} is thrown into an adrenaline rush! They brandish their {civ_weapon} and throw it in a perfect spiral, directly through {name_target}'s skull. {emote_skull}",
+            "str_killdescriptor": "felled",
+            "str_damage": "{name_enemy} bludgeons {name_target} in the {hitzone}! At least they try to...",
+            "fn_effect": "atf_body"
+        }
+    },
+    "GvsS": {
+        "g_seeds": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s seeds completely miss {name_target}!",
+            "str_kill": "{name_enemy}'s seeds land right inside {name_target}'s skull, killing them instantly. {emote_skull}",
+            "str_killdescriptor": "seeded",
+            "str_damage": "{name_target} is pummeled with seeds on their {hitzone}!",
+            "str_groupattack": "{name_target} pummels a whole group of shamblers with their seeds!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "g_appleacid": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s acid completely misses {name_target}!",
+            "str_kill": "{name_enemy} hurls a glob of acid straight onto {name_target}'s chest, melting down their insides. {emote_skull}",
+            "str_killdescriptor": "melted down to the bone",
+            "str_damage": "{name_target} is drenched with acid on their {hitzone}!",
+            "str_groupattack": "{name_target} drenches a group of shamblers with their acid!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "g_bloodshot": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s bloodshot dissipates in mid-air as it fails to seek out {name_target}!",
+            "str_kill": "{name_enemy} turns {name_target} into a shriveled up husk! {emote_skull}",
+            "str_killdescriptor": "drained",
+            "str_damage": "{name_target} has their life essence drained away by {name_enemy}!",
+            "str_groupattack": "{name_enemy} sucks the life force out of a group of shamblers!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "g_nuts": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s nuts don't even come close to hitting {name_target}!",
+            "str_kill": "{name_enemy}'s nuts knock {name_target}'s head clean off! {emote_skull}",
+            "str_killdescriptor": "conked on the head",
+            "str_damage": "{name_enemy}'s nuts bonk {name_target} on their {hitzone}!",
+            "str_groupattack": "{name_enemy}'s nuts richochet off of a group of shamblers!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "g_chompers": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s gaping maw snaps shut!",
+            "str_kill": "**CHOMP!** {name_enemy} devours {name_target}, killing them instantly. {emote_skull}",
+            "str_killdescriptor": "chomped",
+            "str_damage": "{name_enemy}'s chompers take a bite out of {name_target}!",
+            "str_groupattack": "{name_enemy} is running wild!! Their chompers lay waste to a group of shamblers!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "g_fists": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy} thrashes about, but fails to hit {name_target}.",
+            "str_kill": "{name_enemy} deals a devastating strike to {name_target}! The impact causes their heart to stop. {emote_skull}",
+            "str_killdescriptor": "punched to death",
+            "str_damage": "{name_enemy}'s fists deal savage blows to {name_target}!",
+            "str_groupattack": "{name_enemy} rushes down a group of shamblers with their fists!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "g_brainwaves": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s Binaural Brainwaves completely miss {name_target}!",
+            "str_kill": "{name_enemy} hypnotizes {name_target} into walking off of the Slime's End cliffs. {emote_skull}",
+            "str_killdescriptor": "mind broken",
+            "str_damage": "{name_enemy}'s Binaural Brainwaves give {name_target} a massive headache!",
+            "str_groupattack": "{name_enemy} is firing on all cylinders! Their Binaural Brainwaves impact multiple shamblers!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "g_vapecloud": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_target} completely avoids {name_enemy}'s vape cloud!",
+            "str_kill": "{name_target} has inhaled too much of {name_enemy}'s toxic vape cloud! {emote_skull}",
+            "str_killdescriptor": "vaped to death",
+            "str_damage": "{name_enemy} completely covers {name_target} in a toxic vape cloud!",
+            "str_groupattack": "{name_enemy} spreads its toxic vape cloud to a group of shamblers!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "g_hotbox": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** weed",
+            "str_kill": " {emote_skull}",
+            "str_killdescriptor": "forced to smoke too much weed",
+            "str_damage": "weed",
+            "str_groupattack": "weed",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "g_blades": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_target} manages to avoid getting cut on {name_enemy}'s blades!",
+            "str_kill": "**SHINK!!** {name_enemy}'s blades sink deep into {name_target}! {emote_skull}",
+            "str_killdescriptor": "cut and stabbed",
+            "str_damage": "{name_enemy} cuts {name_target} with their sharpened blades!",
+            "str_groupattack": "{name_enemy} slices and dices a group of shamblers with their blades!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "g_explosion": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s explosion doesn't even come close to hitting {name_target}!",
+            "str_kill": "**KABOOM!!** {name_enemy} sacrifices itself to blow {name_target} apart! {emote_skull}",
+            "str_killdescriptor": "blown to smithereens",
+            "str_damage": "*BOOM!* {name_enemy}'s explosion puts a dent into {name_target}!",
+            "str_groupattack": "{name_enemy} takes down a group of shamblers with it!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "s_shamboni": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy} drives right past {name_target}!",
+            "str_kill": "{name_enemy}'s wheels completely flatten {name_target}! {emote_skull}",
+            "str_killdescriptor": "run over",
+            "str_damage": "{name_enemy}'s wheels run over {name_target}!",
+            "str_groupattack": "{name_enemy} runs over a group of gaiaslimeoids!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "s_teeth": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s bite doesn't even graze {name_target}!",
+            "str_kill": "**CRUNCH!** {name_enemy} devours {name_target} with their teeth! {emote_skull}",
+            "str_killdescriptor": "bitten all over",
+            "str_damage": "{name_enemy} bites {name_target} on their {hitzone}!",
+            "str_groupattack": "{name_enemy}'s appetite knows no bounds! They bite into several gaiaslimeoids!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "s_tusks": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_targets}'s tusks fail to hit {name_target}, and give a loud *THUD* as they strike the ground!",
+            "str_kill": "**SLAM!** {name_target} is flattened by {name_enemy}'s tusks. {emote_skull}",
+            "str_killdescriptor": "slammed into the ground",
+            "str_damage": "{name_enemy} bashes {name_target}'s {hitzone} with their tusks!",
+            "str_groupattack": "{name_enemy} slams its tusks into several gaiaslimeoids!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "s_fangs": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s jaws snap shut! It failed to eat {name_target}!",
+            "str_kill": "**GULP!** {name_enemy} swallows {name_target} whole! {emote_skull}",
+            "str_killdescriptor": "vored to death",
+            "str_damage": "",
+            "str_groupattack": "NULL",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "s_talons": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy} couldn't get a grip on {name_target}!",
+            "str_kill": "**YOINK!** {name_enemy} picks up {name_target} and carries them off into the sunset... {emote_skull}",
+            "str_killdescriptor": "spirited away",
+            "str_damage": "**SLASH!** {name_enemy} couldn't carry {name_target} away, but scratched them up nonetheless!",
+            "str_groupattack": "{name_enemy} attacks a group of gaiaslimeoids with their talons!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "s_molotovbreath": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_target} managed to avoid {name_enemy}'s hellfire!",
+            "str_kill": "**FWOOOOOOOSHHHHH!!** {name_enemy} burns {name_target} to a crisp! {emote_skull}",
+            "str_killdescriptor": "burnt to ash",
+            "str_damage": "{name_enemy} spits a ball of fire at {name_target} and burns their {hitzone}!",
+            "str_groupattack": "{name_enemy} absolutely incinerates a group of gaiaslimeoids with their molotov breath!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "s_cudgel": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s cudgel misses {name_target} and goes down with a *THUD*.",
+            "str_kill": "**OOF!!** {name_enemy}'s cudgel whacks {name_target} so hard, it buries them far beneath the ground. {emote_skull}",
+            "str_killdescriptor": "flattened",
+            "str_damage": "**BAM!** {name_enemy} strikes {name_target}'s {hitzone} with their cudgel!",
+            "str_groupattack": "NULL",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "s_raiderscythe": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy}'s scythe breezes past {name_target}!",
+            "str_kill": "{name_enemy} cleaves {name_target} in two. {emote_skull}",
+            "str_killdescriptor": "cut in twain",
+            "str_damage": "{name_enemy} slices {name_target} with its scythe!",
+            "str_groupattack": "{name_enemy} slashes a group of gaiaslimeoids with its scythe!",
+            "fn_effect": "atf_gvs_basic"
+        },
+        "s_grenadecannon": {
+            "str_crit": "NULL",
+            "str_miss": "**MISS!** {name_enemy} couldn't land a hit on {name_target} with its grenade cannon!",
+            "str_kill": "**KABAM!!** {name_enemy}'s grenade cannon lands a direct hit on {name_target}! {emote_skull}",
+            "str_killdescriptor": "blown apart",
+            "str_damage": "{name_target} is caught in the blast zone of {name_enemy}'s grenades!",
+            "str_groupattack": "{name_enemy} blows up a group of gaiaslimeoids with its grenades!",
+            "fn_effect": "atf_gvs_basic"
+        }
+    }
+}

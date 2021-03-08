@@ -1,4 +1,4 @@
-from ewClass.message import EwResponse
+from ewClass import EwResponse
 import sys
 import traceback
 import collections
@@ -22,7 +22,6 @@ import discord
 
 import ewcfg
 import ewwep
-from ew import EwPlayer
 from ewdistrict import EwDistrict
 from ewplayer import EwDiscordUser
 from ewhunting import EwEnemy, EwOperationData
@@ -30,6 +29,7 @@ from ewmarket import EwMarket
 from ewstatuseffects import EwStatusEffect
 from ewstatuseffects import EwEnemyStatusEffect
 from ewitem import EwItem
+from ewClass import EwPlayer
 #from ewprank import calculate_gambit_exchange
 
 TERMINATE = False
@@ -1455,10 +1455,10 @@ async def send_response(response_text, cmd = None, delete_after = None, name = N
 		# TODO: experiment with allow_mentions argument. Might get rid of the need to filter "@"s
 		return await channel.send(content = response_text, delete_after = delete_after, allowed_mentions = allowed_mentions)
 	except discord.errors.Forbidden:
-		logMsg('Could not message user: {}\n{}'.format(channel, text))
+		logMsg('Could not message user: {}\n{}'.format(channel, response_text))
 		raise
 	except:
-		logMsg('Failed to send message to channel: {}\n{}'.format(channel, text))
+		logMsg('Failed to send message to channel: {}\n{}'.format(channel, response_text))
 
 async def edit_message(client, message, text):
 	"""	Proxy to discord.py message.edit() with exception handling. \n
