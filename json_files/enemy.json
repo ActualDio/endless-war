@@ -1,0 +1,1063 @@
+{
+    "drops" : {
+        "sandbag": {
+            "slimepoudrin": [100, 1, 1]
+        },
+        "juvie": {
+            "slimepoudrin": [50, 1, 2],
+            "Plebeian": [5, 1, 1],
+            "crop": [30, 1, 1],
+            "tradingcardpack": [20, 1, 1]
+        },
+        "dinoslime": {
+            "slimepoudrin": [100, 2, 4],
+            "Plebeian": [10, 1, 1],
+            "dinoslimemeat": [33, 1, 2],
+            "monsterbones": [100, 3, 5]
+        },
+        "slimeadactyl": {
+            "slimepoudrin": [100, 3, 5],
+            "Plebeian": [10, 1, 1],
+            "monsterbones": [100, 3, 5]
+        },
+        "microslime": {
+            "Patrician": [100, 1, 1]
+        },
+        "slimeofgreed": {
+            "slimepoudrin": [100, 2, 2]
+        },
+        "desertraider": {
+            "slimepoudrin": [100, 1, 2],
+            "Plebeian": [50, 1, 1],
+            "crop": [50, 3, 6]
+        },
+        "mammoslime": {
+            "slimepoudrin": [75, 5, 6],
+            "Patrician": [20, 1, 1],
+            "monsterbones": [100, 1, 3]
+        },
+        "doubleheadlessdoublehorseman": {
+            "slimepoudrin": [100, 22, 22],
+            "Plebeian": [100, 22, 22],
+            "Patrician": [100, 22, 22],
+            "crop": [100, 22, 22],
+            "dinoslimemeat": [100, 22, 22],
+            "tradingcardpack": [100, 22, 22]
+        },
+        "doublehorse": {
+            "slimepoudrin": [100, 22, 22]
+        },
+        "megaslime": {
+            "slimepoudrin": [100, 4, 8],
+            "Plebeian": [80, 1, 2],
+            "Patrician": [30, 1, 1]
+        },
+        "slimeasaurusrex": {
+            "slimepoudrin": [100, 8, 15],
+            "Plebeian": [50, 1, 2],
+            "Patrician": [20, 1, 2],
+            "dinoslimemeat": [100, 3, 4],
+            "monsterbones": [100, 3, 5]
+        },
+        "greeneyesslimedragon": {
+            "dragonsoul": [100, 1, 1],
+            "slimepoudrin": [100, 15, 20],
+            "Patrician": [100, 1, 1],
+            "monsterbones": [100, 5, 10]
+        },
+        "unnervingfightingoperator": {
+            "slimepoudrin": [100, 1, 1],
+            "crop": [100, 1, 1],
+            "dinoslimemeat": [100, 1, 1],
+            "tradingcardpack": [100, 1, 1]
+        },
+        "civilian": {
+            "slimepoudrin": [20, 1, 1],
+            "civilianscalp": [100, 1, 1],
+        },
+        "civilian_innocent": {
+            "slimepoudrin": [20, 1, 1],
+            "civilianscalp": [100, 1, 1],
+        }
+    },
+    "data" : {
+        "Enemies": {
+            "sandbag": {
+                "slimerange": [
+                    1000000000,
+                    1000000000
+                ],
+                "ai": "Sandbag",
+                "attacktype": "unarmed",
+                "displayname": "Sand Bag",
+                "raredisplayname": "Durable Sand Bag",
+                "aliases": [
+                    "sandbag",
+                    "bag o sand",
+                    "bag of sand"
+                ]
+            },
+            "juvie": {
+                "slimerange": [
+                    10000,
+                    50000
+                ],
+                "ai": "Coward",
+                "attacktype": "unarmed",
+                "displayname": "Lost Juvie",
+                "raredisplayname": "Shellshocked Juvie",
+                "aliases": [
+                    "juvie",
+                    "greenman",
+                    "lostjuvie",
+                    "lost"
+                ]
+            },
+            "dinoslime": {
+                "slimerange": [
+                    250000,
+                    500000
+                ],
+                "ai": "Attacker-A",
+                "attacktype": "fangs",
+                "displayname": "Dinoslime",
+                "raredisplayname": "Voracious Dinoslime",
+                "aliases": [
+                    "dino",
+                    "slimeasaur"
+                ]
+            },
+            "slimeadactyl": {
+                "slimerange": [
+                    500000,
+                    750000
+                ],
+                "ai": "Attacker-B",
+                "attacktype": "talons",
+                "displayname": "Slimeadactyl",
+                "raredisplayname": "Predatory Slimeadactyl",
+                "aliases": [
+                    "bird",
+                    "dactyl"
+                ]
+            },
+            "desertraider": {
+                "slimerange": [
+                    250000,
+                    750000
+                ],
+                "ai": "Attacker-B",
+                "attacktype": "scythe",
+                "displayname": "Desert Raider",
+                "raredisplayname": "Desert Warlord",
+                "aliases": [
+                    "raider",
+                    "scytheboy",
+                    "desertraider",
+                    "desert"
+                ]
+            },
+            "mammoslime": {
+                "slimerange": [
+                    650000,
+                    950000
+                ],
+                "ai": "Defender",
+                "attacktype": "tusks",
+                "displayname": "Mammoslime",
+                "raredisplayname": "Territorial Mammoslime",
+                "aliases": [
+                    "mammoth",
+                    "brunswick"
+                ]
+            },
+            "microslime": {
+                "slimerange": [
+                    10000,
+                    50000
+                ],
+                "ai": "Defender",
+                "attacktype": "body",
+                "displayname": "Microslime",
+                "raredisplayname": "Irridescent Microslime",
+                "aliases": [
+                    "micro",
+                    "pinky"
+                ]
+            },
+            "slimeofgreed": {
+                "slimerange": [
+                    20000,
+                    100000
+                ],
+                "ai": "Defender",
+                "attacktype": "body",
+                "displayname": "Slime Of Greed",
+                "raredisplayname": "Slime Of Avarice",
+                "aliases": [
+                    "slime",
+                    "slimeofgreed",
+                    "pot",
+                    "potofgreed",
+                    "draw2cards"
+                ]
+            },
+            "doubleheadlessdoublehorseman": {
+                "slimerange": [
+                    100000000,
+                    150000000
+                ],
+                "ai": "Attacker-B",
+                "attacktype": "axe",
+                "displayname": "Double Headless Double Horseman",
+                "raredisplayname": "Quadruple Headless Quadruple Horseman",
+                "aliases": [
+                    "doubleheadlessdoublehorseman",
+                    "headlesshorseman",
+                    "demoknight",
+                    "horseman"
+                ]
+            },
+            "doublehorse": {
+                "slimerange": [
+                    50000000,
+                    75000000
+                ],
+                "ai": "Attacker-A",
+                "attacktype": "hooves",
+                "displayname": "Double Headless Double Horseman's Horse",
+                "raredisplayname": "Quadruple Headless Quadruple Horseman's Horse",
+                "aliases": [
+                    "doublehorse",
+                    "horse",
+                    "pony",
+                    "lilbit"
+                ]
+            },
+            "megaslime": {
+                "slimerange": [
+                    1000000,
+                    1000000
+                ],
+                "ai": "Attacker-A",
+                "attacktype": "gunkshot",
+                "displayname": "Megaslime",
+                "raredisplayname": "Rampaging Megaslime",
+                "aliases": [
+                    "mega",
+                    "smooze",
+                    "muk"
+                ]
+            },
+            "slimeasaurusrex": {
+                "slimerange": [
+                    1750000,
+                    3000000
+                ],
+                "ai": "Attacker-B",
+                "attacktype": "fangs",
+                "displayname": "Slimeasaurus Rex",
+                "raredisplayname": "Sex Rex",
+                "aliases": [
+                    "rex",
+                    "trex",
+                    "slimeasaurusrex",
+                    "slimeasaurus"
+                ]
+            },
+            "greeneyesslimedragon": {
+                "slimerange": [
+                    3500000,
+                    5000000
+                ],
+                "ai": "Attacker-A",
+                "attacktype": "molotovbreath",
+                "displayname": "Green Eyes Slime Dragon",
+                "raredisplayname": "Green Eyes JPEG Dragon",
+                "aliases": [
+                    "dragon",
+                    "greeneyes",
+                    "greeneyesslimedragon",
+                    "green"
+                ]
+            },
+            "unnervingfightingoperator": {
+                "slimerange": [
+                    1000000,
+                    3000000
+                ],
+                "ai": "Attacker-B",
+                "attacktype": "armcannon",
+                "displayname": "Unnerving Fighting Operator",
+                "raredisplayname": "Unyielding Fierce Operator",
+                "aliases": [
+                    "ufo",
+                    "alien",
+                    "unnervingfightingoperator",
+                    "unnvering"
+                ]
+            },
+            "civilian": {
+                "slimerange": [
+                    100001,
+                    100001
+                ],
+                "ai": "Attacker-A",
+                "attacktype": "amateur",
+                "displayname": "Bloodthirsty Civilian",
+                "raredisplayname": "Closet Serial Killer",
+                "aliases": [
+                    "townsfolk",
+                    "citizen",
+                    "civilian",
+                    "bloodthirsty",
+                    "person"
+                ]
+            },
+            "civilian_innocent": {
+                "slimerange": [
+                    100001,
+                    100001
+                ],
+                "ai": "Defender",
+                "attacktype": "amateur",
+                "displayname": "Innocent Civilian",
+                "raredisplayname": "Puppy-Eyed Youth",
+                "aliases": [
+                    "townsfolk",
+                    "citizen",
+                    "civilian",
+                    "innocent",
+                    "person"
+                ]
+            }
+        },
+        "GvsS": {
+            "poketubers": {
+                "slimerange": [
+                    100,
+                    100
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "g_explosion",
+                "displayname": "Poketuber",
+                "raredisplayname": "Joybean Poketuber",
+                "aliases": [
+                    "tuber"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "primed": "false",
+                    "primecountdown": 3,
+                    "setdamage": 500000,
+                    "piercing": "true",
+                    "range": 2
+                }
+            },
+            "pulpgourds": {
+                "slimerange": [
+                    50000,
+                    50000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "unarmed",
+                "displayname": "Pulp Gourd",
+                "raredisplayname": "Joybean Pulp Gourd",
+                "aliases": [
+                    "gourd",
+                    "pulp"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "gourdstorage": 0
+                }
+            },
+            "sourpotatoes": {
+                "slimerange": [
+                    100000,
+                    100000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "g_chompers",
+                "displayname": "Sour Potato",
+                "raredisplayname": "Joybean Sour Potato",
+                "aliases": [
+                    "potato",
+                    "sour"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "chewingcountdown": 0,
+                    "setdamage": 500000,
+                    "range": 2
+                }
+            },
+            "bloodcabbages": {
+                "slimerange": [
+                    100000,
+                    100000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "g_bloodshot",
+                "displayname": "Blood Cabbage",
+                "raredisplayname": "Joybean Blood Cabbage",
+                "aliases": [
+                    "blood",
+                    "cabbage"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "setdamage": 20000,
+                    "range": 20,
+                    "piercing": "true",
+                    "pierceamount": 3
+                }
+            },
+            "joybeans": {
+                "slimerange": [
+                    500000,
+                    500000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "unarmed",
+                "displayname": "Joybean",
+                "raredisplayname": "Joybean Fusion!!",
+                "aliases": [
+                    "bean",
+                    "uhoh",
+                    "youfriccinmoron"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "noprop": "noprop"
+                }
+            },
+            "purplekilliflower": {
+                "slimerange": [
+                    100000,
+                    100000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "g_vapecloud",
+                "displayname": "Purple Killiflower",
+                "raredisplayname": "Joybean Purple Killiflower",
+                "aliases": [
+                    "purple",
+                    "killiflower",
+                    "cauliflower"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "range": 12,
+                    "piercing": "true",
+                    "setdamage": "15000"
+                }
+            },
+            "razornuts": {
+                "slimerange": [
+                    200000,
+                    200000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "unarmed",
+                "displayname": "Razornut",
+                "raredisplayname": "Joybean Razornut",
+                "aliases": [
+                    "razor",
+                    "nut"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "setdamage": 20000
+                }
+            },
+            "pawpaw": {
+                "slimerange": [
+                    200000,
+                    200000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "g_explosion",
+                "displayname": "Pawpaw",
+                "raredisplayname": "Joybean Pawpaw",
+                "aliases": [
+                    "paw"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "setdamage": 500000,
+                    "direction": "ring",
+                    "splash": "true"
+                }
+            },
+            "sludgeberries": {
+                "slimerange": [
+                    100,
+                    100
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "unarmed",
+                "displayname": "Sludgeberries",
+                "raredisplayname": "Joybean Sludgeberries",
+                "aliases": [
+                    "berries",
+                    "sludge"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "noprop": "noprop"
+                }
+            },
+            "suganmanuts": {
+                "slimerange": [
+                    400000,
+                    400000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "unarmed",
+                "displayname": "Suganmanut",
+                "raredisplayname": "Joybean Suganmanut",
+                "aliases": [
+                    "cashew",
+                    "nuts"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "setdamage": 20000
+                }
+            },
+            "pinkrowddishes": {
+                "slimerange": [
+                    100000,
+                    100000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "g_fists",
+                "displayname": "Pink Rowddish",
+                "raredisplayname": "Joybean Pink Rowddish",
+                "aliases": [
+                    "rowddish",
+                    "raddish"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "range": 3,
+                    "direction": "frontandback",
+                    "piercing": "true",
+                    "setdamage": 50000
+                }
+            },
+            "dankwheat": {
+                "slimerange": [
+                    50000,
+                    50000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "g_hotbox",
+                "displayname": "Dankwheat",
+                "raredisplayname": "Joybean Dankwheat",
+                "aliases": [
+                    "weed",
+                    "digiweed",
+                    "digibro",
+                    "wheat"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "setdamage": 10000,
+                    "direction": "ring",
+                    "piercing": "true"
+                }
+            },
+            "brightshade": {
+                "slimerange": [
+                    50000,
+                    50000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "unarmed",
+                "displayname": "Brightshade",
+                "raredisplayname": "Double Brightshade",
+                "aliases": [
+                    "bright",
+                    "shade"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "gaiaslimecountdown": 2
+                }
+            },
+            "blacklimes": {
+                "slimerange": [
+                    200000,
+                    200000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "unarmed",
+                "displayname": "Black Lime",
+                "raredisplayname": "Joybean Black Lime",
+                "aliases": [
+                    "lime",
+                    "black"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "noprop": "noprop"
+                }
+            },
+            "phosphorpoppies": {
+                "slimerange": [
+                    100000,
+                    100000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "g_brainwaves",
+                "displayname": "Phosphorpoppy",
+                "raredisplayname": "Joybean Phosphorpoppy",
+                "aliases": [
+                    "phosphor",
+                    "poppy"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "setdamage": 10000,
+                    "piercing": "true",
+                    "pierceamount": 3
+                }
+            },
+            "direapples": {
+                "slimerange": [
+                    100000,
+                    100000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "g_seeds",
+                "displayname": "Dire Apple",
+                "raredisplayname": "Joybean Dire Apple",
+                "aliases": [
+                    "apple",
+                    "dire"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "setdamage": 35000,
+                    "splash": "false"
+                }
+            },
+            "rustealeaves": {
+                "slimerange": [
+                    200000,
+                    200000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "g_blades",
+                "displayname": "Rustea Leaves",
+                "raredisplayname": "Joybean Rustea Leaves",
+                "aliases": [
+                    "leaves",
+                    "tea"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "range": 1,
+                    "direction": "frontandback",
+                    "setdamage": 30000
+                }
+            },
+            "metallicaps": {
+                "slimerange": [
+                    500000,
+                    500000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "unarmed",
+                "displayname": "Metallicaps",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "mushrooms",
+                    "shrooms",
+                    "shroomz",
+                    "mushroom"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "noprop": "noprop"
+                }
+            },
+            "steelbeans": {
+                "slimerange": [
+                    200000,
+                    200000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "unarmed",
+                "displayname": "Steel Beans",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "911",
+                    "steel",
+                    "beans"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "noprop": "noprop"
+                }
+            },
+            "aushucks": {
+                "slimerange": [
+                    500000,
+                    500000
+                ],
+                "ai": "Gaiaslimeoid",
+                "attacktype": "unarmed",
+                "displayname": "Aushucks",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "gold",
+                    "shucks",
+                    "corn"
+                ],
+                "class": "gaiaslimeoid",
+                "props": {
+                    "noprop": "noprop"
+                }
+            },
+            "defaultshambler": {
+                "slimerange": [
+                    125000,
+                    125000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_teeth",
+                "displayname": "Default Shambler",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "zombie"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 30000
+                }
+            },
+            "bucketshambler": {
+                "slimerange": [
+                    175000,
+                    175000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_teeth",
+                "displayname": "KFC Bucket Shambler",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "kfc",
+                    "bucket"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 30000
+                }
+            },
+            "juveolanternshambler": {
+                "slimerange": [
+                    250000,
+                    250000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_teeth",
+                "displayname": "Juve-O'-Lantern Shambler",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "juveolantern",
+                    "jackolantern"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 30000
+                }
+            },
+            "flagshambler": {
+                "slimerange": [
+                    125000,
+                    125000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_teeth",
+                "displayname": "Flag Shambler",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "flag"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 30000
+                }
+            },
+            "shambonidriver": {
+                "slimerange": [
+                    175000,
+                    175000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_shamboni",
+                "displayname": "Shamboni Driver",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "zomboni",
+                    "driver",
+                    "zamboni"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 250000
+                }
+            },
+            "mammoshambler": {
+                "slimerange": [
+                    250000,
+                    250000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_tusks",
+                "displayname": "Mammoshambler",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "mammoth",
+                    "brunswick"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 100000,
+                    "turncountdown": 2
+                }
+            },
+            "gigashambler": {
+                "slimerange": [
+                    500000,
+                    500000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_cudgel",
+                "displayname": "Gigashambler",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "giga",
+                    "gigachad"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 200000,
+                    "turncountdown": 2,
+                    "microspawned": "false"
+                }
+            },
+            "microshambler": {
+                "slimerange": [
+                    60000,
+                    60000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_teeth",
+                "displayname": "Microshambler",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "micro"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 30000
+                }
+            },
+            "shamblesaurusrex": {
+                "slimerange": [
+                    250000,
+                    250000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_fangs",
+                "displayname": "Shamblersaurus Rex",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "rex",
+                    "trex",
+                    "t-rex",
+                    "shamblersaurus"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 75000,
+                    "roarused": false
+                }
+            },
+            "shamblerdactyl": {
+                "slimerange": [
+                    100000,
+                    100000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_talons",
+                "displayname": "Shamblerdactyl",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "bird",
+                    "dactyl"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 2000000,
+                    "grabcountdown": 3
+                }
+            },
+            "dinoshambler": {
+                "slimerange": [
+                    150000,
+                    150000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_fangs",
+                "displayname": "Dinoshambler",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "dinosaur",
+                    "dino"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 35000,
+                    "jumping": "true"
+                }
+            },
+            "ufoshambler": {
+                "slimerange": [
+                    150000,
+                    150000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_grenadecannon",
+                "displayname": "Unnerving Fighting Shambler",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "ufo"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 40000,
+                    "turncountdown": 2,
+                    "range": 18
+                }
+            },
+            "brawldenboomer": {
+                "slimerange": [
+                    100000,
+                    100000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_teeth",
+                "displayname": "The Brawlden Boomer",
+                "raredisplayname": "Enraged Brawlden Boomer",
+                "aliases": [
+                    "boomer",
+                    "boombox"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 30000,
+                    "turncountdown": 2,
+                    "boomboxcountdown": 12,
+                    "boomboxbroken": "false",
+                    "boomboxhealth": 100000
+                }
+            },
+            "juvieshambler": {
+                "slimerange": [
+                    150000,
+                    150000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_teeth",
+                "displayname": "Juvie Shambler",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "juvie",
+                    "miner"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 40000,
+                    "underground": "true"
+                }
+            },
+            "shambleballplayer": {
+                "slimerange": [
+                    250000,
+                    250000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_teeth",
+                "displayname": "Shambleball Player",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "soccerguy",
+                    "football",
+                    "sports"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 40000
+                }
+            },
+            "shamblerwarlord": {
+                "slimerange": [
+                    300000,
+                    300000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_scythe",
+                "displayname": "Shambler Warlord",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "warlord"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 60000,
+                    "summoncountdown": 3
+                }
+            },
+            "shamblerraider": {
+                "slimerange": [
+                    100000,
+                    100000
+                ],
+                "ai": "Shambler",
+                "attacktype": "s_scythe",
+                "displayname": "Shambler Raider",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "raider"
+                ],
+                "class": "shambler",
+                "props": {
+                    "setdamage": 30000
+                }
+            },
+            "blueeyesshamblerdragon": {
+                "slimerange": [
+                    5000000,
+                    5000000
+                ],
+                "ai": "Shambler",
+                "attacktype": "unarmed",
+                "displayname": "PLACEHOLDER",
+                "raredisplayname": "NULL",
+                "aliases": [
+                    "placeholder"
+                ],
+                "class": "shambler",
+                "props": {
+                    "onground": "true",
+                    "setdamage": 100000
+                }
+            }
+        }
+    }
+}

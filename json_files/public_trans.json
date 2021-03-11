@@ -1,0 +1,479 @@
+{
+    "ferrywttovc": {
+        "alias": [
+            "vagrantscornerferry",
+            "vagrantsferry",
+            "vcferry",
+            "ferrytovagrantscorner",
+            "ferrytovagrants",
+            "ferrytovc"
+        ],
+        "first_stop": "wreckingtonport",
+        "last_stop": "vagrantscornerport",
+        "next_line": "ferryvctowt",
+        "str_name": "The ferry line towards Vagrant's Corner",
+        "schedule": {
+            "wreckingtonport": [
+                60,
+                "slimesea"
+            ],
+            "slimesea": [
+                120,
+                "vagrantscornerport"
+            ]
+        }
+    },
+    "ferryvctowt": {
+        "alias": [
+            "wreckingtonferry",
+            "wreckferry",
+            "wtferry",
+            "ferrytowreckington",
+            "ferrytowreck",
+            "ferrytowt"
+        ],
+        "first_stop": "vagrantscornerport",
+        "last_stop": "wreckingtonport",
+        "next_line": "ferrywttovc",
+        "str_name": "The ferry line towards Wreckington",
+        "schedule": {
+            "vagrantscornerport": [
+                60,
+                "slimesea"
+            ],
+            "slimesea": [
+                120,
+                "wreckingtonport"
+            ]
+        }
+    },
+    "subwayyellownorth": {
+        "alias": [
+            "northyellowline",
+            "northyellow",
+            "yellownorth",
+            "yellowtoarsonbrook",
+            "yellowtoarson",
+            "yellowtoab"
+        ],
+        "first_stop": "southsleezesubwaystation",
+        "last_stop": "arsonbrooksubwaystation",
+        "next_line": "subwayyellowsouth",
+        "str_name": "The yellow subway line towards Arsonbrook",
+        "schedule": {
+            "southsleezesubwaystation": [
+                20,
+                "krakbaysubwaystation"
+            ],
+            "krakbaysubwaystation": [
+                20,
+                "downtownsubwaystation"
+            ],
+            "downtownsubwaystation": [
+                20,
+                "smogsburgsubwaystation"
+            ],
+            "smogsburgsubwaystation": [
+                20,
+                "arsonbrooksubwaystation"
+            ]
+        }
+    },
+    "subwayyellowsouth": {
+        "alias": [
+            "southyellowline",
+            "southyellow",
+            "yellowsouth",
+            "yellowtosouthsleezeborough",
+            "yellowtosouthsleeze",
+            "yellowtossb"
+        ],
+        "first_stop": "arsonbrooksubwaystation",
+        "last_stop": "southsleezesubwaystation",
+        "next_line": "subwayyellownorth",
+        "str_name": "The yellow subway line towards South Sleezeborough",
+        "schedule": {
+            "arsonbrooksubwaystation": [
+                20,
+                "smogsburgsubwaystation"
+            ],
+            "smogsburgsubwaystation": [
+                20,
+                "downtownsubwaystation"
+            ],
+            "downtownsubwaystation": [
+                20,
+                "krakbaysubwaystation"
+            ],
+            "krakbaysubwaystation": [
+                20,
+                "southsleezesubwaystation"
+            ]
+        }
+    },
+    "subwayrednorth": {
+        "alias": [
+            "northredline",
+            "northred",
+            "rednorth",
+            "redtotoxington",
+            "redtotox",
+            "redtott"
+        ],
+        "first_stop": "cratersvillesubwaystation",
+        "last_stop": "toxingtonsubwaystation",
+        "next_line": "subwayredsouth",
+        "str_name": "The red subway line towards Toxington",
+        "schedule": {
+            "cratersvillesubwaystation": [
+                20,
+                "wreckingtonsubwaystation"
+            ],
+            "wreckingtonsubwaystation": [
+                20,
+                "rowdyroughhousesubwaystation"
+            ],
+            "rowdyroughhousesubwaystation": [
+                20,
+                "downtownsubwaystation"
+            ],
+            "downtownsubwaystation": [
+                20,
+                "copkilltownsubwaystation"
+            ],
+            "copkilltownsubwaystation": [
+                20,
+                "gatlingsdalesubwaystation"
+            ],
+            "gatlingsdalesubwaystation": [
+                20,
+                "astatineheightssubwaystation"
+            ],
+            "astatineheightssubwaystation": [
+                20,
+                "toxingtonsubwaystation"
+            ]
+        }
+    },
+    "subwayredsouth": {
+        "alias": [
+            "southredline",
+            "southred",
+            "redsouth",
+            "redtocratersville",
+            "redtocraters",
+            "redtocv"
+        ],
+        "first_stop": "toxingtonsubwaystation",
+        "last_stop": "cratersvillesubwaystation",
+        "next_line": "subwayrednorth",
+        "str_name": "The red subway line towards Cratersville",
+        "schedule": {
+            "toxingtonsubwaystation": [
+                20,
+                "astatineheightssubwaystation"
+            ],
+            "astatineheightssubwaystation": [
+                20,
+                "gatlingsdalesubwaystation"
+            ],
+            "gatlingsdalesubwaystation": [
+                20,
+                "copkilltownsubwaystation"
+            ],
+            "copkilltownsubwaystation": [
+                20,
+                "downtownsubwaystation"
+            ],
+            "downtownsubwaystation": [
+                20,
+                "rowdyroughhousesubwaystation"
+            ],
+            "rowdyroughhousesubwaystation": [
+                20,
+                "wreckingtonsubwaystation"
+            ],
+            "wreckingtonsubwaystation": [
+                20,
+                "cratersvillesubwaystation"
+            ]
+        }
+    },
+    "subwaygreeneast": {
+        "alias": [
+            "greeneastline",
+            "greeneast",
+            "eastgreen",
+            "greentosmogsburg",
+            "greentosmogs",
+            "greentosb"
+        ],
+        "first_stop": "westglocksburysubwaystation",
+        "last_stop": "smogsburgsubwaystation",
+        "next_line": "subwaygreenwest",
+        "str_name": "The green subway line towards Smogsburg",
+        "schedule": {
+            "westglocksburysubwaystation": [
+                20,
+                "jaywalkerplainsubwaystation"
+            ],
+            "jaywalkerplainsubwaystation": [
+                20,
+                "northsleezesubwaystation"
+            ],
+            "northsleezesubwaystation": [
+                20,
+                "krakbaysubwaystation"
+            ],
+            "krakbaysubwaystation": [
+                20,
+                "downtownsubwaystation"
+            ],
+            "downtownsubwaystation": [
+                20,
+                "smogsburgsubwaystation"
+            ]
+        }
+    },
+    "subwaygreenwest": {
+        "alias": [
+            "greenwestline",
+            "greenwest",
+            "westgreen",
+            "greentowestglocksbury",
+            "greentowestglocks",
+            "greentowgb"
+        ],
+        "first_stop": "smogsburgsubwaystation",
+        "last_stop": "westglocksburysubwaystation",
+        "next_line": "subwaygreeneast",
+        "str_name": "The green subway line towards West Glocksbury",
+        "schedule": {
+            "smogsburgsubwaystation": [
+                20,
+                "downtownsubwaystation"
+            ],
+            "downtownsubwaystation": [
+                20,
+                "krakbaysubwaystation"
+            ],
+            "krakbaysubwaystation": [
+                20,
+                "glocksburysubwaystation"
+            ],
+            "glocksburysubwaystation": [
+                20,
+                "westglocksburysubwaystation"
+            ]
+        }
+    },
+    "subwayblueeast": {
+        "alias": [
+            "blueeastline",
+            "blueeast",
+            "eastblue",
+            "bluetoassaultflatsbeach",
+            "bluetoassaultflats",
+            "bluetobeach",
+            "bluetoafb"
+        ],
+        "first_stop": "downtownsubwaystation",
+        "last_stop": "assaultflatssubwaystation",
+        "next_line": "subwaybluewest",
+        "str_name": "The blue subway line towards Assault Flats Beach",
+        "schedule": {
+            "downtownsubwaystation": [
+                20,
+                "greenlightsubwaystation"
+            ],
+            "greenlightsubwaystation": [
+                20,
+                "juviesrowsubwaystation"
+            ],
+            "juviesrowsubwaystation": [
+                20,
+                "vagrantscornersubwaystation"
+            ],
+            "vagrantscornersubwaystation": [
+                20,
+                "assaultflatssubwaystation"
+            ]
+        }
+    },
+    "subwaybluewest": {
+        "alias": [
+            "bluewestline",
+            "bluewest",
+            "westblue",
+            "bluetodowntown",
+            "bluetodt"
+        ],
+        "first_stop": "assaultflatssubwaystation",
+        "last_stop": "downtownsubwaystation",
+        "next_line": "subwayblueeast",
+        "str_name": "The blue subway line towards Downtown NLACakaNM",
+        "schedule": {
+            "assaultflatssubwaystation": [
+                20,
+                "vagrantscornersubwaystation"
+            ],
+            "vagrantscornersubwaystation": [
+                20,
+                "juviesrowsubwaystation"
+            ],
+            "juviesrowsubwaystation": [
+                20,
+                "greenlightsubwaystation"
+            ],
+            "greenlightsubwaystation": [
+                20,
+                "downtownsubwaystation"
+            ]
+        }
+    },
+    "subwaywhiteeast": {
+        "alias": [
+            "whiteeastline",
+            "whiteeast",
+            "eastwhite",
+            "whitetojuviesrow",
+            "whitetojuvies",
+            "whitetojr"
+        ],
+        "first_stop": "underworldsubwaystation",
+        "last_stop": "juviesrowsubwaystation",
+        "next_line": "subwaywhitewest",
+        "str_name": "The white subway line towards Juvie's Row",
+        "schedule": {
+            "underworldsubwaystation": [
+                20,
+                "downtownsubwaystation"
+            ],
+            "downtownsubwaystation": [
+                20,
+                "rowdyroughhousesubwaystation"
+            ],
+            "rowdyroughhousesubwaystation": [
+                20,
+                "juviesrowsubwaystation"
+            ]
+        }
+    },
+    "subwaywhitewest": {
+        "alias": [
+            "whitewestline",
+            "whitewest",
+            "westwhite",
+            "whitetounderworld",
+            "whitetouw"
+        ],
+        "first_stop": "juviesrowsubwaystation",
+        "last_stop": "underworldsubwaystation",
+        "next_line": "subwaywhiteeast",
+        "str_name": "The white subway line towards The Underworld",
+        "schedule": {
+            "juviesrowsubwaystation": [
+                20,
+                "rowdyroughhousesubwaystation"
+            ],
+            "rowdyroughhousesubwaystation": [
+                20,
+                "downtownsubwaystation"
+            ],
+            "downtownsubwaystation": [
+                20,
+                "underworldsubwaystation"
+            ]
+        }
+    },
+    "blimpdftoafb": {
+        "alias": [
+            "assaultflatsbeachblimp",
+            "assaultflatsblimp",
+            "beachblimp",
+            "afbblimp",
+            "blimptoassaultflatsbeach",
+            "blimptoassaultflats",
+            "blimptobeach",
+            "blimptoafb"
+        ],
+        "first_stop": "dreadfordblimptower",
+        "last_stop": "assaultflatsblimptower",
+        "next_line": "blimpafbtodf",
+        "str_name": "The blimp line towards Assault Flats Beach",
+        "schedule": {
+            "dreadfordblimptower": [
+                60,
+                "jaywalkerplain"
+            ],
+            "jaywalkerplain": [
+                40,
+                "northsleezeborough"
+            ],
+            "northsleezeborough": [
+                40,
+                "krakbay"
+            ],
+            "krakbay": [
+                40,
+                "downtown"
+            ],
+            "downtown": [
+                40,
+                "greenlightdistrict"
+            ],
+            "greenlightdistrict": [
+                40,
+                "vagrantscorner"
+            ],
+            "vagrantscorner": [
+                40,
+                "assaultflatsblimptower"
+            ]
+        }
+    },
+    "blimpafbtodf": {
+        "alias": [
+            "dreadfordblimp",
+            "dreadblimp",
+            "dfblimp",
+            "blimptodreadford",
+            "blimptodread",
+            "blimptodf"
+        ],
+        "first_stop": "assaultflatsblimptower",
+        "last_stop": "dreadfordblimptower",
+        "next_line": "blimpdftoafb",
+        "str_name": "The blimp line towards Dreadford",
+        "schedule": {
+            "assaultflatsblimptower": [
+                60,
+                "vagrantscorner"
+            ],
+            "vagrantscorner": [
+                40,
+                "greenlightdistrict"
+            ],
+            "greenlightdistrict": [
+                40,
+                "downtown"
+            ],
+            "downtown": [
+                40,
+                "krakbay"
+            ],
+            "krakbay": [
+                40,
+                "northsleezeborough"
+            ],
+            "northsleezeborough": [
+                40,
+                "jaywalkerplain"
+            ],
+            "jaywalkerplain": [
+                40,
+                "dreadfordblimptower"
+            ]
+        }
+    }
+}
