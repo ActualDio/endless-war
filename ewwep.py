@@ -1698,7 +1698,7 @@ async def marry(cmd):
 		await asyncio.sleep(3)
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(
 			cmd.message.author,
-			"”We are gathered here today to witness the combined union of {} and {}.".format(name, weapon_name)
+			"\"We are gathered here today to witness the combined union of {} and {}.".format(name, weapon_name)
 		))
 		await asyncio.sleep(3)
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(
@@ -1708,7 +1708,7 @@ async def marry(cmd):
 		await asyncio.sleep(3)
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(
 			cmd.message.author,
-			"Through thick and thin, these two have stood together, fought together, and gained experience points--otherwise known as “EXP”--together."
+			"Through thick and thin, these two have stood together, fought together, and gained experience points--otherwise known as \"EXP\"--together."
 		))
 		await asyncio.sleep(3)
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(
@@ -1723,7 +1723,7 @@ async def marry(cmd):
 		await asyncio.sleep(3)
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(
 			cmd.message.author,
-			"It is this union that we are here today to officially-illegally affirm.”"
+			"It is this union that we are here today to officially-illegally affirm.\""
 		))
 		await asyncio.sleep(6)
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(
@@ -1733,7 +1733,7 @@ async def marry(cmd):
 		await asyncio.sleep(6)
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(
 			cmd.message.author,
-			"“I now pronounce you juvenile and armament!! You may anoint the {}”".format(weapon.str_weapon)
+			"\"I now pronounce you juvenile and armament!! You may anoint the {}\"".format(weapon.str_weapon)
 		))
 		await asyncio.sleep(3)
 		await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(

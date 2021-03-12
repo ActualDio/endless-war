@@ -161,7 +161,7 @@
             "reinforcedjuveolantern"
         ]
     },
-    "knightarmor": {
+    "knightarmor_smelt": {
         "str_name": "a set of Knight Armor",
         "alias": [
             "armor"
@@ -173,7 +173,7 @@
             "knightarmor"
         ]
     },
-    "monstersoup": {
+    "monstersoup_smelt": {
         "str_name": "a bowl of Monster Soup",
         "alias": [
             "soup",
@@ -191,7 +191,7 @@
             "monstersoup"
         ]
     },
-    "quadruplestuffedcrust": {
+    "quadruplestuffedcrust_smelt": {
         "str_name": "a Quadruple Stuffed Crust",
         "alias": [
             "qsc",
@@ -205,7 +205,7 @@
             "quadruplestuffedcrust"
         ]
     },
-    "octuplestuffedcrust": {
+    "octuplestuffedcrust_smelt": {
         "str_name": "an Octuple Stuffed Crust",
         "alias": [
             "osc",
@@ -219,7 +219,7 @@
             "octuplestuffedcrust"
         ]
     },
-    "sexdecuplestuffedcrust": {
+    "sexdecuplestuffedcrust_smelt": {
         "str_name": "a Sexdecuple Stuffed Crust",
         "alias": [
             "sdsc",
@@ -233,7 +233,7 @@
             "sexdecuplestuffedcrust"
         ]
     },
-    "duotrigintuplestuffedcrust": {
+    "duotrigintuplestuffedcrust_smelt": {
         "str_name": "a Duotrigintuple Stuffed Crust",
         "alias": [
             "dtsc",
@@ -247,7 +247,7 @@
             "duotrigintuplestuffedcrust"
         ]
     },
-    "quattuorsexagintuplestuffedcrust": {
+    "quattuorsexagintuplestuffedcrust_smelt": {
         "str_name": "a Quattuorsexagintuple Stuffed Crust",
         "alias": [
             "qssc",
@@ -261,7 +261,7 @@
             "quattuorsexagintuplestuffedcrust"
         ]
     },
-    "theforbiddenstuffedcrust": {
+    "theforbiddenstuffedcrust_smelt": {
         "str_name": "a Forbidden Stuffed Crust",
         "alias": [
             "fsc",
@@ -275,7 +275,7 @@
             "theforbiddenstuffedcrust"
         ]
     },
-    "theforbiddenoneoneone": {
+    "theforbiddenoneoneone_smelt": {
         "str_name": "The Forbidden <:111:431547758181220377>",
         "alias": [
             "forbiddenone",
@@ -297,7 +297,7 @@
             "theforbiddenoneoneone"
         ]
     },
-    "pickaxe": {
+    "pickaxe_smelt": {
         "str_name": "a Poudrin Pickaxe",
         "alias": [
             "pp",
@@ -313,7 +313,7 @@
             "pickaxe"
         ]
     },
-    "faggot": {
+    "faggot_smelt": {
         "str_name": "a Faggot",
         "alias": [
             "f",
@@ -326,7 +326,7 @@
             "faggot"
         ]
     },
-    "doublefaggot": {
+    "doublefaggot_smelt": {
         "str_name": "a Double Faggot",
         "alias": [
             "df",
@@ -339,7 +339,7 @@
             "doublefaggot"
         ]
     },
-    "dinoslimesteak": {
+    "dinoslimesteak_smelt": {
         "str_name": "a cooked piece of Dinoslime meat",
         "alias": [
             "cookedmeat",
@@ -353,7 +353,7 @@
             "dinoslimesteak"
         ]
     },
-    "fishingrod": {
+    "fishingrod_smelt": {
         "str_name": "a fishing rod",
         "alias": [
             "fish",
@@ -369,7 +369,7 @@
             "fishingrod"
         ]
     },
-    "bass": {
+    "bass_smelt": {
         "str_name": "a Bass Guitar",
         "alias": [
             "bassguitar"
@@ -382,7 +382,7 @@
             "bass"
         ]
     },
-    "bow": {
+    "bow_smelt": {
         "str_name": "a Minecraft Bow",
         "alias": [
             "minecraft bow"
@@ -395,7 +395,7 @@
             "bow"
         ]
     },
-    "ironingot": {
+    "ironingot_smelt": {
         "str_name": "an Iron Ingot",
         "alias": [
             "ingotmetal",
@@ -410,7 +410,7 @@
             "ironingot"
         ]
     },
-    "tanningknife": {
+    "tanningknife_smelt": {
         "str_name": "a small tanning knife",
         "alias": [
             "knife",
@@ -424,7 +424,7 @@
             "tanningknife"
         ]
     },
-    "leather": {
+    "leather_smelt": {
         "str_name": "a piece of leather",
         "alias": [
             "leather"
@@ -437,7 +437,7 @@
             "leather"
         ]
     },
-    "bloodstone": {
+    "bloodstone_smelt": {
         "str_name": "a chunk of bloodstone",
         "alias": [
             "bloodstone",
@@ -451,7 +451,7 @@
             "bloodstone"
         ]
     },
-    "dclaw": {
+    "dclaw_smelt": {
         "str_name": "a Dragon Claw",
         "alias": [
             "dragonclaw",
@@ -468,7 +468,7 @@
             "dclaw"
         ]
     },
-    "staff": {
+    "staff_smelt": {
         "str_name": "an eldritch staff",
         "alias": [
             "eldritchstaff",
@@ -485,7 +485,7 @@
             "staff"
         ]
     },
-    "leathercouch": {
+    "leathercouch_smelt": {
         "str_name": "a leather couch",
         "alias": [
             "humancouch"
@@ -498,7 +498,7 @@
             "leathercouch"
         ]
     },
-    "leatherchair": {
+    "leatherchair_smelt": {
         "str_name": "a leather chair",
         "alias": [
             "humanchair"
@@ -511,7 +511,7 @@
             "leatherchair"
         ]
     },
-    "leatherlamp": {
+    "leatherlamp_smelt": {
         "str_name": "a leather coated lamp",
         "alias": [
             "humanlamp"
@@ -524,7 +524,7 @@
             "leatherlamp"
         ]
     },
-    "leatherdesk": {
+    "leatherdesk_smelt": {
         "str_name": "a leather desk",
         "alias": [
             "humandesk"
@@ -537,7 +537,7 @@
             "leatherdesk"
         ]
     },
-    "leatherbed": {
+    "leatherbed_smelt": {
         "str_name": "a leather bed",
         "alias": [
             "humanbed"
@@ -550,7 +550,7 @@
             "leatherbed"
         ]
     },
-    "seaweedjoint": {
+    "seaweedjoint_smelt": {
         "str_name": "a seaweed joint",
         "alias": [
             "joint",
@@ -568,7 +568,7 @@
             "seaweedjoint"
         ]
     },
-    "slimepoudrin": {
+    "slimepoudrin_smelt": {
         "str_name": "a slime poudrin",
         "alias": [
             "poudrin",
@@ -583,7 +583,7 @@
             "slimepoudrin"
         ]
     },
-    "humancorpse": {
+    "humancorpse_smelt": {
         "str_name": "a corpse",
         "alias": [
             "stiff",
@@ -600,7 +600,7 @@
             "humancorpse"
         ]
     },
-    "popeonarope": {
+    "popeonarope_smelt": {
         "str_name": "a pope on a rope",
         "alias": [
             "pope",
@@ -618,7 +618,7 @@
             "popeonarope"
         ]
     },
-    "reanimatedcorpse": {
+    "reanimatedcorpse_smelt": {
         "str_name": "a reanimated corpse",
         "alias": [
             "frankenstein",
@@ -633,7 +633,7 @@
             "reanimatedcorpse"
         ]
     },
-    "soul": {
+    "soul_smelt": {
         "str_name": "a soul",
         "alias": [
             "spirit",
@@ -647,7 +647,7 @@
             "soul"
         ]
     },
-    "humanskeleton": {
+    "humanskeleton_smelt": {
         "str_name": "a human skeleton",
         "ingredients": {
             "bone": 206
@@ -656,7 +656,7 @@
             "humanskeleton"
         ]
     },
-    "monsterskeleton": {
+    "monsterskeleton_smelt": {
         "str_name": "a wild beast's skeleton",
         "ingredients": {
             "monsterbones": 200
@@ -669,7 +669,7 @@
             "slimedragonskeleton"
         ]
     },
-    "handmadechair": {
+    "handmadechair_smelt": {
         "str_name": "a handmade chair",
         "alias": [
             "woodchair",
@@ -686,7 +686,7 @@
             "shittychair"
         ]
     },
-    "handmadebench": {
+    "handmadebench_smelt": {
         "str_name": "a handmade bench",
         "alias": [
             "woodbench",
@@ -703,7 +703,7 @@
             "shittybench"
         ]
     },
-    "handmadebed": {
+    "handmadebed_smelt": {
         "str_name": "a handmade bed",
         "alias": [
             "woodbed",
@@ -720,7 +720,7 @@
             "shittybed"
         ]
     },
-    "handmadedesk": {
+    "handmadedesk_smelt": {
         "str_name": "a handmade desk",
         "alias": [
             "wooddesk",
@@ -737,7 +737,7 @@
             "shittydesk"
         ]
     },
-    "clarinet": {
+    "clarinet_smelt": {
         "str_name": "a clarinet",
         "alias": [
             "flute",
@@ -757,7 +757,7 @@
             "woodenvuvuzela"
         ]
     },
-    "guitar": {
+    "guitar_smelt": {
         "str_name": "a solid poudrin guitar",
         "alias": [
             "poudringuitar",
@@ -772,7 +772,7 @@
             "solidpoudringuitar"
         ]
     },
-    "drums": {
+    "drums_smelt": {
         "str_name": "a beast skin drums",
         "alias": [
             "beastskindrums",
@@ -790,7 +790,7 @@
             "beastskindrums"
         ]
     },
-    "xylophone": {
+    "xylophone_smelt": {
         "str_name": "a fish bone xylophone",
         "alias": [
             "xylo",
@@ -808,7 +808,7 @@
             "fishbonexylophone"
         ]
     },
-    "maracas": {
+    "maracas_smelt": {
         "str_name": "a gourd maracas",
         "alias": [
             "gourdmaracas",
@@ -827,7 +827,7 @@
             "gourdmaracas"
         ]
     },
-    "saxophone": {
+    "saxophone_smelt": {
         "str_name": "a saxophone",
         "alias": [
             "sax",
@@ -845,7 +845,7 @@
             "saxophone"
         ]
     },
-    "cornet": {
+    "cornet_smelt": {
         "str_name": "a cornet",
         "alias": [
             "trumpet",
@@ -864,7 +864,7 @@
             "cornet"
         ]
     },
-    "trombone": {
+    "trombone_smelt": {
         "str_name": "a trombone",
         "alias": [
             "tbone",
@@ -883,7 +883,7 @@
             "trombone"
         ]
     },
-    "whitedye": {
+    "whitedye_smelt": {
         "str_name": "a vial of White Dye",
         "alias": [
             "white"
@@ -896,7 +896,7 @@
             "whitedye"
         ]
     },
-    "yellowdye": {
+    "yellowdye_smelt": {
         "str_name": "a vial of Yellow Dye",
         "alias": [
             "yellow"
@@ -909,7 +909,7 @@
             "yellowdye"
         ]
     },
-    "orangedye": {
+    "orangedye_smelt": {
         "str_name": "a vial of Orange Dye",
         "alias": [
             "orange"
@@ -922,7 +922,7 @@
             "orangedye"
         ]
     },
-    "reddye": {
+    "reddye_smelt": {
         "str_name": "a vial of Red Dye",
         "alias": [
             "red"
@@ -935,7 +935,7 @@
             "reddye"
         ]
     },
-    "magentadye": {
+    "magentadye_smelt": {
         "str_name": "a vial of Magenta Dye",
         "alias": [
             "magenta"
@@ -948,7 +948,7 @@
             "magentadye"
         ]
     },
-    "purpledye": {
+    "purpledye_smelt": {
         "str_name": "a vial of Purple Dye",
         "alias": [
             "purple"
@@ -961,7 +961,7 @@
             "purpledye"
         ]
     },
-    "bluedye": {
+    "bluedye_smelt": {
         "str_name": "a vial of Blue Dye",
         "alias": [
             "blue"
@@ -974,7 +974,7 @@
             "bluedye"
         ]
     },
-    "greendye": {
+    "greendye_smelt": {
         "str_name": "a vial of Green Dye",
         "alias": [
             "green"
@@ -987,7 +987,7 @@
             "greendye"
         ]
     },
-    "tealdye": {
+    "tealdye_smelt": {
         "str_name": "a vial of Teal Dye",
         "alias": [
             "teal"
@@ -1000,7 +1000,7 @@
             "tealdye"
         ]
     },
-    "rainbowdye": {
+    "rainbowdye_smelt": {
         "str_name": "a vial of ***Rainbow Dye***",
         "alias": [
             "rainbow"
@@ -1013,7 +1013,7 @@
             "rainbowdye"
         ]
     },
-    "pinkdye": {
+    "pinkdye_smelt": {
         "str_name": "a vial of Pink Dye",
         "alias": [
             "pink"
@@ -1026,7 +1026,7 @@
             "pinkdye"
         ]
     },
-    "greydye": {
+    "greydye_smelt": {
         "str_name": "a vial of Grey Dye",
         "alias": [
             "grey"
@@ -1039,7 +1039,7 @@
             "greydye"
         ]
     },
-    "cobaltdye": {
+    "cobaltdye_smelt": {
         "str_name": "a vial of Cobalt Dye",
         "alias": [
             "cobalt"
@@ -1052,7 +1052,7 @@
             "cobaltdye"
         ]
     },
-    "blackdye": {
+    "blackdye_smelt": {
         "str_name": "a vial of Black Dye",
         "alias": [
             "black"
@@ -1065,7 +1065,7 @@
             "blackdye"
         ]
     },
-    "limedye": {
+    "limedye_smelt": {
         "str_name": "a vial of Lime Dye",
         "alias": [
             "lime"
@@ -1078,7 +1078,7 @@
             "limedye"
         ]
     },
-    "cyandye": {
+    "cyandye_smelt": {
         "str_name": "a vial of Cyan Dye",
         "alias": [
             "cyan"
@@ -1091,7 +1091,7 @@
             "cyandye"
         ]
     },
-    "browndye": {
+    "browndye_smelt": {
         "str_name": "a vial of Brown dye",
         "alias": [
             "brown"
@@ -1104,7 +1104,7 @@
             "browndye"
         ]
     },
-    "copperpaint": {
+    "copperpaint_smelt": {
         "str_name": "a bucket of Copper Paint",
         "alias": [
             "copper"
@@ -1117,7 +1117,7 @@
             "copperpaint"
         ]
     },
-    "chromepaint": {
+    "chromepaint_smelt": {
         "str_name": "a bucket of Chrome Paint",
         "alias": [
             "chrome"
@@ -1130,7 +1130,7 @@
             "chromepaint"
         ]
     },
-    "goldpaint": {
+    "goldpaint_smelt": {
         "str_name": "a bucket of Gold Paint",
         "alias": [
             "gold"
@@ -1143,7 +1143,7 @@
             "goldpaint"
         ]
     },
-    "jellyfilleddoughnut": {
+    "jellyfilleddoughnut_smelt": {
         "str_name": "a Jelly Filled Donut",
         "alias": [
             "donut",
@@ -1157,7 +1157,7 @@
             "jellyfilleddoughnut"
         ]
     },
-    "pulpgourdpie": {
+    "pulpgourdpie_smelt": {
         "str_name": "a plate of Pulp Gourd Pie",
         "alias": [
             "pie"
@@ -1170,7 +1170,7 @@
             "pulpgourdpie"
         ]
     },
-    "sourpotatofrenchfries": {
+    "sourpotatofrenchfries_smelt": {
         "str_name": "a plate of Sour Potato French Fries",
         "alias": [
             "fries",
@@ -1184,7 +1184,7 @@
             "sourpotatofrenchfries"
         ]
     },
-    "bloodcabbagecoleslaw": {
+    "bloodcabbagecoleslaw_smelt": {
         "str_name": "a tub of Blood Cabbage Coleslaw",
         "alias": [
             "coleslaw",
@@ -1199,7 +1199,7 @@
             "bloodcabbagecoleslaw"
         ]
     },
-    "joybeanpastemochi": {
+    "joybeanpastemochi_smelt": {
         "str_name": "a pile of Joybean Paste Mochi",
         "alias": [
             "mochi"
@@ -1212,7 +1212,7 @@
             "joybeanpastemochi"
         ]
     },
-    "purplekilliflowercrustpizza": {
+    "purplekilliflowercrustpizza_smelt": {
         "str_name": "a plate of Purple Killiflower Crust Pizza",
         "alias": [
             "pizza",
@@ -1226,7 +1226,7 @@
             "purplekilliflowercrustpizza"
         ]
     },
-    "razornutbutter": {
+    "razornutbutter_smelt": {
         "str_name": "a tub of Razornut Butter",
         "alias": [
             "butter"
@@ -1239,7 +1239,7 @@
             "razornutbutter"
         ]
     },
-    "pawpawfood": {
+    "pawpawfood_smelt": {
         "str_name": "a plate of Pawpaw Food",
         "alias": [
             "food"
@@ -1252,7 +1252,7 @@
             "pawpawfood"
         ]
     },
-    "sludgeberrypancakes": {
+    "sludgeberrypancakes_smelt": {
         "str_name": "a plate of Sludgeberry Pancakes",
         "alias": [
             "pancakes"
@@ -1265,7 +1265,7 @@
             "sludgeberrypancakes"
         ]
     },
-    "yourfavoritefood": {
+    "yourfavoritefood_smelt": {
         "str_name": "a plate of ***Your Favorite Food***",
         "alias": [
             "favoritefood",
@@ -1279,7 +1279,7 @@
             "yourfavoritefood"
         ]
     },
-    "pinkrowdatouille": {
+    "pinkrowdatouille_smelt": {
         "str_name": "a plate of Pink Rowdatouille",
         "alias": [
             "rowdatouille"
@@ -1292,7 +1292,7 @@
             "pinkrowdatouille"
         ]
     },
-    "dankwheattoast": {
+    "dankwheattoast_smelt": {
         "str_name": "a plate of Dankwheat Toast",
         "alias": [
             "toast"
@@ -1305,7 +1305,7 @@
             "dankwheattoast"
         ]
     },
-    "brightshadeseeds": {
+    "brightshadeseeds_smelt": {
         "str_name": "some Brightshade Seeds",
         "alias": [
             "seeds"
@@ -1318,7 +1318,7 @@
             "brightshadeseeds"
         ]
     },
-    "blacklimesour": {
+    "blacklimesour_smelt": {
         "str_name": "some Black Lime Sours",
         "alias": [
             "sours",
@@ -1332,7 +1332,7 @@
             "blacklimesour"
         ]
     },
-    "phosphorpoppiesmuffin": {
+    "phosphorpoppiesmuffin_smelt": {
         "str_name": "a Phosphorpoppies Muffin",
         "alias": [
             "muffin",
@@ -1346,7 +1346,7 @@
             "phosphorpoppiesmuffin"
         ]
     },
-    "direapplejuice": {
+    "direapplejuice_smelt": {
         "str_name": "a bottle of Dire Apple Juice",
         "alias": [
             "juice",
@@ -1361,7 +1361,7 @@
             "direapplejuice"
         ]
     },
-    "earlbrowntea": {
+    "earlbrowntea_smelt": {
         "str_name": "a cup of Earl Brown Tea",
         "alias": [
             "tea"
@@ -1374,7 +1374,7 @@
             "earlbrowntea"
         ]
     },
-    "badshroomz": {
+    "badshroomz_smelt": {
         "str_name": "some Bad Shroomz",
         "alias": [
             "shrooms",
@@ -1389,7 +1389,7 @@
             "badshroomz"
         ]
     },
-    "chromaccino": {
+    "chromaccino_smelt": {
         "str_name": "a Chromaccino",
         "alias": [
             "cappuccino",
@@ -1403,7 +1403,7 @@
             "chromaccino"
         ]
     },
-    "moltenpopcorn": {
+    "moltenpopcorn_smelt": {
         "str_name": "a bag of Molten Popcorn",
         "alias": [
             "popcorn"
@@ -1416,7 +1416,7 @@
             "moltenpopcorn"
         ]
     },
-    "captainshat": {
+    "captainshat_smelt": {
         "str_name": "a Captain's Hat",
         "alias": [
             "captain"
@@ -1429,7 +1429,7 @@
             "captainshat"
         ]
     },
-    "juveolantern": {
+    "juveolantern_smelt": {
         "str_name": "a Juve-O' Lantern",
         "alias": [
             "juve",
@@ -1443,7 +1443,7 @@
             "juveolantern"
         ]
     },
-    "bowlerhat": {
+    "bowlerhat_smelt": {
         "str_name": "a Bowler Hat",
         "alias": [
             "bowler"
@@ -1456,7 +1456,7 @@
             "bowlerhat"
         ]
     },
-    "cabbagetreehat": {
+    "cabbagetreehat_smelt": {
         "str_name": "a Cabbage Tree Hat",
         "alias": [
             "cabbagehat"
@@ -1469,7 +1469,7 @@
             "cabbagetreehat"
         ]
     },
-    "braces": {
+    "braces_smelt": {
         "str_name": "some Braces",
         "alias": [
             "headgear"
@@ -1482,7 +1482,7 @@
             "braces"
         ]
     },
-    "hoodie": {
+    "hoodie_smelt": {
         "str_name": "a Hoodie",
         "alias": [
             "hood"
@@ -1495,7 +1495,7 @@
             "hoodie"
         ]
     },
-    "copbadge": {
+    "copbadge_smelt": {
         "str_name": "a Cop Badge",
         "alias": [
             "badge"
@@ -1508,7 +1508,7 @@
             "copbadge"
         ]
     },
-    "strawhat": {
+    "strawhat_smelt": {
         "str_name": "a Straw Hat",
         "alias": [
             "straw"
@@ -1521,7 +1521,7 @@
             "strawhat"
         ]
     },
-    "cosplayhorns": {
+    "cosplayhorns_smelt": {
         "str_name": "a pair of Cosplay Horns",
         "alias": [
             "horns"
@@ -1534,7 +1534,7 @@
             "cosplayhorns"
         ]
     },
-    "yourfavoritehat": {
+    "yourfavoritehat_smelt": {
         "str_name": "***Your Favorite Hat***",
         "alias": [
             "favoritehat",
@@ -1548,7 +1548,7 @@
             "yourfavoritehat"
         ]
     },
-    "pajamaonesie": {
+    "pajamaonesie_smelt": {
         "str_name": "a Pajama Onesie",
         "alias": [
             "pajamas",
@@ -1562,7 +1562,7 @@
             "pajamaonesie"
         ]
     },
-    "pairofcircularsunglasses": {
+    "pairofcircularsunglasses_smelt": {
         "str_name": "a Pair Of Circular Sunglasses",
         "alias": [
             "digibroglasses",
@@ -1577,7 +1577,7 @@
             "pairofcircularsunglasses"
         ]
     },
-    "flowercrown": {
+    "flowercrown_smelt": {
         "str_name": "a Flower Crown",
         "alias": [
             "flower"
@@ -1590,7 +1590,7 @@
             "flowercrown"
         ]
     },
-    "spikedbracelets": {
+    "spikedbracelets_smelt": {
         "str_name": "a pair of Spiked Bracelets",
         "alias": [
             "spiked",
@@ -1604,7 +1604,7 @@
             "spikedbracelets"
         ]
     },
-    "slimecorppin": {
+    "slimecorppin_smelt": {
         "str_name": "a SlimeCorp Pin",
         "alias": [
             "pin",
@@ -1618,7 +1618,7 @@
             "slimecorppin"
         ]
     },
-    "overalls": {
+    "overalls_smelt": {
         "str_name": "a pair of Overalls",
         "alias": [
             "trousers"
@@ -1631,7 +1631,7 @@
             "overalls"
         ]
     },
-    "rustynail": {
+    "rustynail_smelt": {
         "str_name": "a Rusty Nail",
         "alias": [
             "nail"
@@ -1644,7 +1644,7 @@
             "rustynail"
         ]
     },
-    "fullmetaljacket": {
+    "fullmetaljacket_smelt": {
         "str_name": "a Full Metal Jacket",
         "alias": [
             "jacket",
@@ -1658,7 +1658,7 @@
             "fullmetaljacket"
         ]
     },
-    "tinfoilhat": {
+    "tinfoilhat_smelt": {
         "str_name": "a Tinfoil Hat",
         "alias": [
             "tinfoil"
@@ -1671,7 +1671,7 @@
             "tinfoilhat"
         ]
     },
-    "resplendentcoronet": {
+    "resplendentcoronet_smelt": {
         "str_name": "a Resplendent Coronet",
         "alias": [
             "crown",
@@ -1685,7 +1685,7 @@
             "resplendentcoronet"
         ]
     },
-    "stick": {
+    "stick_smelt": {
         "str_name": "a stick",
         "alias": [
             "wood"
@@ -1697,7 +1697,7 @@
             "stick"
         ]
     },
-    "rollerblades": {
+    "rollerblades_smelt": {
         "str_name": "a pair of rollerblades",
         "alias": [
             "rollerblades",
@@ -1715,7 +1715,7 @@
             "rollerblades"
         ]
     },
-    "ferroslimeoid": {
+    "ferroslimeoid_smelt": {
         "str_name": "a ferroslimeoid",
         "alias": [
             "ferroslimeoid",

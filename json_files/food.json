@@ -350,7 +350,7 @@
         "acquisition": "",
         "perishable": true
     },
-    "wings": {
+    "chickwings": {
         "item_type": "food",
         "id_food": "wings",
         "alias": [

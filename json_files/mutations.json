@@ -40,7 +40,7 @@
         "alias" : ["bleed", "bh", "bdh"],
 		"str_describe_self" : "Your heartbeat’s rhythm is sporadic and will randomly change intensity due to **Bleeding Heart**.",
 		"str_describe_other" : "Their heartbeat’s rhythm is sporadic and will randomly change intensity due to **Bleeding Heart**.",
-		"str_acquire" : "To say you experience “heart palpitations” is a gross understatement. Your heart feels like it explodes and reforms over and over for the express amusement of some cruel god’s sick sense of humor. You begin to cough up blood and basically continue to do so for the rest of your life. You have developed the mutation **Bleeding Heart**. When hit, bleeding is delayed for 5 minutes.",
+		"str_acquire" : "To say you experience \"heart palpitations\" is a gross understatement. Your heart feels like it explodes and reforms over and over for the express amusement of some cruel god’s sick sense of humor. You begin to cough up blood and basically continue to do so for the rest of your life. You have developed the mutation **Bleeding Heart**. When hit, bleeding is delayed for 5 minutes.",
 		"tier" : 4,
         "str_transplant" : "Auntie Dustrap takes one of her scalpels and jams it deep into your chest. Your heart, as is natural for a stabbed heart, begins to sputter and palpitate. Looks like the surgery is over. Shit, you could've done that yourself.\n\nYou have developed the mutation **Bleeding Heart**. When hit, bleeding is delayed for 5 minutes."
 		},
@@ -85,7 +85,7 @@
         "alias" : ["spoiled"],
 		"str_describe_self" : "Your frequent, unholy belches could incapacitate a Megaslime due to **Spoiled Appetite**.",
 		"str_describe_other" : "Their frequent, unholy belches could incapacitate a Megaslime due to **Spoiled Appetite**.",
-		"str_acquire" : "You become inexplicably tired, you develop bags under your eyes and can barely keep them open without fidgeting. Stenches begin to secrete from your body, which only worsens as your stomach lets out a deep, guttural growl that sounds like a dying animal being raped by an already dead animal. Which is to say, not pleasant. You are overcome with a singular thought. “What the hell, I’ll just eat some trash.” You have developed the mutation **Spoiled Appetite**. You can now eat spoiled food.",
+		"str_acquire" : "You become inexplicably tired, you develop bags under your eyes and can barely keep them open without fidgeting. Stenches begin to secrete from your body, which only worsens as your stomach lets out a deep, guttural growl that sounds like a dying animal being raped by an already dead animal. Which is to say, not pleasant. You are overcome with a singular thought. \"What the hell, I’ll just eat some trash.\" You have developed the mutation **Spoiled Appetite**. You can now eat spoiled food.",
 		"tier" : 7,
         "str_transplant" : "You are force-fed cole slaw for several hours. Your desensitized taste buds will never recover from this, and you feel like you could digest anything. Of course, in her infinite wisdom, Dusttrap uses organic cole slaw, so you can't even bust ghosts afterward.\n\nYou have developed the mutation **Spoiled Appetite**. You can now eat spoiled food."
 		},

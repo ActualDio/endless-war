@@ -1,137 +1,136 @@
 {
-    "burning":{
-        "time_expire" : 12,
-        "str_acquire" : "{name_player} has been engulfed in flames.",
-        "str_describe" : "They are burning.",
-        "str_describe_self" : "You are burning."
+    "burning": {
+        "time_expire": 12,
+        "str_acquire": "{name_player} has been engulfed in flames.",
+        "str_describe": "They are burning.",
+        "str_describe_self": "You are burning."
     },
-    "acid":{
-        "time_expire" : 12,
-        "str_acquire" : "{name_player} has been drenched in acid.",
-        "str_describe" : "Their body is being melted down by acid.",
-        "str_describe_self" : "Your body is being melted down by acid."
+    "acid": {
+        "time_expire": 12,
+        "str_acquire": "{name_player} has been drenched in acid.",
+        "str_describe": "Their body is being melted down by acid.",
+        "str_describe_self": "Your body is being melted down by acid."
     },
-    "spored":{
-        "time_expire" : 12,
-        "str_acquire" : "{name_player} has been riddled with spores.",
-        "str_describe" : "Their body is being consumed by spores.",
-        "str_describe_self" : "Your body is being consumed by spores."
+    "spored": {
+        "time_expire": 12,
+        "str_acquire": "{name_player} has been riddled with spores.",
+        "str_describe": "Their body is being consumed by spores.",
+        "str_describe_self": "Your body is being consumed by spores."
     },
-    "badtrip":{
-        "time_expire" : 5,
-        "str_acquire" : "{name_player} begins to suffer from a bad trip.",
-        "str_describe" : "They are suffering from the effects of a bad trip.",
-        "str_describe_self" : "You are suffering from a bad trip."
+    "badtrip": {
+        "time_expire": 5,
+        "str_acquire": "{name_player} begins to suffer from a bad trip.",
+        "str_describe": "They are suffering from the effects of a bad trip.",
+        "str_describe_self": "You are suffering from a bad trip."
     },
-    "stoned":{
-        "time_expire" : 30,
-        "str_acquire" : "{name_player} starts to get stoned as fuck, brooooo.",
-        "str_describe" : "Their movements are sluggish and weak due to being stoned.",
-        "str_describe_self" : "Your movements are sluggish and weak due to being stoned."
+    "stoned": {
+        "time_expire": 30,
+        "str_acquire": "{name_player} starts to get stoned as fuck, brooooo.",
+        "str_describe": "Their movements are sluggish and weak due to being stoned.",
+        "str_describe_self": "Your movements are sluggish and weak due to being stoned."
     },
-    "baked":{
-        "time_expire" : 30,
-        "str_acquire" : "{name_player} has become absolutely *baked!*",
-        "str_describe" : "They can barely move a muscle due to how fucking baked they are.",
-        "str_describe_self" : "You can barely move a muscle due to how fucking baked you are."
+    "baked": {
+        "time_expire": 30,
+        "str_acquire": "{name_player} has become absolutely *baked!*",
+        "str_describe": "They can barely move a muscle due to how fucking baked they are.",
+        "str_describe_self": "You can barely move a muscle due to how fucking baked you are."
     },
-    "ghostbust":{
-        "time_expire" : 86400,
-        "str_describe_self" : "The coleslaw in your stomach allows you to bust ghosts."
+    "ghostbust": {
+        "time_expire": 86400,
+        "str_describe_self": "The coleslaw in your stomach allows you to bust ghosts."
     },
-    "strangled":{
-        "time_expire" : 5,
-        "str_describe" : "They are being strangled."
+    "strangled": {
+        "time_expire": 5,
+        "str_describe": "They are being strangled."
     },
-    "stunned":{
-        "str_describe" : "They are stunned."
+    "stunned": {
+        "str_describe": "They are stunned."
     },
-    "repelled":{
-        "time_expire" : 10800, 
-        "str_acquire" : "You spray yourself with the FUCK ENERGY Body Spray.",
-        "str_describe" : "They smell like shit, much to the displeasure of slime beasts.",
-        "str_describe_self" : "You smell like shit, much to the displeasure of slime beasts."
+    "repelled": {
+        "time_expire": 10800,
+        "str_acquire": "You spray yourself with the FUCK ENERGY Body Spray.",
+        "str_describe": "They smell like shit, much to the displeasure of slime beasts.",
+        "str_describe_self": "You smell like shit, much to the displeasure of slime beasts."
     },
-    "repelaftereffects":{
-        "time_expire" : 2,
-        "str_acquire" : "You try and shake off the body spray, but its stench still lingers, if only for a brief moment.",
-        "str_describe" : "Their surroundings give off a slightly foul odor.",
-        "str_describe_self" : "Your surroundings give off a slightly foul odor."
+    "repelaftereffects": {
+        "time_expire": 2,
+        "str_acquire": "You try and shake off the body spray, but its stench still lingers, if only for a brief moment.",
+        "str_describe": "Their surroundings give off a slightly foul odor.",
+        "str_describe_self": "Your surroundings give off a slightly foul odor."
     },
-    "high":{
-        "time_expire" : 1800,
-        "str_describe" : "They are as high as a kite.",
-        "str_describe_self" : "You are as high as a kite."
+    "high": {
+        "time_expire": 1800,
+        "str_describe": "They are as high as a kite.",
+        "str_describe_self": "You are as high as a kite."
     },
-    "evasive":{
-        "time_expire" : 10,
-        "str_describe" : "They have assumed an evasive stance.",
-        "str_describe_self" : "You have assumed an evasive stance.",
-        "hit_chance_mod" : -0.25
+    "evasive": {
+        "time_expire": 10,
+        "str_describe": "They have assumed an evasive stance.",
+        "str_describe_self": "You have assumed an evasive stance.",
+        "hit_chance_mod": -0.25
     },
-    "taunted":{
-        "time_expire" : 10,
-        "str_describe" : "They are fuming with rage.",
-        "str_describe_self" : "You are fuming with rage.",
-        "hit_chance_mod_self" : -0.25
+    "taunted": {
+        "time_expire": 10,
+        "str_describe": "They are fuming with rage.",
+        "str_describe_self": "You are fuming with rage.",
+        "hit_chance_mod_self": -0.25
     },
-    "aiming":{
-        "time_expire" : 10,
-        "str_describe" : "They are taking careful aim.",
-        "str_describe_self" : "You are taking careful aim.",
-        "hit_chance_mod_self" : 0.1,
-        "crit_mod_self" : 0.2
+    "aiming": {
+        "time_expire": 10,
+        "str_describe": "They are taking careful aim.",
+        "str_describe_self": "You are taking careful aim.",
+        "hit_chance_mod_self": 0.1,
+        "crit_mod_self": 0.2
     },
-    "sapfatigue":{
-        "time_expire" : 60,
-        "str_describe" : "They are suffering from sap fatigue.",
-        "str_describe_self" : "You are suffering from sap fatigue."
+    "sapfatigue": {
+        "time_expire": 60,
+        "str_describe": "They are suffering from sap fatigue.",
+        "str_describe_self": "You are suffering from sap fatigue."
     },
-    "rerollfatigue":{
+    "rerollfatigue": {},
+    "injury_head": {
+        "str_describe": "Their head looks {severity}",
+        "str_describe_self": "Your head looks {severity}",
+        "hit_chance_mod_self": -0.05,
+        "crit_mod_self": -0.1,
+        "hit_chance_mod": 0.01,
+        "crit_mod": 0.01
     },
-    "injury_head":{
-        "str_describe" : "Their head looks {severity}",
-        "str_describe_self" : "Your head looks {severity}",
-        "hit_chance_mod_self" : -0.05,
-        "crit_mod_self" : -0.1,
-        "hit_chance_mod" : 0.01,
-        "crit_mod" : 0.01
+    "injury_torso": {
+        "str_describe": "Their torso looks {severity}",
+        "str_describe_self": "Your torso looks {severity}"
     },
-    "injury_torso":{
-        "str_describe" : "Their torso looks {severity}",
-        "str_describe_self" : "Your torso looks {severity}"
+    "injury_arms": {
+        "str_describe": "Their arms look {severity}",
+        "str_describe_self": "Your arms look {severity}",
+        "hit_chance_mod_self": -0.05,
+        "crit_mod_self": -0.1
     },
-    "injury_arms":{
-        "str_describe" : "Their arms look {severity}",
-        "str_describe_self" : "Your arms look {severity}",
-        "hit_chance_mod_self" : -0.05,
-        "crit_mod_self" : -0.1
+    "injury_legs": {
+        "str_describe": "Their legs look {severity}",
+        "str_describe_self": "Your legs look {severity}",
+        "hit_chance_mod": 0.06,
+        "crit_mod": 0.03
     },
-    "injury_legs":{
-        "str_describe" : "Their legs look {severity}",
-        "str_describe_self" : "Your legs look {severity}",
-        "hit_chance_mod" : 0.06,
-        "crit_mod" : 0.03
+    "modelovaccine": {
+        "time_expire": 86400,
+        "str_acquire": "You shoot the vaccine but... nothing happens. On the surface, anyway. The vaccine has successfully dissolved throughout your bloodstream, and you will now \"cure\" all those who come into contact with your pure, righteous slime. Meaning, it’s time to conduct some straight up genocide.",
+        "str_describe_self": "The modelovirus vaccine running through your veins allows you to cure shamblers!"
     },
-    "modelovaccine":{
-        "time_expire" : 86400,
-        "str_acquire" : "You shoot the vaccine but… nothing happens. On the surface, anyway. The vaccine has successfully dissolved throughout your bloodstream, and you will now “cure” all those who come into contact with your pure, righteous slime. Meaning, it’s time to conduct some straight up genocide.",
-        "str_describe_self" : "The modelovirus vaccine running through your veins allows you to cure shamblers!"
+    "slapped": {
+        "time_expire": 300,
+        "str_acquire": "You are tuckered out. Better not get slapped for awhile.",
+        "str_describe_self": "You got ditch slapped recently and are really feeling it."
     },
-    "slapped":{
-        "time_expire" : 300,
-        "str_acquire" : "You are tuckered out. Better not get slapped for awhile.",
-        "str_describe_self" : "You got ditch slapped recently and are really feeling it."
+    "foodcoma": {
+        "time_expire": 300,
+        "str_acquire": "Calorie-induced rage consumes you! You could drink gasoline and get shot and not feel a damn thing!",
+        "str_describe_self": "You are in the middle of a raging food coma.",
+        "dmg_mod_self": -0.4
     },
-    "foodcoma":{
-        "time_expire" : 300,
-        "str_acquire" : "Calorie-induced rage consumes you! You could drink gasoline and get shot and not feel a damn thing!",
-        "str_describe_self" : "You are in the middle of a raging food coma.",
-        "dmg_mod_self" : -0.4
-    },
-    "juviemode":{
-        "time_expire" : 86400,
-        "str_acquire" : "",
-        "str_describe_self" : "You are carrying slime under the legal limit."
+    "juviemode": {
+        "time_expire": 86400,
+        "str_acquire": "",
+        "str_describe_self": "You are carrying slime under the legal limit."
     }
 }

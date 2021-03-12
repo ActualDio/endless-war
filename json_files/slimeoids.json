@@ -1,6 +1,6 @@
 {
 	"body": {
-		"teardrop": {
+		"slimeoid_slimeoid_teardrop": {
 			"alias": [
 				"tear",
 				"drop",
@@ -11,7 +11,7 @@
 			"str_body": "It is teardrop-shaped.",
 			"str_observe": "{slimeoid_name} is bobbing its top-heavy body back and forth."
 		},
-		"worlik": {
+		"slimeoid_worlik": {
 			"alias": [
 				"long",
 				"serpent",
@@ -22,7 +22,7 @@
 			"str_body": "It is long and wormlike.",
 			"str_observe": "{slimeoid_name} is twisting itself around, practicing tying its knots."
 		},
-		"sphricl": {
+		"slimeoid_sphricl": {
 			"alias": [
 				"sphere",
 				"orb",
@@ -33,7 +33,7 @@
 			"str_body": "It is generally orb-shaped.",
 			"str_observe": "{slimeoid_name} flops over onto one side of its round body."
 		},
-		"humani": {
+		"slimeoid_humani": {
 			"alias": [
 				"biped",
 				"human",
@@ -43,7 +43,7 @@
 			"str_body": "It is vaguely humanoid.",
 			"str_observe": "{slimeoid_name} is scraping at something on the ground with its arms."
 		},
-		"tentcld": {
+		"slimeoid_tentcld": {
 			"alias": [
 				"squid",
 				"squidlike",
@@ -55,7 +55,7 @@
 			"str_body": "It is a mass of tendrils.",
 			"str_observe": "{slimeoid_name} is moving its tentacles around, running them over one another."
 		},
-		"amorphos": {
+		"slimeoid_amorphos": {
 			"alias": [
 				"none",
 				"formless",
@@ -65,7 +65,7 @@
 			"str_body": "It has no defined shape.",
 			"str_observe": "{slimeoid_name}'s body is spread out on the floor like a kind of living puddle."
 		},
-		"quadrupd": {
+		"slimeoid_quadrupd": {
 			"alias": [
 				"animal",
 				"g"
@@ -76,7 +76,7 @@
 		}
 	},
 	"head": {
-		"eye": {
+		"slimeoid_eye": {
 			"alias": [
 				"cyclops",
 				"a"
@@ -86,7 +86,7 @@
 			"str_feed": "{slimeoid_name} swallows the {food_name} whole.",
 			"str_fetch": "You toss a ball for {slimeoid_name} to fetch. {slimeoid_name}'s huge eye follows the ball's arc, and it makes a leap to catch it!!\n\n...only to get socked right in the eye, sending it to the floor in pain. Depth perception... it's truly a gift."
 		},
-		"maw": {
+		"slimeoid_maw": {
 			"alias": [
 				"mouth",
 				"b"
@@ -96,7 +96,7 @@
 			"str_feed": "{slimeoid_name} crunches the {food_name} to paste with its huge teeth.",
 			"str_fetch": "You toss a ball for {slimeoid_name} to fetch. {slimeoid_name} slavers and drools as it awaits the throw, and when it sees the ball start to fly, it lunges to grab it out of the air in its huge toothy maw, slicing it to shreds with its teeth in seconds."
 		},
-		"void": {
+		"slimeoid_void": {
 			"alias": [
 				"hole",
 				"c"
@@ -106,7 +106,7 @@
 			"str_feed": "The {food_name} disappears into the unknowable depths of {slimeoid_name}'s face hole.",
 			"str_fetch": "You toss a ball for {slimeoid_name} to fetch. {slimeoid_name} positions itself to catch the ball in it's... face? The ball falls into the empty void of {slimeoid_name}'s face, then just keeps falling, falling, falling, down into the depths, falling so far it disappears forever."
 		},
-		"beast": {
+		"slimeoid_beast": {
 			"alias": [
 				"animal",
 				"dragon",
@@ -117,7 +117,7 @@
 			"str_feed": "{slimeoid_name} gobbles up the {food_name} greedily.",
 			"str_fetch": "You toss a ball for {slimeoid_name} to fetch. {slimeoid_name} focuses its eyes and bares its teeth, then makes a flying leap, snapping the ball clean out of the air in its jaws! It comes back to you and drops the ball at your feet. Good boy!"
 		},
-		"insect": {
+		"slimeoid_insect": {
 			"alias": [
 				"bug",
 				"insectoid",
@@ -128,7 +128,7 @@
 			"str_feed": "{slimeoid_name} cuts the {food_name} into pieces with its mandibles.",
 			"str_fetch": "You toss a ball for {slimeoid_name} to fetch. {slimeoid_name} stands motionless, presumably watching the ball with its large compound eyes, before darting toward it as it sails through the air, snapping its mandibles around the ball and slicing it cleanly in two."
 		},
-		"skull": {
+		"slimeoid_skull": {
 			"alias": [
 				"skeleton",
 				"f"
@@ -138,7 +138,7 @@
 			"str_feed": "{slimeoid_name} spills half the {food_name} on the floor trying to chew it with its exposed teeth.",
 			"str_fetch": "You toss a ball for {slimeoid_name} to fetch. {slimeoid_name} moves as quickly as it can to make the catch, making it just before the ball lands! With a thunk, the ball lodges itself in {slimeoid_name}'s open eye socket. {slimeoid_name} yanks it out and tosses the ball back to you. Euughh."
 		},
-		"none": {
+		"slimeoid_none": {
 			"alias": [
 				"g"
 			],
@@ -149,7 +149,7 @@
 		}
 	},
 	"mobility_list": {
-		"legs": {
+		"slimeoid_legs": {
 			"alias": [
 				"animal",
 				"quadruped",
@@ -167,7 +167,7 @@
 			"str_defeat": "{slimeoid_name}'s knees buckle under it as it collapses to the ground, defeated!",
 			"str_walk": "{slimeoid_name} walks along beside you."
 		},
-		"rolling": {
+		"slimeoid_rolling": {
 			"alias": [
 				"roll",
 				"b"
@@ -181,7 +181,7 @@
 			"str_defeat": "{slimeoid_name} rolls itself over before collapsing on the ground, defeated!",
 			"str_walk": "{slimeoid_name} rolls itself along the ground behind you."
 		},
-		"flagella": {
+		"slimeoid_flagella": {
 			"alias": [
 				"flagella",
 				"tendrils",
@@ -197,7 +197,7 @@
 			"str_defeat": "{slimeoid_name}'s flagella go limp as it collapses to the ground, defeated!",
 			"str_walk": "{slimeoid_name} writhes its way along the ground on its flagella next to you."
 		},
-		"jets": {
+		"slimeoid_jets": {
 			"alias": [
 				"fluid",
 				"jet",
@@ -212,7 +212,7 @@
 			"str_defeat": "{slimeoid_name} fires its fluid jets wildly in a panic until it completely deflates and collapses, defeated!",
 			"str_walk": "{slimeoid_name} tries to keep pace with you, spurting jets of fluid to propel itself along behind you."
 		},
-		"slug": {
+		"slimeoid_slug": {
 			"alias": [
 				"undulate",
 				"e"
@@ -226,7 +226,7 @@
 			"str_defeat": "{slimeoid_name} stops moving entirely and collapses to the ground, defeated!",
 			"str_walk": "{slimeoid_name} glacially drags its way along behind you in its slug-like way. Your walk ends up taking fucking forever."
 		},
-		"float": {
+		"slimeoid_float": {
 			"alias": [
 				"gas",
 				"f"
@@ -240,7 +240,7 @@
 			"str_defeat": "{slimeoid_name} spins wildly in the air before careening to the ground, defeated!",
 			"str_walk": "{slimeoid_name} bobs along next to you on its leash like a balloon."
 		},
-		"wings": {
+		"slimeoid_wings": {
 			"alias": [
 				"fly",
 				"g"
@@ -256,7 +256,7 @@
 		}
 	},
 	"offense_list": {
-		"blades": {
+		"slimeoid_blades": {
 			"alias": [
 				"edged",
 				"edges",
@@ -272,7 +272,7 @@
 			"str_offense": "It slices foes with retractible blades.",
 			"str_observe": "{slimeoid_name} is sharpening its retractible blades on a stone nearby."
 		},
-		"teeth": {
+		"slimeoid_teeth": {
 			"alias": [
 				"bite",
 				"biting",
@@ -287,7 +287,7 @@
 			"str_offense": "It can bite foes with deadly fangs.",
 			"str_observe": "{slimeoid_name} is idly picking its sharp teeth."
 		},
-		"grip": {
+		"slimeoid_grip": {
 			"alias": [
 				"squeeze",
 				"grab",
@@ -305,7 +305,7 @@
 			"str_offense": "It can grab and crush its foes with its limbs.",
 			"str_observe": "{slimeoid_name} picks up a rock off the ground and squeezes it like a stress ball."
 		},
-		"bludgeon": {
+		"slimeoid_bludgeon": {
 			"alias": [
 				"strike",
 				"striking",
@@ -324,7 +324,7 @@
 			"str_offense": "It can smash foes with one or more of its limbs.",
 			"str_observe": "{slimeoid_name} spots an insect on the ground nearby and smashes it."
 		},
-		"spikes": {
+		"slimeoid_spikes": {
 			"alias": [
 				"puncture",
 				"spear",
@@ -337,7 +337,7 @@
 			"str_offense": "It can puncture its enemies with the spikes on its body.",
 			"str_observe": "{slimeoid_name} carefully adjusts its position so as not to prick itself with its own spikes."
 		},
-		"electricity": {
+		"slimeoid_electricity": {
 			"alias": [
 				"strike",
 				"f"
@@ -349,7 +349,7 @@
 			"str_offense": "It crackles with stored electrical energy.",
 			"str_observe": "A fly flies a little too near {slimeoid_name} and is zapped with a tiny bolt of electricity, killing it instantly."
 		},
-		"slam": {
+		"slimeoid_slam": {
 			"alias": [
 				"bodyslam",
 				"g"
@@ -363,7 +363,7 @@
 		}
 	},
 	"defense_list": {
-		"scales": {
+		"slimeoid_scales": {
 			"alias": [
 				"scale",
 				"scaled",
@@ -380,7 +380,7 @@
 			"str_resistance": " {}'s scales conduct the electricity away from its vitals!",
 			"str_weakness": " {}'s scales refract and amplify the disrupting brainwaves inside its skull!"
 		},
-		"boneplates": {
+		"slimeoid_boneplates": {
 			"alias": [
 				"bone",
 				"bony",
@@ -401,7 +401,7 @@
 			"str_resistance": " {}'s bone plates block the worst of the damage!",
 			"str_weakness": " {}'s bone plates only drive the quills deeper into its body as it moves!"
 		},
-		"quantumfield": {
+		"slimeoid_quantumfield": {
 			"alias": [
 				"quantum",
 				"field",
@@ -418,7 +418,7 @@
 			"str_resistance": " {}'s quantum superposition makes it difficult to hit head-on!",
 			"str_weakness": " {}'s quantum particles are excited by the high-frequency radiation, destabilizing its structure!"
 		},
-		"formless": {
+		"slimeoid_formless": {
 			"alias": [
 				"amorphous",
 				"shapeless",
@@ -435,7 +435,7 @@
 			"str_resistance": " {}'s squishy body easily absorbs the blows!",
 			"str_weakness": " {}'s squishy body easily adheres to and becomes entangled by the webs!"
 		},
-		"regeneration": {
+		"slimeoid_regeneration": {
 			"alias": [
 				"healing",
 				"regen",
@@ -451,7 +451,7 @@
 			"str_resistance": " {} quickly begins regenerating the small puncture wounds inflicted by the spikes!",
 			"str_weakness": " {}'s regeneration is impeded by the corrosive chemicals!"
 		},
-		"stench": {
+		"slimeoid_stench": {
 			"alias": [
 				"stink",
 				"smell",
@@ -467,7 +467,7 @@
 			"str_resistance": " {}'s noxious fumes make its opponent hesitant to put its mouth anywhere near it!",
 			"str_weakness": " {}'s foul odor gives away its position, making it easy to target with thrown projectiles!"
 		},
-		"oil": {
+		"slimeoid_oil": {
 			"alias": [
 				"slick",
 				"g"
@@ -484,7 +484,7 @@
 		}
 	},
 	"special_list": {
-		"spit": {
+		"slimeoid_spit": {
 			"alias": [
 				"spitting",
 				"spray",
@@ -506,7 +506,7 @@
 			"str_special ": "It can spit acidic ooze.",
 			"str_observe": "A bit of acidic fluid drips from {slimeoid_name} onto the ground, where it smokes and sizzles."
 		},
-		"laser": {
+		"slimeoid_laser": {
 			"alias": [
 				"beam",
 				"energy",
@@ -520,7 +520,7 @@
 			"str_special ": "It can fire beams of radiation.",
 			"str_observe": "{slimeoid_name} suddenly glows with radioactive energy. Best not to look directly at it until it settles down..."
 		},
-		"spines": {
+		"slimeoid_spines": {
 			"alias": [
 				"spikes",
 				"spiky",
@@ -535,7 +535,7 @@
 			"str_special ": "It can fire sharp quills.",
 			"str_observe": "{slimeoid_name} shudders and ejects a few old quills onto the ground. You can see new ones already growing in to replace them."
 		},
-		"throw": {
+		"slimeoid_throw": {
 			"alias": [
 				"throwing",
 				"hurling",
@@ -549,7 +549,7 @@
 			"str_special ": "It can hurl objects at foes.",
 			"str_observe": "{slimeoid_name} is idly picking up stones and seeing how far it can toss them."
 		},
-		"TK": {
+		"slimeoid_TK": {
 			"alias": [
 				"telekinesis",
 				"psychic",
@@ -562,7 +562,7 @@
 			"str_special ": "It can generate harmful frequencies with its brainwaves.",
 			"str_observe": "You momentarily black out. When you come to, your nose is bleeding. {slimeoid_name} tries to look innocent."
 		},
-		"fire": {
+		"slimeoid_fire": {
 			"alias": [
 				"chemical",
 				"breath",
@@ -576,7 +576,7 @@
 			"str_special ": "It can fire a stream of pyrophoric fluid at its foes.",
 			"str_observe": "A bit of fluid drips from {slimeoid_name} onto the floor and ignites, but you manage to smother the small flame quickly before it spreads."
 		},
-		"webs": {
+		"slimeoid_webs": {
 			"alias": [
 				"webbing",
 				"web",
@@ -591,7 +591,7 @@
 		}
 	},
 	"brain_list": {
-		"a": {
+		"type_a": {
 			"alias": [
 				"typea",
 				"type a"
@@ -615,7 +615,7 @@
 			"get_strat": "a",
 			"str_abuse": "{slimeoid_name} lashes out, trying to fight back."
 		},
-		"b": {
+		"type_b": {
 			"alias": [
 				"typeb",
 				"type b"
@@ -639,7 +639,7 @@
 			"get_strat": "b",
 			"str_abuse": "{slimeoid_name} yelps in pain. It's beside itself and doesn't know what to do..."
 		},
-		"c": {
+		"type_c": {
 			"alias": [
 				"typec",
 				"type c"
@@ -663,7 +663,7 @@
 			"get_strat": "c",
 			"str_abuse": "You can feel {slimeoid_name} trembling, but it just takes your abuse."
 		},
-		"d": {
+		"type_d": {
 			"alias": [
 				"typed",
 				"type d"
@@ -687,7 +687,7 @@
 			"get_strat": "d",
 			"str_abuse": "You have a hard time with it, {slimeoid_name} is panicked and keeps trying to run."
 		},
-		"e": {
+		"type_e": {
 			"alias": [
 				"typee",
 				"type e"
@@ -711,7 +711,7 @@
 			"get_strat": "e",
 			"str_abuse": "{slimeoid_name} is squealing in horror. It will remember this..."
 		},
-		"f": {
+		"type_f": {
 			"alias": [
 				"typef",
 				"type f"
@@ -735,7 +735,7 @@
 			"get_strat": "f",
 			"str_abuse": "{slimeoid_name}'s fear grows as it desperately looks for an escape."
 		},
-		"g": {
+		"type_g": {
 			"alias": [
 				"typeg",
 				"type g"
@@ -761,7 +761,7 @@
 		}
 	},
 	"hue_list": {
-		"white": {
+		"slimeoid_white": {
 			"alias": [
 				"whitedye",
 				"poketubers"
@@ -771,7 +771,7 @@
 			"str_desc": "Its pale white body and slight luminescence give it a supernatural vibe.",
 			"is_neutral": 1
 		},
-		"yellow": {
+		"slimeoid_yellow": {
 			"alias": [
 				"yellowdye",
 				"pulpgourds"
@@ -788,7 +788,7 @@
 				"rainbow": 3
 			}
 		},
-		"orange": {
+		"slimeoid_orange": {
 			"alias": [
 				"orangedye",
 				"sourpotatoes"
@@ -805,7 +805,7 @@
 				"rainbow": 3
 			}
 		},
-		"red": {
+		"slimeoid_red": {
 			"alias": [
 				"reddye",
 				"blood",
@@ -823,7 +823,7 @@
 				"rainbow": 3
 			}
 		},
-		"magenta": {
+		"slimeoid_magenta": {
 			"alias": [
 				"magentadye",
 				"joybeans"
@@ -840,7 +840,7 @@
 				"rainbow": 3
 			}
 		},
-		"purple": {
+		"slimeoid_purple": {
 			"alias": [
 				"purpledye",
 				"purplekilliflower",
@@ -858,7 +858,7 @@
 				"rainbow": 3
 			}
 		},
-		"blue": {
+		"slimeoid_blue": {
 			"alias": [
 				"bluedye",
 				"razornuts"
@@ -875,7 +875,7 @@
 				"rainbow": 3
 			}
 		},
-		"green": {
+		"slimeoid_green": {
 			"alias": [
 				"greendye",
 				"pawpaw",
@@ -893,7 +893,7 @@
 				"rainbow": 3
 			}
 		},
-		"teal": {
+		"slimeoid_teal": {
 			"alias": [
 				"tealdye",
 				"sludgeberries"
@@ -910,7 +910,7 @@
 				"rainbow": 3
 			}
 		},
-		"rainbow": {
+		"slimeoid_rainbow": {
 			"alias": [
 				"rainbowdye",
 				"suganmanuts"
@@ -919,7 +919,7 @@
 			"str_name": "***Rainbow***",
 			"str_desc": "Its ***Rainbow*** hue dazzles and amazes you. It comprises the whole color spectrum in an crude, Photoshop-tier gradient. It’s so obnoxious… and yet, decadent!"
 		},
-		"pink": {
+		"slimeoid_pink": {
 			"alias": [
 				"pinkdye",
 				"pinkrowddishes"
@@ -936,7 +936,7 @@
 				"rainbow": 3
 			}
 		},
-		"grey": {
+		"slimeoid_grey": {
 			"alias": [
 				"greydye",
 				"dankwheat"
@@ -946,7 +946,7 @@
 			"str_desc": "Its dull grey hue depresses you, lulling you into inaction and complacency. ",
 			"is_neutral": 1
 		},
-		"cobalt": {
+		"slimeoid_cobalt": {
 			"alias": [
 				"cobaltdye",
 				"brightshade"
@@ -963,7 +963,7 @@
 				"rainbow": 3
 			}
 		},
-		"black": {
+		"slimeoid_black": {
 			"alias": [
 				"blackdye",
 				"blacklimes"
@@ -973,7 +973,7 @@
 			"str_desc": "Its pitch black, nearly vantablack hue absorbs all the light around it, making this Slimeoid appear as though a hole was ripped right out of reality.",
 			"is_neutral": 1
 		},
-		"lime": {
+		"slimeoid_lime": {
 			"alias": [
 				"limedye",
 				"phosphorpoppies"
@@ -990,7 +990,7 @@
 				"rainbow": 3
 			}
 		},
-		"cyan": {
+		"slimeoid_cyan": {
 			"alias": [
 				"cyandye",
 				"direapples"
@@ -1007,7 +1007,7 @@
 				"rainbow": 3
 			}
 		},
-		"brown": {
+		"slimeoid_brown": {
 			"alias": [
 				"browndye"
 			],
@@ -1016,7 +1016,7 @@
 			"str_desc": "Its earthly brown hue imbues it with a humble, down-to-earth personality.",
 			"is_neutral": 1
 		},
-		"copper": {
+		"slimeoid_copper": {
 			"alias": [
 				"copperpaint"
 			],
@@ -1025,7 +1025,7 @@
 			"str_desc": "It seems to feel good about its copper coating.",
 			"is_neutral": 1
 		},
-		"chrome": {
+		"slimeoid_chrome": {
 			"alias": [
 				"chromepaint"
 			],
@@ -1034,7 +1034,7 @@
 			"str_desc": "It's content with its chrome coating.",
 			"is_neutral": 1
 		},
-		"gold": {
+		"slimeoid_gold": {
 			"alias": [
 				"goldpaint"
 			],
